@@ -1,0 +1,42 @@
+# Publishes site/ to GitHub Pages.
+#
+# Actions rather than branch-and-folder because Pages' built-in option only offers the repo
+# root or /docs, and the tree lives in site/. This keeps the layout as it is.
+name: Deploy site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Report what is being published
+        run: |
+          echo "size: $(du -sh site | cut -f1)  (Pages allows 1 GB)"
+          echo "files: $(find site -type f | wc -l)"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

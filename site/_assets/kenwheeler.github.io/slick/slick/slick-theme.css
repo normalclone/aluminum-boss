@@ -2,7 +2,7 @@
 /* Slider */
 .slick-loading .slick-list
 {
-    background: #fff url("/_assets/kenwheeler.github.io/slick/slick/ajax-loader.gif") center center no-repeat;
+    background: #fff url("ajax-loader.gif") center center no-repeat;
 }
 
 /* Icons */
@@ -12,8 +12,8 @@
     font-weight: normal;
     font-style: normal;
 
-    src: url("/_assets/kenwheeler.github.io/slick/slick/fonts/slick.eot");
-    src: url("/_assets/kenwheeler.github.io/slick/slick/fonts/slick.eot") format('embedded-opentype'), url("/_assets/kenwheeler.github.io/slick/slick/fonts/slick.woff") format('woff'), url("/_assets/kenwheeler.github.io/slick/slick/fonts/slick.ttf") format('truetype'), url("/_assets/kenwheeler.github.io/slick/slick/fonts/slick.svg") format('svg');
+    src: url("fonts/slick.eot");
+    src: url("fonts/slick.eot") format('embedded-opentype'), url("fonts/slick.woff") format('woff'), url("fonts/slick.ttf") format('truetype'), url("fonts/slick.svg") format('svg');
 }
 /* Arrows */
 .slick-prev,

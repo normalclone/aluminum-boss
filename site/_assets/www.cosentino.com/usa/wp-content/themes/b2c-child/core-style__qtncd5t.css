@@ -5,7 +5,7 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-@import "/_assets/fonts.googleapis.com/css2__qa6xmt7.bin";
+@import "/_assets/fonts.googleapis.com/css2__qa6xmt7.css";
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -9220,240 +9220,240 @@ a.text-dark:hover, a.text-dark:focus {
 /*NUEVA VISUAL*/
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-thin/diagramm-thin.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-thin/diagramm-thin.woff") format("woff");
+  src: url("fonts/diagramm-thin/diagramm-thin.woff2") format("woff2"), url("fonts/diagramm-thin/diagramm-thin.woff") format("woff");
   font-weight: 100;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-thin-italic/diagramm-thin-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-thin-italic/diagramm-thin-italic.woff") format("woff");
+  src: url("fonts/diagramm-thin-italic/diagramm-thin-italic.woff2") format("woff2"), url("fonts/diagramm-thin-italic/diagramm-thin-italic.woff") format("woff");
   font-weight: 100;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff") format("woff");
+  src: url("fonts/diagramm-extra-light/diagramm-extra-light.woff2") format("woff2"), url("fonts/diagramm-extra-light/diagramm-extra-light.woff") format("woff");
   font-weight: 200;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light-italic/diagramm-extra-light-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light-italic/diagramm-extra-light-italic.woff") format("woff");
+  src: url("fonts/diagramm-extra-light-italic/diagramm-extra-light-italic.woff2") format("woff2"), url("fonts/diagramm-extra-light-italic/diagramm-extra-light-italic.woff") format("woff");
   font-weight: 200;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff") format("woff");
+  src: url("fonts/diagramm-light/diagramm-light.woff2") format("woff2"), url("fonts/diagramm-light/diagramm-light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light-italic/diagramm-light-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light-italic/diagramm-light-italic.woff") format("woff");
+  src: url("fonts/diagramm-light-italic/diagramm-light-italic.woff2") format("woff2"), url("fonts/diagramm-light-italic/diagramm-light-italic.woff") format("woff");
   font-weight: 300;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-regular/diagramm-regular.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-regular/diagramm-regular.woff") format("woff");
+  src: url("fonts/diagramm-regular/diagramm-regular.woff2") format("woff2"), url("fonts/diagramm-regular/diagramm-regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-regular-italic/diagramm-regular-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-regular-italic/diagramm-regular-italic.woff") format("woff");
+  src: url("fonts/diagramm-regular-italic/diagramm-regular-italic.woff2") format("woff2"), url("fonts/diagramm-regular-italic/diagramm-regular-italic.woff") format("woff");
   font-weight: 400;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff") format("woff");
+  src: url("fonts/diagramm-medium/diagramm-medium.woff2") format("woff2"), url("fonts/diagramm-medium/diagramm-medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium-italic/diagramm-medium-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium-italic/diagramm-medium-italic.woff") format("woff");
+  src: url("fonts/diagramm-medium-italic/diagramm-medium-italic.woff2") format("woff2"), url("fonts/diagramm-medium-italic/diagramm-medium-italic.woff") format("woff");
   font-weight: 500;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-semibold/diagramm-semibold.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-semibold/diagramm-semibold.woff") format("woff");
+  src: url("fonts/diagramm-semibold/diagramm-semibold.woff2") format("woff2"), url("fonts/diagramm-semibold/diagramm-semibold.woff") format("woff");
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-semibold-italic/diagramm-semibold-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-semibold-italic/diagramm-semibold-italic.woff") format("woff");
+  src: url("fonts/diagramm-semibold-italic/diagramm-semibold-italic.woff2") format("woff2"), url("fonts/diagramm-semibold-italic/diagramm-semibold-italic.woff") format("woff");
   font-weight: 600;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-bold/diagramm-bold.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-bold/diagramm-bold.woff") format("woff");
+  src: url("fonts/diagramm-bold/diagramm-bold.woff2") format("woff2"), url("fonts/diagramm-bold/diagramm-bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-bold-italic/diagramm-bold-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-bold-italic/diagramm-bold-italic.woff") format("woff");
+  src: url("fonts/diagramm-bold-italic/diagramm-bold-italic.woff2") format("woff2"), url("fonts/diagramm-bold-italic/diagramm-bold-italic.woff") format("woff");
   font-weight: 700;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-ultra-bold/diagramm-ultra-bold.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-ultra-bold/diagramm-ultra-bold.woff") format("woff");
+  src: url("fonts/diagramm-ultra-bold/diagramm-ultra-bold.woff2") format("woff2"), url("fonts/diagramm-ultra-bold/diagramm-ultra-bold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-ultra-bold-italic/diagramm-ultra-bold-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-ultra-bold-italic/diagramm-ultra-bold-italic.woff") format("woff");
+  src: url("fonts/diagramm-ultra-bold-italic/diagramm-ultra-bold-italic.woff2") format("woff2"), url("fonts/diagramm-ultra-bold-italic/diagramm-ultra-bold-italic.woff") format("woff");
   font-weight: 800;
   font-style: italic;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-black/diagramm-black.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-black/diagramm-black.woff") format("woff");
+  src: url("fonts/diagramm-black/diagramm-black.woff2") format("woff2"), url("fonts/diagramm-black/diagramm-black.woff") format("woff");
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: Diagramm;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-black-italic/diagramm-black-italic.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-black-italic/diagramm-black-italic.woff") format("woff");
+  src: url("fonts/diagramm-black-italic/diagramm-black-italic.woff2") format("woff2"), url("fonts/diagramm-black-italic/diagramm-black-italic.woff") format("woff");
   font-weight: 900;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-thin/gilroy-thin.otf") format("opentype");
+  src: url("fonts/gilroy-thin/gilroy-thin.otf") format("opentype");
   font-weight: 100;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-thin-italic/gilroy-thin-italic.otf") format("opentype");
+  src: url("fonts/gilroy-thin-italic/gilroy-thin-italic.otf") format("opentype");
   font-weight: 100;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-ultra-light/gilroy-ultra-light.otf") format("opentype");
+  src: url("fonts/gilroy-ultra-light/gilroy-ultra-light.otf") format("opentype");
   font-weight: 200;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-ultra-light-italic/gilroy-ultra-light-italic.otf") format("opentype");
+  src: url("fonts/gilroy-ultra-light-italic/gilroy-ultra-light-italic.otf") format("opentype");
   font-weight: 200;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-light/gilroy-light.otf") format("opentype");
+  src: url("fonts/gilroy-light/gilroy-light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-light-italic/gilroy-light-italic.otf") format("opentype");
+  src: url("fonts/gilroy-light-italic/gilroy-light-italic.otf") format("opentype");
   font-weight: 300;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-regular/gilroy-regular.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-regular/gilroy-regular.woff") format("woff"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-regular/gilroy-regular.otf") format("opentype");
+  src: url("fonts/gilroy-regular/gilroy-regular.woff2") format("woff2"), url("fonts/gilroy-regular/gilroy-regular.woff") format("woff"), url("fonts/gilroy-regular/gilroy-regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-regular-italic/gilroy-regular-italic.otf") format("opentype");
+  src: url("fonts/gilroy-regular-italic/gilroy-regular-italic.otf") format("opentype");
   font-weight: 400;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-medium/gilroy-medium.otf") format("opentype");
+  src: url("fonts/gilroy-medium/gilroy-medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-medium-italic/gilroy-medium-italic.otf") format("opentype");
+  src: url("fonts/gilroy-medium-italic/gilroy-medium-italic.otf") format("opentype");
   font-weight: 500;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-semibold/gilroy-semibold.woff2") format("woff2"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-semibold/gilroy-semibold.woff") format("woff"), url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-semibold/gilroy-semibold.otf") format("opentype");
+  src: url("fonts/gilroy-semibold/gilroy-semibold.woff2") format("woff2"), url("fonts/gilroy-semibold/gilroy-semibold.woff") format("woff"), url("fonts/gilroy-semibold/gilroy-semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-semibold-italic/gilroy-semibold-italic.otf") format("opentype");
+  src: url("fonts/gilroy-semibold-italic/gilroy-semibold-italic.otf") format("opentype");
   font-weight: 600;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-bold/gilroy-bold.otf") format("opentype");
+  src: url("fonts/gilroy-bold/gilroy-bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-bold-italic/diagramm-bold-italic.otf") format("opentype");
+  src: url("fonts/gilroy-bold-italic/diagramm-bold-italic.otf") format("opentype");
   font-weight: 700;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-extra-bold/gilroy-extra-bold.otf") format("opentype");
+  src: url("fonts/gilroy-extra-bold/gilroy-extra-bold.otf") format("opentype");
   font-weight: 800;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-extra-bold-italic/gilroy-extra-bold.otf") format("opentype");
+  src: url("fonts/gilroy-extra-bold-italic/gilroy-extra-bold.otf") format("opentype");
   font-weight: 800;
   font-style: italic;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-black/gilroy-black.otf") format("opentype");
+  src: url("fonts/gilroy-black/gilroy-black.otf") format("opentype");
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: Gilroy;
-  src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/gilroy-black-italic/gilroy-black-italic.otf") format("opentype");
+  src: url("fonts/gilroy-black-italic/gilroy-black-italic.otf") format("opentype");
   font-weight: 900;
   font-style: italic;
 }
 /*@font-face {
 	font-family: 'Diagramm-Light';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.svg") format('svg');
+	src: url("fonts/diagramm-light/diagramm-light.eot");
+	src: url("fonts/diagramm-light/diagramm-light.eot") format('embedded-opentype'),
+             url("fonts/diagramm-light/diagramm-light.woff2") format('woff2'),
+	     url("fonts/diagramm-light/diagramm-light.woff") format('woff'),
+	     url("fonts/diagramm-light/diagramm-light.ttf") format('truetype'),
+	     url("fonts/diagramm-light/diagramm-light.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm-Black';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.svg") format('svg');
+	src: url("diagramm-black.eot");
+	src: url("diagramm-black.eot") format('embedded-opentype'),
+             url("diagramm-black.woff2") format('woff2'),
+	     url("diagramm-black.woff") format('woff'),
+	     url("diagramm-black.ttf") format('truetype'),
+	     url("diagramm-black.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -9461,59 +9461,59 @@ a.text-dark:hover, a.text-dark:focus {
 
 @font-face {
 	font-family: 'Diagramm-Bold';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.svg") format('svg');
+	src: url("diagramm-bold.eot");
+	src: url("diagramm-bold.eot") format('embedded-opentype'),
+             url("diagramm-bold.woff2") format('woff2'),
+	     url("diagramm-bold.woff") format('woff'),
+	     url("diagramm-bold.ttf") format('truetype'),
+	     url("diagramm-bold.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm-ExtraLight';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.svg") format('svg');
+	src: url("fonts/diagramm-extra-light/diagramm-extra-light.eot");
+	src: url("fonts/diagramm-extra-light/diagramm-extra-light.eot") format('embedded-opentype'),
+             url("fonts/diagramm-extra-light/diagramm-extra-light.woff2") format('woff2'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.woff") format('woff'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.ttf") format('truetype'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm-Medium';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.svg") format('svg');
+	src: url("fonts/diagramm-medium/diagramm-medium.eot");
+	src: url("fonts/diagramm-medium/diagramm-medium.eot") format('embedded-opentype'),
+             url("fonts/diagramm-medium/diagramm-medium.woff2") format('woff2'),
+	     url("fonts/diagramm-medium/diagramm-medium.woff") format('woff'),
+	     url("fonts/diagramm-medium/diagramm-medium.ttf") format('truetype'),
+	     url("fonts/diagramm-medium/diagramm-medium.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }*/
 /*@font-face {
 	font-family: 'Diagramm';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-light/diagramm-light.svg") format('svg');
+	src: url("fonts/diagramm-light/diagramm-light.eot");
+	src: url("fonts/diagramm-light/diagramm-light.eot") format('embedded-opentype'),
+             url("fonts/diagramm-light/diagramm-light.woff2") format('woff2'),
+	     url("fonts/diagramm-light/diagramm-light.woff") format('woff'),
+	     url("fonts/diagramm-light/diagramm-light.ttf") format('truetype'),
+	     url("fonts/diagramm-light/diagramm-light.svg") format('svg');
 	font-weight: $font-weight-light;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-black.svg") format('svg');
+	src: url("diagramm-black.eot");
+	src: url("diagramm-black.eot") format('embedded-opentype'),
+             url("diagramm-black.woff2") format('woff2'),
+	     url("diagramm-black.woff") format('woff'),
+	     url("diagramm-black.ttf") format('truetype'),
+	     url("diagramm-black.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -9521,36 +9521,36 @@ a.text-dark:hover, a.text-dark:focus {
 
 @font-face {
 	font-family: 'Diagramm';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/diagramm-bold.svg") format('svg');
+	src: url("diagramm-bold.eot");
+	src: url("diagramm-bold.eot") format('embedded-opentype'),
+             url("diagramm-bold.woff2") format('woff2'),
+	     url("diagramm-bold.woff") format('woff'),
+	     url("diagramm-bold.ttf") format('truetype'),
+	     url("diagramm-bold.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-extra-light/diagramm-extra-light.svg") format('svg');
+	src: url("fonts/diagramm-extra-light/diagramm-extra-light.eot");
+	src: url("fonts/diagramm-extra-light/diagramm-extra-light.eot") format('embedded-opentype'),
+             url("fonts/diagramm-extra-light/diagramm-extra-light.woff2") format('woff2'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.woff") format('woff'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.ttf") format('truetype'),
+	     url("fonts/diagramm-extra-light/diagramm-extra-light.svg") format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Diagramm';
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.eot");
-	src: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.eot") format('embedded-opentype'),
-             url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff2") format('woff2'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.woff") format('woff'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.ttf") format('truetype'),
-	     url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/fonts/diagramm-medium/diagramm-medium.svg") format('svg');
+	src: url("fonts/diagramm-medium/diagramm-medium.eot");
+	src: url("fonts/diagramm-medium/diagramm-medium.eot") format('embedded-opentype'),
+             url("fonts/diagramm-medium/diagramm-medium.woff2") format('woff2'),
+	     url("fonts/diagramm-medium/diagramm-medium.woff") format('woff'),
+	     url("fonts/diagramm-medium/diagramm-medium.ttf") format('truetype'),
+	     url("fonts/diagramm-medium/diagramm-medium.svg") format('svg');
 	font-weight: $font-weight-medium;
 	font-style: normal;
 }*/
@@ -14042,7 +14042,7 @@ hr {
   width: 32px;
   height: 32px;
   margin-right: 15px;
-  background: url("/_assets/assetsstatic.cosentino.com/procosentino/icons/flags.png") no-repeat;
+  background: url("../../../../../assetsstatic.cosentino.com/procosentino/icons/flags.png") no-repeat;
   z-index: -1;
 }
 
@@ -14215,7 +14215,7 @@ hr {
 }
 
 .flag.flag-na, .flag.flag-af, .flag.flag-as, .flag.flag-eu, .flag.flag-oc, .flag.flag-sa {
-  background: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/icons/globe.svg") no-repeat !important;
+  background: url("styles/icons/globe.svg") no-repeat !important;
   width: 18px;
   height: 18px;
 }

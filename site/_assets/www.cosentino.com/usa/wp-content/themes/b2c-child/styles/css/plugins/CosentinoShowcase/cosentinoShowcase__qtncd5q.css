@@ -8,7 +8,7 @@
   margin-bottom: 5rem;
 }
 .cosentino-showcase.main-showcase .header-main-showcase {
-  background: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/img/headers/header-muestrario.jpg") no-repeat;
+  background: url("../../../../img/headers/header-muestrario.jpg") no-repeat;
   background-position: center center;
   background-size: cover;
   padding: 200px 20px;
@@ -8965,7 +8965,7 @@
   height: 48px;
   top: 0;
   right: 14px;
-  background-image: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/img/where-to-buy/chevron-down.svg");
+  background-image: url("../../../../img/where-to-buy/chevron-down.svg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100%;
@@ -9198,13 +9198,13 @@
   width: 24px;
   height: 24px;
   margin-bottom: 4px;
-  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23232323'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("./#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23232323'/%3E%3C/g%3E%3C/svg%3E%0A");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 .cosentino-showcase.where-to-buy-form article.page .article-content .inner .btn-arrow:disabled:after {
-  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1339_11626' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_1339_11626.bin")'%3E%3Crect width='24' height='24' fill='%23F2F2F2'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1339_11626' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("./#mask0_1339_11626.bin")'%3E%3Crect width='24' height='24' fill='%23F2F2F2'/%3E%3C/g%3E%3C/svg%3E%0A");
 }
 .cosentino-showcase.where-to-buy-form article.page .article-content .inner .btn-white-arrow-left {
   background: transparent;
@@ -9218,7 +9218,7 @@
   width: 24px;
   height: 24px;
   margin-bottom: 4px;
-  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("./#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -9780,7 +9780,7 @@
   border: 1px solid #ccc;
 }
 .cosentino-showcase.where-to-buy-results .modal-filter__select::after {
-  content: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/img/where-to-buy/chevron-down.svg");
+  content: url("../../../../img/where-to-buy/chevron-down.svg");
   position: absolute;
   right: 10px;
   top: 7px;
@@ -9844,7 +9844,7 @@
   content: "";
   width: 1.25rem;
   height: 1.25rem;
-  background-image: url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/img/icons/where-to-buy/selection-tick.svg");
+  background-image: url("../../../../img/icons/where-to-buy/selection-tick.svg");
   background-size: contain;
   position: absolute;
   top: 0.3125rem;
@@ -10803,7 +10803,7 @@
   width: 24px;
   height: 24px;
   margin-bottom: 4px;
-  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_1337_10745' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='3' y='3' width='18' height='18'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17.5858 11L12.2218 5.63606C11.8313 5.24554 11.8313 4.61237 12.2218 4.22185C12.6123 3.83132 13.2455 3.83132 13.636 4.22185L20.7071 11.2929C20.8881 11.4739 21 11.7239 21 12C21 12.2762 20.8881 12.5262 20.7071 12.7071L13.636 19.7782C13.2455 20.1687 12.6123 20.1687 12.2218 19.7782C11.8313 19.3877 11.8313 18.7545 12.2218 18.364L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("./#mask0_1337_10745.bin")'%3E%3Crect width='24' height='24' fill='%23FFFFFF'/%3E%3C/g%3E%3C/svg%3E%0A");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10914,7 +10914,7 @@
   width: 80px;
   height: 80px;
   margin: 0 auto 30px;
-  background-image: url("data:image/svg+xml,%3Csvg width='88' height='88' viewBox='0 0 88 88' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='88' height='88' rx='44' fill='white'%3E%3C/rect%3E%3Cmask id='mask0_1337_11003' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='16' y='16' width='56' height='56'%3E%3Crect x='16' y='16' width='56' height='56' fill='%231C1B1F'%3E%3C/rect%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_1337_11003.bin")'%3E%3Cpath d='M38.2824 58.0002L24.9824 44.7002L28.3074 41.3752L38.2824 51.3502L59.6908 29.9419L63.0158 33.2669L38.2824 58.0002Z' fill='%236ABC6A'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='88' height='88' viewBox='0 0 88 88' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='88' height='88' rx='44' fill='white'%3E%3C/rect%3E%3Cmask id='mask0_1337_11003' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='16' y='16' width='56' height='56'%3E%3Crect x='16' y='16' width='56' height='56' fill='%231C1B1F'%3E%3C/rect%3E%3C/mask%3E%3Cg mask='url("./#mask0_1337_11003.bin")'%3E%3Cpath d='M38.2824 58.0002L24.9824 44.7002L28.3074 41.3752L38.2824 51.3502L59.6908 29.9419L63.0158 33.2669L38.2824 58.0002Z' fill='%236ABC6A'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
   background-size: cover;
 }
 .cosentino-showcase.where-to-buy-detail #appointmentForm {
@@ -10964,7 +10964,7 @@
   margin: 0;
   border: none;
   background-size: cover;
-  background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_270_8887' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='6' y='9' width='13' height='7'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.5 13.5683L16.7785 9.29501C17.1723 8.90166 17.8108 8.90166 18.2046 9.29501C18.5985 9.68836 18.5985 10.3261 18.2046 10.7195L13.2131 15.705C12.8193 16.0983 12.1807 16.0983 11.7869 15.705L6.79537 10.7195C6.40154 10.3261 6.40154 9.68836 6.79537 9.29501C7.18919 8.90166 7.8277 8.90166 8.22153 9.29501L12.5 13.5683Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/styles/css/plugins/CosentinoShowcase/#mask0_270_8887.bin")'%3E%3Crect x='0.5' width='24' height='24' fill='%23232323'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-image: url("data:image/svg+xml,%3Csvg width='25' height='24' viewBox='0 0 25 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_270_8887' style='mask-type:luminance' maskUnits='userSpaceOnUse' x='6' y='9' width='13' height='7'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.5 13.5683L16.7785 9.29501C17.1723 8.90166 17.8108 8.90166 18.2046 9.29501C18.5985 9.68836 18.5985 10.3261 18.2046 10.7195L13.2131 15.705C12.8193 16.0983 12.1807 16.0983 11.7869 15.705L6.79537 10.7195C6.40154 10.3261 6.40154 9.68836 6.79537 9.29501C7.18919 8.90166 7.8277 8.90166 8.22153 9.29501L12.5 13.5683Z' fill='white'/%3E%3C/mask%3E%3Cg mask='url("./#mask0_270_8887.bin")'%3E%3Crect x='0.5' width='24' height='24' fill='%23232323'/%3E%3C/g%3E%3C/svg%3E%0A");
 }
 .cosentino-showcase.where-to-buy-detail #appointmentForm .select2-container.select2-container--open .select2-selection__arrow {
   transform: rotate(180deg);
@@ -11917,13 +11917,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("/_assets/www.cosentino.com/wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
+  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .banner-hybriq {
-    background-image: url("/_assets/www.cosentino.com/wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
+    background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
   }
 }
 .cosentino-showcase .banner-hybriq .title {
@@ -12003,13 +12003,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("/_assets/assetsstatic.cosentino.com/silestone-xm/banner/fondo1.jpg");
+  background-image: url("../../../../../../../../../assetsstatic.cosentino.com/silestone-xm/banner/fondo1.jpg");
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .banner-xm {
-    background-image: url("/_assets/assetsstatic.cosentino.com/silestone-xm/banner/fondo-movil.jpg");
+    background-image: url("../../../../../../../../../assetsstatic.cosentino.com/silestone-xm/banner/fondo-movil.jpg");
     gap: 40px;
     padding: 40px;
     color: #ced1d0;
@@ -14094,7 +14094,7 @@
   text-decoration: underline;
 }
 .cosentino-showcase.rockmaster .banner-quickcut .imagen {
-  background-image: url("/_assets/www.cosentino.com/wp-content/themes/b2c-child/img/inspiration/quickcut.jpg");
+  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/inspiration/quickcut.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -14744,13 +14744,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("/_assets/www.cosentino.com/wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
+  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .cabecera_color .banner-hybriq {
-    background-image: url("/_assets/www.cosentino.com/wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
+    background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
   }
 }
 .cosentino-showcase .cabecera_color .banner-hybriq .title {
