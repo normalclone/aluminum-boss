@@ -152,7 +152,38 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 <style type="text/css" id="CookieConsentStateDisplayStyles" style="animation-play-state: paused;">.cookieconsent-optin-preferences,.cookieconsent-optin-statistics,.cookieconsent-optin-marketing,.cookieconsent-optin{display:none;}.cookieconsent-optout-preferences,.cookieconsent-optout-statistics,.cookieconsent-optout-marketing,.cookieconsent-optout{display:block;display:initial;}</style><style type="text/css" style="animation-play-state: paused;">*,*::before,*::after{animation:none!important;transition:none!important;
   animation-duration:0s!important;transition-duration:0s!important;caret-color:transparent!important;}
-  html{scroll-behavior:auto!important;}</style><link rel="stylesheet" href="../../../_assets/fonts.googleapis.com/css2__qa6xmt7.css"></head>
+  html{scroll-behavior:auto!important;}</style><link rel="stylesheet" href="../../../_assets/fonts.googleapis.com/css2__qa6xmt7.css">
+
+
+<style id="frozen-width-fix">
+/* Rows sized by a script that is no longer present. The baked value is correct at the width
+   it was captured at and wrong below it, so it is only overridden below that width. */
+@media (max-width:1439px){
+  .vc_section[style*="width:"],
+  .vc_row[style*="width:"],
+  .vc_row-o-full-height[style*="width:"]{
+    width:100% !important;
+    max-width:100% !important;
+    left:0 !important;
+    right:auto !important;
+    /* The -15px side margins are the other half of the stretch trick: they cancel the
+       parent's padding so the pixel width lands flush. With the width handed back to the
+       layout they only pull the section off the left edge and leave a gap on the right. */
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  /* Rows carry Bootstrap-style -15px gutters that the parent no longer pads against, so a
+     row measures 30px wider than the screen. Clipping the content wrapper absorbs it.
+     overflow-x:clip rather than hidden: hidden would make this a scroll container and break
+     the sticky header above it. */
+  .wpb-content-wrapper{overflow-x:clip}
+  /* Same gutter, different template: a .row sitting straight inside an unpadded
+     .container-fluid has nothing to cancel its -15px against. Dropping the gutter there is
+     narrower than clipping the container, which would also cut any slider peeking out. */
+  .container-fluid > .row{margin-left:0 !important;margin-right:0 !important}
+}
+</style>
+</head>
 
 <body class="wp-singular page-template page-template-landings page-template-core-brandformance page-template-landingscore-brandformance-php page page-id-126373 wp-theme-cosentino-theme wp-child-theme-b2c-child only-logo wpb-js-composer js-comp-ver-8.7.2 vc_responsive active-plugin-components" style="animation-play-state: paused;">
 	
