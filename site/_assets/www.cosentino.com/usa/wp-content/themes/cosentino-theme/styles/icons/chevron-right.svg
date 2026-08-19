@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>9FF5AD8F-A373-48CC-AB74-92397B8E2514@1x</title>
+    <defs>
+        <path d="M4.56832964,6 L0.295011084,1.72152528 C-0.0983370279,1.32770256 -0.0983370279,0.689189766 0.295011084,0.295367042 C0.688359195,-0.0984556808 1.32610249,-0.0984556808 1.7194506,0.295367042 L6.70498892,5.28692088 C7.09833703,5.6807436 7.09833703,6.3192564 6.70498892,6.71307912 L1.7194506,11.704633 C1.32610249,12.0984557 0.688359195,12.0984557 0.295011084,11.704633 C-0.0983370279,11.3108102 -0.0983370279,10.6722974 0.295011084,10.2784747 L4.56832964,6 Z" id="path-1"></path>
+    </defs>
+    <g id="Componentes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GRID-card-x4---DESKTOP" transform="translate(-293.000000, -565.000000)">
+            <g id="más-información" transform="translate(165.000000, 559.000000)">
+                <g id="icono/direccion/chevron-right" transform="translate(128.000000, 6.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Path"></g>
+                    <g id="color/black" mask="url(#mask-2)" fill="#232323">
+                        <g transform="translate(-9.000000, -6.000000)" id="Change-Fill-Color">
+                            <rect x="0" y="0" width="24" height="24"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

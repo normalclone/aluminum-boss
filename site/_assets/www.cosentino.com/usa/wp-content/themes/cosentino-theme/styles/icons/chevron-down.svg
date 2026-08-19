@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="7px" viewBox="0 0 12 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>C509DFC9-0194-4C98-9545-9D51E657343D@1x</title>
+    <defs>
+        <path d="M6,4.56832964 L10.2784747,0.295011084 C10.6722974,-0.0983370279 11.3108102,-0.0983370279 11.704633,0.295011084 C12.0984557,0.688359195 12.0984557,1.32610249 11.704633,1.7194506 L6.71307912,6.70498892 C6.3192564,7.09833703 5.6807436,7.09833703 5.28692088,6.70498892 L0.295367042,1.7194506 C-0.0984556808,1.32610249 -0.0984556808,0.688359195 0.295367042,0.295011084 C0.689189766,-0.0983370279 1.32770256,-0.0983370279 1.72152528,0.295011084 L6,4.56832964 Z" id="path-1"></path>
+    </defs>
+    <g id="B2B-v4b" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Menu-B2B-v4---00---log5" transform="translate(-145.000000, -21.000000)">
+            <g id="IDIOMA-Copy" transform="translate(42.000000, 12.000000)">
+                <g id="icono/accion/MUNDO-Copy" transform="translate(103.000000, 9.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Path"></g>
+                    <g id="color/black" mask="url(#mask-2)" fill="#232323">
+                        <g transform="translate(-6.000000, -9.000000)" id="Change-Fill-Color">
+                            <rect x="0" y="0" width="24" height="24"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

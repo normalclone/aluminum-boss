@@ -1,0 +1,278 @@
+/**
+ * Librería de funciones para realizar peticiones AJAX para al comunicación
+ * con SalesForce, a través del sistema de Wordpress.
+ * 
+ * Esta librería utilizará como caché de sesión la API de SessionStorage y así
+ * reducir el número de peticiones remotas a SF y mejorar el rendimiento.
+ */
+
+/**
+ * Obtiene los datos que se utilizan para rellenar los select del formulario de contacto
+ * @param {string} lang Idioma en el que obtener los datos
+ */
+
+ function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+const salesForceServices = {    
+    getContactFormSelectsData: async function(lang = 'en') {
+        // Comprobar si los datos están en SessionStorage.
+        let data = sessionStorage.getItem('contactFormSelectsData-' + lang);
+        //  let data = getCookie("dataForms"  + lang);
+
+        // Si están, devolver.
+        if (data) {
+            return JSON.parse(data);
+        }
+
+        // Si no están, realizar petición AJAX
+
+        const params = {
+            action: 'getContactFormSelectsData',
+            lang: lang
+        }
+
+        console.log(salesforceData.url);
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                //url: 'https://appstst01.cosentino.com/wp-content/themes/b2b-child/js/dataForm.json',
+                data: params,
+            });
+
+            //Cookies.set('contactFormSelectsData-', JSON.stringify(data),{expires: 1});
+            //setCookie("dataForms"  + lang,JSON.stringify(data),1); 
+            sessionStorage.setItem('contactFormSelectsData-' + lang, JSON.stringify(data));
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    getUserAccount: async function() {
+
+        // Comprobar si los datos están en SessionStorage.
+        let data = sessionStorage.getItem("userAccount");
+        // Si están, devolver.
+        if (data && JSON.parse(data) !== "") {
+            const evt = new Event("userAccountReady");
+            evt.userAccount = JSON.parse(data);
+            document.dispatchEvent(evt);
+            return JSON.parse(data);
+        }
+
+        // Si no están, realizar petición AJAX
+
+        const params = {
+            action: "getUserAccount",
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            const evt = new Event("userAccountReady");
+            evt.userAccount = data;
+            document.dispatchEvent(evt);
+
+            if (data.data && data.data.AccountId) {
+                sessionStorage.setItem("userAccount", JSON.stringify(data));
+                return data;
+            } else {
+                sessionStorage.removeItem('userAccount');
+                return null;
+            }
+
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    getNotifications: async function(accountId) {
+
+        const params = {
+            action: 'getNotifications',
+            accountId: accountId
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    getCart: async function(accountId) {
+        const params = {
+            action: "getCart",
+            accountId: accountId,
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    removeNotification: async function(notificationId) {
+        const params = {
+            action: "removeNotification",
+            notificationId: notificationId,
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    getProductImage: async function(productId) {
+        const params = {
+            action: "getProductImage",
+            productId: productId,
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    updateProductCount: async function(productId, quantity) {
+        const params = {
+            action: "updateProductCount",
+            productId: productId,
+            quantity: quantity
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    removeProduct: async function(productId) {
+        const params = {
+            action: "removeProduct",
+            productId: productId
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params,
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    addToBasket: async function(muestra, key, quantity, colorName) {
+        const params = {
+            action: "addToBasket",
+            sample: muestra,
+            key: key,
+            quantity: quantity,
+            colorName: colorName
+        };
+
+        try {
+            data = await $.get({
+                url: salesforceData.url,
+                data: params
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+
+    getActivationFormUserData: async function(idUser,language) {
+        const params = {
+            action: 'getActivationUserData',
+            idUser: idUser,
+            language: language,
+            env: salesforceData.env,
+        }
+        try {
+            data = await $.ajax({
+                url: salesforceData.url,
+                data: params,
+                success: function(response){
+                    if((response.data.contactId === null) || (response.data.firstname === null) || (response.data.lastname === null)){
+                        $('#activation-error').removeClass('d-none');
+                        $('#container_activacion').remove();  
+                        $('.formFooter').removeClass('loading');                      
+                    } else{
+                        $('#user-data-retrieved').prepend(response.data.email);
+                        $('#email').val(response.data.email);
+                        $('#firstname').val(response.data.firstname);
+                        $('#lastname').val(response.data.lastname);
+                        $('#contactId').val(idUser);
+                        $('#lang').val(language);
+                        $('.formFooter').removeClass('loading');     
+                       
+                    }
+                },
+
+            });
+
+            return data;
+        } catch (error) {
+            return { status: error.code, statusText: error.message };
+        }
+    },
+}

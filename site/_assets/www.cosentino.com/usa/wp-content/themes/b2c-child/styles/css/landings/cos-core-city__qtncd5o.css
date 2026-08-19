@@ -1,0 +1,59 @@
+.corporate-cosentino-dark-grey {
+  color: #3C3C3B;
+}
+
+.corporate-cosentino-light-grey {
+  color: #F0F0EE;
+}
+
+.corporate-cosentino-main-white {
+  color: #fff;
+}
+
+.web-matiz-claro-1 {
+  color: #898985;
+}
+
+.web-matiz-claro-2 {
+  color: #979793;
+}
+
+.web-matiz-claro-3 {
+  color: #AFAFA8;
+}
+
+.web-orange {
+  color: #E7963A;
+}
+
+@keyframes showOnScroll {
+  0% {
+    opacity: 0;
+    pointer-events: none;
+  }
+  5% {
+    opacity: 0;
+    pointer-events: none;
+  }
+  13% {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#aside-menu-btn-test2,
+#aside-menu-btn-test {
+  display: none;
+}
+
+#chatbot-chat, .section-boton-flotante .btn-flotante {
+  z-index: 100 !important;
+  opacity: 0;
+  animation: showOnScroll linear both;
+  animation-timeline: scroll();
+  animation-range: 20% 100%;
+}
+
+/*# sourceMappingURL=cos-core-city.css.map */

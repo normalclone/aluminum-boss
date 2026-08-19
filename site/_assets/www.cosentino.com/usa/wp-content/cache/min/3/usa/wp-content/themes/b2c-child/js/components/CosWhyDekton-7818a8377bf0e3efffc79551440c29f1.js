@@ -1,0 +1,2 @@
+$(document).ready(function(){$('.cos-why-dekton .acordeon-title').click(function(){let $item=$(this).closest('.acordeon-item');let $isActive=$item.hasClass('active');let $allItems=$item.closest('.cos-why-dekton').find('.acordeon-item');$allItems.removeClass('active');const $arrows=$item.find('[id^="cos-nav-arrows-"]');const $cardsWrapper=$arrows.siblings('.vc_row');const cardsCount=$cardsWrapper.find('.wpb_column').length;if(cardsCount<=3){$arrows.hide()}
+if(!$isActive){$item.addClass('active');$item.find('.slick-slider').slick('refresh');$(window).resize()}})})
