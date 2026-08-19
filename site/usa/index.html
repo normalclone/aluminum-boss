@@ -794,6 +794,24 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -853,7 +871,10 @@ id="core-menu-mobile"
   .vgx-canvas-col{grid-column:span 12;min-height:480px}
   .vgx-panel-col{grid-column:span 12}
 }
-@media (max-width:1024px){ .vgx-wrap{margin:0;padding:0 24px} }
+/* The -38px bleed matches the desktop container inset. Narrower layouts inset by less,
+   so the same negative margin pushes the band past the viewport - 426px inside 390px.
+   Below this width the section sits in normal flow instead. */
+@media (max-width:1024px){ .vgx{margin:0} .vgx-wrap{margin:0;padding:0 24px} }
 @media (max-width:640px){ .vgx-wrap{margin:0;padding:0 20px} .vgx{padding:52px 0 60px} }
 </style>
 
@@ -1899,20 +1920,6 @@ requestAnimationFrame(frame);
 
 </script>
 <!-- ============ /FACTORY MAP ============ -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 <section class="core-slider-novedades">
