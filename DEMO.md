@@ -8,6 +8,10 @@ Tất cả nằm trên một port. 144 trang, toàn bộ trả 200.
 | Tablet 834 | http://127.0.0.1:8999/t834/usa/ | 21 |
 | Mobile 390 | http://127.0.0.1:8999/m390/usa/ | 21 |
 
+**Bản desktop giờ đã responsive**: mở http://127.0.0.1:8999/usa/ rồi thu nhỏ cửa sổ, trang tự
+co giãn. Đã kiểm 102/102 trang ở khổ 390px, không trang nào tràn ngang (trước đó 42 trang tràn).
+Hai bản t834 và m390 chỉ còn là bản chụp tham khảo, không cần dùng để demo nữa.
+
 Cả ba trang chủ đều có quả địa cầu xuất khẩu và bản đồ 5 nhà máy.
 Thứ tự: Hero -> Architectural Surfaces -> Quả địa cầu -> Bản đồ nhà máy -> New -> ...
 

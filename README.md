@@ -11,10 +11,14 @@ built for this project. Serve `site/` with any static file server and open `/usa
 | `/t834/usa/` | tablet 834 | 21 |
 | `/m390/usa/` | mobile 390 | 21 |
 
-The three variants cannot share paths: each is a separate serialization of the same URLs at a
-different width, with computed pixel sizes baked into `style` attributes, so inline styles win
-over media queries. Internal links inside the tablet and mobile trees are rewritten to stay
-within their own prefix.
+The desktop tree is now responsive on its own: `/usa/` reflows from 1440 down to 390 with no
+horizontal overflow on any of its 102 pages. The tablet and mobile trees predate that fix and
+are kept only as a reference capture; there is no longer a reason to send anyone to them.
+
+They were originally separate because each is a serialization of the same URLs at a different
+width, with computed pixel sizes baked into `style` attributes where inline styles outrank
+media queries. That is now handled by overriding those frozen values below the width they were
+captured at - see `frozen-width-fix` in each page's head.
 
 ## The two custom sections
 
