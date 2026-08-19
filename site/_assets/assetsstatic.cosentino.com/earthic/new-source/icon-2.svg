@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36.997" height="57.398" viewBox="0 0 36.997 57.398">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Trazado_10245" data-name="Trazado 10245" d="M0,0H37V-57.4H0Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Grupo_2382" data-name="Grupo 2382" transform="translate(0 57.398)">
+    <g id="Grupo_2373" data-name="Grupo 2373" transform="translate(19.976 -15.856)">
+      <path id="Trazado_10241" data-name="Trazado 10241" d="M0,0-10.362,3.186-13.151-7.29" fill="none" stroke="#132a24" stroke-width="1"/>
+    </g>
+    <g id="Grupo_2374" data-name="Grupo 2374" transform="translate(25.1 -25.101)">
+      <path id="Trazado_10242" data-name="Trazado 10242" d="M0,0-10.362,3.186-13.151-7.29" fill="none" stroke="#132a24" stroke-width="1"/>
+    </g>
+    <g id="Grupo_2375" data-name="Grupo 2375" transform="translate(30.225 -34.346)">
+      <path id="Trazado_10243" data-name="Trazado 10243" d="M0,0-10.362,3.187-13.151-7.29" fill="none" stroke="#132a24" stroke-width="1"/>
+    </g>
+    <g id="Grupo_2377" data-name="Grupo 2377" clip-path="url(#clip-path)">
+      <g id="Grupo_2376" data-name="Grupo 2376" transform="translate(32.021 -21.204)">
+        <path id="Trazado_10244" data-name="Trazado 10244" d="M0,0C8.637-15.582,2.117-35.709,2.117-35.709s-20.523,5.136-29.161,20.718-2.117,35.71-2.117,35.71S-8.637,15.582,0,0ZM-28.758,19.991,1.832-35.195" fill="none" stroke="#132a24" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="54.147" height="65.244" viewBox="0 0 54.147 65.244">
+  <g id="Grupo_2479" data-name="Grupo 2479" transform="translate(-1317 -11389.495)">
+    <path id="Trazado_10287" data-name="Trazado 10287" d="M40.743,52.744l-20.121,12L.5,52.744V12.5L20.622.5l20.121,12Z" transform="translate(1317 11389.495)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Línea_361" data-name="Línea 361" x2="40.243" transform="translate(1317.5 11401.995)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Línea_362" data-name="Línea 362" x2="40.243" transform="translate(1317.5 11442.239)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Trazado_10288" data-name="Trazado 10288" d="M20.622.5l-9.307,12V52.744l9.307,12" transform="translate(1317 11389.495)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Trazado_10289" data-name="Trazado 10289" d="M20.622.5l9.307,12V52.744l-9.307,12" transform="translate(1317 11389.495)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Línea_364" data-name="Línea 364" x2="40.243" transform="translate(1317.5 11432.091)" fill="none" stroke="#193028" stroke-linejoin="round" stroke-width="1" stroke-dasharray="1 1.5"/>
+    <path id="Trazado_10290" data-name="Trazado 10290" d="M.375-5.8v.721H6.09l-2.783,2.8H4.3L7.208-5.188v-.485L4.3-8.58H3.307L6.09-5.8Z" transform="translate(1371.022 11426.66) rotate(180)" fill="#193028" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+  </g>
+</svg>

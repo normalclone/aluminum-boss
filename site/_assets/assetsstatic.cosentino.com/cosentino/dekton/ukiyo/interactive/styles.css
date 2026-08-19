@@ -1,0 +1,14 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  width: 100dvw;
+  height: 100dvh;
+}
+
+.app__visualizer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
