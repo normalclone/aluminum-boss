@@ -1,0 +1,8 @@
+# Backups written by the section injectors before each run
+*.pre-factory
+*.pre-globe
+*.prefixbak
+*.bak
+
+# Local check output
+merged-check*.json
