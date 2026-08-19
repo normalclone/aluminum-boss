@@ -17,9 +17,14 @@ tablet đã được viết lại để ở nguyên trong biến thể của nó
 
 ## Bản đồ nhà máy theo khổ màn
 
-- Desktop: 5 thẻ nhà máy hai bên, có đường dẫn nối tới pin.
-- Tablet/mobile: ẩn thẻ (hai cột thẻ cần 532px mới đủ chỗ), bù lại bản đồ chiếm trọn
-  khung và thông tin hiện qua tooltip khi chạm.
+| Khổ | Hiển thị |
+|---|---|
+| Desktop (>1100px) | Bản đồ + 5 thẻ nhà máy hai bên, có đường nối tới pin |
+| Tablet (760–1100px) | Bản đồ chiếm trọn khung, ẩn thẻ (hai cột thẻ cần 532px mới đủ chỗ), chạm pin ra tooltip |
+| Mobile (<760px) | **Ẩn hẳn bản đồ**, thay bằng danh sách 5 nhà máy: ảnh nhà máy, tên, tỉnh, mô tả, năm vận hành và công suất |
+
+Ở khổ điện thoại bản đồ không đáng giữ: nước Việt Nam chỉ còn 287px ngang, các pin chen nhau,
+và chi tiết chỉ hiện khi chạm. Danh sách cho cùng lượng thông tin nhưng đọc thẳng.
 
 ## Trang sạch hoàn toàn — 65 (đo ở bản desktop)
 

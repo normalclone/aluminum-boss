@@ -1,0 +1,2184 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<noscript><style>form.antibot > * { display: none !important; } form.antibot noscript { display: block !important; }</style>
+</noscript><script src="//assets.adobedtm.com/de9a3002c47b/d1ca0091bb03/launch-64e590f5ad20.min.js" async></script>
+<meta name="description" content="Our machine readable files are formatted to allow researchers, regulators, and application developers to more easily access and analyze data." />
+<link rel="canonical" href="https://www.cigna.com/legal/compliance/machine-readable-files" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.cigna.com/legal/compliance/machine-readable-files" />
+<meta property="og:title" content="Machine Readable Files" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Machine Readable Files" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Audience",
+            "audienceType": "Homepage",
+            "geographicArea": {
+                "@type": "AdministrativeArea",
+                "name": "United States"
+            }
+        }
+    ]
+}</script>
+<link rel="icon" href="/themes/custom/cigna/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="alternate" hreflang="en" href="https://www.cigna.com/legal/compliance/machine-readable-files" />
+<link rel="alternate" hreflang="es" href="https://www.cigna.com/es-us/legal/compliance/machine-readable-files" />
+
+    <title>Machine Readable Files | Cigna Healthcare</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_aLuUXwZnSRDVhIty4Ee3dlgL4eKU7DWc6Qv8foKeFBs.css?delta=0&amp;language=en&amp;theme=cigna&amp;include=eJyVkkGOwzAIRS-UNkeyCKYNigMWkHZ6-3Eys5hZ1Eole_Ht92X4GPkuMN6LTlAG3EUq8NIt_P_harex7VRYlgHVaERdqwpJ-PUHmQlKzAhGyTNeLhPgkkLbqicdN9UgOwk3nT-EUzatWZ_ymcsJDOfTHtOTqC9cO3keDGC7zKySKgiVxNIc1HUUsugB-1z2ILqMtdbRtnXqUluEvgvzD9H7NQeW-cHvh3kgjP2XCnu3a2OcU9BXF_LKIq2Ohu0lj9m2CuX6Kwd_edA6TuD0DZyWPXg" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_i9-jZBBpSvBkplVMpEk12tDUpC5XM3aBTXDnntn-hRk.css?delta=1&amp;language=en&amp;theme=cigna&amp;include=eJyVkkGOwzAIRS-UNkeyCKYNigMWkHZ6-3Eys5hZ1Eole_Ht92X4GPkuMN6LTlAG3EUq8NIt_P_harex7VRYlgHVaERdqwpJ-PUHmQlKzAhGyTNeLhPgkkLbqicdN9UgOwk3nT-EUzatWZ_ymcsJDOfTHtOTqC9cO3keDGC7zKySKgiVxNIc1HUUsugB-1z2ILqMtdbRtnXqUluEvgvzD9H7NQeW-cHvh3kgjP2XCnu3a2OcU9BXF_LKIq2Ohu0lj9m2CuX6Kwd_edA6TuD0DZyWPXg" />
+
+    <script src="https://js-cdn.dynatrace.com/jstag/16b92e62274/bf08379irm/437384636a7a9780_complete.js" async></script>
+
+  </head>
+  <body class="section--legal page-type-landing-page">
+      
+<div class="leaf-c-skiplink">
+          
+
+
+
+  
+<a class="leaf-c-button leaf-c-ripple-element leaf-c-button--primary" href="#primary-nav">
+  
+      <span class="leaf-c-button__text">Skip to main navigation</span>
+  
+  
+</a>
+
+      </div>
+
+  
+<div class="leaf-c-skiplink">
+          
+
+
+
+  
+<a class="leaf-c-button leaf-c-ripple-element leaf-c-button--primary" href="#main-content">
+  
+      <span class="leaf-c-button__text">Skip to main content</span>
+  
+  
+</a>
+
+      </div>
+
+  
+<div class="leaf-c-skiplink">
+          
+
+
+
+  
+<a class="leaf-c-button leaf-c-ripple-element leaf-c-button--primary" href="#footer">
+  
+      <span class="leaf-c-button__text">Skip to footer</span>
+  
+  
+</a>
+
+      </div>
+
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+<header role="banner">
+  
+
+  
+<div class="leaf-c-header">
+  <nav id="primary-nav" class="leaf-c-header__primary-nav">
+    <div class="leaf-grid-container leaf-c-header__nav-container">
+
+      <div class="leaf-c-header__logo">
+        <a class="leaf-c-header__logo-link" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="101" height="53" viewBox="0 0 101 53" fill="none" aria-label="Cigna logo" class="leaf-c-icon" role="img">
+  <path d="M54.467 47.7809C53.7808 47.7809 53.3716 48.1405 53.0872 48.5589V46.1846H52.0762V52.2891H53.0872V49.7974C53.0872 49.1111 53.4964 48.702 54.0817 48.702C54.6835 48.702 55.0267 49.0946 55.0267 49.7809V52.2891H56.0376V49.4781C56.0395 48.4488 55.4615 47.7809 54.467 47.7809Z" fill="#0033FF"></path>
+  <path d="M59.1752 47.7809C57.9128 47.7809 57.0174 48.8176 57.0174 50.0818V50.0983C57.0174 51.4616 58.0046 52.39 59.2835 52.39C60.0945 52.39 60.6724 52.0634 61.0908 51.5625L60.4963 51.0359C60.1458 51.379 59.7936 51.5625 59.3 51.5625C58.6486 51.5625 58.1367 51.1607 58.0284 50.4414H61.2743C61.2816 50.3405 61.2908 50.2488 61.2908 50.157C61.2908 48.8855 60.5807 47.7809 59.1752 47.7809ZM58.0211 49.7717C58.1128 49.0855 58.5477 48.6084 59.166 48.6084C59.8358 48.6084 60.2192 49.1185 60.2871 49.7717H58.0211Z" fill="#0033FF"></path>
+  <path d="M60.9788 42.1535C60.9788 41.3094 60.6724 41.2599 60.6724 41.2599H60.2119C59.4449 41.2599 58.678 40.4929 58.678 39.726V31.9389C58.678 28.7959 60.555 26.917 62.9696 26.917C65.0393 26.917 66.5733 28.0656 66.5733 30.5958V39.726C66.5733 40.4929 65.8063 41.2599 65.0393 41.2599H64.5788C64.5788 41.2599 64.2724 41.3406 64.2724 42.1223C64.2724 42.9039 64.5788 43.3241 64.5788 43.3241H73.6245C73.6245 43.3241 73.9309 42.9846 73.9309 42.203C73.9309 41.4214 73.6245 41.2617 73.6245 41.2617H73.164C72.397 41.2617 71.6301 40.4948 71.6301 39.7278V30.4069C71.6301 25.9978 68.8705 23.8528 64.8834 23.8528C61.933 23.8528 59.6706 25.2326 58.2908 27.2638C58.2908 27.2638 58.2835 25.2528 58.2835 25.0106C58.2835 24.3537 57.6523 24.1244 56.8963 24.429C56.3863 24.6345 53.8102 25.5409 51.6267 25.5409C51.5056 25.7023 51.3166 26.0289 51.3166 26.5629C51.3166 27.0326 51.4267 27.2785 51.623 27.5996H52.0836C52.8505 27.5996 53.6175 28.3665 53.6175 29.1335V39.726C53.6175 40.4929 52.8505 41.2599 52.0836 41.2599H51.623C51.623 41.2599 51.3166 41.3094 51.3166 42.137C51.3166 42.9663 51.623 43.3223 51.623 43.3223H60.6688C60.6743 43.3241 60.9788 42.9993 60.9788 42.1535Z" fill="#0033FF"></path>
+  <path d="M44.2562 25.251C42.8874 24.3556 41.1718 23.8271 39.2875 23.8271C34.5536 23.8271 31.0784 26.9959 31.0784 30.9683C31.0784 33.4123 32.4142 35.3976 34.2472 36.6196L31.0307 40.6159C31.0307 40.6159 30.6215 41.3571 30.6215 42.0947C30.6215 42.8305 31.0894 43.3278 31.0894 43.3278H33.3701C31.6912 44.3204 30.9261 45.9736 30.9261 47.3864C30.9261 50.135 33.3316 52.3882 38.7168 52.3882C44.1388 52.3882 49.179 49.524 49.179 45.0176C49.179 41.8104 47.2708 39.6361 42.4966 39.6361H35.2802L36.693 37.7242C37.4948 37.9921 38.1444 38.1058 39.2893 38.1058C43.9865 38.1058 47.4983 34.8985 47.4983 30.9647C47.4983 29.7427 47.1571 28.5995 46.5552 27.5996H49.346C49.4928 27.3445 49.6524 26.9904 49.6524 26.3996C49.6524 25.9372 49.48 25.4363 49.3497 25.2473H44.2562V25.251ZM36.6912 43.3278H40.9682C43.5259 43.3278 44.4048 44.7534 44.4048 46.2029C44.4048 48.0359 42.6489 49.9056 39.4801 49.9056C36.5022 49.9056 34.8215 48.5699 34.8215 46.5846C34.8196 45.2488 35.5848 43.9002 36.6912 43.3278ZM39.2875 35.7407C37.1499 35.7407 35.7737 33.9463 35.7737 30.9683C35.7737 27.9904 37.148 26.1959 39.2875 26.1959C41.3883 26.1959 42.7626 27.9904 42.7626 30.9683C42.7626 33.9463 41.3883 35.7407 39.2875 35.7407Z" fill="#0033FF"></path>
+  <path d="M16.9337 36.9095C16.319 36.6948 15.8163 36.8838 15.8163 36.8838C14.3961 39.3498 13.1117 40.4856 11.1154 40.4856C7.51181 40.4856 5.21276 37.2288 5.21276 33.3573C5.21276 29.7537 6.82191 26.2271 10.5411 26.2271C12.8787 26.2271 14.675 27.684 14.675 29.9059L14.7282 30.5958C14.7282 30.5958 14.6566 30.9023 15.6291 30.9023C16.6016 30.9023 16.8658 30.5958 16.8658 30.5958L16.6731 25.5757C16.6731 25.5757 16.6529 25.4436 16.5832 25.3519C16.5153 25.262 16.4034 25.1923 16.4034 25.1923C14.908 24.3501 12.9154 23.851 10.5778 23.851C5.09717 23.851 0 27.5298 0 34.1628C0 40.104 4.48433 43.8599 9.62187 43.8599C14.4511 43.8599 16.6933 40.8305 17.6896 37.4581C17.6878 37.4545 17.4181 37.0783 16.9337 36.9095Z" fill="#0033FF"></path>
+  <path d="M23.8033 22.4859C25.5537 22.4859 26.9739 21.029 26.9739 19.2346C26.9739 17.4364 25.5537 15.9814 23.8033 15.9814C22.0529 15.9814 20.6327 17.4364 20.6327 19.2346C20.6327 21.029 22.0529 22.4859 23.8033 22.4859Z" fill="#0033FF"></path>
+  <path d="M26.3335 28.4381C26.3335 27.6711 27.1005 26.9042 27.8674 26.9042H28.328C28.328 26.9042 28.6344 26.7115 28.6344 25.9684C28.6344 25.2235 28.328 24.8418 28.328 24.8418H19.2823C19.2823 24.8418 18.9758 25.3097 18.9758 26.0326C18.9758 26.7555 19.2823 26.9042 19.2823 26.9042H19.7428C20.5098 26.9042 21.2767 27.6711 21.2767 28.4381V36.1022V39.7241C21.2767 40.4911 20.5098 41.2581 19.7428 41.2581H19.2823C19.2823 41.2581 18.9758 41.4085 18.9758 42.1314C18.9758 42.8544 19.2823 43.3223 19.2823 43.3223H28.328C28.328 43.3223 28.6344 42.9406 28.6344 42.1957C28.6344 41.4526 28.328 41.2599 28.328 41.2599H27.8674C27.1005 41.2599 26.3335 40.4929 26.3335 39.726V37.0838V28.4381Z" fill="#0033FF"></path>
+  <path d="M84.7656 47.8048C84.0464 47.8048 83.5693 47.9552 83.0849 48.1736L83.3602 48.9846C83.762 48.8176 84.1289 48.7093 84.6225 48.7093C85.3253 48.7093 85.7106 49.0433 85.7106 49.6543V49.7387C85.3675 49.6304 85.0243 49.5552 84.4904 49.5552C83.4611 49.5552 82.6996 50.0231 82.6996 51.0029V51.0194C82.6996 51.9056 83.4354 52.3827 84.2721 52.3827C84.9399 52.3827 85.4005 52.1074 85.7014 51.7478V52.2909H86.7051V49.6726C86.7051 48.4928 86.0684 47.8048 84.7656 47.8048ZM85.7271 50.6909C85.7271 51.2432 85.2243 51.6194 84.5565 51.6194C84.0794 51.6194 83.7033 51.3864 83.7033 50.968V50.9515C83.7033 50.524 84.0794 50.2653 84.7143 50.2653C85.1069 50.2653 85.4665 50.3405 85.7252 50.4414V50.6909H85.7271Z" fill="#0033FF"></path>
+  <path d="M88.9215 48.8671V47.8726H87.9105V52.2891H88.9215V50.6084C88.9215 49.4377 89.5399 48.8616 90.4279 48.8616H90.4866V47.7901C89.7068 47.7552 89.1968 48.2084 88.9215 48.8671Z" fill="#0033FF"></path>
+  <path d="M96.4939 40.5682C96.4939 39.9737 96.1875 39.7939 96.1875 39.7939H95.7269C94.96 39.7939 94.1948 39.0269 94.1948 38.2599V24.7813C94.1948 24.7813 94.1655 24.3849 93.7416 24.3849H92.5747C92.3453 24.3849 92.1692 24.5776 92.1692 24.5776L90.5435 26.7005C90.3527 26.95 90.1344 26.7023 90.1344 26.7023V26.7042C89.0463 25.4216 87.2188 23.8473 83.9216 23.8473C78.9767 23.8473 74.263 27.4509 74.263 34.0435C74.263 40.214 78.3254 43.8562 83.3088 43.8562C86.1454 43.8562 87.9472 42.6672 89.3656 40.8269V43.1057C89.3656 43.1057 89.3839 43.6268 89.9692 43.7553C90.4958 43.8709 90.8995 43.7021 90.8995 43.7021L96.1893 41.4415C96.1856 41.4434 96.4939 41.1645 96.4939 40.5682ZM84.3032 41.3278C80.8923 41.3278 79.474 37.9554 79.474 33.8527C79.474 29.7518 80.8923 26.3794 84.3032 26.3794C87.7142 26.3794 89.1325 29.7518 89.1325 33.8527C89.1344 37.9554 87.716 41.3278 84.3032 41.3278Z" fill="#0033FF"></path>
+  <path d="M64.0761 47.8048C63.3568 47.8048 62.8797 47.9552 62.3953 48.1736L62.6706 48.9846C63.0724 48.8176 63.4394 48.7093 63.9329 48.7093C64.6357 48.7093 65.021 49.0433 65.021 49.6543V49.7387C64.6779 49.6304 64.3348 49.5552 63.799 49.5552C62.7697 49.5552 62.0082 50.0231 62.0082 51.0029V51.0194C62.0082 51.9056 62.744 52.3827 63.5807 52.3827C64.2485 52.3827 64.7091 52.1074 65.01 51.7478V52.2909H66.0136V49.6726C66.0155 48.4928 65.3806 47.8048 64.0761 47.8048ZM65.0375 50.6909C65.0375 51.2432 64.5348 51.6194 63.8669 51.6194C63.3898 51.6194 63.0137 51.3864 63.0137 50.968V50.9515C63.0137 50.524 63.3898 50.2653 64.0247 50.2653C64.4173 50.2653 64.777 50.3405 65.0357 50.4414V50.6909H65.0375Z" fill="#0033FF"></path>
+  <path d="M93.127 47.7809C91.8646 47.7809 90.9692 48.8176 90.9692 50.0818V50.0983C90.9692 51.4616 91.9563 52.39 93.2352 52.39C94.0462 52.39 94.6242 52.0634 95.0425 51.5625L94.4481 51.0359C94.0976 51.379 93.7453 51.5625 93.2517 51.5625C92.6004 51.5625 92.0885 51.1607 91.9802 50.4414H95.226C95.2334 50.3405 95.2425 50.2488 95.2425 50.157C95.2425 48.8855 94.5325 47.7809 93.127 47.7809ZM91.9729 49.7717C92.0646 49.0855 92.4995 48.6084 93.1178 48.6084C93.7875 48.6084 94.171 49.1185 94.2389 49.7717H91.9729Z" fill="#0033FF"></path>
+  <path d="M80.3162 51.5111C79.5382 51.5111 78.9951 50.8763 78.9951 50.0891V50.0726C78.9951 49.3038 79.5309 48.6671 80.2666 48.6671C80.7767 48.6671 81.1033 48.8928 81.4116 49.2194L82.0391 48.5424C81.6299 48.091 81.1107 47.7809 80.274 47.7809C78.9529 47.7809 77.9823 48.8341 77.9823 50.0891V50.1056C77.9823 51.3607 78.9529 52.3882 80.2648 52.3882C81.1253 52.3882 81.6354 52.0451 82.0721 51.5607L81.4611 50.9588C81.1437 51.2854 80.7932 51.5111 80.3162 51.5111Z" fill="#0033FF"></path>
+  <path d="M68.2888 46.1828H67.2778V52.2872H68.2888V46.1828Z" fill="#0033FF"></path>
+  <path d="M70.8319 46.6598H69.8209V47.8726H69.2613V48.7424H69.8209V51.0671C69.8209 52.0377 70.3475 52.3625 71.0925 52.3625C71.4686 52.3625 71.753 52.2781 72.0044 52.1368V51.3093C71.8025 51.4102 71.6025 51.4597 71.3769 51.4597C71.0337 51.4597 70.8337 51.3001 70.8337 50.9075V48.7405H72.0209V47.8708H70.8337V46.6598H70.8319Z" fill="#0033FF"></path>
+  <path d="M75.4318 47.7809C74.7456 47.7809 74.3364 48.1405 74.052 48.5589V46.1846H73.041V52.2891H74.052V49.7974C74.052 49.1111 74.4612 48.702 75.0484 48.702C75.6502 48.702 75.9933 49.0946 75.9933 49.7809V52.2891H77.0043V49.4781C77.0043 48.4488 76.4263 47.7809 75.4318 47.7809Z" fill="#0033FF"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4565 8.13748C21.4602 6.09348 22.385 4.26966 23.8308 3.04582C25.273 4.27516 26.1886 6.10265 26.1849 8.14666C26.1812 10.1907 25.2583 12.0145 23.8106 13.2383C22.3685 12.009 21.4529 10.1815 21.4565 8.13748ZM28.6436 2.91555C28.0473 4.34672 28.1592 5.89532 28.8142 7.17603C30.1848 6.73751 31.361 5.72651 31.9573 4.29534C32.5536 2.86417 32.4417 1.31558 31.7867 0.0348623C30.4179 0.471553 29.2399 1.48438 28.6436 2.91555ZM15.6823 4.26048C16.2731 5.69349 17.4456 6.70999 18.8144 7.15218C19.4749 5.8733 19.5924 4.32654 19.0015 2.8917C18.4107 1.45869 17.2383 0.442195 15.8695 0C15.2089 1.27888 15.0915 2.82564 15.6823 4.26048ZM7.46777 14.3759C8.89894 14.9722 10.4475 14.8603 11.7283 14.2053C11.2897 12.8347 10.2787 11.6585 8.84757 11.0622C7.4164 10.4659 5.8678 10.5778 4.58708 11.231C5.02561 12.6016 6.0366 13.7796 7.46777 14.3759ZM38.7609 11.1301C37.3278 11.7209 36.3114 12.8934 35.8692 14.2622C37.148 14.9227 38.6948 15.0401 40.1296 14.4493C41.5626 13.8585 42.5791 12.686 43.0213 11.3173C41.7425 10.6567 40.1939 10.5393 38.7609 11.1301ZM34.882 16.9043C32.838 16.9007 31.0105 17.8162 29.7812 19.2602C31.005 20.7079 32.8288 21.6309 34.8728 21.6345C36.9168 21.6382 38.7443 20.7226 39.9737 19.2786C38.7517 17.8309 36.926 16.908 34.882 16.9043ZM29.9848 9.74113C28.5372 11.1833 27.8913 13.1246 28.0436 15.0126C29.9316 15.1704 31.8747 14.5337 33.3242 13.0915C34.7719 11.6494 35.4178 9.7081 35.2655 7.82006C33.3756 7.66043 31.4344 8.29895 29.9848 9.74113ZM12.7411 16.9043C10.6971 16.908 8.87325 17.8309 7.64942 19.2786C8.87692 20.7226 10.7062 21.6382 12.7503 21.6345C14.7943 21.6309 16.6181 20.7079 17.8419 19.2602C16.6126 17.8162 14.7851 16.9007 12.7411 16.9043ZM17.6383 9.74113C16.1906 8.29895 14.2475 7.66226 12.3576 7.82006C12.2053 9.7081 12.8512 11.6494 14.2989 13.0915C15.7465 14.5337 17.6915 15.1704 19.5795 15.0126C19.7318 13.1227 19.0859 11.1833 17.6383 9.74113Z" fill="#03CC54"></path>
+  </svg>
+
+        </a>
+      </div>
+      <div class="leaf-c-header__primary-nav-right-container">
+
+                    <div>
+    <div id="block-cigna-mainnavigation-top" class="display-contents">
+  
+  
+      
+        <ul data-region="primary_menu" region="primary_menu" class="leaf-c-header__primary-nav-right-links">
+                            <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/health-care-providers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/486">Providers</a>
+        </li>
+                        <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/brokers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/731">Brokers</a>
+        </li>
+                        <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/employers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/856">Employers</a>
+        </li>
+              </ul>
+  
+
+
+  </div>
+
+  </div>
+
+        
+        
+                <div data-component-id="cigna_sdc:divider" data-component-variant="vertical" class="leaf-c-divider leaf-c-divider--vertical"></div>
+
+        
+        <div class="leaf-c-header__primary-nav-utilities">
+                      <div class="leaf-c-header__primary-nav-utilities-item chc-c-header-search__link">
+              
+
+
+  
+<button class="leaf-c-button-link leaf-c-button-link--no-underline leaf-c-button-link--default">
+  <span class="leaf-c-button-link--text">
+    
+          Search
+    
+          <span class="leaf-c-button__icon--after">
+        <div class="leaf-c-icon"><i class="micon en-Search" aria-hidden="true"></i></div>
+      </span>
+    
+      </span>
+</button>
+
+            </div>
+          
+                            
+
+    
+<div class="language-switcher-language-url block block-language block-language-block block-language-interface" role="navigation">
+  
+    
+      
+
+
+  
+<a data-drupal-language="es" data-drupal-link-system-path="node/4216" class="leaf-c-button-link leaf-c-button-link--no-underline leaf-c-button-link--primary is-active" href="/es-us/legal/compliance/machine-readable-files" aria-current="page">
+  <span class="leaf-c-button-link--text">
+    
+          Español
+    
+    
+      </span>
+</a>
+
+  </div>
+
+                      </div>
+      </div> 
+              
+<div class="leaf-c-header-search__container">
+  <div class="leaf-c-header-search__content">
+    <div class="leaf-c-header-search__input-outer-container">
+      <span class="leaf-c-header-search__input-label">Search</span>
+      <div class="leaf-c-header-search__focus-trap">
+        <form type="search" method="GET" class="leaf-c-header-search__input-inner-container" role="search" action="/search">
+          <input type="search" name="query" class="leaf-c-header-search__input" aria-label="Search" placeholder="Search">
+          <button class="leaf-c-button--primary" type="submit" aria-label="Search">
+            <i class="micon en-Search" aria-hidden="true"></i>
+          </button>
+        </form>
+        
+
+
+
+    
+<button class="chc-header-search__close leaf-c-button leaf-c-button--sm leaf-c-button--tertiary leaf-c-button--icon-only" aria-label="Close" type="button">
+  
+      <span class="leaf-c-button__text"></span>
+  
+      <span class="leaf-c-button__icon--after">
+      <div class="leaf-c-icon"><i class="micon en-Close" aria-hidden="true"></i></div>
+    </span>
+  
+</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div  class="leaf-c-backdrop"></div>
+
+
+      
+    </div>
+  </nav> 
+      <nav class="leaf-c-header__secondary-nav">
+    <div class="leaf-grid-container leaf-c-header__nav-container">
+
+            <div class="leaf-c-header__secondary-nav-menu-button">
+        
+
+
+
+    
+<button class="leaf-c-button leaf-c-button--primary" type="button">
+      <span class="leaf-c-button__icon--before">
+      <div class="leaf-c-icon"><i class="micon en-Menu" aria-hidden="true"></i></div>
+    </span>
+  
+      <span class="leaf-c-button__text">Menu</span>
+  
+  
+</button>
+
+      </div>
+      
+                <div class="display-contents">
+    <div id="block-cigna-mainnavigation-default" class="display-contents">
+  
+  
+        
+  
+                  <ul data-region="secondary_menu" region="secondary_menu" class="leaf-c-header__secondary-nav-left-links">
+          <li class="leaf-c-header__secondary-nav-left-item--current-selection">For Individuals &amp; Families:</li>
+                        
+  
+          
+        <li class="leaf-c-header__secondary-nav-left-item">
+
+          
+
+
+
+<div class="leaf-c-header-dropdown leaf-c-header-dropdown--full-width">
+
+  
+    <button
+       class="leaf-c-header-dropdown__link" aria-label="Shop For Plans"
+      id="button-23adc5f8-822c-4f3c-b65c-3eddddbd91e8"
+      type="button"
+      aria-expanded="false"
+      aria-haspopup="true"
+      aria-controls="submenu-23adc5f8-822c-4f3c-b65c-3eddddbd91e8"
+    >
+      Shop For Plans <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" class="leaf-c-icon"><path d="M16.59 8 12 12.58 7.41 8 6 9.41l6 6 6-6L16.59 8Z"></path></svg>
+
+      <div class="leaf-c-header-dropdown__triangle-up"></div>
+    </button>
+
+    <div id="submenu-23adc5f8-822c-4f3c-b65c-3eddddbd91e8"
+      class="leaf-c-header-dropdown__container"
+      aria-labelledby="button-23adc5f8-822c-4f3c-b65c-3eddddbd91e8">
+
+      <div class="leaf-c-header-dropdown__content-container">
+
+        <div class="leaf-c-header-dropdown__heading-container">
+          
+                          <ul class="leaf-c-header-dropdown__menu">
+            
+                                                
+                          <li><h3 class="leaf-c-header-dropdown__heading">Shop for Plans</h3></li>
+            
+                      
+            
+                                                
+            
+                      
+            
+                                                
+            
+                      
+            
+                                                
+            
+                      
+            
+                                                
+            
+                          </ul>
+                              </div>
+
+        <div class="leaf-c-header-dropdown__content" data-columns="3">
+
+                                
+              
+              
+                                                                
+                                              
+                                                                
+                                                              
+                              <ul class="leaf-c-header-dropdown__menu">
+              
+              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          <h4 class="leaf-c-header-dropdown__menu-list-item-heading">Shop for your own coverage</h4>
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/individuals-families/shop-plans/health-insurance-plans">
+  <span class="leaf-c-button-link--text">
+    
+          Medical
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/individuals-families/shop-plans/dental-insurance-plans">
+  <span class="leaf-c-button-link--text">
+    
+          Dental
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                              </ul>
+              
+                      
+                              
+                                                                
+                                                              
+                              <ul class="leaf-c-header-dropdown__menu">
+              
+              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          <h4 class="leaf-c-header-dropdown__menu-list-item-heading">Plans through your employer</h4>
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          <p>Learn about the medical, dental, pharmacy, behavioral, and voluntary benefits your employer may offer.</p>
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--action" href="/individuals-families/shop-plans/plans-through-employer">
+  <span class="leaf-c-button-link--text">
+    
+          Explore coverage through work
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                              </ul>
+              
+                      
+                              
+                                                                
+                                                              
+                              <ul class="leaf-c-header-dropdown__menu">
+              
+              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          <h4 class="leaf-c-header-dropdown__menu-list-item-heading">Learn</h4>
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/knowledge-center/how-to-buy-health-insurance">
+  <span class="leaf-c-button-link--text">
+    
+          How to Buy Health Insurance
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/knowledge-center/types-of-dental-insurance">
+  <span class="leaf-c-button-link--text">
+    
+          Types of Dental Insurance
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/knowledge-center/open-enrollment-special-enrollment">
+  <span class="leaf-c-button-link--text">
+    
+          Open Enrollment vs. Special Enrollment
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--action" href="/knowledge-center">
+  <span class="leaf-c-button-link--text">
+    
+          See all topics
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                              </ul>
+              
+                      
+                              
+                                                                
+                                                              
+                              <ul class="leaf-c-header-dropdown__menu">
+              
+              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          <h4 class="leaf-c-header-dropdown__menu-list-item-heading">Living or working abroad?</h4>
+                                      </li>
+                                              
+                                                                
+                                  <li class="leaf-c-header-dropdown__menu-list-item">
+                                          
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--action" href="https://www.cignaglobal.com/?utm_medium=referral&amp;utm_source=cigna.com&amp;utm_campaign=cigna.com_web_link-us-cigna-b2c&amp;utm_content=main_nav&amp;up_id=3c051fd">
+  <span class="leaf-c-button-link--text">
+    
+          Shop for international insurance plans
+    
+    
+      </span>
+</a>
+
+                                      </li>
+                                              
+                              </ul>
+              
+                      
+                              
+              
+                      
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+        </li>
+      
+          
+        <li class="leaf-c-header__secondary-nav-left-item">
+
+          
+
+
+
+<div class="leaf-c-header-dropdown">
+
+  
+    
+    <a class="leaf-c-header-dropdown__link" href="/individuals-families/member-guide">
+      Member Guide
+    </a>
+
+  </div>
+
+        </li>
+      
+          
+        <li class="leaf-c-header__secondary-nav-left-item">
+
+          
+
+
+
+<div class="leaf-c-header-dropdown">
+
+  
+              
+    <a class="leaf-c-header-dropdown__link leaf-u-link--external" rel="noopener" target="_blank" href="https://hcpdirectory.cigna.com/web/public/consumer/directory">
+      Find a Doctor
+    </a>
+
+  </div>
+
+        </li>
+      
+    
+  
+                  </ul>
+      
+    
+  
+
+
+  </div>
+
+  </div>
+
+      
+              <div>
+    <div id="block-cigna-loginbuttons" class="display-contents">
+  
+  
+      
+              <ul region="login_menu" class="leaf-c-header__secondary-nav-right-links">
+                          <li class="leaf-c-header__secondary-nav-right-item--login">
+              
+
+
+
+  
+<a class="leaf-c-button leaf-c-ripple-element leaf-c-button--primary leaf-c-button--inverted" href="https://my.cigna.com/web/public/guest/federate">
+  
+      <span class="leaf-c-button__text">Log in to myCigna</span>
+  
+  
+</a>
+
+        </li>
+              </ul>
+  
+
+
+  </div>
+
+  </div>
+
+    
+    </div>
+  </nav>
+  
+    <nav id="mobileMenu" class="leaf-c-header__mobile-nav leaf-c-header__mobile-nav--closed" aria-hidden="true" aria-label="Menu">
+    <div class="leaf-c-header__mobile-nav__container">
+      <a class="leaf-c-header__mobile-nav__logo" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="101" height="53" viewBox="0 0 101 53" fill="none" aria-label="Cigna logo" class="leaf-c-icon" role="img">
+  <path d="M54.467 47.7809C53.7808 47.7809 53.3716 48.1405 53.0872 48.5589V46.1846H52.0762V52.2891H53.0872V49.7974C53.0872 49.1111 53.4964 48.702 54.0817 48.702C54.6835 48.702 55.0267 49.0946 55.0267 49.7809V52.2891H56.0376V49.4781C56.0395 48.4488 55.4615 47.7809 54.467 47.7809Z" fill="#0033FF"></path>
+  <path d="M59.1752 47.7809C57.9128 47.7809 57.0174 48.8176 57.0174 50.0818V50.0983C57.0174 51.4616 58.0046 52.39 59.2835 52.39C60.0945 52.39 60.6724 52.0634 61.0908 51.5625L60.4963 51.0359C60.1458 51.379 59.7936 51.5625 59.3 51.5625C58.6486 51.5625 58.1367 51.1607 58.0284 50.4414H61.2743C61.2816 50.3405 61.2908 50.2488 61.2908 50.157C61.2908 48.8855 60.5807 47.7809 59.1752 47.7809ZM58.0211 49.7717C58.1128 49.0855 58.5477 48.6084 59.166 48.6084C59.8358 48.6084 60.2192 49.1185 60.2871 49.7717H58.0211Z" fill="#0033FF"></path>
+  <path d="M60.9788 42.1535C60.9788 41.3094 60.6724 41.2599 60.6724 41.2599H60.2119C59.4449 41.2599 58.678 40.4929 58.678 39.726V31.9389C58.678 28.7959 60.555 26.917 62.9696 26.917C65.0393 26.917 66.5733 28.0656 66.5733 30.5958V39.726C66.5733 40.4929 65.8063 41.2599 65.0393 41.2599H64.5788C64.5788 41.2599 64.2724 41.3406 64.2724 42.1223C64.2724 42.9039 64.5788 43.3241 64.5788 43.3241H73.6245C73.6245 43.3241 73.9309 42.9846 73.9309 42.203C73.9309 41.4214 73.6245 41.2617 73.6245 41.2617H73.164C72.397 41.2617 71.6301 40.4948 71.6301 39.7278V30.4069C71.6301 25.9978 68.8705 23.8528 64.8834 23.8528C61.933 23.8528 59.6706 25.2326 58.2908 27.2638C58.2908 27.2638 58.2835 25.2528 58.2835 25.0106C58.2835 24.3537 57.6523 24.1244 56.8963 24.429C56.3863 24.6345 53.8102 25.5409 51.6267 25.5409C51.5056 25.7023 51.3166 26.0289 51.3166 26.5629C51.3166 27.0326 51.4267 27.2785 51.623 27.5996H52.0836C52.8505 27.5996 53.6175 28.3665 53.6175 29.1335V39.726C53.6175 40.4929 52.8505 41.2599 52.0836 41.2599H51.623C51.623 41.2599 51.3166 41.3094 51.3166 42.137C51.3166 42.9663 51.623 43.3223 51.623 43.3223H60.6688C60.6743 43.3241 60.9788 42.9993 60.9788 42.1535Z" fill="#0033FF"></path>
+  <path d="M44.2562 25.251C42.8874 24.3556 41.1718 23.8271 39.2875 23.8271C34.5536 23.8271 31.0784 26.9959 31.0784 30.9683C31.0784 33.4123 32.4142 35.3976 34.2472 36.6196L31.0307 40.6159C31.0307 40.6159 30.6215 41.3571 30.6215 42.0947C30.6215 42.8305 31.0894 43.3278 31.0894 43.3278H33.3701C31.6912 44.3204 30.9261 45.9736 30.9261 47.3864C30.9261 50.135 33.3316 52.3882 38.7168 52.3882C44.1388 52.3882 49.179 49.524 49.179 45.0176C49.179 41.8104 47.2708 39.6361 42.4966 39.6361H35.2802L36.693 37.7242C37.4948 37.9921 38.1444 38.1058 39.2893 38.1058C43.9865 38.1058 47.4983 34.8985 47.4983 30.9647C47.4983 29.7427 47.1571 28.5995 46.5552 27.5996H49.346C49.4928 27.3445 49.6524 26.9904 49.6524 26.3996C49.6524 25.9372 49.48 25.4363 49.3497 25.2473H44.2562V25.251ZM36.6912 43.3278H40.9682C43.5259 43.3278 44.4048 44.7534 44.4048 46.2029C44.4048 48.0359 42.6489 49.9056 39.4801 49.9056C36.5022 49.9056 34.8215 48.5699 34.8215 46.5846C34.8196 45.2488 35.5848 43.9002 36.6912 43.3278ZM39.2875 35.7407C37.1499 35.7407 35.7737 33.9463 35.7737 30.9683C35.7737 27.9904 37.148 26.1959 39.2875 26.1959C41.3883 26.1959 42.7626 27.9904 42.7626 30.9683C42.7626 33.9463 41.3883 35.7407 39.2875 35.7407Z" fill="#0033FF"></path>
+  <path d="M16.9337 36.9095C16.319 36.6948 15.8163 36.8838 15.8163 36.8838C14.3961 39.3498 13.1117 40.4856 11.1154 40.4856C7.51181 40.4856 5.21276 37.2288 5.21276 33.3573C5.21276 29.7537 6.82191 26.2271 10.5411 26.2271C12.8787 26.2271 14.675 27.684 14.675 29.9059L14.7282 30.5958C14.7282 30.5958 14.6566 30.9023 15.6291 30.9023C16.6016 30.9023 16.8658 30.5958 16.8658 30.5958L16.6731 25.5757C16.6731 25.5757 16.6529 25.4436 16.5832 25.3519C16.5153 25.262 16.4034 25.1923 16.4034 25.1923C14.908 24.3501 12.9154 23.851 10.5778 23.851C5.09717 23.851 0 27.5298 0 34.1628C0 40.104 4.48433 43.8599 9.62187 43.8599C14.4511 43.8599 16.6933 40.8305 17.6896 37.4581C17.6878 37.4545 17.4181 37.0783 16.9337 36.9095Z" fill="#0033FF"></path>
+  <path d="M23.8033 22.4859C25.5537 22.4859 26.9739 21.029 26.9739 19.2346C26.9739 17.4364 25.5537 15.9814 23.8033 15.9814C22.0529 15.9814 20.6327 17.4364 20.6327 19.2346C20.6327 21.029 22.0529 22.4859 23.8033 22.4859Z" fill="#0033FF"></path>
+  <path d="M26.3335 28.4381C26.3335 27.6711 27.1005 26.9042 27.8674 26.9042H28.328C28.328 26.9042 28.6344 26.7115 28.6344 25.9684C28.6344 25.2235 28.328 24.8418 28.328 24.8418H19.2823C19.2823 24.8418 18.9758 25.3097 18.9758 26.0326C18.9758 26.7555 19.2823 26.9042 19.2823 26.9042H19.7428C20.5098 26.9042 21.2767 27.6711 21.2767 28.4381V36.1022V39.7241C21.2767 40.4911 20.5098 41.2581 19.7428 41.2581H19.2823C19.2823 41.2581 18.9758 41.4085 18.9758 42.1314C18.9758 42.8544 19.2823 43.3223 19.2823 43.3223H28.328C28.328 43.3223 28.6344 42.9406 28.6344 42.1957C28.6344 41.4526 28.328 41.2599 28.328 41.2599H27.8674C27.1005 41.2599 26.3335 40.4929 26.3335 39.726V37.0838V28.4381Z" fill="#0033FF"></path>
+  <path d="M84.7656 47.8048C84.0464 47.8048 83.5693 47.9552 83.0849 48.1736L83.3602 48.9846C83.762 48.8176 84.1289 48.7093 84.6225 48.7093C85.3253 48.7093 85.7106 49.0433 85.7106 49.6543V49.7387C85.3675 49.6304 85.0243 49.5552 84.4904 49.5552C83.4611 49.5552 82.6996 50.0231 82.6996 51.0029V51.0194C82.6996 51.9056 83.4354 52.3827 84.2721 52.3827C84.9399 52.3827 85.4005 52.1074 85.7014 51.7478V52.2909H86.7051V49.6726C86.7051 48.4928 86.0684 47.8048 84.7656 47.8048ZM85.7271 50.6909C85.7271 51.2432 85.2243 51.6194 84.5565 51.6194C84.0794 51.6194 83.7033 51.3864 83.7033 50.968V50.9515C83.7033 50.524 84.0794 50.2653 84.7143 50.2653C85.1069 50.2653 85.4665 50.3405 85.7252 50.4414V50.6909H85.7271Z" fill="#0033FF"></path>
+  <path d="M88.9215 48.8671V47.8726H87.9105V52.2891H88.9215V50.6084C88.9215 49.4377 89.5399 48.8616 90.4279 48.8616H90.4866V47.7901C89.7068 47.7552 89.1968 48.2084 88.9215 48.8671Z" fill="#0033FF"></path>
+  <path d="M96.4939 40.5682C96.4939 39.9737 96.1875 39.7939 96.1875 39.7939H95.7269C94.96 39.7939 94.1948 39.0269 94.1948 38.2599V24.7813C94.1948 24.7813 94.1655 24.3849 93.7416 24.3849H92.5747C92.3453 24.3849 92.1692 24.5776 92.1692 24.5776L90.5435 26.7005C90.3527 26.95 90.1344 26.7023 90.1344 26.7023V26.7042C89.0463 25.4216 87.2188 23.8473 83.9216 23.8473C78.9767 23.8473 74.263 27.4509 74.263 34.0435C74.263 40.214 78.3254 43.8562 83.3088 43.8562C86.1454 43.8562 87.9472 42.6672 89.3656 40.8269V43.1057C89.3656 43.1057 89.3839 43.6268 89.9692 43.7553C90.4958 43.8709 90.8995 43.7021 90.8995 43.7021L96.1893 41.4415C96.1856 41.4434 96.4939 41.1645 96.4939 40.5682ZM84.3032 41.3278C80.8923 41.3278 79.474 37.9554 79.474 33.8527C79.474 29.7518 80.8923 26.3794 84.3032 26.3794C87.7142 26.3794 89.1325 29.7518 89.1325 33.8527C89.1344 37.9554 87.716 41.3278 84.3032 41.3278Z" fill="#0033FF"></path>
+  <path d="M64.0761 47.8048C63.3568 47.8048 62.8797 47.9552 62.3953 48.1736L62.6706 48.9846C63.0724 48.8176 63.4394 48.7093 63.9329 48.7093C64.6357 48.7093 65.021 49.0433 65.021 49.6543V49.7387C64.6779 49.6304 64.3348 49.5552 63.799 49.5552C62.7697 49.5552 62.0082 50.0231 62.0082 51.0029V51.0194C62.0082 51.9056 62.744 52.3827 63.5807 52.3827C64.2485 52.3827 64.7091 52.1074 65.01 51.7478V52.2909H66.0136V49.6726C66.0155 48.4928 65.3806 47.8048 64.0761 47.8048ZM65.0375 50.6909C65.0375 51.2432 64.5348 51.6194 63.8669 51.6194C63.3898 51.6194 63.0137 51.3864 63.0137 50.968V50.9515C63.0137 50.524 63.3898 50.2653 64.0247 50.2653C64.4173 50.2653 64.777 50.3405 65.0357 50.4414V50.6909H65.0375Z" fill="#0033FF"></path>
+  <path d="M93.127 47.7809C91.8646 47.7809 90.9692 48.8176 90.9692 50.0818V50.0983C90.9692 51.4616 91.9563 52.39 93.2352 52.39C94.0462 52.39 94.6242 52.0634 95.0425 51.5625L94.4481 51.0359C94.0976 51.379 93.7453 51.5625 93.2517 51.5625C92.6004 51.5625 92.0885 51.1607 91.9802 50.4414H95.226C95.2334 50.3405 95.2425 50.2488 95.2425 50.157C95.2425 48.8855 94.5325 47.7809 93.127 47.7809ZM91.9729 49.7717C92.0646 49.0855 92.4995 48.6084 93.1178 48.6084C93.7875 48.6084 94.171 49.1185 94.2389 49.7717H91.9729Z" fill="#0033FF"></path>
+  <path d="M80.3162 51.5111C79.5382 51.5111 78.9951 50.8763 78.9951 50.0891V50.0726C78.9951 49.3038 79.5309 48.6671 80.2666 48.6671C80.7767 48.6671 81.1033 48.8928 81.4116 49.2194L82.0391 48.5424C81.6299 48.091 81.1107 47.7809 80.274 47.7809C78.9529 47.7809 77.9823 48.8341 77.9823 50.0891V50.1056C77.9823 51.3607 78.9529 52.3882 80.2648 52.3882C81.1253 52.3882 81.6354 52.0451 82.0721 51.5607L81.4611 50.9588C81.1437 51.2854 80.7932 51.5111 80.3162 51.5111Z" fill="#0033FF"></path>
+  <path d="M68.2888 46.1828H67.2778V52.2872H68.2888V46.1828Z" fill="#0033FF"></path>
+  <path d="M70.8319 46.6598H69.8209V47.8726H69.2613V48.7424H69.8209V51.0671C69.8209 52.0377 70.3475 52.3625 71.0925 52.3625C71.4686 52.3625 71.753 52.2781 72.0044 52.1368V51.3093C71.8025 51.4102 71.6025 51.4597 71.3769 51.4597C71.0337 51.4597 70.8337 51.3001 70.8337 50.9075V48.7405H72.0209V47.8708H70.8337V46.6598H70.8319Z" fill="#0033FF"></path>
+  <path d="M75.4318 47.7809C74.7456 47.7809 74.3364 48.1405 74.052 48.5589V46.1846H73.041V52.2891H74.052V49.7974C74.052 49.1111 74.4612 48.702 75.0484 48.702C75.6502 48.702 75.9933 49.0946 75.9933 49.7809V52.2891H77.0043V49.4781C77.0043 48.4488 76.4263 47.7809 75.4318 47.7809Z" fill="#0033FF"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4565 8.13748C21.4602 6.09348 22.385 4.26966 23.8308 3.04582C25.273 4.27516 26.1886 6.10265 26.1849 8.14666C26.1812 10.1907 25.2583 12.0145 23.8106 13.2383C22.3685 12.009 21.4529 10.1815 21.4565 8.13748ZM28.6436 2.91555C28.0473 4.34672 28.1592 5.89532 28.8142 7.17603C30.1848 6.73751 31.361 5.72651 31.9573 4.29534C32.5536 2.86417 32.4417 1.31558 31.7867 0.0348623C30.4179 0.471553 29.2399 1.48438 28.6436 2.91555ZM15.6823 4.26048C16.2731 5.69349 17.4456 6.70999 18.8144 7.15218C19.4749 5.8733 19.5924 4.32654 19.0015 2.8917C18.4107 1.45869 17.2383 0.442195 15.8695 0C15.2089 1.27888 15.0915 2.82564 15.6823 4.26048ZM7.46777 14.3759C8.89894 14.9722 10.4475 14.8603 11.7283 14.2053C11.2897 12.8347 10.2787 11.6585 8.84757 11.0622C7.4164 10.4659 5.8678 10.5778 4.58708 11.231C5.02561 12.6016 6.0366 13.7796 7.46777 14.3759ZM38.7609 11.1301C37.3278 11.7209 36.3114 12.8934 35.8692 14.2622C37.148 14.9227 38.6948 15.0401 40.1296 14.4493C41.5626 13.8585 42.5791 12.686 43.0213 11.3173C41.7425 10.6567 40.1939 10.5393 38.7609 11.1301ZM34.882 16.9043C32.838 16.9007 31.0105 17.8162 29.7812 19.2602C31.005 20.7079 32.8288 21.6309 34.8728 21.6345C36.9168 21.6382 38.7443 20.7226 39.9737 19.2786C38.7517 17.8309 36.926 16.908 34.882 16.9043ZM29.9848 9.74113C28.5372 11.1833 27.8913 13.1246 28.0436 15.0126C29.9316 15.1704 31.8747 14.5337 33.3242 13.0915C34.7719 11.6494 35.4178 9.7081 35.2655 7.82006C33.3756 7.66043 31.4344 8.29895 29.9848 9.74113ZM12.7411 16.9043C10.6971 16.908 8.87325 17.8309 7.64942 19.2786C8.87692 20.7226 10.7062 21.6382 12.7503 21.6345C14.7943 21.6309 16.6181 20.7079 17.8419 19.2602C16.6126 17.8162 14.7851 16.9007 12.7411 16.9043ZM17.6383 9.74113C16.1906 8.29895 14.2475 7.66226 12.3576 7.82006C12.2053 9.7081 12.8512 11.6494 14.2989 13.0915C15.7465 14.5337 17.6915 15.1704 19.5795 15.0126C19.7318 13.1227 19.0859 11.1833 17.6383 9.74113Z" fill="#03CC54"></path>
+  </svg>
+
+      </a>
+      
+
+
+
+    
+<button class="leaf-c-button leaf-c-button--sm leaf-c-button--tertiary leaf-c-button--icon-only">
+      <span class="leaf-c-button__icon--before">
+      <div class="leaf-c-icon"><i class="micon en-Close" aria-hidden="true"></i></div>
+    </span>
+  
+      <span class="leaf-c-button__text"></span>
+  
+  
+</button>
+
+
+    </div>
+
+            <div>
+    <div id="block-cigna-mainnavigation-mobile-default" class="display-contents">
+  
+  
+        
+            <ul data-region="mobile_menu" region="mobile_menu" class="leaf-c-header__menu-nav-secondary-links">
+                                      <li class='leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item--current-section '>
+            <a href=https://www.cigna.com/individuals-families/shop-plans/health-insurance-plans/>For Individuals &amp; Families:</a>
+          </li>
+                        
+            <li>
+        <ul data-region="mobile_menu" region="mobile_menu" class="leaf-c-header__menu-nav-secondary-links">
+                                      <li class="leaf-c-header__menu-nav-secondary-link-item ">
+            <div class="leaf-c-accordion-panel-inline">
+  <div class="leaf-c-accordion-panel-inline__header">
+    <button class="leaf-c-accordion-panel-inline__button" aria-expanded="false" aria-controls="accordion-body-shop-for-plans" id="accordion-button-shop-for-plans">
+      <div class="leaf-c-accordion-panel-inline__expand-text">
+        Shop For Plans
+      </div>
+
+      <div class="leaf-c-accordion-panel-inline__collapse-text">
+        Shop For Plans
+      </div>
+
+      <div class="leaf-c-accordion-panel-inline__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" class="leaf-c-icon"><path d="M16.59 8 12 12.58 7.41 8 6 9.41l6 6 6-6L16.59 8Z"></path></svg>
+
+      </div>
+    </button>
+  </div>
+
+  <div class="leaf-c-accordion-panel-inline__body" aria-hidden="true" id="accordion-body-shop-for-plans" aria-labelledby="accordion-button-shop-for-plans">
+    <div class="leaf-c-accordion-panel-inline__body-inner">
+        
+            <ul data-region="mobile_menu" region="mobile_menu" class="leaf-c-header__menu-nav-secondary-links">
+                                                      
+                                                      <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/individuals-families/shop-plans/health-insurance-plans">
+  <span class="leaf-c-button-link--text">
+    
+          Medical
+    
+    
+      </span>
+</a>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/individuals-families/shop-plans/dental-insurance-plans">
+  <span class="leaf-c-button-link--text">
+    
+          Dental
+    
+    
+      </span>
+</a>
+
+          </li>
+                    
+                                            
+                                                                    <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/individuals-families/shop-plans/plans-through-employer">
+  <span class="leaf-c-button-link--text">
+    
+          Explore coverage through work
+    
+    
+      </span>
+</a>
+
+          </li>
+                    
+                                            
+                                                      <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/knowledge-center/how-to-buy-health-insurance">
+  <span class="leaf-c-button-link--text">
+    
+          How to Buy Health Insurance
+    
+    
+      </span>
+</a>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/knowledge-center/types-of-dental-insurance">
+  <span class="leaf-c-button-link--text">
+    
+          Types of Dental Insurance
+    
+    
+      </span>
+</a>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/knowledge-center/open-enrollment-special-enrollment">
+  <span class="leaf-c-button-link--text">
+    
+          Open Enrollment vs. Special Enrollment
+    
+    
+      </span>
+</a>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/knowledge-center">
+  <span class="leaf-c-button-link--text">
+    
+          See all topics
+    
+    
+      </span>
+</a>
+
+          </li>
+                    
+                                            
+                                                      <li class="leaf-c-header__menu-nav-secondary-link-item leaf-c-header__menu-nav-secondary-link-item__child ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="https://www.cignaglobal.com/?utm_medium=referral&amp;utm_source=cigna.com&amp;utm_campaign=cigna.com_web_link-us-cigna-b2c&amp;utm_content=main_nav&amp;up_id=3c051fd">
+  <span class="leaf-c-button-link--text">
+    
+          Shop for international insurance plans
+    
+    
+      </span>
+</a>
+
+          </li>
+                    
+                        </ul>
+      
+    </div>
+  </div>
+
+</div>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item  ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline" href="/individuals-families/member-guide">
+  <span class="leaf-c-button-link--text">
+    
+          Member Guide
+    
+    
+      </span>
+</a>
+
+          </li>
+                                          <li class="leaf-c-header__menu-nav-secondary-link-item  ">
+            
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--no-underline leaf-c-button-link--external" href="https://hcpdirectory.cigna.com/web/public/consumer/directory">
+  <span class="leaf-c-button-link--text">
+    
+          Find a Doctor
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+          </li>
+                        </ul>
+        </li>
+      
+                                  </ul>
+      
+
+
+  </div>
+
+  </div>
+
+    
+                <div>
+    <div id="block-cigna-mainnavigation-top" class="display-contents">
+  
+  
+      
+        <ul data-region="primary_menu" region="primary_menu" class="leaf-c-header__primary-nav-right-links">
+                            <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/health-care-providers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/486">Providers</a>
+        </li>
+                        <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/brokers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/731">Brokers</a>
+        </li>
+                        <li class="leaf-c-header__primary-nav-link-item">
+          For <a href="/employers" class="leaf-c-header__primary-nav-link" data-drupal-link-system-path="node/856">Employers</a>
+        </li>
+              </ul>
+  
+
+
+  </div>
+
+  </div>
+
+        
+
+      </nav>
+
+  
+  <div  class="leaf-c-backdrop"></div>
+
+
+  </div>
+
+  
+</header>
+
+<div class="leaf-grid-container">
+
+  
+
+    <div>
+    <div data-drupal-messages-fallback class="hidden"></div>
+
+  </div>
+
+
+  
+
+  <main id="main-content" role="main">
+
+    <div class="layout-content">
+        <div>
+    
+<article class="node node--type-landing-page node--view-mode-full">
+
+  
+    
+
+  
+  <div class="node__content">
+    
+
+
+
+
+<div class="layout-builder__section">
+  <div class="row iw_row layout layout-builder__layout">
+    <div class="columns iw_columns large-12 layout__region layout__region--first layout-builder__region layout-builder__region--hero js-layout-builder-region" data-region="hero">
+      
+
+  
+<div class="block block-cigna-sdc block-cigna-sdc-breadcrumb">
+  
+    
+        <nav class="leaf-c-breadcrumbs" role="list" aria-label="breadcrumbs">
+    <div class="leaf-c-breadcrumbs__list">
+              <div class="leaf-c-breadcrumbs__item" role="listitem">
+                      <a href="/" class="leaf-c-breadcrumbs__link" data-element-text="Home">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" class="breadcrumb-leaf-c-icon"><path d="M8 16.59 12.58 12 8 7.41 9.41 6l6 6-6 6L8 16.59Z"></path></svg>
+                  </div>
+              <div class="leaf-c-breadcrumbs__item" role="listitem">
+                      <a href="/legal/compliance" class="leaf-c-breadcrumbs__link" data-element-text="Legal Notices and Information">Legal Notices and Information</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" class="breadcrumb-leaf-c-icon"><path d="M8 16.59 12.58 12 8 7.41 9.41 6l6 6-6 6L8 16.59Z"></path></svg>
+                  </div>
+              <div class="leaf-c-breadcrumbs__item" role="listitem">
+                      Machine Readable Files
+                  </div>
+          </div>
+  </nav>
+
+  </div>
+
+
+    
+<div class="block block-layout-builder block-inline-block block-cigna-sdc-hero">
+  
+    
+    
+
+  
+
+
+<div  class="leaf-c-hero leaf-c-hero--variant-tertiary leaf-c-hero--pattern-leaf-circle leaf-c-hero--bgcolor-dark-green leaf-c-hero--inverted">
+  <div class='leaf-c-hero__hero-container'>
+    <div class='leaf-c-hero__image-container'>
+              <div class='leaf-c-hero__image leaf-c-hero__image--position-initial'>
+                
+            </div>
+          </div>
+    <div class='leaf-c-hero__text-container'>
+      <div>
+                        <h1 class='leaf-c-hero__heading'>Machine Readable Files</h1>
+                                </div>
+    </div>
+          <div class='leaf-c-hero__pattern-container'>
+        <svg width="1803" height="1736" viewBox="0 0 1803 1736" name="leaf-circle" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M721.604 864.854C686.265 844.681 664.276 809.848 658.146 771.365C694.417 757.1 735.585 758.348 770.907 778.522C806.246 798.695 828.236 833.528 834.365 872.01C798.11 886.275 756.927 885.027 721.604 864.854ZM1094.23 724.495C1059.29 722.631 1023.77 735.506 997.867 762.93C971.959 790.37 961.154 826.561 965.008 861.347C999.952 863.211 1035.46 850.336 1061.37 822.896C1087.28 795.456 1098.08 759.265 1094.23 724.495ZM486.272 734.826C472.765 705.822 447.142 682.679 413.873 673.549C380.604 664.418 346.75 671.226 320.321 689.267C333.828 718.271 359.451 741.414 392.736 750.56C426.005 759.691 459.859 752.883 486.288 734.842M1277.92 849.246C1250.78 822.201 1212.41 806.751 1171.23 810.195C1130.04 813.639 1094.78 835.265 1072.52 866.449C1099.66 893.494 1138.04 908.944 1179.22 905.5C1220.4 902.056 1255.66 880.43 1277.92 849.246ZM927.569 1582.52C956.099 1561.62 975.656 1528.84 978.373 1490.79C981.09 1452.75 966.399 1417.51 941.123 1392.77C912.593 1413.67 893.036 1446.46 890.319 1484.5C887.602 1522.56 902.293 1557.79 927.569 1582.52ZM1780.16 744.131C1762.31 725.095 1736.55 713.69 1708.44 715.08C1680.33 716.47 1655.82 730.371 1639.95 751.097C1657.8 770.133 1683.56 781.539 1711.67 780.149C1739.79 778.743 1764.29 764.857 1780.16 744.131ZM1262.11 1511.45C1273.77 1491.09 1276.77 1465.96 1268.16 1442.18C1259.55 1418.41 1241.14 1401.01 1219.17 1392.83C1207.51 1413.19 1204.51 1438.33 1213.12 1462.1C1221.73 1485.89 1240.13 1503.27 1262.11 1511.45ZM421.124 1614.18C442.087 1616.63 463.935 1610.23 480.553 1594.7C497.188 1579.18 505.055 1557.82 504.044 1536.73C483.081 1534.28 461.233 1540.68 444.614 1556.21C427.98 1571.73 420.113 1593.09 421.124 1614.18ZM14.0596 831.774C29.1618 847.113 50.6145 855.991 73.7575 854.27C96.9005 852.548 116.821 840.605 129.49 823.212C114.388 807.873 92.9354 798.995 69.7924 800.717C46.6494 802.439 26.729 814.381 14.0596 831.774ZM1657.07 856.134C1672.93 870.683 1694.81 878.455 1717.84 875.564C1740.88 872.673 1760.15 859.72 1771.92 841.695C1756.06 827.146 1734.18 819.373 1711.15 822.264C1688.11 825.155 1668.84 838.109 1657.07 856.134ZM1722.41 1203.29C1714.53 1177.77 1695.93 1155.71 1669.44 1144.39C1642.95 1133.06 1614.17 1134.86 1590.25 1146.8C1598.13 1172.33 1616.73 1194.38 1643.23 1205.71C1669.72 1217.04 1698.51 1215.24 1722.41 1203.28M1339.31 1133.96C1329.28 1100.96 1305.41 1072.4 1271.27 1057.63C1237.13 1042.86 1199.98 1045.01 1169.05 1060.28C1179.08 1093.28 1202.95 1121.84 1237.09 1136.61C1271.22 1151.38 1308.38 1149.24 1339.31 1133.94M1481.42 737.196C1455.55 716.975 1421.31 707.781 1386.64 714.938C1351.96 722.109 1324.19 744.115 1308.46 772.945C1334.33 793.166 1368.57 802.36 1403.24 795.203C1437.92 788.032 1465.69 766.01 1481.42 737.196ZM368.298 1092.86C346.577 1078.37 318.9 1073.12 291.839 1080.88C264.778 1088.64 244.084 1107.75 233.342 1131.53C255.063 1146.01 282.74 1151.26 309.8 1143.5C336.861 1135.75 357.556 1116.63 368.298 1092.86ZM172.522 979.384C154.229 967.188 130.912 962.765 108.117 969.29C85.3211 975.83 67.8809 991.927 58.8291 1011.96C77.1223 1024.15 100.439 1028.58 123.235 1022.05C146.03 1015.51 163.47 999.415 172.522 979.384ZM350.668 1286.39C330.811 1276.93 307.099 1275.88 285.473 1285.61C263.846 1295.35 248.886 1313.77 242.788 1334.9C262.646 1344.36 286.357 1345.41 307.984 1335.68C329.61 1325.94 344.57 1307.53 350.668 1286.39ZM718.271 1222.14C696.597 1225.88 676.645 1238.73 664.607 1259.17C652.57 1279.6 651.006 1303.28 658.241 1324.05C679.915 1320.31 699.867 1307.45 711.904 1287.02C723.942 1266.59 725.506 1242.91 718.271 1222.14ZM852.848 1070.25C813.007 1080.14 777.59 1106.74 757.938 1146.41C738.286 1186.08 738.554 1230.36 754.826 1268.06C794.666 1258.17 830.084 1231.57 849.736 1191.9C869.388 1152.24 869.103 1107.96 852.864 1070.25M1043.35 486.351C1007.06 509.936 979.905 549.524 971.943 597.532C963.982 645.54 976.92 691.779 1003.65 725.806C1039.93 702.221 1067.09 662.633 1075.05 614.625C1083.01 566.617 1070.08 520.378 1043.35 486.351ZM576.648 389.64C567.296 431.203 575.495 476.43 603.14 513.111C630.785 549.793 672.016 570.14 714.543 572.588C723.895 531.026 715.696 485.798 688.035 449.117C660.39 412.435 619.159 392.089 576.632 389.624M920.239 978.626C898.976 1006.19 889.466 1042.53 897.286 1079.24C905.121 1115.95 928.643 1145.24 959.29 1161.72C980.553 1134.15 990.079 1097.82 982.243 1061.1C974.408 1024.39 950.886 995.102 920.239 978.626ZM185.097 617.484C170.074 596.395 146.267 581.751 118.448 579.397C90.629 577.027 64.6899 587.438 46.3334 605.699C61.3566 626.789 85.1631 641.433 112.982 643.802C140.801 646.172 166.74 635.762 185.097 617.5M614.878 1259.49C581.861 1252.68 546.207 1259.8 517.582 1282.19C488.957 1304.57 473.444 1337.46 472.102 1371.14C505.102 1377.95 540.773 1370.82 569.397 1348.44C598.022 1326.06 613.535 1293.17 614.878 1259.49ZM984.013 163.344C952.307 183.707 929.386 217.307 924.014 257.59C918.643 297.874 931.976 336.293 957.236 364.254C988.941 343.891 1011.86 310.29 1017.23 270.023C1022.61 229.74 1009.27 191.321 984.013 163.36M1426.83 230.703C1398.15 227.765 1368.42 236.928 1346.01 258.459C1323.59 279.991 1313.24 309.327 1315.01 338.093C1343.69 341.032 1373.42 331.869 1395.83 310.338C1418.25 288.806 1428.6 259.47 1426.83 230.703ZM1674.75 419.671C1654.05 410.176 1629.49 409.45 1607.23 419.829C1584.97 430.223 1569.76 449.527 1563.76 471.501C1584.45 480.996 1609.02 481.722 1631.27 471.343C1653.53 460.949 1668.75 441.645 1674.75 419.671ZM523.032 881.788C505.939 861.362 480.364 848.267 451.644 848.061C422.925 847.856 397.175 860.604 379.798 880.793C396.891 901.219 422.467 914.315 451.186 914.52C479.906 914.71 505.655 901.977 523.032 881.773M693.595 273.704C673.47 298.126 663.754 330.874 669.789 364.475C675.839 398.076 696.36 425.373 723.737 441.25C743.862 416.827 753.578 384.079 747.543 350.478C741.493 316.878 720.972 289.58 693.595 273.704ZM1481.48 1286.39C1479.83 1254.43 1464.72 1223.39 1437.28 1202.47C1409.86 1181.56 1375.91 1175.19 1344.66 1182.05C1346.32 1214.01 1361.43 1245.05 1388.87 1265.96C1416.29 1286.88 1450.24 1293.24 1481.48 1286.39ZM1358.17 1581.99C1367.29 1562.68 1368.2 1539.67 1358.69 1518.7C1349.18 1497.74 1331.24 1483.29 1310.7 1477.44C1301.59 1496.74 1300.67 1519.76 1310.18 1540.72C1319.69 1561.69 1337.63 1576.14 1358.17 1581.99ZM1360.4 1075.45C1355.03 1078.18 1352.42 1083.84 1354.21 1089.62C1364.55 1123.17 1380.15 1149.24 1418.42 1166.98C1465.29 1188.71 1504.06 1185.89 1566.36 1190.89C1550.69 1135.79 1513.24 1096.32 1473.59 1077.93C1434.3 1059.71 1388 1061.4 1360.4 1075.45ZM892.689 922.356C891.93 915.326 886.812 909.102 879.972 907.333C841.095 897.222 802.17 901.108 768.948 927.695C728.16 960.332 711.652 1006.52 692.584 1053.41C756.089 1071.47 811.727 1058.77 846.245 1031.15C880.351 1003.87 896.511 957.773 892.689 922.356ZM894.347 870.019C900.24 872.436 906.969 871.109 911.55 866.639C943.366 835.629 961.802 796.704 955.056 750.545C946.889 694.717 918.312 638.763 890.445 588.986C838.456 638.431 815.693 719.155 822.596 766.405C829.594 814.176 858.077 855.123 894.347 870.019ZM936.147 898.044C931.36 901.409 928.801 907.412 929.907 913.162C936.431 946.778 948.958 973.365 977.757 987.472C1028.36 1012.24 1075.59 1009.98 1139.33 1014.66C1121.48 957.141 1099.11 911.471 1035.91 888.281C1001.36 875.612 961.17 880.43 936.131 898.044M1017.39 1163.98C1012.48 1161.51 1006.43 1162.82 1003.16 1167.25C985.971 1190.4 976.335 1214.56 981.517 1244.21C988.009 1281.27 1020.77 1312.26 1044.88 1332.94C1074.23 1294.16 1084.01 1253.77 1071.51 1218.74C1063.2 1195.44 1046.03 1178.35 1017.39 1163.98ZM590.218 1391.16C589.507 1386.48 585.684 1383.24 581.071 1383.64C556.965 1385.64 535.828 1393.23 518.182 1413.78C496.129 1439.46 496.856 1473.55 488.626 1506.9C529.288 1503.92 561.514 1487.05 579.27 1458.56C591.087 1439.62 594.357 1418.39 590.218 1391.17M397.965 944.109C399.118 941.502 398.502 938.469 396.559 936.384C377.681 916.116 353.275 903.905 323.434 907.254C287.984 911.234 241.066 928.77 213.958 949.638C243.799 981.69 299.769 994.897 329.768 991.532C360.841 988.041 388.202 966.209 397.965 944.109ZM1115.46 768.032C1114.48 772.313 1116.16 777.305 1120.23 778.98C1146.69 789.864 1174.29 797.684 1211.83 790.938C1279.3 778.806 1316.5 716.107 1338.5 658.905C1291 662.727 1218.97 669.347 1179.28 686.534C1142.68 702.379 1122.81 735.853 1115.48 768.048M1090.87 692.031C1091.96 695.554 1095 697.719 1098.72 697.513C1130.83 695.744 1161.54 682.49 1184.99 652.033C1212.96 615.699 1214.4 576.49 1230.39 533.411C1179.39 536.065 1137.78 560.709 1114.1 591.466C1089.79 623.045 1082.64 665.413 1090.87 692.047M896.938 560.851C899.56 562.304 902.688 562.494 905.484 561.372C933.114 550.282 949.654 532.226 957.062 500.442C967.015 457.71 940.444 387.16 919.275 348.109C879.166 381.552 853.464 443.714 850.984 478.642C848.33 515.908 870.809 546.396 896.954 560.835M1114.56 341.063C1116.08 342.817 1118.29 343.923 1120.61 344.096C1143.69 345.834 1160.63 339.642 1174.69 321.901C1193.58 298.031 1187.21 253.989 1185.71 225.538C1147.47 233.989 1115 253.262 1103.65 274.573C1091.53 297.289 1099.52 323.67 1114.55 341.079M806.72 626.362C809.642 627.057 812.691 625.778 814.239 623.187C828.804 598.891 835.866 566.885 824.112 537.25C811.032 504.265 793.387 477.536 770.544 445.989C733.689 489.621 724.463 528.624 736.548 569.239C742.993 590.881 770.623 617.816 806.72 626.362ZM643.139 736.848C648.352 733.705 651.101 727.575 649.632 721.667C641.101 687.071 621.165 657.641 585.242 641.18C541.262 621.038 487.615 625.667 433.951 628.874C464.092 671.021 497.662 723.579 534.864 740.624C571.735 757.511 616.141 753.12 643.123 736.848M455.894 581.83C459.543 579.823 461.518 575.906 461.028 571.751C457.616 543.142 446.257 520.852 418.043 505.513C391.63 491.153 341.79 494.708 295.851 495.166C306.167 539.209 339.357 570.693 374.475 585.621C404.458 598.354 437.158 592.161 455.894 581.83ZM576.775 604.846C579.713 603.488 581.356 600.312 580.787 597.121C577.391 577.738 576.648 561.957 559.334 546.033C540.267 528.498 502.812 525.639 472.354 527.692C481.28 555.274 489.731 585.289 506.303 599.633C524.233 615.146 557.96 613.614 576.775 604.862M324.934 306.293C327.225 305.235 328.504 302.755 328.078 300.259C325.424 285.125 324.839 272.803 311.333 260.371C296.452 246.69 267.211 244.447 243.436 246.058C249.044 268.712 256.99 291.017 269.944 302.202C283.94 314.303 310.259 313.118 324.95 306.293M828.915 444.93C831.964 445.673 835.028 444.599 836.861 442.118C846.75 428.77 857.05 408.802 854.522 384.569C850.62 347.05 828.52 316.846 791.065 291.381C777.953 327.952 764.936 362.8 780.038 400.429C788.711 422.056 805.851 439.259 828.899 444.946M1248.79 619.664C1248.9 622.602 1250.81 625.162 1253.59 626.109C1270.24 631.717 1294.19 634.134 1314.11 621.086C1337.76 605.605 1350.04 575.542 1358.88 531.294C1327.82 533.616 1292.06 535.101 1265.77 560.661C1248.73 577.233 1248.02 598.638 1248.79 619.664ZM389.103 473.144C393.021 472.607 395.753 469.732 395.927 465.925C396.97 443.145 390.809 411.187 365.328 386.607C335.076 357.445 289.564 345.265 226.217 339.547C241.572 380.272 258.27 426.479 302.597 458.658C321.522 472.386 360.968 476.999 389.119 473.144M1585.81 966.699C1582.62 968.563 1581.42 971.943 1582.81 975.166C1591.17 994.439 1609.51 1018.73 1641.67 1029.89C1679.84 1043.11 1738.9 1031.53 1802.69 1020.14C1759.61 972.323 1727.21 951.439 1666.94 947.315C1644.56 945.783 1608.73 953.287 1585.81 966.699ZM1104.34 508.751C1105.51 514.675 1110.61 519.114 1116.68 519.478C1142 520.994 1178.38 517.756 1202.41 497.725C1243.36 463.587 1258.24 404.947 1246.56 340.495C1190.88 359.593 1136.69 372.958 1109.68 426.716C1100.26 445.436 1098.04 476.888 1104.34 508.736M1003.68 462.386C1006.22 466.415 1012.21 468.5 1017.2 467.094C1036.33 461.707 1061.72 450.333 1073.79 430.381C1094.77 395.706 1089.6 350.02 1063.09 306.831C1036.9 326.214 990.426 357.571 985.213 402.799C983.412 418.438 990.347 441.313 1003.68 462.386ZM1318.11 821.016C1315.33 822.47 1314.21 825.139 1315.33 827.888C1323.21 847.145 1347.1 864.759 1369.69 872.468C1417 888.613 1454.08 874.174 1478.14 873.59C1453.03 839.452 1432.1 828.125 1400.37 818.536C1367.87 808.71 1337.51 810.906 1318.11 821.016ZM1130.2 1239.12C1127.2 1238.38 1124.07 1239.39 1122.24 1241.86C1107.89 1261.21 1107.41 1293.48 1116.27 1313.2C1131.78 1347.73 1158.89 1372.2 1180.59 1387.6C1198.62 1346.94 1203.26 1313.34 1192.02 1285.77C1180.4 1257.31 1153.61 1244.84 1130.2 1239.11M713.026 1352.91C711.889 1349.62 709.061 1347.49 705.649 1347.59C678.92 1348.41 648.573 1371.25 635.588 1393.62C612.871 1432.78 606.047 1475.97 605.383 1506.33C654.197 1493.51 688.303 1473.51 707.134 1443.3C726.58 1412.12 721.904 1378.53 713.01 1352.93M809.184 1286.17C807.115 1283.66 803.876 1282.55 800.748 1283.29C776.31 1289.06 754.273 1311.3 747.053 1340.75C737.749 1378.69 748.412 1426.3 773.324 1459.89C804.398 1424.39 816.64 1402.47 823.812 1372.59C831.221 1341.73 825.629 1306.12 809.184 1286.17ZM690.199 1522.16C686.724 1539.22 687.434 1559.59 694.891 1580.83C717.023 1569.95 736.248 1546.92 740.545 1525.21C743.894 1508.36 737.243 1491.45 725.174 1482.37C723.626 1481.22 721.572 1480.96 719.803 1481.72C705.744 1487.77 693.801 1504.55 690.199 1522.16ZM821.885 1661.97C820.811 1660.74 819.073 1660.34 817.541 1660.91C804.635 1665.74 797.194 1674.46 792.281 1688.44C786.784 1704.12 791.349 1721.16 798.379 1735.54C816.909 1725.63 827.92 1711.38 830.858 1698.51C833.859 1685.33 829.405 1670.64 821.885 1661.97ZM669.426 1650.18C668.525 1648.81 666.866 1648.19 665.271 1648.56C651.827 1651.59 642.539 1658.87 636.488 1672.41C629.838 1687.31 632.855 1704.87 636.125 1719.88C655.824 1712.6 668.667 1699.96 673.343 1687.61C678.114 1674.97 675.697 1659.8 669.426 1650.18ZM1287.53 879.403C1285.14 880.983 1283.84 883.953 1284.13 886.828C1286.51 910.998 1295.65 929.67 1317.19 938.959C1338.38 948.074 1367.13 943.824 1393.54 940.617C1385.45 905.121 1367.51 881.804 1348.49 873.179C1329.03 864.348 1304.18 868.361 1287.54 879.403M1465.26 808.726C1462.78 812.138 1463.1 816.451 1465.81 819.579C1488.67 845.96 1517.74 861.521 1558.83 857.919C1599.22 854.38 1641.02 838.504 1679.76 809.01C1639.02 773.293 1592.48 758.254 1555.84 760.939C1518.37 763.672 1482.62 784.872 1465.28 808.726M1494.66 715.174C1493.25 718.144 1494.12 721.383 1496.65 723.389C1517.93 740.261 1542.41 747.938 1573.3 739.25C1603.68 730.703 1632.05 716.517 1658.68 684.386C1614.83 670.705 1584.63 658.209 1557 665.555C1528.73 673.075 1504.47 694.433 1494.66 715.174ZM859.04 308.331C861.994 310.48 865.723 310.211 868.424 307.857C891.267 288.095 904.726 262.962 901.614 227.433C898.549 192.506 875.201 160.074 859.309 122.855C828.394 158.083 815.377 198.335 817.699 230.008C820.068 262.424 838.393 293.324 859.04 308.331ZM1251.08 487.472C1251.08 491.122 1253.5 493.965 1256.99 494.787C1286.4 501.595 1314.65 497.662 1341.54 474.203C1367.95 451.155 1383.9 414.347 1401.09 378.408C1354.43 374.19 1314.22 387.381 1289.99 407.933C1265.2 428.944 1251.03 461.976 1251.08 487.488M1508.06 1216.53C1504.5 1217.81 1502.56 1221.15 1502.97 1224.84C1506.48 1255.88 1520.05 1282.06 1552.16 1300.13C1583.74 1317.9 1625.03 1316.85 1666.04 1324.98C1654.07 1278 1627.36 1243.39 1598.98 1226.88C1569.97 1209.99 1532.89 1207.64 1508.04 1216.53M277.764 1044.17C278.869 1040.96 277.811 1037.44 275.236 1035.23C253.641 1016.63 229.692 1007.96 200.878 1016.98C172.554 1025.86 125.272 1058.67 101.276 1083.93C137.563 1107.66 196.281 1104.81 222.078 1097.22C248.46 1089.44 269.991 1066.57 277.764 1044.17ZM570.013 1173.88C569.539 1171.54 567.675 1169.73 565.321 1169.28C542.147 1164.95 513.949 1168.67 492.765 1186.08C475.798 1200.02 466.983 1227.09 463.081 1256.28C493.886 1247.32 512.274 1241.54 538.814 1228.22C562.383 1216.39 574.673 1196.83 570.029 1173.88M359.42 636.03C361.537 633.897 362.232 630.643 361.205 627.816C351.095 600.012 329.579 572.43 298.363 561.83C273.34 553.347 239.961 562.668 207.466 578.733C231.051 606.552 253.531 621.149 283.893 640.295C310.875 657.309 338.709 656.898 359.436 636.014M1169.66 1151.18C1166.44 1152.21 1164.99 1156.03 1165.35 1159.38C1168.87 1192.46 1185.25 1229.08 1217.35 1250.69C1243.07 1268 1283.2 1268.98 1324.24 1262.47C1306.92 1221.81 1292.19 1204.61 1261.33 1175.55C1234.24 1150.06 1205.33 1139.76 1169.66 1151.16M1216.52 1524.11C1213.99 1524.5 1211.97 1526.41 1211.38 1528.91C1205.66 1553.47 1207.86 1570.77 1221.41 1592.62C1233.8 1612.59 1268.47 1636.76 1299.48 1642.32C1294.33 1615.35 1288.82 1595.43 1275.84 1566.44C1264.3 1540.69 1241.26 1520.25 1216.5 1524.12M1039.67 1499.35C1036.74 1498.42 1033.57 1499.37 1031.59 1501.72C1012.26 1524.91 998.751 1558.7 1004.94 1593.27C1009.9 1620.96 1034.61 1647.72 1064.77 1670.34C1073.74 1633.12 1079.08 1606.17 1080.82 1568.21C1082.35 1534.48 1068.2 1508.53 1039.67 1499.35ZM633.424 276.358C606.947 243.42 585.479 222.284 550.883 195.27C539.509 231.509 540.093 295.378 548.813 318.015C562.747 354.143 593.551 360.352 627.879 368.44C631.37 369.261 635.161 368.013 637.436 365.249C659.805 338.236 656.946 305.614 633.424 276.358ZM1383.26 579.397C1383.92 582.714 1386.54 585.273 1389.86 585.905C1422.55 592.098 1462.34 587.011 1492.31 562.525C1516.32 542.921 1528.86 504.786 1534.5 463.603C1493.76 474.298 1465.02 484.187 1427.52 502.859C1394.22 519.446 1376.8 546.981 1383.24 579.397M859.909 1460.49C857.745 1458.47 854.554 1457.98 851.868 1459.24C825.376 1471.55 807.225 1493.36 798.379 1526.16C791.286 1552.45 794.224 1588.27 811.285 1620.53C842.595 1598.37 867.508 1537.77 867.508 1537.77C874.964 1514.86 881.109 1480.32 859.925 1460.51M471.201 1417.96C470.901 1414.99 468.768 1412.83 465.878 1412.55C447.395 1410.76 431.376 1413.71 419.165 1426.42C403.873 1442.32 395.975 1467.27 383.874 1497.6C410.887 1487.2 437.774 1483.7 456.778 1467.24C473.192 1453.03 472.86 1434.08 471.201 1417.95M762.693 1570.38C760.987 1568.1 758.19 1567.36 755.679 1568.56C739.692 1576.16 728.033 1586.43 724.274 1602.79C719.566 1623.3 725.332 1647.56 730.292 1678.29C750.244 1662.44 767.542 1640.52 775.03 1617.74C781.491 1598.07 771.934 1582.75 762.677 1570.38M658.13 1546.55C656.535 1543.3 652.996 1541.47 649.395 1541.85C625.809 1544.37 606.868 1554.03 595.731 1576.62C584.594 1599.19 576.111 1642.43 569.618 1682.03C605.526 1673.71 636.773 1645.05 657.657 1610.69C669.52 1591.17 666.882 1564.42 658.13 1546.55ZM168.352 752.582C151.054 752.424 129.632 760.829 111.56 778.727C127.168 791.27 150.753 802.138 169.837 802.581C188.051 803.007 200.799 792.297 210.53 779.833C212.868 776.831 212.789 772.455 210.135 769.754C200.768 760.244 184.67 752.725 168.352 752.567M197.197 1173.82C160.469 1190.88 137.784 1223.58 107.485 1254.98C147.104 1266.55 201.099 1261.27 231.177 1249.74C262.156 1237.86 280.781 1213.23 280.449 1186.17C280.418 1183.41 278.743 1181 276.263 1179.65C256.153 1168.67 224.543 1161.12 197.197 1173.82ZM224.084 659.142C196.044 653.454 144.956 668.493 109.981 692.047C141.401 710.467 177.293 729.629 208.145 736.343C238.397 742.93 265.584 733.373 285.599 715.396C289.454 711.936 290.212 706.186 287.479 701.794C275.599 682.79 251.272 664.655 224.1 659.142M526.113 433.525C503.633 416.243 457.71 403.952 427.38 402.278C437.964 420.824 462.355 470.996 484.898 485.751C508.277 501.058 529.398 500.916 552.336 491.69C555.259 490.521 556.902 487.488 556.349 484.218C553.015 464.551 545.749 448.627 526.097 433.525M427.601 332.185C413.288 313.845 379.482 303.64 353.748 291.381C351.948 316.704 364.712 345.802 373.874 358.804C386.954 377.365 406.259 384.443 433.019 382.073C435.689 381.836 437.869 379.814 438.248 377.16C440.555 360.794 440.128 348.251 427.601 332.185ZM1194.12 164.276C1202.52 145.825 1203.26 117.753 1205.41 93.9306C1182.87 100.423 1156.72 121.371 1147.8 141.781C1139.87 159.932 1140.85 177.309 1152.57 191.858C1153.86 193.469 1155.9 193.864 1157.94 193.296C1173.42 188.983 1186.68 180.61 1194.12 164.276ZM1119.11 204.891C1126.44 174.797 1119.84 132.587 1116.49 96.3318C1085 112.729 1052.18 151.843 1044.61 185.018C1037.88 214.511 1044.11 240.213 1065.38 258.491C1067.74 260.513 1070.85 260.497 1073.69 259.044C1095.37 247.986 1112.62 231.541 1119.11 204.891ZM1365.19 655.635C1363.53 658.984 1364.27 662.996 1367 665.524C1393.83 690.325 1437.84 697.229 1467.82 683.485C1497.09 670.073 1525.04 632.807 1535.97 608.653C1491.91 599.57 1454.2 592.493 1422.34 603.693C1394.22 613.566 1376.4 632.918 1365.2 655.619M418.359 812.881C421.519 809.879 422.119 805.535 419.829 802.202C397.396 769.517 348.251 750.671 308.047 756.832C268.791 762.851 222.363 793.766 200.72 815.708C234.179 832.548 290.812 854.143 332.296 851.11C368.914 848.44 396.907 833.259 418.344 812.881M533.822 318.521C521.026 295.03 495.956 278.759 462.07 261.793C454.63 282.092 449.875 319.263 459.796 342.738C469.953 366.781 500.663 385.738 531.357 384.869C534.485 384.774 537.281 382.737 538.229 379.861C544.659 360.289 545.133 339.247 533.838 318.521M590.755 142.965C584.405 126.915 561.878 108.053 544.753 98.0063C542.463 122.239 544.343 140.438 547.55 156.551C550.519 171.495 560.472 181.574 580.013 183.596C582.73 183.88 584.563 183.248 586.142 180.926C593.062 170.8 596.126 156.551 590.755 142.965ZM1439.01 476.367C1460.35 465.151 1475.91 436.037 1489.65 407.791C1457.44 406.78 1438.82 404.995 1413.7 419.054C1393 430.65 1381.08 453.335 1380.89 475.719C1380.87 477.805 1382.4 479.495 1384.62 479.985C1401.44 483.807 1420.05 486.319 1438.99 476.367M1261.59 221.652C1272.2 204.986 1282.45 167.593 1277.3 138.621C1249.71 153.613 1229.76 169.489 1216.41 190.847C1206.04 207.418 1207.5 225.569 1220.12 244.795C1221.15 246.343 1222.99 247.164 1224.86 246.848C1240.01 244.226 1252.11 236.533 1261.6 221.636M812.328 117.627C811.396 97.9905 799.595 50.0142 776.989 29.0512C762.361 45.9385 751.556 92.5089 752.946 117.532C754.036 136.947 766.61 151.069 789.801 159.837C791.665 160.548 793.845 160.184 795.298 158.873C807.162 148.257 813.133 135.162 812.312 117.611M1495.72 361.963C1528.24 346.118 1556.49 304.935 1568.07 265.347C1529.43 267.859 1487.57 278.237 1456.98 297.953C1433.26 313.244 1423.73 337.067 1427.85 368.424C1428.18 370.952 1430.06 373.021 1432.66 373.653C1453.78 378.708 1472.78 373.148 1495.72 361.963ZM1282.41 309.879C1291.66 298.458 1294.89 272.677 1299.77 248.144C1277.46 255.221 1257.19 261.635 1246.53 280.275C1239.31 292.897 1240.28 305.788 1248.84 322.217C1249.53 323.544 1250.92 324.429 1252.38 324.413C1264.27 324.397 1274.13 320.069 1282.41 309.864M1731.57 936.873C1745.36 941.96 1770.81 936.684 1795.6 933.367C1781.7 914.536 1769.09 897.412 1748 893.352C1733.72 890.603 1721.84 895.658 1709.04 909.086C1708.02 910.16 1707.62 911.772 1708.11 913.146C1711.97 924.394 1719.25 932.324 1731.57 936.873ZM539.54 1533.22C528.466 1547.55 518.641 1574.2 522.163 1602.59C542.605 1599.62 560.472 1593.05 574.421 1574.64C585.242 1560.38 591.908 1537.47 580.708 1517.25C579.808 1515.62 578.054 1514.56 576.237 1514.6C561.499 1514.85 549.445 1520.41 539.54 1533.2M308.868 1443.51C289.359 1455.62 269.802 1499.37 257.464 1532.87C292.076 1527.82 307.194 1523.85 331.932 1508.2C351.11 1496.05 369.198 1471.8 364.854 1442.83C364.506 1440.49 362.895 1438.45 360.731 1437.68C343.101 1431.44 326.324 1432.69 308.884 1443.52M1270.24 112.255C1280.13 99.0963 1286.2 74.6579 1285.2 48.9874C1266.66 51.9415 1250.5 58.1182 1238.03 75.0055C1228.36 88.1014 1222.58 109.001 1233.01 127.247C1233.85 128.716 1235.46 129.664 1237.1 129.617C1250.5 129.206 1261.4 124.009 1270.23 112.255M1612.33 647.372C1637.45 645.493 1663.06 628.432 1699.36 606.347C1676.83 590.739 1653.11 580.329 1621.13 582.983C1596.32 585.036 1566.7 597.753 1556.85 624.056C1556.06 626.173 1556.66 628.59 1558.42 630.154C1572.75 642.949 1589.89 649.063 1612.33 647.372ZM1164.28 1623.38C1166.8 1638.38 1179.96 1652.95 1197.17 1673.71C1207.01 1659.39 1213.15 1644.61 1209.76 1625.49C1207.13 1610.66 1196.8 1593.47 1177.92 1588.84C1176.41 1588.46 1174.75 1588.95 1173.72 1590.08C1165.46 1599.32 1162 1609.93 1164.26 1623.36M89.4126 706.186C73.252 701.526 51.1358 705.285 23.5222 715.016C33.0479 731.698 44.8169 744.905 65.4639 750.671C81.4824 755.126 103.567 753.025 117.232 736.359C118.337 735.016 118.653 733.12 118.006 731.572C112.761 718.887 103.851 710.356 89.4126 706.202M141.67 1121.04C124.878 1122.02 100.581 1134.12 82.4618 1151.27C96.9953 1163.85 112.492 1172.38 133.882 1170.94C150.469 1169.82 170.595 1160.48 177.941 1140.23C178.541 1138.59 178.209 1136.71 177.088 1135.46C167.925 1125.24 156.693 1120.15 141.686 1121.04M1477.68 949.638C1499.02 958.563 1526.73 955.783 1565.19 953.476C1552.84 931.913 1537.47 913.936 1510.19 902.767C1489.02 894.11 1459.72 891.82 1441.33 908.375C1439.84 909.702 1439.39 911.851 1440.22 913.81C1446.95 929.765 1458.63 941.66 1477.69 949.638M1616.08 560.551C1645.13 549.856 1662.7 529.462 1685.14 496.998C1648.54 493.491 1625.18 492.875 1592.37 504.265C1563.69 514.217 1548.18 532.432 1544.09 558.955C1543.68 561.609 1545.5 563.931 1548.4 564.784C1568.75 570.787 1590.47 569.997 1616.09 560.566M406.733 219.677C395.864 206.865 379.672 200.736 356.671 188.904C356.718 211.462 362.089 230.53 368.282 243.373C376.102 259.581 391.409 265.157 410.587 263.167C412.499 262.962 414.031 261.477 414.442 259.597C417.301 246.374 417.222 232.03 406.733 219.677ZM951.186 116.015C950.57 91.2609 937.031 72.2726 913.715 46.1754C898.47 72.4937 890.24 89.7602 890.287 117.548C890.335 141.812 902.467 158.636 926.179 169.331C928.548 170.405 931.329 169.71 933.082 167.783C945.388 154.324 951.723 137.863 951.186 116.015ZM1431.55 1033.92C1457.99 1050.11 1507.36 1045.27 1551.29 1037.83C1546.24 1007.96 1525.56 982.559 1493.54 967.662C1466.07 954.882 1423.43 952.687 1393.78 970.395C1390.71 972.228 1389.2 975.845 1390.02 979.258C1395.47 1001.66 1408.26 1019.67 1431.55 1033.93M1374.96 212.426C1398.99 195.728 1414.79 154.118 1426.24 116.157C1399.47 111.387 1370.15 120.644 1344.95 142.255C1323.35 160.801 1304.43 194.844 1307.19 224.242C1307.48 227.275 1309.86 229.598 1313.02 229.929C1333.76 232.173 1353.81 227.117 1374.96 212.426ZM1587.34 921.203C1604.37 926.321 1649.62 916.29 1675.97 896.638C1658.59 887.87 1632.11 878.708 1612.18 875.138C1595.08 872.073 1571.07 877.16 1557.17 891.393C1555.73 892.862 1555.42 895.105 1556.36 896.875C1562.64 908.549 1572.33 916.685 1587.33 921.187M1245.3 1375.03C1259.82 1399.47 1303.24 1422.59 1339.07 1429.92C1347.11 1403.75 1340.92 1374.44 1321.44 1348.65C1304.73 1326.51 1271.67 1306.32 1240.89 1307.71C1237.72 1307.86 1235.05 1310.1 1234.32 1313.2C1229.6 1333.53 1232.5 1353.51 1245.28 1375.03M1571.69 1103.74C1592.62 1116.19 1630.82 1112.43 1664.75 1106.68C1660.09 1083.69 1643.44 1064.15 1618.21 1052.71C1596.57 1042.9 1563.41 1041.23 1540.82 1054.88C1538.48 1056.29 1537.39 1059.07 1538.12 1061.7C1542.89 1078.94 1553.27 1092.79 1571.69 1103.76M1067.2 92.9828C1076.05 63.7736 1061.07 27.4083 1047.39 0C1021.33 19.478 1000.65 45.1486 994.391 74.6579C989.052 99.8388 1001.33 122.239 1022.97 137.136C1024.63 138.274 1026.81 138.463 1028.64 137.642C1048.54 128.637 1060.83 114.025 1067.22 92.9828M499.952 161.97C485.15 128.321 446.652 104.91 415.784 88.9545C416.211 122.492 413.146 164.45 430.176 196.534C444.693 223.911 470.775 236.169 498.499 234.748C500.616 234.637 502.448 233.278 503.238 231.193C511.927 208.619 510.6 186.187 499.937 161.97M670.974 239.534C674.733 242.157 679.362 242.235 682.837 239.613C705.38 222.678 719.708 190.168 715.206 157.72C709.582 117.232 666.851 75.9217 643.866 41.0097C622.697 81.8299 612.145 123.171 617.105 163.944C621.402 199.251 650.09 224.985 670.958 239.534M224.4 449.306C227.639 448.848 230.388 446.589 231.399 443.477C237.875 423.288 233.342 398.85 217.797 383.763C198.382 364.949 149.774 348.851 115.431 339.642C119.269 371.9 127.689 408.739 162.728 435.657C181.4 450.001 206.391 451.897 224.416 449.322M1679.49 1062.6C1677.78 1063.65 1676.79 1065.56 1676.98 1067.55C1678.19 1080.41 1686.58 1093 1698.9 1097.71C1714.27 1103.58 1745.73 1101.72 1766.77 1097.88C1756.89 1080.74 1744.02 1061.39 1717.29 1055.48C1703.29 1052.38 1688.97 1056.85 1679.49 1062.62M232.015 1297.92C232.568 1295.99 231.983 1293.91 230.498 1292.58C220.862 1283.97 206.076 1280.26 193.912 1285.36C175.871 1292.93 154.671 1319.82 144.008 1331.36C162.902 1337.22 185.492 1342.67 209.124 1328.85C221.494 1321.62 228.966 1308.58 232.015 1297.92ZM1377.11 1443.29C1373.29 1444.17 1370.49 1447.32 1370 1451.2C1366.69 1477.74 1379.99 1508.61 1399.4 1525.29C1418.74 1541.91 1464.2 1560.76 1492.97 1570.09C1490.99 1533.87 1469.07 1482.92 1441.74 1460.19C1423.92 1445.37 1397.7 1438.53 1377.11 1443.27M1500.36 1327.32C1495.81 1328.46 1492.89 1332.69 1493.32 1337.32C1494.82 1353.31 1501.5 1366.83 1517.17 1376.43C1533.84 1386.65 1554.97 1387.16 1577.2 1391.9C1572.45 1365.04 1560.72 1344.22 1545.76 1334.71C1531.93 1325.93 1514.01 1323.91 1500.36 1327.3M1521.8 412.499C1522.23 417.159 1525.99 420.697 1530.63 420.966C1546.66 421.898 1561.04 417.333 1572.9 403.305C1585.53 388.376 1589.22 367.555 1597.26 346.292C1570 346.94 1547.64 355.376 1535.99 368.724C1525.21 381.062 1520.5 398.471 1521.8 412.499ZM984.471 1616.08C980.253 1612.6 974.092 1612.67 969.842 1616.12C955.183 1628.04 946.51 1643.15 947.821 1664.04C949.211 1686.25 963.129 1708.19 973.744 1729.98C996.824 1707.88 1009.21 1683.28 1008.29 1663.14C1007.44 1644.51 997.156 1626.55 984.471 1616.09M755.426 283.609C759.154 286.247 764.272 285.804 767.59 282.677C779.043 271.871 785.33 258.775 782.976 241.509C780.465 223.121 767.637 207.402 757.385 188.288C739.55 208.066 730.751 229.282 732.757 245.964C734.605 261.398 744.257 275.71 755.442 283.609M1111.78 1598.42C1110.25 1597.78 1108.57 1598.1 1107.5 1599.35C1096.63 1611.97 1090.25 1631.8 1092.19 1651.72C1094.72 1677.43 1113 1694.73 1125.27 1709.16C1141.2 1686.19 1147.29 1654.62 1143.04 1637.39C1138.62 1619.46 1126.19 1604.4 1111.77 1598.42M287.811 1378.58C287.353 1376.99 286.073 1375.86 284.43 1375.8C267.795 1375.12 248.412 1382.53 233.863 1396.29C216.802 1412.42 215.886 1435.96 209.33 1457.87C237.228 1456.1 265.758 1441.31 276.642 1427.28C287.969 1412.69 292.044 1393.6 287.811 1378.58ZM885.832 1588.23C884.237 1586.03 881.599 1585.48 879.545 1587.04C869.151 1595 862.01 1605.64 860.478 1617.82C857.698 1639.76 866.955 1656.03 873.779 1675.02C890.05 1658.6 897.38 1642.46 898.454 1625.81C899.402 1611.39 894.948 1600.79 885.817 1588.21M1666.91 653.976C1665.02 655.919 1664.92 658.62 1666.82 660.358C1676.42 669.252 1688.11 674.481 1700.39 673.928C1722.47 672.932 1736.94 661.053 1754.51 651.101C1735.57 637.847 1718.41 633.376 1701.83 635.13C1687.45 636.646 1677.77 642.823 1666.91 653.96M990.869 1328.25C989.005 1327.05 986.73 1327.35 985.213 1328.99C975.182 1339.91 966.399 1356.13 966.051 1376.1C965.609 1401.58 982.97 1422.75 1005.51 1442.45C1010.52 1423.22 1024.39 1394.46 1020.13 1369.77C1016.97 1351.55 1003.32 1336.26 990.869 1328.25ZM519.715 999.21C520.884 995.639 519.683 991.706 516.729 989.384C493.365 971.075 461.217 967.789 435.373 973.997C389.387 985.055 361.931 1005.92 325.961 1046.65C370.794 1058.48 400.019 1066.49 455.199 1054.47C488.926 1047.12 512.164 1022.19 519.715 999.21ZM648.21 833.401C651.985 829.61 652.412 823.702 649.6 819.152C634.356 794.556 611.181 776.357 578.291 771.397C537.566 765.236 496.967 765.078 447.616 775.141C474.424 814.871 526.492 854.238 560.946 859.451C594.941 864.601 629.996 851.742 648.21 833.417M246.943 888.17C249.85 883.336 248.57 877.413 244.194 873.811C220.577 854.317 190.594 846.244 153.945 851.236C108.543 857.413 32.732 887.286 0 913.936C43.4583 937.853 96.3318 951.47 161.322 939.78C198.967 933.003 232.915 911.55 246.943 888.17ZM772.471 742.93C777.747 742.914 782.187 739.044 783.119 733.847C788.948 701.004 777.226 666.345 756.042 645.587C725.269 615.415 690.246 599.001 644.245 579.934C641.48 634.624 649.047 675.144 675.555 705.001C702.521 735.363 738.46 743.041 772.471 742.93ZM1366.64 1323.23C1362.2 1323.7 1358.5 1327.35 1358.44 1331.82C1358.14 1357.71 1364.77 1384.35 1384.46 1400.02C1413.07 1422.8 1451.96 1429.21 1489.1 1449.67C1486.67 1403.26 1476.75 1369.7 1451.75 1346.81C1426.35 1323.53 1395.33 1320.18 1366.62 1323.24M1098.48 1348.93C1093.63 1346.32 1087.91 1347.84 1084.88 1352.39C1065.7 1381.14 1061.88 1420.36 1072.6 1450.89C1088.2 1495.26 1120.14 1528.72 1147.7 1569.73C1173.28 1518.4 1183.37 1475.61 1171.59 1433.65C1159.6 1390.98 1129.81 1365.71 1098.5 1348.93M1028.34 1027.33C1022.45 1026.19 1016.86 1030.27 1016.1 1036.22C1012.37 1065.72 1009.83 1099.71 1026.73 1124.53C1052.04 1161.68 1099.59 1183.52 1134.61 1199.05C1138.32 1150.9 1144.67 1100.23 1107.47 1065.61C1081.96 1041.86 1063.87 1034.14 1028.32 1027.31M461.755 1154.21C461.96 1150.67 460.001 1147.51 456.699 1146.19C427.443 1134.47 395.564 1133.64 364.348 1151.34C327.146 1172.43 306.499 1210.26 283.83 1239.15C330.179 1257.86 375.596 1252.9 407.08 1235.06C439.449 1216.72 460.143 1181.54 461.755 1154.2M741.335 1106.41C740.892 1102.05 737.717 1098.4 733.484 1097.28C706.36 1090.06 684.307 1093.72 658.462 1111.32C628.7 1131.59 608.543 1171.21 595.542 1202.62C640.611 1214.86 680.689 1205.32 705.965 1185.38C731.351 1165.37 743.862 1131.69 741.335 1106.41ZM658.115 1052.34C658.636 1048.54 656.677 1044.85 653.36 1042.95C624.972 1026.76 592.177 1025.78 561.499 1035.12C505.26 1052.19 467.789 1078.13 432.798 1108.83C477.378 1134.97 564.389 1142.22 597.169 1128.26C630.817 1113.93 654.244 1080.47 658.13 1052.35M911.598 1165.51C908.549 1162.98 904.378 1162.92 901.124 1165.35C875.311 1184.72 853.132 1224.62 846.782 1265.06C839.136 1313.73 856.307 1370.41 866.228 1404.69C912.672 1375.86 942.229 1320.81 948.69 1279.61C955.451 1236.58 940.949 1189.82 911.614 1165.49M724.732 930.555C726.754 926.116 725.806 920.918 722.473 917.364C700.862 894.347 664.165 876.307 625.525 881.156C578.386 887.065 538.103 914.331 506.192 940.428C546.475 982.622 595.494 998.309 635.382 993.317C675.997 988.23 711.525 959.622 724.732 930.555ZM1158.76 951.47C1155.86 954.645 1155.16 959.321 1157.2 963.113C1172.03 990.647 1205.55 1016.1 1237.05 1022.01C1275.12 1029.13 1328.08 1034.63 1379.64 1019.81C1343.76 974.123 1293.02 933.382 1243.34 924.71C1210.77 919.023 1176.42 932.118 1158.75 951.47M452.482 1266.72C450.949 1263.12 447.727 1260.51 443.856 1259.86C418.975 1255.66 389.845 1268.95 371.015 1292.23C348.109 1320.56 333.149 1357.32 323.244 1393.3C377.397 1398.42 416.716 1372.93 436.1 1348.96C456.004 1324.33 463.239 1291.98 452.482 1266.72ZM180.531 472.339C154.087 462.987 117.295 463.382 81.198 478.752C100.107 503.554 130.296 532.021 159.347 542.747C187.056 552.968 211.636 544.801 232.394 532.574C237.402 529.635 239.329 523.49 236.517 518.34C226.628 500.158 205.475 481.185 180.516 472.354"/>
+  </svg>
+
+      </div>
+      </div>
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="iw_section__background iw_section__background--white iw_section__margin-top--standard iw_section__padding-top--none iw_section__padding-bottom--none iw_section__vertical-align--top layout-builder__section">
+  <div class="row iw_row layout layout-builder__layout">
+    <div class="columns iw_columns large-7 layout__region layout__region--first layout-builder__region js-layout-builder-region" data-region="first">
+      
+
+    
+<div class="block block-layout-builder block-inline-block block-rich-text">
+  
+    
+    
+<div  class="leaf-c-rich-text">
+        
+
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field__item"><p>The machine-readable files contained in the table of contents below are made available in response to the Federal Transparency in Coverage Rule and include negotiated service rates and out-of-network allowed amounts between health plans and healthcare providers. <strong>Important note: Each of the files accessible through the Table of Contents is in JSON format and may be as large as one Terabyte (TB) in file size, which has significant system requirements for use. Please ensure you have the required memory capacity, hardware, and software capabilities before attempting to download. The Table of Contents is not intended to be opened on personal workstations. Users should work with their IT support teams if they are having any issues opening them.</strong></p><p>The machine readable files are formatted to allow researchers, regulators, and application developers to more easily access and analyze data.</p></div>
+      
+    </div>
+</div>
+
+
+  
+<div class="block block-cigna-mrf block-cigna-mrf-link-block">
+  
+    
+      
+<div class="cigna-mrf-link" data-mrf-lookup-url="/static/mrf/latest.json">
+
+  <div
+  role="status"
+  aria-valuemin=""
+  aria-valuemax=""  part="base"
+  class="leaf-c-spinner leaf-c-spinner--small  leaf-c-spinner--indeterminate"    aria-labelledby="leaf-spinner-544873689"
+  >
+  <svg class="leaf-c-spinner__icon" aria-hidden="true" viewBox="0 0 100 100">
+    <circle
+      cx="50"
+      cy="50"
+      r="45"></circle>
+  </svg>    <div class="leaf-c-spinner__label" part="label" id="leaf-spinner-544873689">
+      Loading...
+    </div>
+  </div>
+
+  <p class="cigna-mrf-link__description">
+    <a class="cigna-mrf-link__anchor" aria-hidden="true" hidden>Click here</a>
+    to download the Table of Contents file for <strong>CMS Federal Transparency in Coverage Regulations.</strong>
+  </p>
+  
+
+
+
+<div
+   class="leaf-c-alert leaf-c-alert--error leaf-c-alert--inline"
+  
+>
+  <div class="leaf-c-alert__container">
+    <div class="leaf-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-label="Error message" class="leaf-c-icon" role="img">
+  <path fill-rule="evenodd" d="M12 3 2 20h20L12 3Zm-1 15v-2h2v2h-2Zm0-10v6h2V8h-2Z" clip-rule="evenodd"></path>
+</svg>
+
+    </div>
+    <div class="leaf-c-alert__message-container">
+      <div class="leaf-c-alert__heading-container">
+                      </div>
+
+              <div class="leaf-c-alert__message-description">Error fetching MRF link.</div>
+      
+          </div>
+  </div>
+</div>
+
+</div>
+
+  </div>
+
+
+  
+<div class="block block-cigna-mrf block-cigna-mrf-link-block">
+  
+    
+      
+<div class="cigna-mrf-link" data-mrf-lookup-url="/static/mrf/co/latest.json">
+
+  <div
+  role="status"
+  aria-valuemin=""
+  aria-valuemax=""  part="base"
+  class="leaf-c-spinner leaf-c-spinner--small  leaf-c-spinner--indeterminate"    aria-labelledby="leaf-spinner-1182275953"
+  >
+  <svg class="leaf-c-spinner__icon" aria-hidden="true" viewBox="0 0 100 100">
+    <circle
+      cx="50"
+      cy="50"
+      r="45"></circle>
+  </svg>    <div class="leaf-c-spinner__label" part="label" id="leaf-spinner-1182275953">
+      Loading...
+    </div>
+  </div>
+
+  <p class="cigna-mrf-link__description">
+    <a class="cigna-mrf-link__anchor" aria-hidden="true" hidden>Click here</a>
+    to download the Table of Contents file for <strong>Colorado specific Transparency in Coverage Regulations.</strong>
+  </p>
+  
+
+
+
+<div
+   class="leaf-c-alert leaf-c-alert--error leaf-c-alert--inline"
+  
+>
+  <div class="leaf-c-alert__container">
+    <div class="leaf-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-label="Error message" class="leaf-c-icon" role="img">
+  <path fill-rule="evenodd" d="M12 3 2 20h20L12 3Zm-1 15v-2h2v2h-2Zm0-10v6h2V8h-2Z" clip-rule="evenodd"></path>
+</svg>
+
+    </div>
+    <div class="leaf-c-alert__message-container">
+      <div class="leaf-c-alert__heading-container">
+                      </div>
+
+              <div class="leaf-c-alert__message-description">Error fetching MRF link.</div>
+      
+          </div>
+  </div>
+</div>
+
+</div>
+
+  </div>
+
+
+    
+<div class="block block-layout-builder block-inline-block block-rich-text">
+  
+    
+    
+<div  class="leaf-c-rich-text">
+        
+
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field__item"><p><strong>For customers:</strong> Customers who need information about the cost of services should leverage the pricing tools on <a href="http://mycigna.com/">myCigna.com</a> or contact our customer service team for information to meet their needs. The number can be found on the back of the ID card.</p><p><strong>For clients:</strong> To more easily access your specific files, go to <a href="https://www.cignaforemployers.com/">Cignaforemployers.com</a>.</p><p><strong>For producers:</strong> For more information about the files, go to&nbsp;<a href="https://cignaforbrokers.com/web/login">Cignaforbrokers.com</a>.</p></div>
+      
+    </div>
+</div>
+
+    </div>
+    <div class="columns iw_columns large-1 layout__region layout__region--second layout-builder__region js-layout-builder-region" data-region="second">
+      
+    </div>
+    <div class="columns iw_columns large-4 layout__region layout__region--third layout-builder__region js-layout-builder-region" data-region="third">
+      
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</article>
+
+  </div>
+
+    </div>
+    
+    
+  </main>
+
+</div>
+  <footer id="footer" role="contentinfo">
+      <div>
+    
+
+    
+<div id="block-cigna-legalfooter" class="block block-block-content block-_63d5b49-ad4e-41ce-b1bc-eb8a0989d269">
+  
+    
+      
+
+
+
+
+<div class="layout-builder__section">
+
+  <div class="layout layout-builder__layout">
+
+    <footer class="leaf-c-footer">
+      <section class="leaf-c-footer__top-section">
+      <div class="leaf-c-footer__top-container">
+        <div class="leaf-c-footer__main-links-container">
+                  <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="main_links_1">
+          <div class="display-contents">
+  
+  
+      
+                      <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--default leaf-c-list-- leaf-c-list--stacked">
+      <h6 class="leaf-c-list__headline">I want to...</h6>
+    <div>
+        <ul>
+                              
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--lock" href="https://my.cigna.com/web/public/guest">
+  <span class="leaf-c-button-link--text">
+    
+          Get an ID card
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 2 12 16.5"><path d="M16.5 7.5h-.75V5.929C15.75 3.76 14.07 2 12 2 9.93 2 8.25 3.76 8.25 5.929V7.5H7.5c-.825 0-1.5.707-1.5 1.571v7.858c0 .864.675 1.571 1.5 1.571h9c.825 0 1.5-.707 1.5-1.571V9.07c0-.864-.675-1.571-1.5-1.571ZM9.75 5.929c0-1.305 1.005-2.358 2.25-2.358s2.25 1.053 2.25 2.358V7.5h-4.5V5.929Zm6.75 11h-9V9.07h9v7.858ZM12 14.57c.825 0 1.5-.707 1.5-1.571s-.675-1.571-1.5-1.571-1.5.707-1.5 1.571.675 1.571 1.5 1.571Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--lock" href="https://my.cigna.com/web/public/guest">
+  <span class="leaf-c-button-link--text">
+    
+          File a claim
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 2 12 16.5"><path d="M16.5 7.5h-.75V5.929C15.75 3.76 14.07 2 12 2 9.93 2 8.25 3.76 8.25 5.929V7.5H7.5c-.825 0-1.5.707-1.5 1.571v7.858c0 .864.675 1.571 1.5 1.571h9c.825 0 1.5-.707 1.5-1.571V9.07c0-.864-.675-1.571-1.5-1.571ZM9.75 5.929c0-1.305 1.005-2.358 2.25-2.358s2.25 1.053 2.25 2.358V7.5h-4.5V5.929Zm6.75 11h-9V9.07h9v7.858ZM12 14.57c.825 0 1.5-.707 1.5-1.571s-.675-1.571-1.5-1.571-1.5.707-1.5 1.571.675 1.571 1.5 1.571Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--lock" href="https://my.cigna.com/web/public/guest">
+  <span class="leaf-c-button-link--text">
+    
+          View my claims and EOBs
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 2 12 16.5"><path d="M16.5 7.5h-.75V5.929C15.75 3.76 14.07 2 12 2 9.93 2 8.25 3.76 8.25 5.929V7.5H7.5c-.825 0-1.5.707-1.5 1.571v7.858c0 .864.675 1.571 1.5 1.571h9c.825 0 1.5-.707 1.5-1.571V9.07c0-.864-.675-1.571-1.5-1.571ZM9.75 5.929c0-1.305 1.005-2.358 2.25-2.358s2.25 1.053 2.25 2.358V7.5h-4.5V5.929Zm6.75 11h-9V9.07h9v7.858ZM12 14.57c.825 0 1.5-.707 1.5-1.571s-.675-1.571-1.5-1.571-1.5.707-1.5 1.571.675 1.571 1.5 1.571Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--lock" href="https://my.cigna.com/web/public/guest">
+  <span class="leaf-c-button-link--text">
+    
+          Check coverage under my plan
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 2 12 16.5"><path d="M16.5 7.5h-.75V5.929C15.75 3.76 14.07 2 12 2 9.93 2 8.25 3.76 8.25 5.929V7.5H7.5c-.825 0-1.5.707-1.5 1.571v7.858c0 .864.675 1.571 1.5 1.571h9c.825 0 1.5-.707 1.5-1.571V9.07c0-.864-.675-1.571-1.5-1.571ZM9.75 5.929c0-1.305 1.005-2.358 2.25-2.358s2.25 1.053 2.25 2.358V7.5h-4.5V5.929Zm6.75 11h-9V9.07h9v7.858ZM12 14.57c.825 0 1.5-.707 1.5-1.571s-.675-1.571-1.5-1.571-1.5.707-1.5 1.571.675 1.571 1.5 1.571Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://www.cigna.com/individuals-families/member-guide/prescription-drug-lists/">
+  <span class="leaf-c-button-link--text">
+    
+          See prescription drug list
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://hcpdirectory.cigna.com/web/public/consumer/directory">
+  <span class="leaf-c-button-link--text">
+    
+          Find an in-network doctor, dentist, or facility
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://www.cigna.com/individuals-families/member-guide/customer-forms/">
+  <span class="leaf-c-button-link--text">
+    
+          Find a form
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://www.cigna.com/es-us/individuals-families/member-guide/customer-forms/#form-1095-b">
+  <span class="leaf-c-button-link--text">
+    
+          Find 1095-B tax form information
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://www.cigna.com/glossary">
+  <span class="leaf-c-button-link--text">
+    
+          View the Cigna Healthcare Glossary
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/contact-us">
+  <span class="leaf-c-button-link--text">
+    
+          Contact Cigna Healthcare
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          </ul>
+  </div>
+</div>
+            
+
+
+  </div>
+
+        </div>
+                        <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="main_links_2">
+          <div class="display-contents">
+  
+  
+      
+                      <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--default leaf-c-list-- leaf-c-list--stacked">
+      <h6 class="leaf-c-list__headline">Audiences</h6>
+    <div>
+        <ul>
+                              
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="https://www.cigna.com/individuals-families/shop-plans/health-insurance-plans/">
+  <span class="leaf-c-button-link--text">
+    
+          Individuals and Families
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/employers">
+  <span class="leaf-c-button-link--text">
+    
+          Employers
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/brokers">
+  <span class="leaf-c-button-link--text">
+    
+          Brokers
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/health-care-providers">
+  <span class="leaf-c-button-link--text">
+    
+          Providers
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/employers/business-types/third-party-administrators">
+  <span class="leaf-c-button-link--text">
+    
+          Third Party Administrators
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://www.cignaglobal.com/?utm_medium=referral&amp;utm_source=cigna.com&amp;utm_campaign=cigna.com_web_link-us-cigna-b2c&amp;utm_content=callout&amp;up_id=3c051ff">
+  <span class="leaf-c-button-link--text">
+    
+          International
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          </ul>
+  </div>
+</div>
+            
+
+
+  </div>
+
+        </div>
+                        <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="main_links_3" role="group">
+          <div class="display-contents">
+  
+  
+      
+                      <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--default leaf-c-list-- leaf-c-list--stacked">
+      <h6 class="leaf-c-list__headline">Manage Your Account</h6>
+    <div>
+        <ul>
+                              
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://my.cigna.com/web/public/guest">
+  <span class="leaf-c-button-link--text">
+    
+          myCigna Member Portal
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://cignaforhcp.cigna.com/app/login">
+  <span class="leaf-c-button-link--text">
+    
+          Provider Portal
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://cignaforemployers.cigna.com/public/app/signin">
+  <span class="leaf-c-button-link--text">
+    
+          Cigna for Employers
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://cignaforbrokers.com/web/login">
+  <span class="leaf-c-button-link--text">
+    
+          Cigna for Brokers
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          </ul>
+  </div>
+</div>
+            
+
+
+  </div>
+
+        </div>
+                        <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="main_links_4" role="group">
+          <div class="display-contents">
+  
+  
+      
+                      <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--default leaf-c-list-- leaf-c-list--stacked">
+      <h6 class="leaf-c-list__headline">Cigna Healthcare Information</h6>
+    <div>
+        <ul>
+                              
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default" href="/about-us">
+  <span class="leaf-c-button-link--text">
+    
+          About Cigna Healthcare
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://newsroom.cigna.com/">
+  <span class="leaf-c-button-link--text">
+    
+          Cigna Healthcare News
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://jobs.thecignagroup.com/us/en/cigna-healthcare-careers">
+  <span class="leaf-c-button-link--text">
+    
+          Cigna Healthcare Careers
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          </ul>
+  </div>
+</div>
+            
+
+
+  </div>
+<div class="display-contents">
+  
+  
+      
+                      <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--default leaf-c-list-- leaf-c-list--stacked">
+      <h6 class="leaf-c-list__headline">The Cigna Group Information</h6>
+    <div>
+        <ul>
+                              
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://www.thecignagroup.com/">
+  <span class="leaf-c-button-link--text">
+    
+          The Cigna Group
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://newsroom.thecignagroup.com/">
+  <span class="leaf-c-button-link--text">
+    
+          Newsroom
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://jobs.thecignagroup.com/">
+  <span class="leaf-c-button-link--text">
+    
+          The Cigna Group Careers
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://www.thecignagroup.com/our-impact/esg/healthy-society/health-equity">
+  <span class="leaf-c-button-link--text">
+    
+          Health Equity
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://www.thecignagroup.com/our-impact/esg/">
+  <span class="leaf-c-button-link--text">
+    
+          ESG Report
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://investors.cigna.com">
+  <span class="leaf-c-button-link--text">
+    
+          Investors
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--external" href="https://www.thecignagroup.com/about-us/supplier-community/">
+  <span class="leaf-c-button-link--text">
+    
+          Suppliers
+    
+    
+          <span class="leaf-c-icon leaf-c-icon--button_link">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="leaf-c-icon" viewBox="6 6 12 12"><path d="M16.667 16.667H7.333V7.333H12V6H7.333C6.593 6 6 6.6 6 7.333v9.334C6 17.4 6.593 18 7.333 18h9.334C17.4 18 18 17.4 18 16.667V12h-1.333v4.667ZM13.333 6v1.333h2.394l-6.554 6.554.94.94 6.554-6.554v2.394H18V6h-4.667Z"></path></svg>
+
+      </span>
+      </span>
+</a>
+
+  </li>
+
+                          </ul>
+  </div>
+</div>
+            
+
+
+  </div>
+
+        </div>
+              </div>
+      </div>
+    </section>
+    <section class="leaf-c-footer__bottom-section">
+    <div class="leaf-c-footer__bottom-container">
+      <div class="leaf-c-footer__copyright">
+        ©2026 Cigna Healthcare. All rights reserved.      </div>
+                    <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="legal_links" role="group">
+          <div class="display-contents">
+  
+  
+      
+            <div class="leaf-c-footer__legal-links-container">
+                        <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--inverted leaf-c-list-- leaf-c-list--stacked">
+    <div>
+        <ul>
+                                                    
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/members">
+  <span class="leaf-c-button-link--text">
+    
+          Privacy
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/compliance/terms-of-use">
+  <span class="leaf-c-button-link--text">
+    
+          Terms of Use
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/compliance">
+  <span class="leaf-c-button-link--text">
+    
+          Legal
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/individuals-families/shop-plans/state-policy-disclosures">
+  <span class="leaf-c-button-link--text">
+    
+          State Policy Disclosures, Exclusions, and Limitations
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                              </ul>
+  </div>
+</div>
+                                <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--inverted leaf-c-list-- leaf-c-list--stacked">
+    <div>
+        <ul>
+                                                    
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/individuals-families/shop-plans/transparency-in-coverage">
+  <span class="leaf-c-button-link--text">
+    
+          Transparency in Coverage
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/members/member-rights-and-responsibilities">
+  <span class="leaf-c-button-link--text">
+    
+          Customer Rights
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/members/accessibility">
+  <span class="leaf-c-button-link--text">
+    
+          Accessibility
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/compliance/nondiscrimination-notice">
+  <span class="leaf-c-button-link--text">
+    
+          Non-Discrimination Notice
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                              </ul>
+  </div>
+</div>
+                                <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--inverted leaf-c-list-- leaf-c-list--stacked">
+    <div>
+        <ul>
+                                                    
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="https://www.cigna.com/static/www-cigna-com/docs/multi-language-interpreter-services.pdf">
+  <span class="leaf-c-button-link--text">
+    
+          Language Assistance [PDF]
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/members/report-fraud">
+  <span class="leaf-c-button-link--text">
+    
+          Report Fraud
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="https://www.cigna.com/sitemap">
+  <span class="leaf-c-button-link--text">
+    
+          Sitemap
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                                                
+<li  class="leaf-c-list__item leaf-c-list__item--link">
+        
+
+
+  
+<a class="leaf-c-button-link leaf-c-button-link--default leaf-c-button-link--inverted" href="/legal/compliance/privacy-notices/consumer-health-data-privacy-notice-washington">
+  <span class="leaf-c-button-link--text">
+    
+          Washington Consumer Health Data Privacy Notice
+    
+    
+      </span>
+</a>
+
+  </li>
+
+                                              </ul>
+  </div>
+</div>
+                                <div data-component-id="cigna_sdc:list" class="leaf-c-list leaf-c-list--inverted leaf-c-list-- leaf-c-list--stacked">
+    <div>
+        <ul>
+                                                                                        <li>
+                    <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
+                  </li>
+                                              </ul>
+  </div>
+</div>
+                  </div>
+  
+
+
+  </div>
+
+        </div>
+            <div class="layout-builder__section leaf-c-divider leaf-c-divider--horizontal" data-component-id="cigna_sdc:divider" data-component-variant="horizontal"></div>
+
+              <div class="iw_columns columns layout__region layout-builder__region js-layout-builder-region" data-region="disclaimer" role="group">
+          
+
+    
+<div class="block block-layout-builder block-inline-block block-rich-text">
+  
+    
+    
+<div  class="leaf-c-rich-text leaf-c-rich-text--inverted">
+        
+
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field__item"><p>Disclaimer</p><p>Product availability may vary by location and plan type and is subject to change. All health insurance policies and health benefit plans contain exclusions and limitations. For costs and details of coverage, review your plan documents or contact a Cigna Healthcare representative.</p><p>All Cigna Healthcare products and services are provided exclusively by or through operating subsidiaries of The Cigna Group, including Cigna Health and Life Insurance Company, Cigna HealthCare of Arizona, Inc., Cigna HealthCare of Florida, Inc., Cigna HealthCare of Georgia, Inc., Cigna HealthCare of Illinois, Inc., Cigna HealthCare of North Carolina, Inc. and Cigna HealthCare of Texas, Inc. Group health insurance and health benefit plans are insured or administered by CHLIC, Connecticut General Life Insurance Company (CGLIC), or their affiliates (see <a href="/legal/compliance/cigna-company-names" data-entity-type="node" data-entity-uuid="d22df9ad-438b-4e9a-85eb-398be7c372c8" data-entity-substitution="canonical">a listing of the legal entities</a> that insure or administer group HMO, dental HMO, and other products or services in your state). Accidental Injury, Critical Illness, and Hospital Care plans or insurance policies are distributed exclusively by or through operating subsidiaries of The Cigna Group, are administered by Cigna Health and Life Insurance Company, and are insured by either (i) Cigna Health and Life Insurance Company (Bloomfield, CT). The Cigna Healthcare name, logo, and other Cigna Healthcare marks are owned by The Cigna Group Intellectual Property, Inc. Group medical plans are not available to residents of New Mexico.</p><p><span class="leaf-c-icon leaf-c-icon--inline"><i class="micon en-External-Link"></i></span>&nbsp;Selecting these links will take you away from Cigna.com to another website, which may be a non-Cigna Healthcare website. Cigna Healthcare may not control the content or links of non-Cigna Healthcare websites. <a href="https://www.cigna.com/legal/compliance/disclaimers">Details</a></p></div>
+      
+    </div>
+</div>
+
+
+    
+<div class="block block-layout-builder block-inline-block block-rich-text">
+  
+    
+    
+<div  class="leaf-c-rich-text leaf-c-rich-text--inverted">
+        
+    </div>
+</div>
+
+        </div>
+          </div>
+  </section>
+</footer>
+  </div>
+</div>
+
+  </div>
+
+  </div>
+
+  </footer>
+
+  </div>
+
+    
+
+    <div class="leaf-c-back-to-top">
+  <button class="leaf-c-back-to-top__button" >
+    <div class='lead-c-back-to-top__icon'>
+      <div class="leaf-c-icon"><i class="micon en-Arrow-Up" aria-hidden="true"></i></div>    </div>
+    Top
+  </button>
+</div>
+
+
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/4216","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"cigna_campaigns_endpoint":"https:\/\/p-gsg.digitaledge.cigna.com\/webservices\/common\/v1\/campaigns","data":{"extlink":{"extTarget":true,"extTargetAppendNewWindowDisplay":true,"extTargetAppendNewWindowLabel":"(opens in a new window)","extTargetNoOverride":true,"extNofollow":false,"extTitleNoOverride":false,"extNoreferrer":true,"extFollowNoOverride":false,"extClass":"0","extLabel":"(link is external)","extImgClass":false,"extSubdomains":false,"extExclude":"((.*)\\.acquia-sites\\.com)","extInclude":"","extCssExclude":".leaf-c-button-link","extCssInclude":"","extCssExplicit":".leaf-c-accordion-panel__body, .leaf-c-alert__message-container, .leaf-c-card__text, .leaf-c-heading-list-item__body, .leaf-c-hero__body, .leaf-c-promo--content, .leaf-c-quote__quote-text, .leaf-c-rich-text, .leaf-c-list__content, .leaf-c-value-props__heading-text, .leaf-c-value-props__sub-heading-text, .leaf-c-modal__content, .leaf-c-card__heading, .leaf-c-value-props__item--value-prop-text, .leaf-c-table, .leaf-c-tabs__tab-panel","extAlert":false,"extAlertText":"This link will take you to an external web site. We are not responsible for their content.","extHideIcons":false,"mailtoClass":"0","telClass":"0","mailtoLabel":"(link sends email)","telLabel":"","extUseFontAwesome":false,"extIconPlacement":"append","extPreventOrphan":false,"extFaLinkClasses":"fa fa-external-link","extFaMailtoClasses":"fa fa-envelope-o","extAdditionalLinkClasses":"leaf-u-link--external","extAdditionalMailtoClasses":"","extAdditionalTelClasses":"","extFaTelClasses":"fa fa-phone","allowedDomains":["www.cigna.com","dev.cigna.com","qa.cigna.com"],"extExcludeNoreferrer":""}},"cigna_mrf":{"base_url":"https:\/\/www.cigna.com"},"esi_ddl_schema":{"page_name":"Cigna:MachineReadableFiles","page_type":"Machine Readable Files","primary_category":"Homepage","page_attributes":{"platform":"Drupal","site":"cigna.com","language":"English","authentication_type":"Unauthenticated"},"user_info":{"user_type":"Cigna Customer"},"auto_link_tracking":1,"header_selectors":["header"],"hero_selectors":[".leaf-c-hero",".chc-c-sticky-banner"],"footer_selectors":["footer"],"ignored_selectors":[".user-logged-in .nav-tabs a"]},"csp":{"nonce":"gJbwSqN77oZeC5PsTIHAmw"},"user":{"uid":0,"permissionsHash":"92333d0f2b39d8a32185a19961072323e284ab85c7dc2f7170953845ff47ab8d"}}</script>
+<script src="/sites/default/files/js/js_xmQ-cGo4m5FAkXgpwwCE0_14czPDUGn_QMgNAoamYlw.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=cigna&amp;include=eJyVkVGuAiEMRTeksqSmtnVAO5QUJuruhffmQ000YwIJt5zTQEppyhgmtSPqjkYAwrlgP9XXMt8zNkcSONfwHOCUVFZI8W5LezNnP4W-QVO-rKXKFJDInJPlp5qnUkYzcwlkc7EsudXDPxAFtUVCl8Hu90ekCzTrq2w0embxn2Bgt8J2zb9ZVdApbnbcPqB_96ji7RvgiSI0uX2Fakk5999LTcCsUCnKjOE1QsFJAKmNuWwmAZdmY7x1i6OGvOuPHUJgXwrqYY0PF1v-TQ"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script src="/sites/default/files/js/js_vBFchVhQoYJH69MAql3MIYSX77J3fzBQqYCKhdWG074.js?scope=footer&amp;delta=2&amp;language=en&amp;theme=cigna&amp;include=eJyVkVGuAiEMRTeksqSmtnVAO5QUJuruhffmQ000YwIJt5zTQEppyhgmtSPqjkYAwrlgP9XXMt8zNkcSONfwHOCUVFZI8W5LezNnP4W-QVO-rKXKFJDInJPlp5qnUkYzcwlkc7EsudXDPxAFtUVCl8Hu90ekCzTrq2w0embxn2Bgt8J2zb9ZVdApbnbcPqB_96ji7RvgiSI0uX2Fakk5999LTcCsUCnKjOE1QsFJAKmNuWwmAZdmY7x1i6OGvOuPHUJgXwrqYY0PF1v-TQ"></script>
+
+  </body>
+</html>

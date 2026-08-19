@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en-US" class="html_stretched responsive av-preloader-disabled  html_header_top html_logo_center html_bottom_nav_header html_menu_right html_slim html_header_sticky_disabled html_header_shrinking_disabled html_mobile_menu_phone html_header_searchicon_disabled html_content_align_center html_header_unstick_top_disabled html_header_stretch_disabled html_av-overlay-side html_av-overlay-side-classic html_av-submenu-noclone html_entry_id_1567 av-cookies-no-cookie-consent av-no-preview av-custom-lightbox html_text_menu_active av-mobile-menu-switch-default">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+
+
+<!-- mobile setting -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Scripts/CSS and wp_head hook -->
+<title>PRIVACY POLICY &#8211; Forms Cosentino</title>
+<meta name='robots' content='noindex, nofollow' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//stackpath.bootstrapcdn.com' />
+<link rel="alternate" type="application/rss+xml" title="Forms Cosentino &raquo; Feed" href="https://forms.cosentino.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Forms Cosentino &raquo; Comments Feed" href="https://forms.cosentino.com/comments/feed/" />
+
+<!-- google webfont font replacement -->
+
+			<script type='text/javascript'>
+
+				(function() {
+
+					/*	check if webfonts are disabled by user setting via cookie - or user must opt in.	*/
+					var html = document.getElementsByTagName('html')[0];
+					var cookie_check = html.className.indexOf('av-cookies-needs-opt-in') >= 0 || html.className.indexOf('av-cookies-can-opt-out') >= 0;
+					var allow_continue = true;
+					var silent_accept_cookie = html.className.indexOf('av-cookies-user-silent-accept') >= 0;
+
+					if( cookie_check && ! silent_accept_cookie )
+					{
+						if( ! document.cookie.match(/aviaCookieConsent/) || html.className.indexOf('av-cookies-session-refused') >= 0 )
+						{
+							allow_continue = false;
+						}
+						else
+						{
+							if( ! document.cookie.match(/aviaPrivacyRefuseCookiesHideBar/) )
+							{
+								allow_continue = false;
+							}
+							else if( ! document.cookie.match(/aviaPrivacyEssentialCookiesEnabled/) )
+							{
+								allow_continue = false;
+							}
+							else if( document.cookie.match(/aviaPrivacyGoogleWebfontsDisabled/) )
+							{
+								allow_continue = false;
+							}
+						}
+					}
+
+					if( allow_continue )
+					{
+						var f = document.createElement('link');
+
+						f.type 	= 'text/css';
+						f.rel 	= 'stylesheet';
+						f.href 	= '//fonts.googleapis.com/css?family=Open+Sans:400,600&display=auto';
+						f.id 	= 'avia-google-webfont';
+
+						document.getElementsByTagName('head')[0].appendChild(f);
+					}
+				})();
+
+			</script>
+			<link rel='stylesheet' id='wp-block-library-css' href='https://forms.cosentino.com/wp-includes/css/dist/block-library/style.min.css?ver=6.7.1' type='text/css' media='all' />
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--metallic-red: #b02b2c;--wp--preset--color--maximum-yellow-red: #edae44;--wp--preset--color--yellow-sun: #eeee22;--wp--preset--color--palm-leaf: #83a846;--wp--preset--color--aero: #7bb0e7;--wp--preset--color--old-lavender: #745f7e;--wp--preset--color--steel-teal: #5f8789;--wp--preset--color--raspberry-pink: #d65799;--wp--preset--color--medium-turquoise: #4ecac2;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 1rem;--wp--preset--font-size--medium: 1.125rem;--wp--preset--font-size--large: 1.75rem;--wp--preset--font-size--x-large: clamp(1.75rem, 3vw, 2.25rem);--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:root { --wp--style--global--content-size: 800px;--wp--style--global--wide-size: 1130px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}a:where(:not(.wp-element-button)){text-decoration: underline;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;line-height: inherit;padding: calc(0.667em + 2px) calc(1.333em + 2px);text-decoration: none;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-metallic-red-color{color: var(--wp--preset--color--metallic-red) !important;}.has-maximum-yellow-red-color{color: var(--wp--preset--color--maximum-yellow-red) !important;}.has-yellow-sun-color{color: var(--wp--preset--color--yellow-sun) !important;}.has-palm-leaf-color{color: var(--wp--preset--color--palm-leaf) !important;}.has-aero-color{color: var(--wp--preset--color--aero) !important;}.has-old-lavender-color{color: var(--wp--preset--color--old-lavender) !important;}.has-steel-teal-color{color: var(--wp--preset--color--steel-teal) !important;}.has-raspberry-pink-color{color: var(--wp--preset--color--raspberry-pink) !important;}.has-medium-turquoise-color{color: var(--wp--preset--color--medium-turquoise) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-metallic-red-background-color{background-color: var(--wp--preset--color--metallic-red) !important;}.has-maximum-yellow-red-background-color{background-color: var(--wp--preset--color--maximum-yellow-red) !important;}.has-yellow-sun-background-color{background-color: var(--wp--preset--color--yellow-sun) !important;}.has-palm-leaf-background-color{background-color: var(--wp--preset--color--palm-leaf) !important;}.has-aero-background-color{background-color: var(--wp--preset--color--aero) !important;}.has-old-lavender-background-color{background-color: var(--wp--preset--color--old-lavender) !important;}.has-steel-teal-background-color{background-color: var(--wp--preset--color--steel-teal) !important;}.has-raspberry-pink-background-color{background-color: var(--wp--preset--color--raspberry-pink) !important;}.has-medium-turquoise-background-color{background-color: var(--wp--preset--color--medium-turquoise) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-metallic-red-border-color{border-color: var(--wp--preset--color--metallic-red) !important;}.has-maximum-yellow-red-border-color{border-color: var(--wp--preset--color--maximum-yellow-red) !important;}.has-yellow-sun-border-color{border-color: var(--wp--preset--color--yellow-sun) !important;}.has-palm-leaf-border-color{border-color: var(--wp--preset--color--palm-leaf) !important;}.has-aero-border-color{border-color: var(--wp--preset--color--aero) !important;}.has-old-lavender-border-color{border-color: var(--wp--preset--color--old-lavender) !important;}.has-steel-teal-border-color{border-color: var(--wp--preset--color--steel-teal) !important;}.has-raspberry-pink-border-color{border-color: var(--wp--preset--color--raspberry-pink) !important;}.has-medium-turquoise-border-color{border-color: var(--wp--preset--color--medium-turquoise) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='bootstrap_css-css' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css?ver=4.1.3' type='text/css' media='all' />
+<link rel='stylesheet' id='avia-merged-styles-css' href='https://forms.cosentino.com/wp-content/uploads/dynamic_avia/avia-merged-styles-c16a6985f90d6755323f0353b083d123---6750af35d814a.css' type='text/css' media='all' />
+<script type="text/javascript" src="https://forms.cosentino.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://forms.cosentino.com/wp-content/plugins/disable-gravity-forms-fields/disable-gf-fields.js?ver=6.7.1" id="disable-gf-fields-js"></script>
+<script type="text/javascript" id="my-ajax-handle-js-extra">
+/* <![CDATA[ */
+var the_ajax_script = {"ajaxurl":"https:\/\/forms.cosentino.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://forms.cosentino.com/wp-content/themes/FormsTheme/assets/js/ajax.js?ver=6.7.1" id="my-ajax-handle-js"></script>
+<link rel="https://api.w.org/" href="https://forms.cosentino.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://forms.cosentino.com/wp-json/wp/v2/pages/1567" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://forms.cosentino.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.7.1" />
+<link rel="canonical" href="https://forms.cosentino.com/privacy-policy/" />
+<link rel='shortlink' href='https://forms.cosentino.com/?p=1567' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://forms.cosentino.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fforms.cosentino.com%2Fprivacy-policy%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://forms.cosentino.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fforms.cosentino.com%2Fprivacy-policy%2F&#038;format=xml" />
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="alternate" type="application/rss+xml" title="Forms Cosentino RSS2 Feed" href="https://forms.cosentino.com/feed/" />
+<link rel="pingback" href="https://forms.cosentino.com/xmlrpc.php" />
+<!--[if lt IE 9]><script src="https://forms.cosentino.com/wp-content/themes/enfold/js/html5shiv.js"></script><![endif]-->
+<link rel="icon" href="https://forms.cosentino.com/wp-content/uploads/2020/05/favicon-copia.png" type="image/png">
+
+<!-- To speed up the rendering and to display the site as fast as possible to the user we include some styles and scripts for above the fold content inline -->
+<script type="text/javascript">'use strict';var avia_is_mobile=!1;if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)&&'ontouchstart' in document.documentElement){avia_is_mobile=!0;document.documentElement.className+=' avia_mobile '}
+else{document.documentElement.className+=' avia_desktop '};document.documentElement.className+=' js_active ';(function(){var e=['-webkit-','-moz-','-ms-',''],n='',o=!1,a=!1;for(var t in e){if(e[t]+'transform' in document.documentElement.style){o=!0;n=e[t]+'transform'};if(e[t]+'perspective' in document.documentElement.style){a=!0}};if(o){document.documentElement.className+=' avia_transform '};if(a){document.documentElement.className+=' avia_transform3d '};if(typeof document.getElementsByClassName=='function'&&typeof document.documentElement.getBoundingClientRect=='function'&&avia_is_mobile==!1){if(n&&window.innerHeight>0){setTimeout(function(){var e=0,o={},a=0,t=document.getElementsByClassName('av-parallax'),i=window.pageYOffset||document.documentElement.scrollTop;for(e=0;e<t.length;e++){t[e].style.top='0px';o=t[e].getBoundingClientRect();a=Math.ceil((window.innerHeight+i-o.top)*0.3);t[e].style[n]='translate(0px, '+a+'px)';t[e].style.top='auto';t[e].className+=' enabled-parallax '}},50)}}})();</script><style type='text/css'>
+@font-face {font-family: 'entypo-fontello'; font-weight: normal; font-style: normal; font-display: auto;
+src: url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.woff2') format('woff2'),
+url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.woff') format('woff'),
+url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.ttf') format('truetype'),
+url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.svg#entypo-fontello') format('svg'),
+url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.eot'),
+url('https://forms.cosentino.com/wp-content/themes/enfold/config-templatebuilder/avia-template-builder/assets/fonts/entypo-fontello.eot?#iefix') format('embedded-opentype');
+} #top .avia-font-entypo-fontello, body .avia-font-entypo-fontello, html body [data-av_iconfont='entypo-fontello']:before{ font-family: 'entypo-fontello'; }
+</style>
+
+<!--
+Debugging Info for Theme support: 
+
+Theme: Enfold
+Version: 5.1.2
+Installed: enfold
+AviaFramework Version: 5.0
+AviaBuilder Version: 4.8
+aviaElementManager Version: 1.0.1
+- - - - - - - - - - -
+ChildTheme: Forms Cosentino
+ChildTheme Version: 1.0
+ChildTheme Installed: enfold
+
+ML:1250-PU:82-PLA:15
+WP:6.7.1
+Compress: CSS:all theme files - JS:all theme files
+Updates: disabled
+PLAu:15
+-->
+</head>
+
+<body id="top" class="page-template-default page page-id-1567 stretched no_sidebar_border rtl_columns av-curtain-numeric open_sans  avia-responsive-images-support" itemscope="itemscope" itemtype="https://schema.org/WebPage" >
+
+	
+	<div id='wrap_all'>
+
+	
+<header id='header' class='all_colors header_color dark_bg_color  av_header_top av_logo_center av_bottom_nav_header av_menu_right av_slim av_header_sticky_disabled av_header_shrinking_disabled av_header_stretch_disabled av_mobile_menu_phone av_header_searchicon_disabled av_header_unstick_top_disabled av_header_border_disabled'  role="banner" itemscope="itemscope" itemtype="https://schema.org/WPHeader" >
+
+		<div  id='header_main' class='container_wrap container_wrap_logo'>
+
+        <div class='container av-logo-container'><div class='inner-container'><span class='logo avia-standard-logo'><a href='' class=''><img src="https://forms.cosentino.com/wp-content/uploads/2020/05/logo-cosentino.png" srcset="https://forms.cosentino.com/wp-content/uploads/2020/05/logo-cosentino.png 600w, https://forms.cosentino.com/wp-content/uploads/2020/05/logo-cosentino-300x49.png 300w" sizes="(max-width: 600px) 100vw, 600px" height="100" width="300" alt='Forms Cosentino' title='logo-cosentino' /></a></span></div></div><div id='header_main_alternate' class='container_wrap'><div class='container'><nav class='main_menu' data-selectname='Select a page'  role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement" ><div class="avia-menu av-main-nav-wrap"><ul role="menu" class="menu av-main-nav" id="avia-menu"><li class="av-burger-menu-main menu-item-avia-special ">
+	        			<a href="#" aria-label="Menu" aria-hidden="false">
+							<span class="av-hamburger av-hamburger--spin av-js-hamburger">
+								<span class="av-hamburger-box">
+						          <span class="av-hamburger-inner"></span>
+						          <strong>Menu</strong>
+								</span>
+							</span>
+							<span class="avia_hidden_link_text">Menu</span>
+						</a>
+	        		   </li></ul></div></nav></div> </div> 
+		<!-- end container_wrap-->
+		</div>
+		<div class='header_bg'></div>
+
+<!-- end header -->
+</header>
+
+	<div id='main' class='all_colors' data-scroll-offset='0'>
+
+	<div class='stretch_full container_wrap alternate_color dark_bg_color title_container'><div class='container'><h1 class='main-title entry-title '><a href='https://forms.cosentino.com/privacy-policy/' rel='bookmark' title='Permanent Link: PRIVACY POLICY'  itemprop="headline" >PRIVACY POLICY</a></h1></div></div>
+		<div class='container_wrap container_wrap_first main_color fullsize'>
+
+			<div class='container'>
+
+				<main class='template-page content  av-content-full alpha units'  role="main" itemprop="mainContentOfPage" >
+
+                    
+		<article class='post-entry post-entry-type-page post-entry-1567'  itemscope="itemscope" itemtype="https://schema.org/CreativeWork" >
+
+			<div class="entry-content-wrapper clearfix">
+                <header class="entry-content-header"></header><div class="entry-content"  itemprop="text" ><p>
+  COSENTINO is aware that, as a USER, you are interested in knowing how your personal data is used and shared by us, and therefore we set out below our Privacy Policy so that you can understand the purposes we pursue.
+</p>
+<ol>
+<li><strong>IDENTITY OF THE DATA CONTROLLER</strong>
+</li>
+<p>
+  The personal data provided by the USER through any of the web forms will be processed by COSENTINO GLOBAL, S.L.U. (hereinafter referred to as <strong>‘COSENTINO’</strong>), with registered office at Ctra. Baza a Huércal-Overa, km  59 – 04860 Cantoria (Almería), as the Data Controller.
+</p>
+<p><li><strong>PURPOSES OF THE DATA PROCESSING AND LEGAL BASIS</strong>
+</li>
+</p>
+<p>
+  COSENTINO will process the information provided by the USER for different purposes, depending on how the data is collected and the specific reason for the request made by the USER.
+</p>
+<p>
+  The processing carried out to meet the USER’s requests is based on the consent given by the USER by entering their personal data in the various web forms for requesting information or by ticking the appropriate boxes for requesting consent. The purposes of this processing are as follows:
+</p>
+<ul>
+<li>
+    To provide the services requested by the USER.
+  </li>
+<li>
+    To send information required by the USER.
+  </li>
+<li>
+    To inform <a id="post-1567-_Hlk101768670"></a>on the benefits, promotions, events and other products offered by the COSENTINO GROUP companies.
+  </li>
+<li>
+    To apply for a job in one of the COSENTINO GROUP companies.
+  </li>
+</ul>
+<p>
+  Please note that, as a USER, you may withdraw your consent at any time by following the procedure for exercising your rights set out below.
+</p>
+<p>
+  COSENTINO will process the USER’s data, based on the execution of the agreement between the USER and COSENTINO, for the following purposes:
+</p>
+<ul>
+<li>
+    To manage the contractual or commercial relationship established between COSENTINO and the USER.
+  </li>
+<li>
+    To process, manage, provide, expand, and improve the services the USER has decided to subscribe to or register for.
+  </li>
+<li>
+    To send information about changes in the products or services purchased by the USER.
+  </li>
+</ul>
+<p>
+  In addition to the above processing, COSENTINO will carry out other processing for legitimate interests, to which the USER may object by following the procedure for exercising rights set out below. The purposes of this processing are as follows:
+</p>
+<ul>
+<li>
+    To adapt the services in order to improve their quality for the USER.
+  </li>
+<li>
+    To design new services in relation to existing ones.
+  </li>
+<li>
+    To perform statistical studies allowing for the design of improvements in the services provided.
+  </li>
+<li>
+    To send information regarding new or similar services to those originally purchased.
+  </li>
+</ul>
+<p>
+  The USER is thus informed and unequivocally and expressly consents to their personal data being processed by COSENTINO via online tools for sending electronic notifications provided by companies such as SalesForce, based in the United States of America. To ensure an equivalent level of data protection, COSENTINO will use the standard contractual data protection clauses adopted by the European Commission, together with the necessary technical and organisational measures to guarantee your right to data protection.
+</p>
+<p>
+  These tools use pixels (tiny transparent electronic images linked to your address) to collect information that allows us to know who is accessing our campaign and when. The USER can prevent such use in the settings of their email management system in order to stop the automatic downloading of images.
+</p>
+<p><li><strong>RECIPIENTS OF PERSONAL DATA </strong>
+</li>
+</p>
+<p>
+  We inform you that your data will not be communicated to third parties, unless:
+</p>
+<ul>
+<li>
+    The transfer is authorised by law.
+  </li>
+<li>
+    The transfer is to a company of the COSENTINO GROUP and is necessary for the correct development of the relationship with the USER, or because the USER has requested a specific product or service that requires it, or for internal administrative purposes, as described above for each of these cases. You can consult the list of companies by clicking on the following link: <a href="https://forms.cosentino.com/cosentino-group-subsidiaries/">https://forms.cosentino.com/cosentino-group-subsidiaries/</a>. Your data will not be passed on to any other third party, unless we are required to do so by applicable law.
+  </li>
+<li>
+    The data processing is the result of your free and lawful acceptance of a legal relationship, the development, execution and control of which therefore involve a link between said data processing and the files of third parties, such as: shops where you may collect samples or where you may have requested an appointment; banks, for the invoicing of products and services purchased; or delivery companies, for the shipment of products purchased.
+  </li>
+<li>
+    The data may be requested by the Ombudsman, Public Prosecutor’s Office, Judges, Courts, or the Spanish Court of Auditors in the exercise of the powers conferred on them.
+  </li>
+<li>
+    The data may also be sent to those suppliers who provide a service to COSENTINO and who need access to your personal data to do so.
+  </li>
+</ul>
+<p><li><strong>DATA RETENTION PERIOD</strong>
+</li>
+</p>
+<p>
+  In cases where there is a commercial relationship between COSENTINO and the USER, your data will be stored for the duration of the commercial relationship and then be blocked for the time necessary to fulfil legal obligations.
+</p>
+<p>
+  In all other cases, your data will be kept for five years in order to process the various requests that you may make through the forms that we make available to you on the WEBSITE. After this period, the data will be kept for the period required by law to fulfil any obligations arising from the processing and/or the existing relationship.
+</p>
+<p><li><strong>MANDATORY OR OPTIONAL NATURE OF THE INFORMATION REQUESTED</strong>
+</li>
+</p>
+<p>
+  Mandatory information in each form will be indicated as such with an asterisk. Refusal to provide this information will prevent the provision of the service requested by the USER.
+</p>
+<p><li><strong>EXERCISE OF RIGHTS</strong>
+</li>
+</p>
+<p>
+  As a USER, you may exercise your rights of access, correction, deletion, objection, limitation of processing, transfer of data or withdrawal of consent, by means of a written communication addressed to Ctra. Baza a Huércal-Overa, km 59 – 04860 Cantoria (Almería), or by sending an e-mail to our Data Protection Officer at <a href="mailto:gdpr@cosentino.com">gdpr@cosentino.com</a>, providing proof of your identity and stating the rights you wish to exercise.
+</p>
+<p>
+  In addition, should you deem that your right to the protection of the personal data has been violated, please note that you may file a complaint with the Spanish Data Protection Agency (<a href="http://www.aepd.es">www.aepd.es</a>).
+</p>
+<p><strong>USER COMMITMENTS</strong>
+</p>
+<p>
+  The USER warrants that they are of legal age and that the information provided is accurate and truthful.
+</p>
+<p>
+  The USER also undertakes to inform COSENTINO of any changes to the information provided by emailing our Data Protection Officer at <a href="mailto:gdpr@cosentino.com">gdpr@cosentino.com</a>, identifying themselves as a USER of the WEBSITE and specifying the information to be changed.
+</p>
+<p><li><strong>THIRD-PARTY DATA PROVIDED BY THE USER</strong>
+</li>
+</p>
+<p>
+  Should the USER provide any personal data of third parties for any purpose, they guarantee that they informed the data subjects in advance and obtained their consent to their data being communicated to COSENTINO.
+</p>
+<p>
+  The USER guarantees that the data subjects are of legal age and that the information provided is accurate and truthful.
+</p>
+<p>
+  COSENTINO shall verify the consent of the said data subjects through an initial non-business related email in which the verification of the consent given on their behalf by the USER shall be requested.
+</p>
+<p>
+  In the event of any liability arising from a breach of these terms and conditions by the USER, the USER shall be liable for the consequences of such breach.
+</p>
+<p><li><strong>PROCESSING OF FACEBOOK DATA</strong>
+</li>
+</p>
+<p>
+  Access to the Content provided by COSENTINO via Facebook is voluntary and free of charge for Facebook users and implies the formal acceptance by users of this Privacy Policy and any other general or specific regulation set by Facebook for privacy purposes (Facebook Privacy Policy).
+</p>
+<p>
+  COSENTINO guarantees the confidentiality of the personal data provided by the USER, as well as its correct processing, in accordance with current legislation on the protection of Personal Data and with this Privacy Policy.
+</p>
+<p>
+  In compliance with the aforementioned legislation, COSENTINO informs you that access to the Content requires the USER to provide certain personal data, which must be provided in order to access the Content, unless expressly stated otherwise.
+</p>
+<p>
+  Prior to the collection of Personal Data, COSENTINO will provide the User with a link to this Privacy Policy in order to allow the User to give their prior, informed, specific and unequivocal consent to the processing of their Personal Data by COSENTINO.
+</p>
+<p>
+  Likewise, if the USER expressly consents by ticking the appropriate box in the Form, the USER authorises COSENTINO to send business notifications on products, services, events, and other relevant business information relating to the companies of the COSENTINO GROUP.
+</p>
+<p>
+  The USER must be over 16 years of age to access COSENTINO content.
+</p>
+<p>
+  It is the USER’s responsibility to ensure that all the information provided is truthful and up to date. COSENTINO informs the USER that they must provide only Personal Data that is appropriate, relevant, up to date, accurate and truthful. To this end, the USER shall be solely liable for any direct and/or indirect damage that may be caused to third parties or to COSENTINO by the use of another person’s Personal Data or the USER’s own Personal Data if it is false, inaccurate, not up to date, inappropriate or not relevant.
+</p>
+<p>
+  By accepting this Privacy Policy, the USER accepts that COSENTINO may access: (i) information (including Personal Data) provided by the USER through any existing registration forms; (ii) their Facebook profile data (including their profile picture).
+</p>
+<p>
+  Any personal data provided will be processed by COSENTINO, as Data Controller, in accordance with the terms and conditions set out in this Privacy Policy. The identity of the Data Controller, as well as the purposes, recipients and other information regarding the data processed, can be found at the beginning of this Privacy Policy. Furthermore, as indicated in the ‘Exercise of Rights’ section of this Privacy Policy, the USER may exercise their rights of access, correction, deletion, objection, limitation of processing, transfer of data or withdrawal of consent by sending an e-mail to our Data Protection Officer at <a href="mailto:gdpr@cosentino.com">gdpr@cosentino.com</a> or by post to the address indicated above, identifying themselves as a FACEBOOK USER, providing proof of identity and, in both cases, specifying the request.
+</p>
+<p>
+  In addition, should you, as a USER, deem that your right to the protection of your personal data has been violated, please note that you may file a complaint with the Spanish Data Protection Agency (<a href="http://www.aepd.es">www.aepd.es</a>).
+</p>
+<p><li><strong>COOKIES AND TRACKING FILES</strong>
+</li>
+</p>
+<p>
+  The USER accepts the use of cookies and IP address tracking files whose use allows COSENTINO to collect data for statistical purposes such as: date of the first visit, number of times visited, date of the last visit, URL and domain from which they originate, browser used, and resolution of the screen.
+</p>
+<p>
+  The USER may choose to prevent cookies from being installed by selecting the appropriate option in their browser software. However, COSENTINO shall not be liable for the fact that the deactivation of such cookies prevents the proper functioning of the WEBSITE.
+</p>
+<p>
+  Further details about Cookies are available in our <a href="https://forms.cosentino.com/cookie-policy/">COOKIES POLICY</a>.
+</p>
+<p><li><strong>SECURITY MEASURES</strong>
+</li>
+</p>
+<p>
+  COSENTINO has implemented the necessary technical and organisational measures to ensure the security of personal data and to prevent their alteration, loss, unauthorised access or processing of the said data, taking into account the state of the art, the nature of the data stored and the risks they are exposed to, whether from human action or from the physical or natural environment.
+</p>
+</ol>
+<h5 class="pt-5 pb-3">Cosentino Group – Subsidiaries</h5>
+<table>
+<tr>
+<td>
+<p><a id="post-1489-_Hlk143768149"></a><strong>COMPANY NAME </strong>
+</p>
+</td>
+<td>
+<p><strong> TAX NO. </strong>
+</p>
+</td>
+<td>
+<p><strong>ADDRESS </strong>
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO, S.A..</strong>
+</p>
+</td>
+<td>
+<p>
+  A04348579
+</p>
+</td>
+<td>
+<p>
+  Calle Francisco Martínez 2, Macael (Almería), Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO GLOBAL, S.L.U.</strong>
+</p>
+</td>
+<td>
+<p>
+  B01966597
+</p>
+</td>
+<td>
+<p>
+   Carretera A-334, Baza-Huércal-Overa, Salida 60, Polígono Industrial (edificio Oficinas), Cantoria (Almería), Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO INDUSTRIAL, S.A.U.</strong>
+</p>
+</td>
+<td>
+<p>
+  A04117297
+</p>
+</td>
+<td>
+<p>
+  Calle Francisco Martínez 2, Macael (Almería), Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO RESEARCH &amp; DEVELOMPENT, S.L.U.</strong>
+</p>
+</td>
+<td>
+<p>
+  B04714093
+</p>
+</td>
+<td>
+<p>
+  Carretera A-334, Baza-Huércal-Overa, Km. 59, Cantoria ( Almería) Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO UK, LTD.</strong>
+</p>
+</td>
+<td>
+<p>
+  GB799494148
+</p>
+</td>
+<td>
+<p>
+  Unit 10 Bartley Point, Osborn Way    RG27 9GX, Hook, Hampshire ( United Kingdom )
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO THE NETHERLANDS B.V.</strong>
+</p>
+</td>
+<td>
+<p>
+  NL811341835B01
+</p>
+</td>
+<td>
+<p>
+  Florijn 6, 5751 PC Deurne (The Netherlands)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO DEUTSCHLAND GmbH</strong>
+</p>
+</td>
+<td>
+<p>
+  DE208083799
+</p>
+</td>
+<td>
+<p>
+  Birkerfeld 48, 83627 Warngau (Germany)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO SCANDINAVIA A.B.</strong>
+</p>
+</td>
+<td>
+<p>
+  556700491501
+</p>
+</td>
+<td>
+<p>
+  Lärjeagatan 6, 41524 Göteborg (Sweden)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO PORTUGAL UNIPESSOAL LDA.</strong>
+</p>
+</td>
+<td>
+<p>
+  PT507819241
+</p>
+</td>
+<td>
+<p>
+  Núcleo Empresarial, R. A Pavilhão 6, 2665-601 Venda do Pinheiro, distrito de Lisboa, concelho de Mafra, freguesia de Venda do Pinheiro, Portugal.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO ITALIA S.R.L.</strong>
+</p>
+</td>
+<td>
+<p>
+  IT02291090286
+</p>
+</td>
+<td>
+<p>
+  Via Trentino Alto Adige 69,  30030 Pianiga-Venezia (Italia)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO SWISS A.G.</strong>
+</p>
+</td>
+<td>
+<p>
+  CHE-113.814.308 MWST
+</p>
+</td>
+<td>
+<p>
+  Industriestrasse 4, 8732, Neuhaus SG, Switzerland.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO BELGIUM BVBA</strong>
+</p>
+</td>
+<td>
+<p>
+  BE0894579629
+</p>
+</td>
+<td>
+<p>
+  Koeweidestraat 44, B1785 Merchtem (Bélgium)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO SURFACES FRANCE SARL</strong>
+</p>
+</td>
+<td>
+<p>
+  FR25503600595
+</p>
+</td>
+<td>
+<p>
+  Zac de la Noue Rousseau Actcentre, 3 rue d&#8217;Alembert; 91240 St. Michel Sur Orge (France)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO AUSTRIA GmbH</strong>
+</p>
+</td>
+<td>
+<p>
+  ATU65080011
+</p>
+</td>
+<td>
+<p>
+  Etrichstrasse 82-92
+</p>
+<p>
+  2542 Kottingbrunn, Austria.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO IRELAND, LTD.</strong>
+</p>
+</td>
+<td>
+<p>
+  IE9731457E
+</p>
+</td>
+<td>
+<p>
+  Unit 39, Fonthill Industrial Park, Fonthill Road &#8211; Dublin 22 (Ireland)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>C&amp;C NORTH AMERICA,INC.</strong>
+</p>
+</td>
+<td>
+<p>
+  20-1999579
+</p>
+</td>
+<td>
+<p>
+  355 Alhambra Circle, Ste. 1000<br />
+  <br />
+  Coral Gables, FL 33134, United States.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>SUPERFICIES DE PIEDRA INNOVADORAS S. de R.L. de C.V.</strong>
+</p>
+</td>
+<td>
+<p>
+  SPI101208Q80
+</p>
+</td>
+<td>
+<p>
+  &#8220;PROLOGIS PARK TOLUCA
+</p>
+<p>
+  Av. Industria Automotriz s/n esquina Boulevard Doña Rosa
+</p>
+<p>
+   Colonia Parque Industrial Doña Rosa
+</p>
+<p>
+   C.P. 52004, Toluca, Lerma, Mexico.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO AUSTRALIA PTY LTD.</strong>
+</p>
+</td>
+<td>
+<p>
+  (ACN) 150158227 (ABN) 66150158277
+</p>
+</td>
+<td>
+<p>
+  270 BEECH ROAD, CASULA NSW 2170, Australia.
+</p>
+</td>
+</tr>
+<tr>
+<td rowspan="2">
+<p><strong>COSENTINO NORWAY A.S.</strong>
+</p>
+</td>
+<td>
+<p>
+  898 197 042
+</p>
+</td>
+<td>
+<p>
+  Delitoppen 3, 1540 Vestby, (NORWAY)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+   
+</p>
+</td>
+<td>
+<p>
+   
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO JAPAN K.K.</strong>
+</p>
+</td>
+<td>
+<p>
+  0111-01-059410
+</p>
+</td>
+<td>
+<p>
+  Shinjuky Park Tower, N8th floor 3-7-1 Nishi Shinjuku; Tokio (Japan)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTİNO TURKEY YAPI İTHALAT İHRACAT VE TİCARET LİMİTED ŞİRKETİ İMZA SİRKÜLERİ</strong>
+</p>
+</td>
+<td>
+<p>
+  2120465902
+</p>
+</td>
+<td>
+<p>
+  Sekerpinar Mah., Aycicek Sok., no: 6, Cayirova / Kocaelli, Turkey.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO CENTER ISRAEL LTD</strong>
+</p>
+</td>
+<td>
+<p>
+  Company No. 515103406
+</p>
+</td>
+<td>
+<p>
+  33 Nahshon St. Petah Tikva, 49277 ISRAEL
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO SOUTH EAST ASIA PTY LTD</strong>
+</p>
+</td>
+<td>
+<p>
+  201216667G
+</p>
+</td>
+<td>
+<p>
+  22 Gul Ave<br />
+  <br />
+  Singapore, Singapore 629662
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO FINLAND Oy</strong>
+</p>
+</td>
+<td>
+<p>
+  2715941-7
+</p>
+</td>
+<td>
+<p>
+  Varsikuja 4, 01740, Vantaa, Finland.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO DENMARK ApS</strong>
+</p>
+</td>
+<td>
+<p>
+  37276839
+</p>
+</td>
+<td>
+<p>
+  Snedkervej, 1, 872, Hedensted, Denmark.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO NEW ZEALAND LTD</strong>
+</p>
+</td>
+<td>
+<p>
+  9429042359753
+</p>
+</td>
+<td>
+<p>
+  Level 27, Lumley Centre, 88 Shortland Street Auckland Central, Auckland, 1010, New Zealand.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO POLAND SP. Z O. O. </strong>
+</p>
+</td>
+<td>
+<p>
+  5252688843
+</p>
+</td>
+<td>
+<p>
+  ul. ŚW. TOMASZA, nr 4, lok. ,
+</p>
+<p>
+  miejsc. BRWINÓW, kod 05808,
+</p>
+<p>
+  poczta BRWINÓW, kraj POLAND.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO SOUTH AFRICA PTY LTD</strong>
+</p>
+</td>
+<td>
+<p>
+  2016/004944/07
+</p>
+</td>
+<td>
+<p>
+  9 Gerhardus Road, Elandsfontein, Johannesburg, Gauteng, 1406
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO MALAYSIA SDN. BHD.</strong>
+</p>
+</td>
+<td>
+<p>
+  1251712-H
+</p>
+</td>
+<td>
+<p>
+  REGISTERED ADDRESS : Level 21, Suite 21.01, The Gardens South Tower, Mid Valley City, Lingkaran Syed Putra, 59200 Kuala Lumpur. &#8212;&#8212;&#8212;&#8212;-  BUSINESS ADDRESS: Unit 5,05, Level 5, Menara MBMR, No. 1 Jalan Syed Putra, 58000 Kuala Lumpur
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO CANADA, INC</strong>
+</p>
+</td>
+<td>
+<p>
+  815698634
+</p>
+</td>
+<td>
+<p>
+  3300, 421-7 Avenue SW, Calgary, Alberta T2P4K9
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO, S.A.-BRANCH OF A FOREIGN COMPANY (DUBAI)</strong>
+</p>
+</td>
+<td>
+<p>
+  Licence No.: 91448
+</p>
+</td>
+<td>
+<p>
+  Dubai Design District, 4th floor, A401
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO BUILDING &amp; CONSTRUCTION MATERIALS TRADING L.L.C</strong>
+</p>
+</td>
+<td>
+<p>
+  Licence No.:1196278
+</p>
+</td>
+<td>
+<p>
+  A 401, Fourth Floor, Building 04 , Dubai Design District, Dubai
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>SOLUCIONES AMBIENTALES COMA, S.L.U.</strong>
+</p>
+</td>
+<td>
+<p>
+  B04748117
+</p>
+</td>
+<td>
+<p>
+  Carretera A-334, KM.60 Polígono Industrial (edificio oficinas) 04850 Cantoria (Almeria) Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO GREEN ENERGY, S.L.U.</strong>
+</p>
+</td>
+<td>
+<p>
+  B04902037
+</p>
+</td>
+<td>
+<p>
+  Carretera A-334, KM.60 Polígono Industrial (edificio oficinas) 04850 Cantoria (Almeria) Spain.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO LATINA LTDA.</strong>
+</p>
+</td>
+<td>
+<p>
+  CNPJ nº 04.885.413/0001-51
+</p>
+</td>
+<td>
+<p>
+  Serra, Estado do Espiritu Santo, na Rua E, 1075, Quadra XI, Sector Industrial de Grande Vitoria, Bairro Civit, Sector I, Carapina &#8211; Vitoria (Brasil)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>Cosentino Adriatic d.o.o</strong>
+</p>
+</td>
+<td>
+<p>
+  71880003
+</p>
+</td>
+<td>
+<p>
+  Ljubljana, Barjanska cesta 003 , 1000 Ljubljana
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>Cosentino Baltics U.A.B.</strong>
+</p>
+</td>
+<td>
+<p>
+  306243617
+</p>
+</td>
+<td>
+<p>
+  Vilnius, V. A. Graičiūno g. 20B  (LITHUANIA)
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><strong>COSENTINO CZECH REPUBLIC S.R.O.</strong>
+</p>
+</td>
+<td>
+<p>
+  19490151
+</p>
+</td>
+<td>
+<p>
+  Panská 854/2, Nové Město, 110 00 Praha 1, Czech Republic.
+</p>
+</td>
+</tr>
+</table>
+</div><footer class="entry-footer"></footer>			</div>
+
+		</article><!--end post-entry-->
+
+
+
+				<!--end content-->
+				</main>
+
+				
+			</div><!--end container-->
+
+		</div><!-- close default .container_wrap element -->
+
+
+
+		
+
+
+
+
+			
+				<footer class='container_wrap socket_color' id='socket'  role="contentinfo" itemscope="itemscope" itemtype="https://schema.org/WPFooter" >
+
+			<div class="row minwidth brands">
+				<ul style="padding: 5px !important; max-width: 1140px; margin: auto;">
+					<li class="rscFootermvl">
+						<a target="_blank" title="Silestone By Cosentino" alt="Silestone By Cosentino" href="https://www.silestone.com">
+							<img src="https://rsc.cosentino.com/wp-content/uploads/2019/06/logos-marcas2-2@2x.png" style="width: auto !important; height: 20px !important" title="Silestone By Cosentino" alt="Silestone By Cosentino">
+						</a>
+					</li>
+
+					<li class="rscFootermvl">
+						<a target="_blank" title="Dekton By Cosentino" alt="Dekton By Cosentino" href="https://www.dekton.com">
+															<img src="https://rsc.cosentino.com/wp-content/uploads/2019/06/logos-marcas2-3@2x.png" style="width: auto !important; height: 20px !important" title="Dekton By Cosentino" alt="Dekton By Cosentino">
+														</a>
+					</li>
+
+					<li class="rscFootermvl">
+						<a target="_blank" title="Sensa By Cosentino" alt="Sensa By Cosentino" href="https://www.sensabycosentino.com">
+							<img src="https://rsc.cosentino.com/wp-content/uploads/2019/06/logos-marcas2-4@2x.png" style="width: auto !important; height: 20px !important" title="Sensa By Cosentino" alt="Sensa By Cosentino">
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<hr class="m-auto" style="border-bottom: 1px solid #EBEBEB; max-width: 700px">
+
+			<div class="row minwidth brands">
+				<a class="m-auto" target="_blank" title="Grupo Cosentino" href="https://www.cosentino.com">
+							<img src="https://rsc.cosentino.com/wp-content/uploads/2019/06/logos-marcas2-1@2x.png" style="width: auto !important; height: 20px !important" alt="Logo Cosentino">
+						</a>
+			</div>
+
+                    <div class='container cpycosentino'>
+											<p class="text-center textFooter">Cosentino Global, S.L.U.<br>
+						Ctra. A334 Baza-Huércal Overa, km 59<br>
+						04850 Cantoria, Almería<br>
+						Copyright © 2020, All rights reserved</p>
+					
+
+                        
+                    </div>
+
+	            <!-- ####### END SOCKET CONTAINER ####### -->
+				</footer>
+
+
+					<!-- end main -->
+		</div>
+
+		<!-- end wrap_all --></div>
+
+<a href='#top' title='Scroll to top' id='scroll-top-link' aria-hidden='true' data-av_icon='' data-av_iconfont='entypo-fontello'><span class="avia_hidden_link_text">Scroll to top</span></a>
+
+<div id="fb-root"></div>
+
+
+ <script type='text/javascript'>
+ /* <![CDATA[ */  
+var avia_framework_globals = avia_framework_globals || {};
+    avia_framework_globals.frameworkUrl = 'https://forms.cosentino.com/wp-content/themes/enfold/framework/';
+    avia_framework_globals.installedAt = 'https://forms.cosentino.com/wp-content/themes/enfold/';
+    avia_framework_globals.ajaxurl = 'https://forms.cosentino.com/wp-admin/admin-ajax.php';
+/* ]]> */ 
+</script>
+ 
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js?ver=1.14.3" id="popper_js-js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js?ver=4.1.3" id="bootstrap_js-js"></script>
+<script type="text/javascript" src="https://forms.cosentino.com/wp-content/uploads/dynamic_avia/avia-footer-scripts-ea56e45503cd21512a56ff4c1866a09a---6750af362644f.js" id="avia-footer-scripts-js"></script>
+</body>
+</html>
+
+<!-- plugin=object-cache-pro client=phpredis metric#hits=3516 metric#misses=66 metric#hit-ratio=98.2 metric#bytes=1092830 metric#prefetches=25 metric#store-reads=42 metric#store-writes=3 metric#store-hits=34 metric#store-misses=40 metric#sql-queries=0 metric#ms-total=844.89 metric#ms-cache=13.52 metric#ms-cache-avg=0.3072 metric#ms-cache-ratio=1.6 sample#redis-hits=37127147 sample#redis-misses=1069773 sample#redis-hit-ratio=97.2 sample#redis-ops-per-sec=35 sample#redis-evicted-keys=0 sample#redis-used-memory=545732408 sample#redis-used-memory-rss=465215488 sample#redis-memory-fragmentation-ratio=0.8 sample#redis-connected-clients=1 sample#redis-tracking-clients=0 sample#redis-rejected-connections=0 sample#redis-keys=48243 -->

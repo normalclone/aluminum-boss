@@ -1,0 +1,78 @@
+{
+  "pages": [
+    {
+      "url": "https://www.cosentino.com/usa/",
+      "ok": true,
+      "skipped": true
+    },
+    {
+      "url": "https://www.cosentino.com/usa/kitchens/",
+      "ok": true,
+      "skipped": true
+    },
+    {
+      "url": "https://www.cosentino.com/usa/dekton/",
+      "ok": true,
+      "assets": 220,
+      "bytes": 492424
+    }
+  ],
+  "assetFailures": [
+    {
+      "url": "https://www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/core/buttons/button/button.js?ver=1.0",
+      "error": "empty"
+    },
+    {
+      "url": "https://arclight.vimeo.com/",
+      "error": "HTTP 405"
+    },
+    {
+      "url": "https://lensflare.vimeo.com/",
+      "error": "HTTP 405"
+    },
+    {
+      "url": "https://www.cosentino.com/usa/xmlrpc.php",
+      "error": "HTTP 502"
+    },
+    {
+      "url": "https://vod-adaptive-ak.vimeocdn.com/",
+      "error": "HTTP 403"
+    },
+    {
+      "url": "https://www.gstatic.com/",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://fonts.gstatic.com/",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://f.vimeocdn.com/",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://pixel.archipro.com.au/",
+      "error": "HTTP 403"
+    },
+    {
+      "url": "https://www.cosentino.com/usa/xmlrpc.php?rsd",
+      "error": "HTTP 502"
+    },
+    {
+      "url": "https://osh.cosentino.com/",
+      "error": "fetch failed"
+    },
+    {
+      "url": "https://fundacioneduardajusto.es/",
+      "error": "fetch failed"
+    },
+    {
+      "url": "https://static.cosentino.com/ESG/2023/Sustainability-2023.pdf",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://silestoneinstitute.com/en/",
+      "error": "fetch failed"
+    }
+  ]
+}
