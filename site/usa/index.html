@@ -915,6 +915,14 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -942,7 +950,7 @@ id="core-menu-mobile"
    section rather than an embedded widget. */
 /* Height, not width, is what caps the globe: R is taken from min(W,H) and the column is
    wider than it is tall. Raising it is what lets the sphere grow. */
-.vgx-canvas-col{grid-column:span 8;position:relative;min-height:800px;background:none;border:0}
+.vgx-canvas-col{grid-column:span 8;position:relative;min-height:780px;background:none;border:0}
 .vgx-panel-col{grid-column:span 4;display:flex;flex-direction:column}
 
 .vgx canvas{display:block;width:100%;height:100%;position:absolute;inset:0;cursor:grab;
@@ -1112,7 +1120,7 @@ id="core-menu-mobile"
     if (!W || !H) return;
     cv.width = W*dpr; cv.height = H*dpr;
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    cx = W/2; cy = H/2; R = Math.min(W,H)*0.48*zoom;
+    cx = W/2; cy = H/2; R = Math.min(W,H)*0.44*zoom;
   }
   new ResizeObserver(resize).observe(cv);
 
@@ -1415,7 +1423,11 @@ id="core-menu-mobile"
       const ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
       // About twice the old silhouette, but not so large it outgrows the routes it runs on:
       // the overland legs are only ~35px end to end.
-      const k = 0.86 + 0.42*Math.min(1, cur[2]);          // nearer reads slightly larger
+      // Ships and trucks are scaled apart. A ship has an ocean to cross and can carry the
+      // size; a truck runs a 39px overland leg, and at the same scale it covered the route
+      // and pushed into the ASEAN label.
+      const near = Math.min(1, cur[2]);
+      const k = v.arc.mode === 'sea' ? 1.16 + 0.56*near : 0.82 + 0.38*near;
       ctx.save();
       ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
       // The glyphs carry their own colours, so fade them with the context rather than by
