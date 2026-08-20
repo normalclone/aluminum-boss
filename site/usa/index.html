@@ -883,6 +883,14 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1147,18 +1155,88 @@ id="core-menu-mobile"
     arc: a, f: (i*0.37) % 1, speed: VPACE * (a.mode==='land' ? 1.9 : 22/Math.max(8,a.days))
   }));
 
-  // Drawn pointing along +x, in screen space, then rotated to the direction of travel.
+  // Vehicle palette. Three tones per surface - lit top, mid side, shaded skirt - because at
+  // this size that is what reads as a solid object; outlines alone just look like stickers.
+  const VEH = {
+    top:   '#e9e4da',    // face catching the light
+    side:  '#9b948a',    // long side
+    deep:  '#6d665d',    // shaded lower face
+    dark:  '#4a453f',    // wheels, waterline
+    line:  'rgba(35,35,35,.55)',
+    load:  ['#b9b2a7', '#a49d93', '#cbc5bb'],   // deck cargo
+    shade: 'rgba(35,35,35,.12)',
+  };
+
+  // Drawn pointing along +x in screen space, then rotated to the direction of travel. The
+  // light is treated as coming from above the glyph rather than from the page, which at this
+  // size reads correctly whichever way the vehicle is heading.
   function drawShip(g, k){
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.55*k);
+
+    g.beginPath(); g.ellipse(0, 4.4*k, 9.2*k, 2.0*k, 0, 0, 7);
+    g.fillStyle = VEH.shade; g.fill();                       // water beneath
+
+    // hull: shaded lower face, then the side above it
     g.beginPath();
-    g.moveTo(6.2*k,0); g.lineTo(1.6*k,2.5*k); g.lineTo(-5.0*k,2.5*k);
-    g.lineTo(-5.0*k,-2.5*k); g.lineTo(1.6*k,-2.5*k); g.closePath(); g.fill();
-    g.fillRect(-2.6*k, -4.6*k, 3.1*k, 2.2*k);            // deckhouse
+    g.moveTo(10.5*k, 1.0*k); g.lineTo(3.0*k, 3.8*k); g.lineTo(-8.4*k, 3.8*k);
+    g.lineTo(-9.2*k, 1.0*k); g.closePath();
+    g.fillStyle = VEH.deep; g.fill(); g.strokeStyle = VEH.line; g.stroke();
+
+    g.beginPath();
+    g.moveTo(10.5*k, 1.0*k); g.lineTo(-9.2*k, 1.0*k); g.lineTo(-8.6*k, -1.4*k);
+    g.lineTo(8.2*k, -1.4*k); g.closePath();
+    g.fillStyle = VEH.side; g.fill(); g.stroke();
+
+    // deck
+    g.beginPath();
+    g.moveTo(8.2*k, -1.4*k); g.lineTo(-8.6*k, -1.4*k); g.lineTo(-8.0*k, -2.6*k);
+    g.lineTo(6.6*k, -2.6*k); g.closePath();
+    g.fillStyle = VEH.top; g.fill(); g.stroke();
+
+    // containers, stacked from the stern forward
+    for (let i = 0; i < 3; i++){
+      const x = -7.0*k + i*4.0*k, w = 3.4*k, h = 2.6*k;
+      g.fillStyle = VEH.load[i % VEH.load.length];
+      g.fillRect(x, -2.6*k - h, w, h);
+      g.fillStyle = VEH.top;
+      g.fillRect(x, -2.6*k - h, w, 0.9*k);                   // lit top of the stack
+      g.strokeStyle = VEH.line; g.strokeRect(x, -2.6*k - h, w, h);
+    }
+
+    // bridge at the bow end
+    g.fillStyle = VEH.deep; g.fillRect(5.4*k, -5.6*k, 2.6*k, 3.0*k);
+    g.fillStyle = VEH.top;  g.fillRect(5.4*k, -5.6*k, 2.6*k, 1.0*k);
+    g.strokeStyle = VEH.line; g.strokeRect(5.4*k, -5.6*k, 2.6*k, 3.0*k);
   }
+
   function drawTruck(g, k){
-    g.fillRect(-5.2*k, -2.4*k, 6.0*k, 4.2*k);            // trailer
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.55*k);
+
+    g.beginPath(); g.ellipse(0, 3.6*k, 8.0*k, 1.7*k, 0, 0, 7);
+    g.fillStyle = VEH.shade; g.fill();                       // road beneath
+
+    // wheels first, so the body sits over them
+    g.fillStyle = VEH.dark;
+    for (const wx of [-5.4*k, -3.4*k, 4.2*k]){
+      g.beginPath(); g.ellipse(wx, 2.4*k, 1.25*k, 1.25*k, 0, 0, 7); g.fill();
+    }
+
+    // trailer: side then lit top
+    g.fillStyle = VEH.side;
+    g.fillRect(-7.6*k, -3.4*k, 10.4*k, 5.6*k);
+    g.fillStyle = VEH.top;
+    g.fillRect(-7.6*k, -3.4*k, 10.4*k, 1.7*k);
+    g.strokeStyle = VEH.line; g.strokeRect(-7.6*k, -3.4*k, 10.4*k, 5.6*k);
+
+    // cab, a little lower than the trailer roof
     g.beginPath();
-    g.moveTo(1.2*k,-2.4*k); g.lineTo(4.4*k,-2.4*k); g.lineTo(5.4*k,-0.4*k);
-    g.lineTo(5.4*k,1.8*k); g.lineTo(1.2*k,1.8*k); g.closePath(); g.fill();   // cab
+    g.moveTo(3.0*k, -1.8*k); g.lineTo(6.4*k, -1.8*k); g.lineTo(7.6*k, 0.2*k);
+    g.lineTo(7.6*k, 2.2*k); g.lineTo(3.0*k, 2.2*k); g.closePath();
+    g.fillStyle = VEH.deep; g.fill(); g.stroke();
+    g.beginPath();
+    g.moveTo(3.0*k, -1.8*k); g.lineTo(6.4*k, -1.8*k); g.lineTo(6.9*k, -0.9*k);
+    g.lineTo(3.0*k, -0.9*k); g.closePath();
+    g.fillStyle = VEH.top; g.fill(); g.stroke();
   }
 
   let focus = null;
@@ -1297,11 +1375,14 @@ id="core-menu-mobile"
 
       const p0 = project(at.from), p1 = project(at.to);
       const ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
-      // Kept small: at the first size these read as blobs the size of the country labels.
-      const k = 0.46 + 0.26*Math.min(1, cur[2]);          // nearer reads slightly larger
+      // About twice the old silhouette, but not so large it outgrows the routes it runs on:
+      // the overland legs are only ~35px end to end.
+      const k = 0.60 + 0.32*Math.min(1, cur[2]);          // nearer reads slightly larger
       ctx.save();
       ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
-      ctx.fillStyle = `rgba(35,35,35,${vis.toFixed(3)})`;
+      // The glyphs carry their own colours, so fade them with the context rather than by
+      // baking alpha into every fill.
+      ctx.globalAlpha = vis;
       if (v.arc.mode === 'sea') drawShip(ctx, k); else drawTruck(ctx, k);
       ctx.restore();
     }
