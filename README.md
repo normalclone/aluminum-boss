@@ -24,8 +24,14 @@ captured at - see `frozen-width-fix` in each page's head.
 
 Both are injected into the three homepages, between "Architectural Surfaces" and "New":
 
-1. **Export globe** (`.vgx`) — orthographic globe, shipping routes from Vietnam to four
-   markets. Selecting a market turns the globe to it and isolates that route.
+1. **Export globe** (`.vgx`) — orthographic globe carrying two kinds of route: sea lanes to
+   the EU, North America and Australia, and overland runs to Laos, Cambodia and Thailand,
+   grouped as ASEAN. Selecting an entry turns the globe to it and isolates that route.
+
+   The sea lanes are waypoint polylines, not great circles. A great circle from Vietnam to
+   Rotterdam runs straight across Asia, which is the one path a ship cannot take; these
+   follow Malacca, the Indian Ocean, Bab el-Mandeb, Suez and Gibraltar. Both kinds hug the
+   surface rather than arcing above it, because an arc reads as a flight path.
 2. **Factory map** (`.vfx`) — perspective map of Vietnam with five factories. Desktop shows
    callout cards joined to their pins by leader lines; tablet drops the cards so the map gets
    the full canvas; mobile drops the map entirely and lists the factories instead.

@@ -634,6 +634,18 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -690,6 +702,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 .vgx-legend i{font-style:normal;display:inline-flex;align-items:center;gap:7px}
 .vgx-sw{width:16px;height:2px;background:var(--vgx-gold)}
 .vgx-sw.o{width:8px;height:8px;border-radius:50%;background:var(--vgx-signal);box-shadow:0 0 0 1px var(--vgx-ink)}
+/* dashed swatch mirrors how overland runs are drawn on the globe */
+.vgx-sw.d{background:none;border-top:2px dashed var(--vgx-gold);height:0}
 
 @media (max-width:1024px){
   .vgx-canvas-col{grid-column:span 12;min-height:480px}
@@ -713,7 +727,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
         <canvas id="vgx-c" tabindex="0" aria-label="Interactive globe: export routes from Vietnam"></canvas>
         <div class="vgx-legend">
           <i><span class="vgx-sw o"></span>Origin · Vietnam</i>
-          <i><span class="vgx-sw"></span>Shipping route</i>
+          <i><span class="vgx-sw"></span>Sea lane</i>
+          <i><span class="vgx-sw d"></span>Overland</i>
         </div>
       </div>
 
@@ -737,15 +752,47 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const ORIGIN = { name:'Vietnam', code:'SGN', lat:10.82, lon:106.63 };
+  // Waypoints, not great circles: a straight line to Rotterdam crosses Asia, which is the
+  // one path a ship cannot take. These follow the lanes actually used.
   const ROUTES = [
-    { key:'us', name:'United States',       code:'SGN → LAX', lat:33.94, lon:-118.41, share:'38%', days:22,
-      desc:'Largest market. Large-format slabs for kitchens and commercial facades.' },
-    { key:'eu', name:'European Union',  code:'SGN → RTM', lat:51.95, lon:4.14,   share:'27%', days:31,
-      desc:'Lands at Rotterdam, then moves on to Germany, France and the Nordics.' },
-    { key:'cn', name:'China',    code:'SGN → SHA', lat:31.23, lon:121.47, share:'21%', days:6,
-      desc:'Shortest run, highest volume — mostly sintered stone.' },
-    { key:'sg', name:'Singapore',     code:'SGN → SIN', lat:1.35,  lon:103.82, share:'14%', days:3,
-      desc:'Regional transhipment. Three-day turnaround on rush orders.' },
+    { key:'eu', mode:'sea', name:'European Union', share:'31%', days:31,
+      desc:'Malacca Strait, Indian Ocean, Suez, then Rotterdam for onward distribution.',
+      meta:'Sea · Ho Chi Minh City → Rotterdam', at:[46,10],
+      legs:[{ to:'Rotterdam', code:'RTM', via:[
+        [10.8,106.6],[8.5,105.5],[5.5,104.5],[2.5,103.6],[3.5,100.0],[5.5,96.5],[6.0,92.0],
+        [5.5,85.0],[6.0,75.0],[9.0,65.0],[12.0,55.0],[12.5,45.0],[13.5,42.8],[17.0,40.0],
+        [22.0,37.5],[27.0,34.5],[29.9,32.6],[31.5,32.3],[33.5,28.0],[34.5,22.0],[36.0,14.0],
+        [37.0,6.0],[36.0,-2.0],[35.9,-5.6],[36.5,-9.0],[40.0,-10.5],[44.5,-9.5],[48.5,-6.0],
+        [50.2,-1.5],[51.2,2.0],[51.95,4.14]] }] },
+
+    { key:'na', mode:'sea', name:'North America', share:'34%', days:22,
+      desc:'The Pacific crossing to Los Angeles and Long Beach.',
+      meta:'Sea · Ho Chi Minh City → Los Angeles', at:[30,-170],
+      legs:[{ to:'Los Angeles', code:'LAX', via:[
+        [10.8,106.6],[13.0,110.0],[16.0,114.0],[19.5,119.0],[21.5,122.0],[24.0,127.0],
+        [28.0,135.0],[32.0,145.0],[36.0,158.0],[39.0,172.0],[40.0,-175.0],[40.0,-165.0],
+        [39.0,-150.0],[37.0,-138.0],[35.0,-128.0],[33.9,-118.4]] }] },
+
+    { key:'au', mode:'sea', name:'Australia', share:'12%', days:14,
+      desc:'South through the Indonesian straits and the Torres Strait to Sydney.',
+      meta:'Sea · Ho Chi Minh City → Sydney', at:[-14,133],
+      legs:[{ to:'Sydney', code:'SYD', via:[
+        [10.8,106.6],[8.0,107.5],[4.0,108.5],[0.0,108.5],[-2.5,108.0],[-5.0,110.0],
+        [-6.5,114.0],[-7.5,118.0],[-8.5,123.0],[-9.5,128.0],[-10.0,133.0],[-10.5,138.0],
+        [-10.6,142.5],[-13.0,145.5],[-17.0,147.5],[-22.0,152.0],[-27.0,153.8],[-31.0,153.0],
+        [-33.87,151.2]] }] },
+
+    { key:'asean', mode:'land', name:'ASEAN', share:'23%', days:3,
+      desc:'Overland by road to Laos, Cambodia and Thailand.',
+      meta:'Road · Vientiane · Phnom Penh · Bangkok', at:[14,104],
+      legs:[
+        { to:'Vientiane', code:'LAO', via:[
+          [10.8,106.6],[11.9,106.9],[13.5,107.5],[15.0,107.8],[16.5,106.6],[17.4,104.8],[17.97,102.60]] },
+        { to:'Phnom Penh', code:'KHM', via:[
+          [10.8,106.6],[11.0,106.0],[11.3,105.4],[11.55,104.92]] },
+        { to:'Bangkok', code:'THA', via:[
+          [10.8,106.6],[11.2,105.8],[12.0,104.0],[13.0,102.0],[13.75,100.52]] },
+      ] },
   ];
 
   const LAND = [
@@ -794,55 +841,86 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   }
   new ResizeObserver(resize).observe(cv);
 
-  const arcs = ROUTES.map(r => {
-    const a = toVec(ORIGIN.lat,ORIGIN.lon), b = toVec(r.lat,r.lon);
-    const ang = Math.acos(Math.max(-1,Math.min(1,a[0]*b[0]+a[1]*b[1]+a[2]*b[2])));
-    const lift = 0.14 + 0.18*(ang/Math.PI);
+  // A leg is walked waypoint to waypoint, great-circling each short hop so the line follows
+  // the sphere. The lift is only enough to clear the surface: these lie on the globe rather
+  // than arcing over it, because they are not flights.
+  const LIFT = 0.012;
+  function legPoints(via){
     const pts = [];
-    for (let i=0;i<=96;i++){
-      const t=i/96, s=Math.sin(ang);
-      const k1 = s<1e-6?1-t:Math.sin((1-t)*ang)/s, k2 = s<1e-6?t:Math.sin(t*ang)/s;
-      const v=[a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2];
-      const m=Math.hypot(v[0],v[1],v[2]), h=1+lift*Math.sin(t*Math.PI);
-      pts.push([v[0]/m*h, v[1]/m*h, v[2]/m*h]);
+    for (let i=0;i<via.length-1;i++){
+      const a = toVec(via[i][0], via[i][1]), b = toVec(via[i+1][0], via[i+1][1]);
+      const dot = Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2]));
+      const ang = Math.acos(dot);
+      const steps = Math.max(3, Math.ceil(ang*46));      // denser for longer hops
+      for (let k=0;k<=steps;k++){
+        if (i>0 && k===0) continue;                      // no duplicate joint
+        const t = k/steps, sn = Math.sin(ang);
+        const k1 = sn<1e-6?1-t:Math.sin((1-t)*ang)/sn, k2 = sn<1e-6?t:Math.sin(t*ang)/sn;
+        const v = [a[0]*k1+b[0]*k2, a[1]*k1+b[1]*k2, a[2]*k1+b[2]*k2];
+        const m = Math.hypot(v[0],v[1],v[2]), h = 1+LIFT;
+        pts.push([v[0]/m*h, v[1]/m*h, v[2]/m*h]);
+      }
     }
-    return { ...r, pts, ang, a, b, lift };
-  });
-  function pointAt(r,t){
-    const s=Math.sin(r.ang);
-    const k1=s<1e-6?1-t:Math.sin((1-t)*r.ang)/s, k2=s<1e-6?t:Math.sin(t*r.ang)/s;
-    const v=[r.a[0]*k1+r.b[0]*k2, r.a[1]*k1+r.b[1]*k2, r.a[2]*k1+r.b[2]*k2];
-    const m=Math.hypot(v[0],v[1],v[2]), h=1+r.lift*Math.sin(t*Math.PI);
-    return [v[0]/m*h, v[1]/m*h, v[2]/m*h];
+    return pts;
   }
-  const PACE = 0.19;
-  const planes = arcs.map((a,i)=>({route:a, t:i*0.23%1, speed:PACE/Math.sqrt(a.days)}));
+
+  // one drawable per leg, tagged with the route it belongs to
+  const arcs = [];
+  for (const r of ROUTES){
+    for (const leg of r.legs){
+      arcs.push({ key:r.key, mode:r.mode, name:leg.to, code:leg.code, pts:legPoints(leg.via) });
+    }
+  }
+
   let focus = null;
 
   const NAME_F = '300 13px Diagramm,"Helvetica Neue",Helvetica,Arial,sans-serif';
   const CODE_F = '400 10px Diagramm,"Helvetica Neue",Helvetica,Arial,sans-serif';
 
+  // Boxes claimed by labels in the current frame, so a later one can step clear.
+  const gBoxes = [];
+  function labelFits(x, y, w, flip){
+    const x0 = flip ? x - w - 4 : x - 4, x1 = flip ? x + 4 : x + w + 4;
+    // A label is two lines - name then code - so the box has to cover both, or the code
+    // of one lands on the name of the next.
+    const b = { x0, y0: y - 13, x1, y1: y + 16 };
+    return gBoxes.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0)
+      ? null : b;
+  }
+
   function label(p,name,code,alpha,dotR,accent){
     const flip = p[0] > cx, dir = flip?-1:1, x = p[0]+dir*14;
+    // Reserve space before drawing: measure, then take the first offset that is clear.
+    ctx.font = NAME_F;
+    const tw = ctx.measureText(name).width;
+    let dy = 0, box = null;
+    for (const cand of [0, -31, 31, -62, 62, -93, 93]){
+      box = labelFits(x, p[1]+cand, tw, flip);
+      if (box){ dy = cand; break; }
+    }
+    if (box) gBoxes.push(box);        // nowhere clear: draw in place rather than fling it away
+
     ctx.beginPath(); ctx.arc(p[0],p[1],dotR,0,7);
     ctx.fillStyle = accent ? `rgba(248,232,112,${alpha})` : `rgba(35,35,35,${alpha})`;
     ctx.fill();
     if (accent){ ctx.lineWidth=1.2; ctx.strokeStyle=`rgba(35,35,35,${alpha})`; ctx.stroke(); }
-    ctx.beginPath(); ctx.moveTo(p[0]+dir*(dotR+2.5),p[1]); ctx.lineTo(p[0]+dir*10.5,p[1]);
+    ctx.beginPath(); ctx.moveTo(p[0]+dir*(dotR+2.5),p[1]);
+    ctx.lineTo(p[0]+dir*10.5, p[1]+dy);
     ctx.strokeStyle=`rgba(143,138,129,${alpha*0.7})`; ctx.lineWidth=1; ctx.stroke();
     ctx.textAlign = flip?'right':'left'; ctx.lineJoin='round';
     // white halo: the mirror of the dark-mode build, for legibility on a light ground
     ctx.font=NAME_F; ctx.strokeStyle=`rgba(248,248,248,${alpha*0.95})`; ctx.lineWidth=3.5;
-    ctx.strokeText(name,x,p[1]-1);
-    ctx.fillStyle=`rgba(35,35,35,${alpha})`; ctx.fillText(name,x,p[1]-1);
+    ctx.strokeText(name,x,p[1]-1+dy);
+    ctx.fillStyle=`rgba(35,35,35,${alpha})`; ctx.fillText(name,x,p[1]-1+dy);
     ctx.font=CODE_F; ctx.strokeStyle=`rgba(248,248,248,${alpha*0.95})`; ctx.lineWidth=3;
-    ctx.strokeText(code,x,p[1]+11);
-    ctx.fillStyle=`rgba(143,138,129,${alpha})`; ctx.fillText(code,x,p[1]+11);
+    ctx.strokeText(code,x,p[1]+11+dy);
+    ctx.fillStyle=`rgba(143,138,129,${alpha})`; ctx.fillText(code,x,p[1]+11+dy);
     ctx.textAlign='left';
   }
 
   function draw(dt){
     if (!W || !H) return;
+    gBoxes.length = 0;   // claims are per-frame
     ctx.clearRect(0,0,W,H);
 
     const g = ctx.createRadialGradient(cx-R*.3, cy-R*.4, R*.05, cx, cy, R*1.05);
@@ -859,34 +937,35 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     for (const a of arcs){
       const dim = focus && focus !== a.key;
       const hot = focus === a.key;
-      let prev = null;
+      let prev = null, i = -1;
       for (const v of a.pts){
+        i++;
         const p = project(v);
         if (p[2] <= .015){ prev=null; continue; }
         if (prev){
           const d = Math.min(1, Math.min(prev[2],p[2])/0.34);
           // A selected route gets a dark under-stroke so the signal yellow reads on paper.
-          if (hot){
-            ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-            ctx.lineWidth=4.2; ctx.strokeStyle=`rgba(35,35,35,${(0.82*d).toFixed(3)})`; ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-            ctx.lineWidth=2.4; ctx.strokeStyle=`rgba(248,232,112,${d.toFixed(3)})`; ctx.stroke();
-          } else {
-            ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-            ctx.lineWidth=1.1;
-            ctx.strokeStyle=`rgba(35,35,35,${((dim?0.16:0.42)*d).toFixed(3)})`; ctx.stroke();
+          // Overland runs are dashed, sea lanes solid. Drawn segment by segment so each
+          // keeps its own depth fade, so the dash is a gap in the run rather than a line dash.
+          const gap = a.mode === 'land' && (Math.floor(i/3) % 2 === 1);
+          if (!gap){
+            if (hot){
+              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
+              ctx.lineWidth=4.2; ctx.strokeStyle=`rgba(35,35,35,${(0.82*d).toFixed(3)})`; ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
+              ctx.lineWidth=2.4; ctx.strokeStyle=`rgba(248,232,112,${d.toFixed(3)})`; ctx.stroke();
+            } else {
+              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
+              ctx.lineWidth = a.mode === 'land' ? 1.4 : 1.1;
+              ctx.strokeStyle=`rgba(35,35,35,${((dim?0.16:0.42)*d).toFixed(3)})`; ctx.stroke();
+            }
           }
         }
         prev = p;
       }
     }
 
-    for (const a of arcs){
-      const p = project(a.pts[a.pts.length-1]); if (p[2] <= .02) continue;
-      const dim = focus && focus !== a.key;
-      label(p, a.name, a.code.split(' → ')[1], (dim?0.42:1)*Math.min(1,p[2]/0.30), dim?2.2:3.2, false);
-    }
-
+    // Origin first: it is the one label that should never be the one that moves.
     const o = project(toVec(ORIGIN.lat,ORIGIN.lon));
     if (o[2] > .02){
       const t = reduced?.5:(Math.sin(performance.now()/620)+1)/2;
@@ -895,28 +974,12 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       label(o, ORIGIN.name, ORIGIN.code, Math.min(1,o[2]/0.30), 3.6, true);
     }
 
-    for (const pl of planes){
-      if (!reduced){ pl.t += pl.speed*dt; if (pl.t>=1) pl.t-=1; }
-      const dim = focus && focus !== pl.route.key;
-      const cur = project(pointAt(pl.route, pl.t)); if (cur[2] <= 0) continue;
-      const vis = Math.min(1, Math.min(pl.t,1-pl.t)/0.06) * Math.min(1, cur[2]/0.18);
-      if (vis <= .01) continue;
-      for (let k=1;k<=10;k++){
-        const tt = pl.t-k*0.009; if (tt<=0) break;
-        const q = project(pointAt(pl.route,tt)); if (q[2]<=0) continue;
-        const f = 1-k/11;
-        ctx.beginPath(); ctx.arc(q[0],q[1],1.5*f,0,7);
-        ctx.fillStyle=`rgba(168,128,26,${((dim?.12:.4)*f*vis).toFixed(3)})`; ctx.fill();
-      }
-      const e=0.004;
-      const p0=project(pointAt(pl.route,Math.max(0,pl.t-e))), p1=project(pointAt(pl.route,Math.min(1,pl.t+e)));
-      ctx.save(); ctx.translate(cur[0],cur[1]); ctx.rotate(Math.atan2(p1[1]-p0[1],p1[0]-p0[0]));
-      ctx.beginPath(); ctx.moveTo(5.4,0); ctx.lineTo(-3.6,3.1); ctx.lineTo(-1.7,0); ctx.lineTo(-3.6,-3.1); ctx.closePath();
-      ctx.fillStyle = dim?`rgba(35,35,35,${(.35*vis).toFixed(3)})`:`rgba(35,35,35,${vis.toFixed(3)})`;
-      ctx.fill();
-      if (!dim){ ctx.beginPath(); ctx.arc(0,0,1.5,0,7); ctx.fillStyle=`rgba(248,232,112,${vis.toFixed(3)})`; ctx.fill(); }
-      ctx.restore();
+    for (const a of arcs){
+      const p = project(a.pts[a.pts.length-1]); if (p[2] <= .02) continue;
+      const dim = focus && focus !== a.key;
+      label(p, a.name, a.code, (dim?0.42:1)*Math.min(1,p[2]/0.30), dim?2.2:3.2, false);
     }
+
   }
 
   // Camera tween. Centring a place means yaw = -longitude and pitch = latitude; the yaw
@@ -964,14 +1027,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     b.innerHTML = `<span class="vgx-dot"></span>
       <span><span class="vgx-name">${r.name}</span>
         <span class="vgx-desc">${r.desc}</span>
-        <span class="vgx-meta">${r.code} · ${r.days} days in transit</span></span>
+        <span class="vgx-meta">${r.meta} · ${r.days} days</span></span>
       <span class="vgx-share">${r.share}</span>`;
     b.addEventListener('click', () => {
       const already = focus === r.key;
       buttons.forEach(x => x.setAttribute('aria-pressed','false'));
       if (already){ focus=null; spin=true; return; }
       focus = r.key; b.setAttribute('aria-pressed','true');
-      flyTo(r.lat, r.lon);
+      flyTo(r.at[0], r.at[1]);
     });
     buttons.push(b); li.appendChild(b); list.appendChild(li);
   });
