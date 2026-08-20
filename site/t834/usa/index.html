@@ -686,6 +686,18 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -711,7 +723,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 .vgx-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:28px;align-items:stretch}
 /* No frame: the canvas sits directly on the page ground so the globe reads as part of the
    section rather than an embedded widget. */
-.vgx-canvas-col{grid-column:span 8;position:relative;min-height:660px;background:none;border:0}
+/* Height, not width, is what caps the globe: R is taken from min(W,H) and the column is
+   wider than it is tall. Raising it is what lets the sphere grow. */
+.vgx-canvas-col{grid-column:span 8;position:relative;min-height:800px;background:none;border:0}
 .vgx-panel-col{grid-column:span 4;display:flex;flex-direction:column}
 
 .vgx canvas{display:block;width:100%;height:100%;position:absolute;inset:0;cursor:grab;
@@ -746,14 +760,17 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 .vgx-sw.d{background:none;border-top:2px dashed var(--vgx-gold);height:0}
 
 @media (max-width:1024px){
-  .vgx-canvas-col{grid-column:span 12;min-height:480px}
+  /* Tablet is still height-bound, so it keeps a tall column; phones are width-bound, where
+   extra height is dead space under the globe rather than a bigger globe. */
+  .vgx-canvas-col{grid-column:span 12;min-height:620px}
   .vgx-panel-col{grid-column:span 12}
 }
 /* The -38px bleed matches the desktop container inset. Narrower layouts inset by less,
    so the same negative margin pushes the band past the viewport - 426px inside 390px.
    Below this width the section sits in normal flow instead. */
 @media (max-width:1024px){ .vgx{margin:0} .vgx-wrap{margin:0;padding:0 24px} }
-@media (max-width:640px){ .vgx-wrap{margin:0;padding:0 20px} .vgx{padding:52px 0 60px} }
+@media (max-width:640px){ .vgx-wrap{margin:0;padding:0 20px} .vgx{padding:52px 0 60px}
+  .vgx-canvas-col{min-height:400px} }
 </style>
 
 <section class="vgx" aria-labelledby="vgx-title">
@@ -878,7 +895,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     if (!W || !H) return;
     cv.width = W*dpr; cv.height = H*dpr;
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    cx = W/2; cy = H/2; R = Math.min(W,H)*0.46*zoom;
+    cx = W/2; cy = H/2; R = Math.min(W,H)*0.48*zoom;
   }
   new ResizeObserver(resize).observe(cv);
 
@@ -1181,7 +1198,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       const ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
       // About twice the old silhouette, but not so large it outgrows the routes it runs on:
       // the overland legs are only ~35px end to end.
-      const k = 0.60 + 0.32*Math.min(1, cur[2]);          // nearer reads slightly larger
+      const k = 0.86 + 0.42*Math.min(1, cur[2]);          // nearer reads slightly larger
       ctx.save();
       ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
       // The glyphs carry their own colours, so fade them with the context rather than by
