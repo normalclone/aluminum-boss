@@ -843,6 +843,10 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -871,7 +875,9 @@ id="core-menu-mobile"
 .vgx-canvas-col{grid-column:span 8;position:relative;min-height:660px;background:none;border:0}
 .vgx-panel-col{grid-column:span 4;display:flex;flex-direction:column}
 
-.vgx canvas{display:block;width:100%;height:100%;position:absolute;inset:0;cursor:grab;touch-action:none}
+.vgx canvas{display:block;width:100%;height:100%;position:absolute;inset:0;cursor:grab;
+  /* pan-y, not none: none swallows vertical swipes and traps a touch reader on the globe */
+  touch-action:pan-y}
 .vgx canvas:active{cursor:grabbing}
 .vgx canvas:focus-visible{outline:2px solid var(--vgx-gold);outline-offset:-2px}
 
@@ -1221,7 +1227,9 @@ id="core-menu-mobile"
 .vfx-tally span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)}
 
 .vfx-stage{position:relative;height:620px}
-.vfx canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+.vfx canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;
+  /* pan-y, not none: none swallows vertical swipes and traps a touch reader on the map */
+  touch-action:pan-y}
 .vfx canvas:active{cursor:grabbing}
 .vfx canvas:focus-visible{outline:2px solid var(--gold);outline-offset:-3px}
 
@@ -1310,7 +1318,7 @@ id="core-menu-mobile"
     <div class="vfx-cards" id="vfx-cards" aria-hidden="true"></div>
     <div class="vfx-tip" id="vfx-tip" role="dialog" aria-live="polite"></div>
     <div class="vfx-legend"><i><span class="vfx-sw"></span>Factory</i></div>
-    <div class="vfx-hint">Drag to rotate · scroll to zoom</div>
+    <div class="vfx-hint">Drag to rotate</div>
   </div>
 </div>
   </div>
@@ -1927,12 +1935,6 @@ const rel = () => { dragging=false; setTimeout(()=>{ if(!dragging){ drift=0; spi
 cv.addEventListener('pointerup', rel);
 cv.addEventListener('pointercancel', rel);
 cv.addEventListener('pointerleave', () => { hot=null; hideTip(); });
-cv.addEventListener('wheel', e => {
-  e.preventDefault();
-  zoom = Math.max(0.6, Math.min(2.6, zoom * (e.deltaY>0 ? 0.92 : 1.08)));
-  hideTip(); hot=null;
-}, {passive:false});
-
 // keyboard: step through the sites
 let kIdx = -1;
 cv.addEventListener('keydown', e => {
