@@ -859,6 +859,30 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1058,13 +1082,22 @@ id="core-menu-mobile"
   // the sphere. The lift is only enough to clear the surface: these lie on the globe rather
   // than arcing over it, because they are not flights.
   const LIFT = 0.012;
-  function legPoints(via){
+  // One dash plus its gap. The overland runs are only about 35px long on screen, so an
+  // even on/off split reads as stippling rather than a road; most of the cycle is ink.
+  const DASH = 0.0135;
+  const DASH_ON = 0.62;
+  const VPACE = 0.055;       // fraction of a route covered per second
+  function legPoints(via, dense){
     const pts = [];
     for (let i=0;i<via.length-1;i++){
       const a = toVec(via[i][0], via[i][1]), b = toVec(via[i+1][0], via[i+1][1]);
       const dot = Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2]));
       const ang = Math.acos(dot);
-      const steps = Math.max(3, Math.ceil(ang*46));      // denser for longer hops
+      // Overland runs are short, so they are sampled far more finely: a dash has to be
+      // cut from several samples, otherwise its length is decided by how the waypoints
+      // happen to fall and the line reads as broken rather than dashed.
+      const steps = dense ? Math.max(10, Math.ceil(ang*420))
+                          : Math.max(3, Math.ceil(ang*46));
       for (let k=0;k<=steps;k++){
         if (i>0 && k===0) continue;                      // no duplicate joint
         const t = k/steps, sn = Math.sin(ang);
@@ -1074,15 +1107,58 @@ id="core-menu-mobile"
         pts.push([v[0]/m*h, v[1]/m*h, v[2]/m*h]);
       }
     }
-    return pts;
+    // Distance travelled at each point. Dashes and vehicles both measure along this, so a
+    // dash is the same length everywhere and a vehicle never leaves the line it belongs to.
+    const cum = [0];
+    for (let i=1;i<pts.length;i++){
+      const p = pts[i-1], q = pts[i];
+      cum.push(cum[i-1] + Math.hypot(q[0]-p[0], q[1]-p[1], q[2]-p[2]));
+    }
+    return { pts, cum, total: cum[cum.length-1] || 1 };
+  }
+
+  // Position along a route by fraction of its length, with the local heading.
+  function atFraction(arc, f){
+    const want = Math.max(0, Math.min(1, f)) * arc.total;
+    let lo = 0, hi = arc.cum.length - 1;
+    while (lo < hi - 1){ const mid = (lo+hi)>>1; if (arc.cum[mid] <= want) lo = mid; else hi = mid; }
+    const seg = arc.cum[hi] - arc.cum[lo] || 1;
+    const t = (want - arc.cum[lo]) / seg;
+    const a = arc.pts[lo], b = arc.pts[hi];
+    const v = [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t];
+    const m = Math.hypot(v[0],v[1],v[2]) || 1, h = 1+LIFT;
+    return { pos:[v[0]/m*h, v[1]/m*h, v[2]/m*h], from:a, to:b };
   }
 
   // one drawable per leg, tagged with the route it belongs to
   const arcs = [];
   for (const r of ROUTES){
     for (const leg of r.legs){
-      arcs.push({ key:r.key, mode:r.mode, name:leg.to, code:leg.code, pts:legPoints(leg.via) });
+      const g = legPoints(leg.via, r.mode === 'land');
+      arcs.push({ key:r.key, mode:r.mode, name:leg.to, code:leg.code, days:r.days,
+                  pts:g.pts, cum:g.cum, total:g.total });
     }
+  }
+
+  // One vehicle per leg. Speed is set from transit days so the short overland runs move
+  // visibly quicker than the month-long sea legs, and staggered so they do not set off
+  // together like a parade.
+  const vehicles = arcs.map((a,i) => ({
+    arc: a, f: (i*0.37) % 1, speed: VPACE * (a.mode==='land' ? 1.9 : 22/Math.max(8,a.days))
+  }));
+
+  // Drawn pointing along +x, in screen space, then rotated to the direction of travel.
+  function drawShip(g, k){
+    g.beginPath();
+    g.moveTo(6.2*k,0); g.lineTo(1.6*k,2.5*k); g.lineTo(-5.0*k,2.5*k);
+    g.lineTo(-5.0*k,-2.5*k); g.lineTo(1.6*k,-2.5*k); g.closePath(); g.fill();
+    g.fillRect(-2.6*k, -4.6*k, 3.1*k, 2.2*k);            // deckhouse
+  }
+  function drawTruck(g, k){
+    g.fillRect(-5.2*k, -2.4*k, 6.0*k, 4.2*k);            // trailer
+    g.beginPath();
+    g.moveTo(1.2*k,-2.4*k); g.lineTo(4.4*k,-2.4*k); g.lineTo(5.4*k,-0.4*k);
+    g.lineTo(5.4*k,1.8*k); g.lineTo(1.2*k,1.8*k); g.closePath(); g.fill();   // cab
   }
 
   let focus = null;
@@ -1160,7 +1236,9 @@ id="core-menu-mobile"
           // A selected route gets a dark under-stroke so the signal yellow reads on paper.
           // Overland runs are dashed, sea lanes solid. Drawn segment by segment so each
           // keeps its own depth fade, so the dash is a gap in the run rather than a line dash.
-          const gap = a.mode === 'land' && (Math.floor(i/3) % 2 === 1);
+          // Measured along the route, so every dash is the same length regardless of how
+          // finely that stretch happens to be subdivided.
+          const gap = a.mode === 'land' && ((a.cum[i] % DASH) / DASH) > DASH_ON;
           if (!gap){
             if (hot){
               ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
@@ -1169,8 +1247,12 @@ id="core-menu-mobile"
               ctx.lineWidth=2.4; ctx.strokeStyle=`rgba(248,232,112,${d.toFixed(3)})`; ctx.stroke();
             } else {
               ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-              ctx.lineWidth = a.mode === 'land' ? 1.4 : 1.1;
-              ctx.strokeStyle=`rgba(35,35,35,${((dim?0.16:0.42)*d).toFixed(3)})`; ctx.stroke();
+              // Finer dashes lose weight on screen, so the overland runs are drawn darker
+              // to hold the same presence as the solid sea lanes.
+              const land = a.mode === 'land';
+              ctx.lineWidth = land ? 1.9 : 1.1;
+              const base = dim ? (land ? 0.26 : 0.16) : (land ? 0.82 : 0.42);
+              ctx.strokeStyle=`rgba(35,35,35,${(base*d).toFixed(3)})`; ctx.stroke();
             }
           }
         }
@@ -1191,6 +1273,37 @@ id="core-menu-mobile"
       const p = project(a.pts[a.pts.length-1]); if (p[2] <= .02) continue;
       const dim = focus && focus !== a.key;
       label(p, a.name, a.code, (dim?0.42:1)*Math.min(1,p[2]/0.30), dim?2.2:3.2, false);
+    }
+
+    for (const v of vehicles){
+      if (!reduced){ v.f += v.speed*dt; if (v.f >= 1) v.f -= 1; }
+      const dim = focus && focus !== v.arc.key;
+      const at = atFraction(v.arc, v.f);
+      const cur = project(at.pos);
+      if (cur[2] <= 0.02) continue;                       // round the back of the globe
+      // fade in and out at the ends so a vehicle does not pop into being at the quay
+      const vis = Math.min(1, Math.min(v.f, 1-v.f)/0.05) * Math.min(1, cur[2]/0.20)
+                * (dim ? 0.30 : 1);
+      if (vis <= 0.02) continue;
+
+      // wake or dust: a few fading marks behind
+      for (let k=1;k<=6;k++){
+        const bf = v.f - k*0.006; if (bf <= 0) break;
+        const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
+        const f = 1-k/7;
+        ctx.beginPath(); ctx.arc(q[0],q[1], 0.85*f, 0, 7);
+        ctx.fillStyle = `rgba(143,138,129,${(0.42*f*vis).toFixed(3)})`; ctx.fill();
+      }
+
+      const p0 = project(at.from), p1 = project(at.to);
+      const ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
+      // Kept small: at the first size these read as blobs the size of the country labels.
+      const k = 0.46 + 0.26*Math.min(1, cur[2]);          // nearer reads slightly larger
+      ctx.save();
+      ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
+      ctx.fillStyle = `rgba(35,35,35,${vis.toFixed(3)})`;
+      if (v.arc.mode === 'sea') drawShip(ctx, k); else drawTruck(ctx, k);
+      ctx.restore();
     }
 
   }
