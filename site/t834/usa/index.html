@@ -682,6 +682,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -820,13 +824,15 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
     { key:'asean', mode:'land', name:'ASEAN', share:'23%', days:3,
       desc:'Overland by road to Laos, Cambodia and Thailand.',
-      meta:'Road · Vientiane · Phnom Penh · Bangkok', at:[14,104],
+      meta:'Road · Vientiane · Phnom Penh · Bangkok', at:[14.5,103],
       // One overland run, not three. Three legs from the same origin crowded the labels and
       // the trucks into a few hundred kilometres of map, and the panel already treats them as
-      // a single market; the endpoint sits at the centre of the three capitals.
+      // a single market. The endpoint sits between Bangkok and Vientiane rather than at the
+      // exact centre of the three capitals: the centroid put it so close to the origin that
+      // the truck covered half the route and sat on top of the destination dot.
       legs:[
         { to:'ASEAN', code:'LAO · KHM · THA', via:[
-          [10.8,106.6],[11.2,105.6],[11.9,104.6],[12.8,103.4],[13.6,102.6],[14.2,102.3]] },
+          [10.8,106.6],[11.3,105.5],[12.0,104.4],[12.9,103.2],[14.0,102.0],[15.2,101.2],[16.0,100.6]] },
       ] },
   ];
 
