@@ -923,6 +923,18 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1193,88 +1205,110 @@ id="core-menu-mobile"
     arc: a, f: (i*0.37) % 1, speed: VPACE * (a.mode==='land' ? 1.9 : 22/Math.max(8,a.days))
   }));
 
-  // Vehicle palette. Three tones per surface - lit top, mid side, shaded skirt - because at
-  // this size that is what reads as a solid object; outlines alone just look like stickers.
+  // Flat icon palette, drawn from the page's own colours: the reference's brown hull becomes
+  // the warm near-black used for text, its orange containers the amber of the accents.
   const VEH = {
-    top:   '#e9e4da',    // face catching the light
-    side:  '#9b948a',    // long side
-    deep:  '#6d665d',    // shaded lower face
-    dark:  '#4a453f',    // wheels, waterline
-    line:  'rgba(35,35,35,.55)',
-    load:  ['#b9b2a7', '#a49d93', '#cbc5bb'],   // deck cargo
-    shade: 'rgba(35,35,35,.12)',
+    hull:  '#3f3a34',
+    hullLo:'#2e2a26',
+    deck:  '#5a544c',
+    tower: '#e4ded3',
+    towerCap:'#c3bcaf',
+    window:'#6d665d',
+    funnel:'#6d665d',
+    band:  '#a8801a',
+    box:   ['#a8801a', '#c9a33f', '#e2c56b'],
+    line:  'rgba(35,35,35,.45)',
+    smoke: '145,138,128',
+    shade: 'rgba(35,35,35,.10)',
   };
 
-  // Drawn pointing along +x in screen space, then rotated to the direction of travel. The
-  // light is treated as coming from above the glyph rather than from the page, which at this
-  // size reads correctly whichever way the vehicle is heading.
-  function drawShip(g, k){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.55*k);
+  // Smoke from the funnel: a few puffs on a staggered cycle, rising and drifting astern.
+  function drawSmoke(g, k, t){
+    for (let i = 0; i < 5; i++){
+      const ph = ((t * 0.42) + i / 5) % 1;
+      const x = -5.0*k - ph * 8.5*k;
+      const y = -9.4*k - ph * 9.5*k;
+      const r = (0.9 + ph * 2.4) * k;
+      const a = 0.34 * (1 - ph) * (ph < 0.12 ? ph / 0.12 : 1);   // fade in at the funnel
+      g.beginPath(); g.arc(x, y, r, 0, 7);
+      g.fillStyle = 'rgba(' + VEH.smoke + ',' + a.toFixed(3) + ')';
+      g.fill();
+    }
+  }
 
-    g.beginPath(); g.ellipse(0, 4.4*k, 9.2*k, 2.0*k, 0, 0, 7);
-    g.fillStyle = VEH.shade; g.fill();                       // water beneath
+  // Drawn pointing along +x in screen space. Flat shapes rather than shaded faces, so the
+  // vessel reads the same whichever way it is heading.
+  function drawShip(g, k, t){
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.5*k);
 
-    // hull: shaded lower face, then the side above it
-    g.beginPath();
-    g.moveTo(10.5*k, 1.0*k); g.lineTo(3.0*k, 3.8*k); g.lineTo(-8.4*k, 3.8*k);
-    g.lineTo(-9.2*k, 1.0*k); g.closePath();
-    g.fillStyle = VEH.deep; g.fill(); g.strokeStyle = VEH.line; g.stroke();
+    if (t !== null) drawSmoke(g, k, t);
 
-    g.beginPath();
-    g.moveTo(10.5*k, 1.0*k); g.lineTo(-9.2*k, 1.0*k); g.lineTo(-8.6*k, -1.4*k);
-    g.lineTo(8.2*k, -1.4*k); g.closePath();
-    g.fillStyle = VEH.side; g.fill(); g.stroke();
+    g.beginPath(); g.ellipse(0, 5.2*k, 9.5*k, 1.6*k, 0, 0, 7);
+    g.fillStyle = VEH.shade; g.fill();                       // water under the hull
 
-    // deck
-    g.beginPath();
-    g.moveTo(8.2*k, -1.4*k); g.lineTo(-8.6*k, -1.4*k); g.lineTo(-8.0*k, -2.6*k);
-    g.lineTo(6.6*k, -2.6*k); g.closePath();
-    g.fillStyle = VEH.top; g.fill(); g.stroke();
-
-    // containers, stacked from the stern forward
+    // containers, two rows, forward of the bridge
+    const bw = 3.1*k, bh = 2.9*k;
     for (let i = 0; i < 3; i++){
-      const x = -7.0*k + i*4.0*k, w = 3.4*k, h = 2.6*k;
-      g.fillStyle = VEH.load[i % VEH.load.length];
-      g.fillRect(x, -2.6*k - h, w, h);
-      g.fillStyle = VEH.top;
-      g.fillRect(x, -2.6*k - h, w, 0.9*k);                   // lit top of the stack
-      g.strokeStyle = VEH.line; g.strokeRect(x, -2.6*k - h, w, h);
+      g.fillStyle = VEH.box[i % 3];
+      g.fillRect(-1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh);
+      g.strokeStyle = VEH.line; g.strokeRect(-1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh);
+    }
+    for (let i = 0; i < 2; i++){
+      g.fillStyle = VEH.box[(i + 2) % 3];
+      g.fillRect(1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh);
+      g.strokeStyle = VEH.line; g.strokeRect(1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh);
     }
 
-    // bridge at the bow end
-    g.fillStyle = VEH.deep; g.fillRect(5.4*k, -5.6*k, 2.6*k, 3.0*k);
-    g.fillStyle = VEH.top;  g.fillRect(5.4*k, -5.6*k, 2.6*k, 1.0*k);
-    g.strokeStyle = VEH.line; g.strokeRect(5.4*k, -5.6*k, 2.6*k, 3.0*k);
+    // bridge tower, aft
+    g.fillStyle = VEH.tower;
+    g.fillRect(-6.4*k, -7.4*k, 4.0*k, 7.9*k);
+    g.fillStyle = VEH.towerCap;
+    g.fillRect(-6.9*k, -7.9*k, 5.0*k, 0.9*k);                // rim across the top
+    g.fillStyle = VEH.window;
+    g.fillRect(-5.9*k, -5.6*k, 2.9*k, 1.5*k);                // window band
+    g.strokeStyle = VEH.line;
+    g.strokeRect(-6.4*k, -7.4*k, 4.0*k, 7.9*k);
+
+    // funnel on top of the tower
+    g.fillStyle = VEH.funnel;
+    g.fillRect(-5.5*k, -10.2*k, 1.9*k, 2.4*k);
+    g.fillStyle = VEH.band;
+    g.fillRect(-5.5*k, -10.2*k, 1.9*k, 0.8*k);
+    g.strokeStyle = VEH.line;
+    g.strokeRect(-5.5*k, -10.2*k, 1.9*k, 2.4*k);
+
+    // hull: flat trapezoid, bow to starboard
+    g.beginPath();
+    g.moveTo(-8.6*k, 0.5*k); g.lineTo(11.0*k, 0.5*k);
+    g.lineTo(7.6*k, 4.9*k);  g.lineTo(-6.6*k, 4.9*k);
+    g.closePath();
+    g.fillStyle = VEH.hull; g.fill();
+    g.strokeStyle = VEH.line; g.stroke();
+    g.fillStyle = VEH.deck;
+    g.fillRect(-8.6*k, 0.5*k, 19.6*k, 0.7*k);                // deck line along the top
   }
 
   function drawTruck(g, k){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.55*k);
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.5*k);
 
-    g.beginPath(); g.ellipse(0, 3.6*k, 8.0*k, 1.7*k, 0, 0, 7);
-    g.fillStyle = VEH.shade; g.fill();                       // road beneath
+    g.beginPath(); g.ellipse(0, 3.4*k, 8.0*k, 1.4*k, 0, 0, 7);
+    g.fillStyle = VEH.shade; g.fill();
 
-    // wheels first, so the body sits over them
-    g.fillStyle = VEH.dark;
-    for (const wx of [-5.4*k, -3.4*k, 4.2*k]){
-      g.beginPath(); g.ellipse(wx, 2.4*k, 1.25*k, 1.25*k, 0, 0, 7); g.fill();
+    g.fillStyle = VEH.hullLo;
+    for (const wx of [-5.2*k, -3.2*k, 4.4*k]){
+      g.beginPath(); g.arc(wx, 2.3*k, 1.2*k, 0, 7); g.fill();
     }
 
-    // trailer: side then lit top
-    g.fillStyle = VEH.side;
-    g.fillRect(-7.6*k, -3.4*k, 10.4*k, 5.6*k);
-    g.fillStyle = VEH.top;
-    g.fillRect(-7.6*k, -3.4*k, 10.4*k, 1.7*k);
-    g.strokeStyle = VEH.line; g.strokeRect(-7.6*k, -3.4*k, 10.4*k, 5.6*k);
+    g.fillStyle = VEH.box[1];                                 // trailer, in the container amber
+    g.fillRect(-7.4*k, -3.4*k, 10.0*k, 5.4*k);
+    g.strokeStyle = VEH.line; g.strokeRect(-7.4*k, -3.4*k, 10.0*k, 5.4*k);
 
-    // cab, a little lower than the trailer roof
-    g.beginPath();
-    g.moveTo(3.0*k, -1.8*k); g.lineTo(6.4*k, -1.8*k); g.lineTo(7.6*k, 0.2*k);
-    g.lineTo(7.6*k, 2.2*k); g.lineTo(3.0*k, 2.2*k); g.closePath();
-    g.fillStyle = VEH.deep; g.fill(); g.stroke();
-    g.beginPath();
-    g.moveTo(3.0*k, -1.8*k); g.lineTo(6.4*k, -1.8*k); g.lineTo(6.9*k, -0.9*k);
-    g.lineTo(3.0*k, -0.9*k); g.closePath();
-    g.fillStyle = VEH.top; g.fill(); g.stroke();
+    g.beginPath();                                            // cab
+    g.moveTo(3.0*k, -1.6*k); g.lineTo(6.2*k, -1.6*k); g.lineTo(7.4*k, 0.4*k);
+    g.lineTo(7.4*k, 2.0*k);  g.lineTo(3.0*k, 2.0*k); g.closePath();
+    g.fillStyle = VEH.hull; g.fill(); g.stroke();
+    g.fillStyle = VEH.tower;
+    g.fillRect(3.4*k, -1.1*k, 2.4*k, 1.3*k);                  // windscreen
   }
 
   let focus = null;
@@ -1415,25 +1449,34 @@ id="core-menu-mobile"
         const bf = v.f - k*0.006; if (bf <= 0) break;
         const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
         const f = 1-k/7;
-        ctx.beginPath(); ctx.arc(q[0],q[1], 0.85*f, 0, 7);
+        ctx.beginPath(); ctx.arc(q[0],q[1], (v.arc.mode === 'sea' ? 1.5 : 0.85)*f, 0, 7);
         ctx.fillStyle = `rgba(143,138,129,${(0.42*f*vis).toFixed(3)})`; ctx.fill();
       }
 
       const p0 = project(at.from), p1 = project(at.to);
-      const ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
+      // Rotating by the full heading turns the vessel's own "up" with it, so anything
+      // travelling westward ends up sailing upside down - deck under the hull. Instead the
+      // glyph is kept upright and mirrored: pointing back along +x and flipped in x gives the
+      // same heading with the deck still on top.
+      let ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
+      let mirror = false;
+      if (ang > Math.PI/2 || ang < -Math.PI/2){ ang -= Math.PI; mirror = true; }
       // About twice the old silhouette, but not so large it outgrows the routes it runs on:
       // the overland legs are only ~35px end to end.
       // Ships and trucks are scaled apart. A ship has an ocean to cross and can carry the
       // size; a truck runs a 39px overland leg, and at the same scale it covered the route
       // and pushed into the ASEAN label.
       const near = Math.min(1, cur[2]);
-      const k = v.arc.mode === 'sea' ? 1.16 + 0.56*near : 0.82 + 0.38*near;
+      const k = v.arc.mode === 'sea' ? 1.80 + 0.90*near : 0.82 + 0.38*near;
       ctx.save();
       ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
+      if (mirror) ctx.scale(-1, 1);
       // The glyphs carry their own colours, so fade them with the context rather than by
       // baking alpha into every fill.
       ctx.globalAlpha = vis;
-      if (v.arc.mode === 'sea') drawShip(ctx, k); else drawTruck(ctx, k);
+      // Frozen clock under reduced motion, so the smoke sits still with everything else.
+      const smokeT = reduced ? 0 : performance.now() / 1000;
+      if (v.arc.mode === 'sea') drawShip(ctx, k, smokeT); else drawTruck(ctx, k);
       ctx.restore();
     }
 
