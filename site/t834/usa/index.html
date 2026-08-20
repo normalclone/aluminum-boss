@@ -674,6 +674,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -813,13 +817,12 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     { key:'asean', mode:'land', name:'ASEAN', share:'23%', days:3,
       desc:'Overland by road to Laos, Cambodia and Thailand.',
       meta:'Road · Vientiane · Phnom Penh · Bangkok', at:[14,104],
+      // One overland run, not three. Three legs from the same origin crowded the labels and
+      // the trucks into a few hundred kilometres of map, and the panel already treats them as
+      // a single market; the endpoint sits at the centre of the three capitals.
       legs:[
-        { to:'Vientiane', code:'LAO', via:[
-          [10.8,106.6],[11.9,106.9],[13.5,107.5],[15.0,107.8],[16.5,106.6],[17.4,104.8],[17.97,102.60]] },
-        { to:'Phnom Penh', code:'KHM', via:[
-          [10.8,106.6],[11.0,106.0],[11.3,105.4],[11.55,104.92]] },
-        { to:'Bangkok', code:'THA', via:[
-          [10.8,106.6],[11.2,105.8],[12.0,104.0],[13.0,102.0],[13.75,100.52]] },
+        { to:'ASEAN', code:'LAO · KHM · THA', via:[
+          [10.8,106.6],[11.2,105.6],[11.9,104.6],[12.8,103.4],[13.6,102.6],[14.2,102.3]] },
       ] },
   ];
 
