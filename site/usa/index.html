@@ -975,6 +975,18 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1211,19 +1223,39 @@ id="core-menu-mobile"
   const DASH = 0.0135;
   const DASH_ON = 0.62;
   const VPACE = 0.055;       // fraction of a route covered per second
-  function legPoints(via, dense){
+  // Chaikin corner-cutting on the sphere: each pass replaces a corner with two points a
+  // quarter and three quarters along, which rounds it. Ends are held so the route still
+  // starts and finishes where it was told to.
+  function roundCorners(vecs, passes){
+    // Own normalise: the shared vector helpers are declared further down, and this runs
+    // while the routes are being built.
+    const unit = v => { const m = Math.hypot(v[0],v[1],v[2]) || 1; return [v[0]/m, v[1]/m, v[2]/m]; };
+    let pts = vecs;
+    for (let k = 0; k < passes; k++){
+      if (pts.length < 3) break;
+      const out = [pts[0]];
+      for (let i = 0; i < pts.length - 1; i++){
+        const a = pts[i], b = pts[i+1];
+        out.push(unit([a[0]*0.75 + b[0]*0.25, a[1]*0.75 + b[1]*0.25, a[2]*0.75 + b[2]*0.25]));
+        out.push(unit([a[0]*0.25 + b[0]*0.75, a[1]*0.25 + b[1]*0.75, a[2]*0.25 + b[2]*0.75]));
+      }
+      out.push(pts[pts.length - 1]);
+      pts = out;
+    }
+    return pts;
+  }
+
+  function legPoints(rawVia, dense){
+    const via = roundCorners(rawVia.map(p => toVec(p[0], p[1])), 3);
     const pts = [];
     for (let i=0;i<via.length-1;i++){
-      const a = toVec(via[i][0], via[i][1]), b = toVec(via[i+1][0], via[i+1][1]);
+      const a = via[i], b = via[i+1];
       const dot = Math.max(-1, Math.min(1, a[0]*b[0]+a[1]*b[1]+a[2]*b[2]));
       const ang = Math.acos(dot);
-      // Overland runs are short, so they are sampled far more finely: a dash has to be
-      // cut from several samples, otherwise its length is decided by how the waypoints
-      // happen to fall and the line reads as broken rather than dashed.
-      // Position is interpolated between samples, so a coarse chain shows as a polygon
-      // under a vessel this size. Sea lanes are sampled twice as finely as they were.
-      const steps = dense ? Math.max(10, Math.ceil(ang*420))
-                          : Math.max(6, Math.ceil(ang*70));
+      // Corner-cutting already multiplied the point count, so each hop needs fewer steps
+      // than it did when hops ran corner to corner.
+      const steps = dense ? Math.max(4, Math.ceil(ang*420))
+                          : Math.max(2, Math.ceil(ang*70));
       for (let k=0;k<=steps;k++){
         if (i>0 && k===0) continue;                      // no duplicate joint
         const t = k/steps, sn = Math.sin(ang);
@@ -1378,6 +1410,84 @@ id="core-menu-mobile"
                                Math.round(f.c[2]*f.lit) + ')';
       ctx.fill();
       ctx.stroke();
+    }
+  }
+
+  // Frame carried by a vessel at a point along its route, in view space. Forward runs along
+  // the route, read from a little behind to a little ahead so it does not step at waypoints;
+  // the mast leans toward the viewer so the vessel is seen three-quarter wherever it is.
+  const LOOK = 0.004;
+  function vehFrame(arc, f){
+    const pb = rot(atFraction(arc, Math.max(0, f - LOOK)).pos);
+    const pa = rot(atFraction(arc, Math.min(1, f + LOOK)).pos);
+    const pos = atFraction(arc, f).pos;
+    const Pv = rot(pos);
+    const Nv = nrm3(rot(nrm3(pos)));
+    let F = [pa[0]-pb[0], pa[1]-pb[1], pa[2]-pb[2]];
+    let d = dot3(F, Nv);
+    F = nrm3([F[0]-Nv[0]*d, F[1]-Nv[1]*d, F[2]-Nv[2]*d]);
+    const ct = Math.cos(VEH_TILT), st = Math.sin(VEH_TILT);
+    let U = nrm3([Nv[0]*ct, Nv[1]*ct + st, Nv[2]*ct]);
+    d = dot3(U, F);
+    U = nrm3([U[0]-F[0]*d, U[1]-F[1]*d, U[2]-F[2]*d]);
+    return { P: Pv, F, U, S: cross3(F, U) };
+  }
+
+  // Wake, laid on the water in the vessel's frame so it follows the curve of the globe.
+  // A spreading V that fades astern, its edges drawn as lines, with foam at the stern.
+  // Sampled backwards along the route rather than straight astern: on a curving lane a
+  // straight wake leaves the line the ship actually took.
+  function drawWake(arc, f0, u){
+    const N = 9, SPAN = 0.055, W0 = 2.2, W1 = 9.0, Y = -2.0;
+    const L = [], Rt = [], alpha = [];
+    for (let i = 0; i <= N; i++){
+      const t = i/N;
+      const f = f0 - t*SPAN;
+      if (f <= 0.001) break;
+      const fr = vehFrame(arc, f);
+      const w = (W0 + t*(W1 - W0)) * u;
+      const off = (sgn) => [
+        fr.P[0] + (fr.U[0]*Y*u + fr.S[0]*w*sgn),
+        fr.P[1] + (fr.U[1]*Y*u + fr.S[1]*w*sgn),
+        fr.P[2] + (fr.U[2]*Y*u + fr.S[2]*w*sgn) ];
+      const l = off(-1), r = off(1);
+      if (l[2] <= 0.02 || r[2] <= 0.02) break;
+      L.push([cx + l[0]*R, cy - l[1]*R]);
+      Rt.push([cx + r[0]*R, cy - r[1]*R]);
+      alpha.push(1 - t);
+    }
+    if (L.length < 2) return;
+
+    // body, a band per step so it can fade with distance
+    for (let i = 0; i < L.length - 1; i++){
+      ctx.beginPath();
+      ctx.moveTo(L[i][0], L[i][1]);
+      ctx.lineTo(L[i+1][0], L[i+1][1]);
+      ctx.lineTo(Rt[i+1][0], Rt[i+1][1]);
+      ctx.lineTo(Rt[i][0], Rt[i][1]);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(150,144,135,${(0.15*alpha[i]).toFixed(3)})`;
+      ctx.fill();
+    }
+
+    ctx.lineWidth = Math.max(0.5, 0.45 * u * R);
+    for (const edge of [L, Rt]){
+      ctx.beginPath();
+      ctx.moveTo(edge[0][0], edge[0][1]);
+      for (let i = 1; i < edge.length; i++) ctx.lineTo(edge[i][0], edge[i][1]);
+      ctx.strokeStyle = 'rgba(120,114,106,.26)';
+      ctx.stroke();
+    }
+
+    // foam at the stern, where the water is actually broken
+    for (let i = 0; i < 3 && i < L.length; i++){
+      const a = 0.5 * (1 - i/3);
+      for (const e of [L, Rt]){
+        ctx.beginPath();
+        ctx.arc(e[i][0], e[i][1], (1.4 - i*0.35) * u * R, 0, 7);
+        ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+        ctx.fill();
+      }
     }
   }
 
@@ -1583,26 +1693,7 @@ id="core-menu-mobile"
                 * (dim ? 0.30 : 1);
       if (vis <= 0.02) continue;
 
-      // Frame in view space. Forward runs along the route, read from a little behind to a
-      // little ahead so it does not step at every waypoint.
-      const LOOK = 0.004;
-      const pb = rot(atFraction(v.arc, Math.max(0, v.f - LOOK)).pos);
-      const pa = rot(atFraction(v.arc, Math.min(1, v.f + LOOK)).pos);
-      const Pv = rot(at.pos);
-      const Nv = nrm3(rot(nrm3(at.pos)));
-      let F = [pa[0]-pb[0], pa[1]-pb[1], pa[2]-pb[2]];
-      let rad = dot3(F, Nv);
-      F = nrm3([F[0]-Nv[0]*rad, F[1]-Nv[1]*rad, F[2]-Nv[2]*rad]);
-
-      // Standing on the true normal means the ship is seen from straight overhead wherever it
-      // faces the viewer, which reads as a deck plan. The mast is leaned toward screen-up by a
-      // fixed angle so it is a model on a map, seen three-quarter, everywhere on the globe.
-      const ct = Math.cos(VEH_TILT), st = Math.sin(VEH_TILT);
-      let U = nrm3([Nv[0]*ct, Nv[1]*ct + st, Nv[2]*ct]);
-      rad = dot3(U, F);
-      U = nrm3([U[0]-F[0]*rad, U[1]-F[1]*rad, U[2]-F[2]*rad]);
-      const S = cross3(F, U);
-      const fr = { P: Pv, F, U, S };
+      const fr = vehFrame(v.arc, v.f);
 
       const near = Math.min(1, cur[2]);
       const k = v.arc.mode === 'sea' ? 1.26 + 0.63*near : 0.82 + 0.38*near;
@@ -1610,13 +1701,16 @@ id="core-menu-mobile"
 
       ctx.globalAlpha = vis;
 
-      // wake or dust, laid on the surface behind
-      for (let j = 1; j <= 6; j++){
-        const bf = v.f - j*0.006; if (bf <= 0) break;
-        const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
-        const f = 1 - j/7;
-        ctx.beginPath(); ctx.arc(q[0], q[1], 0.9*f*k, 0, 7);
-        ctx.fillStyle = `rgba(143,138,129,${(0.40*f).toFixed(3)})`; ctx.fill();
+      if (v.arc.mode === 'sea') drawWake(v.arc, v.f, u);
+      else {
+        // dust behind a truck: the old fading trail, which suits a road
+        for (let j = 1; j <= 6; j++){
+          const bf = v.f - j*0.006; if (bf <= 0) break;
+          const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
+          const f = 1 - j/7;
+          ctx.beginPath(); ctx.arc(q[0], q[1], 0.9*f*k, 0, 7);
+          ctx.fillStyle = `rgba(143,138,129,${(0.40*f).toFixed(3)})`; ctx.fill();
+        }
       }
 
       if (v.arc.mode === 'sea' && !reduced) drawSmoke3D(fr, u, performance.now()/1000, 1);
