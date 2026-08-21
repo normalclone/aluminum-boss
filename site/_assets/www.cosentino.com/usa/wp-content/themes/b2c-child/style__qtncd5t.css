@@ -6,7 +6,7 @@ Author: Babel Sistemas de información
 Template: cosentino-theme
 Version: 1.0.5
 */
-@import "/_assets/fonts.googleapis.com/css2__qa6xmt7.css";
+@import "../../../../../fonts.googleapis.com/css2__qa6xmt7.css";
 @font-face {
   font-family: "CosentinoIcons";
   src: url("../../../../../assetsstatic.cosentino.com/fonts/cosentino-icons-webfont.eot");
