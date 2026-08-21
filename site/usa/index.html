@@ -935,6 +935,34 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1108,6 +1136,15 @@ id="core-menu-mobile"
     for(let i=0,j=poly.length-1;i<poly.length;j=i++){ const [yi,xi]=poly[i],[yj,xj]=poly[j];
       if((yi>lat)!==(yj>lat) && lon<(xj-xi)*(lat-yi)/(yj-yi)+xi) hit=!hit; } return hit; };
 
+  // Depth buckets for the graticule, built once: the fill strings are the expensive part
+  // and there are only a handful of distinct ones.
+  const DOT_STEPS = 6;
+  const DOT_BUCKETS = [], DOT_FILLS = [];
+  for (let b = 0; b < DOT_STEPS; b++){
+    DOT_BUCKETS.push([]);
+    DOT_FILLS.push('rgba(143,138,129,' + (.20 + ((b + 0.5) / DOT_STEPS) * .45).toFixed(3) + ')');
+  }
+
   const DOTS = [];
   for (let lat=-84; lat<=84; lat+=2.6){
     const step = 2.6/Math.max(.18, Math.cos(lat*D2R));
@@ -1126,6 +1163,22 @@ id="core-menu-mobile"
     return [x, y*cp-z*sp, y*sp+z*cp]; };
   const project = (v) => { const r=rot(v); return [cx+r[0]*R, cy-r[1]*R, r[2]]; };
 
+  // Pre-rendered sphere backdrop, rebuilt only when the canvas changes size.
+  let sphereCv = null;
+  function buildSphere(dpr){
+    if (!W || !H) return;
+    sphereCv = document.createElement('canvas');
+    sphereCv.width = Math.max(1, Math.round(W*dpr));
+    sphereCv.height = Math.max(1, Math.round(H*dpr));
+    const s2 = sphereCv.getContext('2d');
+    s2.setTransform(dpr,0,0,dpr,0,0);
+    const g = s2.createRadialGradient(cx-R*.3, cy-R*.4, R*.05, cx, cy, R*1.05);
+    g.addColorStop(0,'#ffffff'); g.addColorStop(.7,'#f4f2ee'); g.addColorStop(1,'#e8e5df');
+    s2.beginPath(); s2.arc(cx,cy,R,0,7); s2.fillStyle=g; s2.fill();
+    s2.beginPath(); s2.arc(cx,cy,R,0,7);
+    s2.strokeStyle='rgba(35,35,35,.14)'; s2.lineWidth=1; s2.stroke();
+  }
+
   function resize(){
     const dpr = Math.min(2, devicePixelRatio||1);
     W = cv.clientWidth; H = cv.clientHeight;
@@ -1133,6 +1186,7 @@ id="core-menu-mobile"
     cv.width = W*dpr; cv.height = H*dpr;
     ctx.setTransform(dpr,0,0,dpr,0,0);
     cx = W/2; cy = H/2; R = Math.min(W,H)*0.44*zoom;
+    buildSphere(dpr);
   }
   new ResizeObserver(resize).observe(cv);
 
@@ -1154,8 +1208,10 @@ id="core-menu-mobile"
       // Overland runs are short, so they are sampled far more finely: a dash has to be
       // cut from several samples, otherwise its length is decided by how the waypoints
       // happen to fall and the line reads as broken rather than dashed.
+      // Position is interpolated between samples, so a coarse chain shows as a polygon
+      // under a vessel this size. Sea lanes are sampled twice as finely as they were.
       const steps = dense ? Math.max(10, Math.ceil(ang*420))
-                          : Math.max(3, Math.ceil(ang*46));
+                          : Math.max(6, Math.ceil(ang*70));
       for (let k=0;k<=steps;k++){
         if (i>0 && k===0) continue;                      // no duplicate joint
         const t = k/steps, sn = Math.sin(ang);
@@ -1236,60 +1292,77 @@ id="core-menu-mobile"
     }
   }
 
-  // Drawn pointing along +x in screen space. Flat shapes rather than shaded faces, so the
-  // vessel reads the same whichever way it is heading.
+  // Depth offset shared by every part, so the whole vessel reads as one solid object lit
+  // from the same direction.
+  function tone(hex, amt){
+    const n = parseInt(hex.slice(1), 16);
+    const c = [(n>>16)&255, (n>>8)&255, n&255].map(v =>
+      Math.max(0, Math.min(255, Math.round(v + 255*amt))));
+    return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')';
+  }
+
+  // One box: top face, right face, then the front face over them.
+  function box3(g, x, y, w, h, dx, dy, col){
+    g.beginPath();
+    g.moveTo(x, y); g.lineTo(x+w, y); g.lineTo(x+w+dx, y+dy); g.lineTo(x+dx, y+dy);
+    g.closePath(); g.fillStyle = tone(col, 0.11); g.fill(); g.stroke();
+
+    g.beginPath();
+    g.moveTo(x+w, y); g.lineTo(x+w+dx, y+dy); g.lineTo(x+w+dx, y+h+dy); g.lineTo(x+w, y+h);
+    g.closePath(); g.fillStyle = tone(col, -0.10); g.fill(); g.stroke();
+
+    g.beginPath(); g.rect(x, y, w, h);
+    g.fillStyle = col; g.fill(); g.stroke();
+  }
+
+  // The reference icon, extruded. Drawn pointing along +x; the caller keeps it upright and
+  // mirrors it for westbound headings, which is what lets the lighting stay put.
   function drawShip(g, k, t){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.5*k);
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.45, 0.45*k);
+    g.strokeStyle = VEH.line;
+    const dx = 2.1*k, dy = -1.6*k;                      // depth toward the far top corner
 
     if (t !== null) drawSmoke(g, k, t);
 
-    g.beginPath(); g.ellipse(0, 5.2*k, 9.5*k, 1.6*k, 0, 0, 7);
-    g.fillStyle = VEH.shade; g.fill();                       // water under the hull
+    g.beginPath(); g.ellipse(1.0*k, 5.3*k, 9.8*k, 1.6*k, 0, 0, 7);
+    g.fillStyle = VEH.shade; g.fill();                  // water under the hull
 
-    // containers, two rows, forward of the bridge
-    const bw = 3.1*k, bh = 2.9*k;
-    for (let i = 0; i < 3; i++){
-      g.fillStyle = VEH.box[i % 3];
-      g.fillRect(-1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh);
-      g.strokeStyle = VEH.line; g.strokeRect(-1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh);
-    }
-    for (let i = 0; i < 2; i++){
-      g.fillStyle = VEH.box[(i + 2) % 3];
-      g.fillRect(1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh);
-      g.strokeStyle = VEH.line; g.strokeRect(1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh);
-    }
+    // deck, seen from slightly above
+    g.beginPath();
+    g.moveTo(-8.6*k, 0.5*k); g.lineTo(11.0*k, 0.5*k);
+    g.lineTo(11.0*k+dx, 0.5*k+dy); g.lineTo(-8.6*k+dx, 0.5*k+dy);
+    g.closePath(); g.fillStyle = VEH.deck; g.fill(); g.stroke();
 
-    // bridge tower, aft
-    g.fillStyle = VEH.tower;
-    g.fillRect(-6.4*k, -7.4*k, 4.0*k, 7.9*k);
-    g.fillStyle = VEH.towerCap;
-    g.fillRect(-6.9*k, -7.9*k, 5.0*k, 0.9*k);                // rim across the top
-    g.fillStyle = VEH.window;
-    g.fillRect(-5.9*k, -5.6*k, 2.9*k, 1.5*k);                // window band
-    g.strokeStyle = VEH.line;
-    g.strokeRect(-6.4*k, -7.4*k, 4.0*k, 7.9*k);
+    // bow, the face turned away from us
+    g.beginPath();
+    g.moveTo(11.0*k, 0.5*k); g.lineTo(11.0*k+dx, 0.5*k+dy);
+    g.lineTo(7.6*k+dx, 4.9*k+dy); g.lineTo(7.6*k, 4.9*k);
+    g.closePath(); g.fillStyle = tone(VEH.hull, -0.055); g.fill(); g.stroke();
 
-    // funnel on top of the tower
-    g.fillStyle = VEH.funnel;
-    g.fillRect(-5.5*k, -10.2*k, 1.9*k, 2.4*k);
-    g.fillStyle = VEH.band;
-    g.fillRect(-5.5*k, -10.2*k, 1.9*k, 0.8*k);
-    g.strokeStyle = VEH.line;
-    g.strokeRect(-5.5*k, -10.2*k, 1.9*k, 2.4*k);
-
-    // hull: flat trapezoid, bow to starboard
+    // hull side
     g.beginPath();
     g.moveTo(-8.6*k, 0.5*k); g.lineTo(11.0*k, 0.5*k);
     g.lineTo(7.6*k, 4.9*k);  g.lineTo(-6.6*k, 4.9*k);
-    g.closePath();
-    g.fillStyle = VEH.hull; g.fill();
-    g.strokeStyle = VEH.line; g.stroke();
-    g.fillStyle = VEH.deck;
-    g.fillRect(-8.6*k, 0.5*k, 19.6*k, 0.7*k);                // deck line along the top
+    g.closePath(); g.fillStyle = VEH.hull; g.fill(); g.stroke();
+
+    // funnel and bridge, aft
+    box3(g, -5.5*k, -10.2*k, 1.9*k, 2.4*k, dx*0.5, dy*0.5, VEH.funnel);
+    g.fillStyle = VEH.band; g.fillRect(-5.5*k, -10.2*k, 1.9*k, 0.8*k);
+    box3(g, -6.4*k, -7.4*k, 4.0*k, 7.9*k, dx*0.7, dy*0.7, VEH.tower);
+    g.fillStyle = VEH.window; g.fillRect(-5.9*k, -5.6*k, 2.9*k, 1.5*k);
+
+    // containers: lower tier first, then the tier stacked on it
+    const bw = 3.1*k, bh = 2.9*k;
+    for (let i = 0; i < 3; i++)
+      box3(g, -1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh, dx*0.8, dy*0.8, VEH.box[i % 3]);
+    for (let i = 0; i < 2; i++)
+      box3(g, 1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh, dx*0.8, dy*0.8, VEH.box[(i+2) % 3]);
   }
 
   function drawTruck(g, k){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.5, 0.5*k);
+    g.lineJoin = 'round'; g.lineWidth = Math.max(0.45, 0.45*k);
+    g.strokeStyle = VEH.line;
+    const dx = 1.5*k, dy = -1.2*k;
 
     g.beginPath(); g.ellipse(0, 3.4*k, 8.0*k, 1.4*k, 0, 0, 7);
     g.fillStyle = VEH.shade; g.fill();
@@ -1299,16 +1372,9 @@ id="core-menu-mobile"
       g.beginPath(); g.arc(wx, 2.3*k, 1.2*k, 0, 7); g.fill();
     }
 
-    g.fillStyle = VEH.box[1];                                 // trailer, in the container amber
-    g.fillRect(-7.4*k, -3.4*k, 10.0*k, 5.4*k);
-    g.strokeStyle = VEH.line; g.strokeRect(-7.4*k, -3.4*k, 10.0*k, 5.4*k);
-
-    g.beginPath();                                            // cab
-    g.moveTo(3.0*k, -1.6*k); g.lineTo(6.2*k, -1.6*k); g.lineTo(7.4*k, 0.4*k);
-    g.lineTo(7.4*k, 2.0*k);  g.lineTo(3.0*k, 2.0*k); g.closePath();
-    g.fillStyle = VEH.hull; g.fill(); g.stroke();
-    g.fillStyle = VEH.tower;
-    g.fillRect(3.4*k, -1.1*k, 2.4*k, 1.3*k);                  // windscreen
+    box3(g, -7.4*k, -3.4*k, 10.0*k, 5.4*k, dx, dy, VEH.box[1]);   // trailer
+    box3(g, 2.9*k, -1.6*k, 4.5*k, 3.6*k, dx*0.8, dy*0.8, VEH.hull);
+    g.fillStyle = VEH.tower; g.fillRect(3.3*k, -1.1*k, 2.4*k, 1.3*k);
   }
 
   let focus = null;
@@ -1370,52 +1436,107 @@ id="core-menu-mobile"
     gBoxes.length = 0;   // claims are per-frame
     ctx.clearRect(0,0,W,H);
 
-    const g = ctx.createRadialGradient(cx-R*.3, cy-R*.4, R*.05, cx, cy, R*1.05);
-    g.addColorStop(0,'#ffffff'); g.addColorStop(.7,'#f4f2ee'); g.addColorStop(1,'#e8e5df');
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fillStyle=g; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.strokeStyle='rgba(35,35,35,.14)'; ctx.lineWidth=1; ctx.stroke();
+    // The sphere's shading is fixed relative to the screen, not to the rotation, so it is
+    // painted once per resize and blitted after that. Rebuilding the gradient and filling a
+    // 700px circle every frame was pure repetition.
+    if (sphereCv) ctx.drawImage(sphereCv, 0, 0, W, H);
 
+    // Thousands of dots, each previously its own beginPath/arc/fill with a freshly built
+    // colour string - the single largest cost in the frame. They are bucketed by depth and
+    // each bucket drawn as one path with one fill; a moveTo before each arc keeps them from
+    // being joined into a single blob.
+    for (let b = 0; b < DOT_STEPS; b++) DOT_BUCKETS[b].length = 0;
     for (const v of DOTS){
       const p = project(v); if (p[2] <= .02) continue;
-      ctx.beginPath(); ctx.arc(p[0],p[1], .7+p[2]*.85, 0, 7);
-      ctx.fillStyle = `rgba(143,138,129,${(.20+p[2]*.45).toFixed(3)})`; ctx.fill();
+      const b = Math.min(DOT_STEPS - 1, Math.floor(p[2] * DOT_STEPS));
+      const arr = DOT_BUCKETS[b];
+      arr.push(p[0], p[1]);
+    }
+    for (let b = 0; b < DOT_STEPS; b++){
+      const arr = DOT_BUCKETS[b];
+      if (!arr.length) continue;
+      const mid = (b + 0.5) / DOT_STEPS;
+      const r = .7 + mid * .85;
+      ctx.beginPath();
+      for (let j = 0; j < arr.length; j += 2){
+        ctx.moveTo(arr[j] + r, arr[j+1]);
+        ctx.arc(arr[j], arr[j+1], r, 0, 7);
+      }
+      ctx.fillStyle = DOT_FILLS[b];
+      ctx.fill();
     }
 
+    // Segments are bucketed by depth and each bucket stroked once. Stroking every segment
+    // separately - which is what carrying a continuous fade required - cost hundreds of
+    // draw calls a frame and showed up as choppy motion.
+    const FADE_STEPS = 6;
     for (const a of arcs){
       const dim = focus && focus !== a.key;
       const hot = focus === a.key;
+      const land = a.mode === 'land';
+      const buckets = [];
+      for (let b = 0; b < FADE_STEPS; b++) buckets.push([]);
+
       let prev = null, i = -1;
       for (const v of a.pts){
         i++;
         const p = project(v);
-        if (p[2] <= .015){ prev=null; continue; }
+        if (p[2] <= .015){ prev = null; continue; }
         if (prev){
-          const d = Math.min(1, Math.min(prev[2],p[2])/0.34);
-          // A selected route gets a dark under-stroke so the signal yellow reads on paper.
-          // Overland runs are dashed, sea lanes solid. Drawn segment by segment so each
-          // keeps its own depth fade, so the dash is a gap in the run rather than a line dash.
+          const d = Math.min(1, Math.min(prev[2], p[2]) / 0.34);
           // Measured along the route, so every dash is the same length regardless of how
           // finely that stretch happens to be subdivided.
-          const gap = a.mode === 'land' && ((a.cum[i] % DASH) / DASH) > DASH_ON;
+          const gap = land && ((a.cum[i] % DASH) / DASH) > DASH_ON;
           if (!gap){
-            if (hot){
-              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-              ctx.lineWidth=4.2; ctx.strokeStyle=`rgba(35,35,35,${(0.82*d).toFixed(3)})`; ctx.stroke();
-              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-              ctx.lineWidth=2.4; ctx.strokeStyle=`rgba(248,232,112,${d.toFixed(3)})`; ctx.stroke();
-            } else {
-              ctx.beginPath(); ctx.moveTo(prev[0],prev[1]); ctx.lineTo(p[0],p[1]);
-              // Finer dashes lose weight on screen, so the overland runs are drawn darker
-              // to hold the same presence as the solid sea lanes.
-              const land = a.mode === 'land';
-              ctx.lineWidth = land ? 1.9 : 1.1;
-              const base = dim ? (land ? 0.26 : 0.16) : (land ? 0.82 : 0.42);
-              ctx.strokeStyle=`rgba(35,35,35,${(base*d).toFixed(3)})`; ctx.stroke();
-            }
+            const b = Math.min(FADE_STEPS - 1, Math.max(0, Math.floor(d * FADE_STEPS)));
+            buckets[b].push(prev[0], prev[1], p[0], p[1]);
           }
         }
         prev = p;
       }
+
+      const path = seg => {
+        ctx.beginPath();
+        for (let j = 0; j < seg.length; j += 4){
+          ctx.moveTo(seg[j], seg[j+1]); ctx.lineTo(seg[j+2], seg[j+3]);
+        }
+      };
+
+      if (hot){
+        // Two passes, not two strokes per bucket: otherwise a later bucket's dark backing
+        // paints over the yellow already laid down by an earlier one.
+        ctx.lineWidth = 4.2;
+        for (let b = 0; b < FADE_STEPS; b++){
+          if (!buckets[b].length) continue;
+          const d = (b + 0.5) / FADE_STEPS;
+          path(buckets[b]);
+          ctx.strokeStyle = `rgba(35,35,35,${(0.82*d).toFixed(3)})`; ctx.stroke();
+        }
+        ctx.lineWidth = 2.4;
+        for (let b = 0; b < FADE_STEPS; b++){
+          if (!buckets[b].length) continue;
+          const d = (b + 0.5) / FADE_STEPS;
+          path(buckets[b]);
+          ctx.strokeStyle = `rgba(248,232,112,${d.toFixed(3)})`; ctx.stroke();
+        }
+      } else {
+        // Finer dashes lose weight on screen, so the overland runs are drawn darker to hold
+        // the same presence as the solid sea lanes.
+        ctx.lineWidth = land ? 1.9 : 1.1;
+        const base = dim ? (land ? 0.26 : 0.16) : (land ? 0.82 : 0.42);
+        for (let b = 0; b < FADE_STEPS; b++){
+          if (!buckets[b].length) continue;
+          const d = (b + 0.5) / FADE_STEPS;
+          path(buckets[b]);
+          ctx.strokeStyle = `rgba(35,35,35,${(base*d).toFixed(3)})`; ctx.stroke();
+        }
+      }
+    }
+
+    for (const a of arcs){
+      const p = project(a.pts[a.pts.length-1]); if (p[2] <= .02) continue;
+      const dim = focus && focus !== a.key;
+      label(p, a.name, a.code, (dim?0.42:1)*Math.min(1,p[2]/0.30), dim?2.2:3.2, false);
     }
 
     // Origin first: it is the one label that should never be the one that moves.
@@ -1425,12 +1546,6 @@ id="core-menu-mobile"
       ctx.beginPath(); ctx.arc(o[0],o[1],5+t*9,0,7);
       ctx.fillStyle=`rgba(168,128,26,${(.14*(1-t)).toFixed(3)})`; ctx.fill();
       label(o, ORIGIN.name, ORIGIN.code, Math.min(1,o[2]/0.30), 3.6, true);
-    }
-
-    for (const a of arcs){
-      const p = project(a.pts[a.pts.length-1]); if (p[2] <= .02) continue;
-      const dim = focus && focus !== a.key;
-      label(p, a.name, a.code, (dim?0.42:1)*Math.min(1,p[2]/0.30), dim?2.2:3.2, false);
     }
 
     for (const v of vehicles){
@@ -1453,13 +1568,24 @@ id="core-menu-mobile"
         ctx.fillStyle = `rgba(143,138,129,${(0.42*f*vis).toFixed(3)})`; ctx.fill();
       }
 
-      const p0 = project(at.from), p1 = project(at.to);
-      // Rotating by the full heading turns the vessel's own "up" with it, so anything
-      // travelling westward ends up sailing upside down - deck under the hull. Instead the
-      // glyph is kept upright and mirrored: pointing back along +x and flipped in x gives the
-      // same heading with the deck still on top.
-      let ang = Math.atan2(p1[1]-p0[1], p1[0]-p0[0]);
-      let mirror = false;
+      // Heading is taken from a little behind to a little ahead along the route, not from
+      // the segment the vessel happens to be standing on: that snapped a step at every
+      // waypoint. It is then eased toward, so a bend reads as a turn rather than a flick.
+      const LOOK = 0.004;
+      const b0 = project(atFraction(v.arc, Math.max(0, v.f - LOOK)).pos);
+      const b1 = project(atFraction(v.arc, Math.min(1, v.f + LOOK)).pos);
+      const target = Math.atan2(b1[1]-b0[1], b1[0]-b0[0]);
+      if (v.ang === undefined || reduced) v.ang = target;
+      else {
+        let d = target - v.ang;
+        while (d >  Math.PI) d -= Math.PI*2;
+        while (d < -Math.PI) d += Math.PI*2;
+        v.ang += d * Math.min(1, dt*7);                 // ease, frame-rate independent
+      }
+      // Rotating by the full heading would turn the vessel's own "up" with it, so anything
+      // westbound would sail upside down - deck under the hull. Kept upright and mirrored
+      // instead: pointing back along +x and flipped in x is the same heading, deck on top.
+      let ang = v.ang, mirror = false;
       if (ang > Math.PI/2 || ang < -Math.PI/2){ ang -= Math.PI; mirror = true; }
       // About twice the old silhouette, but not so large it outgrows the routes it runs on:
       // the overland legs are only ~35px end to end.
