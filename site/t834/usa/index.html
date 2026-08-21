@@ -770,6 +770,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1085,7 +1089,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   // visibly quicker than the month-long sea legs, and staggered so they do not set off
   // together like a parade.
   const vehicles = arcs.map((a,i) => ({
-    arc: a, f: (i*0.37) % 1, speed: VPACE * (a.mode==='land' ? 1.9 : 22/Math.max(8,a.days))
+    arc: a, f: (i*0.37) % 1,
+    // Ships run at 0.7 of what they did; trucks keep their pace on the short overland leg.
+    speed: VPACE * (a.mode==='land' ? 1.9 : 0.7 * 22/Math.max(8,a.days))
   }));
 
   // Palette, kept from the reference icon: dark hull, pale bridge, amber containers, in the
