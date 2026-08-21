@@ -750,6 +750,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1048,120 +1056,133 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     arc: a, f: (i*0.37) % 1, speed: VPACE * (a.mode==='land' ? 1.9 : 22/Math.max(8,a.days))
   }));
 
-  // Flat icon palette, drawn from the page's own colours: the reference's brown hull becomes
-  // the warm near-black used for text, its orange containers the amber of the accents.
+  // Palette, kept from the reference icon: dark hull, pale bridge, amber containers, in the
+  // page's own colours. Stored as RGB because every face is lit before it is filled.
+  const rgb = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
   const VEH = {
-    hull:  '#3f3a34',
-    hullLo:'#2e2a26',
-    deck:  '#5a544c',
-    tower: '#e4ded3',
-    towerCap:'#c3bcaf',
-    window:'#6d665d',
-    funnel:'#6d665d',
-    band:  '#a8801a',
-    box:   ['#a8801a', '#c9a33f', '#e2c56b'],
-    line:  'rgba(35,35,35,.45)',
+    hull:  rgb('#3f3a34'), hullLo: rgb('#2e2a26'), deck: rgb('#6b6459'),
+    tower: rgb('#e4ded3'), window: rgb('#4a453f'), funnel: rgb('#6d665d'),
+    band:  rgb('#a8801a'),
+    box:   [rgb('#a8801a'), rgb('#c9a33f'), rgb('#e2c56b')],
+    line:  'rgba(35,35,35,.40)',
     smoke: '145,138,128',
-    shade: 'rgba(35,35,35,.10)',
+    shade: 'rgba(35,35,35,.11)',
   };
 
-  // Smoke from the funnel: a few puffs on a staggered cycle, rising and drifting astern.
-  function drawSmoke(g, k, t){
-    for (let i = 0; i < 5; i++){
-      const ph = ((t * 0.42) + i / 5) % 1;
-      const x = -5.0*k - ph * 8.5*k;
-      const y = -9.4*k - ph * 9.5*k;
-      const r = (0.9 + ph * 2.4) * k;
-      const a = 0.34 * (1 - ph) * (ph < 0.12 ? ph / 0.12 : 1);   // fade in at the funnel
-      g.beginPath(); g.arc(x, y, r, 0, 7);
-      g.fillStyle = 'rgba(' + VEH.smoke + ',' + a.toFixed(3) + ')';
-      g.fill();
-    }
-  }
+  const nrm3 = v => { const m = Math.hypot(v[0],v[1],v[2]) || 1; return [v[0]/m, v[1]/m, v[2]/m]; };
+  const dot3 = (a,b) => a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  const cross3 = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
 
-  // Depth offset shared by every part, so the whole vessel reads as one solid object lit
-  // from the same direction.
-  function tone(hex, amt){
-    const n = parseInt(hex.slice(1), 16);
-    const c = [(n>>16)&255, (n>>8)&255, n&255].map(v =>
-      Math.max(0, Math.min(255, Math.round(v + 255*amt))));
-    return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')';
-  }
+  // Light sits in view space, so a vessel keeps a consistent key light wherever it has
+  // sailed to rather than carrying its own lighting around with it.
+  const LIGHT = nrm3([-0.40, 0.72, 0.56]);
+  const VEH_TILT = 0.60;        // how far the mast leans toward the viewer, in radians
 
-  // One box: top face, right face, then the front face over them.
-  function box3(g, x, y, w, h, dx, dy, col){
-    g.beginPath();
-    g.moveTo(x, y); g.lineTo(x+w, y); g.lineTo(x+w+dx, y+dy); g.lineTo(x+dx, y+dy);
-    g.closePath(); g.fillStyle = tone(col, 0.11); g.fill(); g.stroke();
-
-    g.beginPath();
-    g.moveTo(x+w, y); g.lineTo(x+w+dx, y+dy); g.lineTo(x+w+dx, y+h+dy); g.lineTo(x+w, y+h);
-    g.closePath(); g.fillStyle = tone(col, -0.10); g.fill(); g.stroke();
-
-    g.beginPath(); g.rect(x, y, w, h);
-    g.fillStyle = col; g.fill(); g.stroke();
-  }
-
-  // The reference icon, extruded. Drawn pointing along +x; the caller keeps it upright and
-  // mirrors it for westbound headings, which is what lets the lighting stay put.
-  function drawShip(g, k, t){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.45, 0.45*k);
-    g.strokeStyle = VEH.line;
-    const dx = 2.1*k, dy = -1.6*k;                      // depth toward the far top corner
-
-    if (t !== null) drawSmoke(g, k, t);
-
-    g.beginPath(); g.ellipse(1.0*k, 5.3*k, 9.8*k, 1.6*k, 0, 0, 7);
-    g.fillStyle = VEH.shade; g.fill();                  // water under the hull
-
-    // deck, seen from slightly above
-    g.beginPath();
-    g.moveTo(-8.6*k, 0.5*k); g.lineTo(11.0*k, 0.5*k);
-    g.lineTo(11.0*k+dx, 0.5*k+dy); g.lineTo(-8.6*k+dx, 0.5*k+dy);
-    g.closePath(); g.fillStyle = VEH.deck; g.fill(); g.stroke();
-
-    // bow, the face turned away from us
-    g.beginPath();
-    g.moveTo(11.0*k, 0.5*k); g.lineTo(11.0*k+dx, 0.5*k+dy);
-    g.lineTo(7.6*k+dx, 4.9*k+dy); g.lineTo(7.6*k, 4.9*k);
-    g.closePath(); g.fillStyle = tone(VEH.hull, -0.055); g.fill(); g.stroke();
-
-    // hull side
-    g.beginPath();
-    g.moveTo(-8.6*k, 0.5*k); g.lineTo(11.0*k, 0.5*k);
-    g.lineTo(7.6*k, 4.9*k);  g.lineTo(-6.6*k, 4.9*k);
-    g.closePath(); g.fillStyle = VEH.hull; g.fill(); g.stroke();
-
-    // funnel and bridge, aft
-    box3(g, -5.5*k, -10.2*k, 1.9*k, 2.4*k, dx*0.5, dy*0.5, VEH.funnel);
-    g.fillStyle = VEH.band; g.fillRect(-5.5*k, -10.2*k, 1.9*k, 0.8*k);
-    box3(g, -6.4*k, -7.4*k, 4.0*k, 7.9*k, dx*0.7, dy*0.7, VEH.tower);
-    g.fillStyle = VEH.window; g.fillRect(-5.9*k, -5.6*k, 2.9*k, 1.5*k);
-
-    // containers: lower tier first, then the tier stacked on it
-    const bw = 3.1*k, bh = 2.9*k;
+  // Parts in vessel coordinates: x along the hull with the bow positive, y up from the deck,
+  // z across to starboard. One unit is one pixel at the scale the vessel is drawn.
+  function shipParts(){
+    const p = [
+      { x:[-8.4, 7.2],  y:[-2.4, 0.6], z:[-2.9, 2.9], c: VEH.hull },     // hull
+      { x:[ 7.2,10.2],  y:[-1.5, 0.6], z:[-1.5, 1.5], c: VEH.hull },     // bow, narrowed
+      { x:[-8.4,10.2],  y:[ 0.6, 0.9], z:[-2.9, 2.9], c: VEH.deck },     // deck
+      { x:[-6.3,-2.6],  y:[ 0.9, 7.2], z:[-2.2, 2.2], c: VEH.tower },    // bridge
+      { x:[-6.4,-2.5],  y:[ 4.4, 5.7], z:[-2.3, 2.3], c: VEH.window },   // window band
+      { x:[-5.3,-3.8],  y:[ 7.2, 9.8], z:[-1.0, 1.0], c: VEH.funnel },   // funnel
+      { x:[-5.35,-3.75],y:[ 9.0, 9.85],z:[-1.05,1.05],c: VEH.band },     // funnel band
+    ];
     for (let i = 0; i < 3; i++)
-      box3(g, -1.7*k + i*(bw + 0.35*k), -2.4*k, bw, bh, dx*0.8, dy*0.8, VEH.box[i % 3]);
+      p.push({ x:[-1.6 + i*3.3, 1.4 + i*3.3], y:[0.9, 3.6], z:[-2.5, 2.5], c: VEH.box[i%3] });
     for (let i = 0; i < 2; i++)
-      box3(g, 1.75*k + i*(bw + 0.35*k), -5.5*k, bw, bh, dx*0.8, dy*0.8, VEH.box[(i+2) % 3]);
+      p.push({ x:[ 1.7 + i*3.3, 4.7 + i*3.3], y:[3.6, 6.3], z:[-2.5, 2.5], c: VEH.box[(i+2)%3] });
+    return p;
+  }
+  function truckParts(){
+    return [
+      { x:[-7.2, 2.6], y:[ 0.6, 5.6], z:[-2.3, 2.3], c: VEH.box[1] },    // trailer
+      { x:[ 2.6, 7.0], y:[ 0.6, 4.0], z:[-2.2, 2.2], c: VEH.hull },      // cab
+      { x:[ 3.0, 6.6], y:[ 2.4, 3.7], z:[-2.3, 2.3], c: VEH.tower },     // windscreen
+      { x:[-7.2, 7.0], y:[-0.2, 0.6], z:[-2.0, 2.0], c: VEH.hullLo },    // chassis and wheels
+    ];
+  }
+  const SHIP_PARTS = shipParts(), TRUCK_PARTS = truckParts();
+
+  // Solid drawn in the tangent frame: corners go through the globe's own projection, faces
+  // are lit by their normals and painted far to near.
+  // The frame arrives already rotated into view space, so a corner only needs scaling to
+  // pixels - the projection is orthographic, and this is the plane it projects onto.
+  const SCR = v => [cx + v[0]*R, cy - v[1]*R];
+
+  function drawSolid(parts, fr, u, alpha){
+    const faces = [];
+    const at = (x,y,z) => [
+      fr.P[0] + (fr.F[0]*x + fr.U[0]*y + fr.S[0]*z) * u,
+      fr.P[1] + (fr.F[1]*x + fr.U[1]*y + fr.S[1]*z) * u,
+      fr.P[2] + (fr.F[2]*x + fr.U[2]*y + fr.S[2]*z) * u ];
+    const dir = (a,b,c) => nrm3([
+      fr.F[0]*a + fr.U[0]*b + fr.S[0]*c,
+      fr.F[1]*a + fr.U[1]*b + fr.S[1]*c,
+      fr.F[2]*a + fr.U[2]*b + fr.S[2]*c ]);
+
+    for (const p of parts){
+      const [x0,x1] = p.x, [y0,y1] = p.y, [z0,z1] = p.z;
+      const quads = [
+        [dir(0,1,0),  [at(x0,y1,z0), at(x1,y1,z0), at(x1,y1,z1), at(x0,y1,z1)]],
+        [dir(0,-1,0), [at(x0,y0,z1), at(x1,y0,z1), at(x1,y0,z0), at(x0,y0,z0)]],
+        [dir(1,0,0),  [at(x1,y0,z0), at(x1,y1,z0), at(x1,y1,z1), at(x1,y0,z1)]],
+        [dir(-1,0,0), [at(x0,y0,z1), at(x0,y1,z1), at(x0,y1,z0), at(x0,y0,z0)]],
+        [dir(0,0,1),  [at(x0,y0,z1), at(x0,y1,z1), at(x1,y1,z1), at(x1,y0,z1)]],
+        [dir(0,0,-1), [at(x1,y0,z0), at(x1,y1,z0), at(x0,y1,z0), at(x0,y0,z0)]],
+      ];
+      for (const [n, pts] of quads){
+        if (n[2] <= 0.03) continue;                        // turned away from us
+        const sp = [SCR(pts[0]), SCR(pts[1]), SCR(pts[2]), SCR(pts[3])];
+        faces.push({
+          sp,
+          depth: (pts[0][2] + pts[1][2] + pts[2][2] + pts[3][2]) / 4,
+          lit: 0.40 + 0.60 * Math.max(0, dot3(n, LIGHT)),
+          c: p.c,
+        });
+      }
+    }
+    faces.sort((a, b) => a.depth - b.depth);
+
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(0.4, 0.35 * u * R);
+    ctx.strokeStyle = VEH.line;
+    for (const f of faces){
+      ctx.beginPath();
+      ctx.moveTo(f.sp[0][0], f.sp[0][1]);
+      ctx.lineTo(f.sp[1][0], f.sp[1][1]);
+      ctx.lineTo(f.sp[2][0], f.sp[2][1]);
+      ctx.lineTo(f.sp[3][0], f.sp[3][1]);
+      ctx.closePath();
+      ctx.fillStyle = 'rgb(' + Math.round(f.c[0]*f.lit) + ',' +
+                               Math.round(f.c[1]*f.lit) + ',' +
+                               Math.round(f.c[2]*f.lit) + ')';
+      ctx.fill();
+      ctx.stroke();
+    }
   }
 
-  function drawTruck(g, k){
-    g.lineJoin = 'round'; g.lineWidth = Math.max(0.45, 0.45*k);
-    g.strokeStyle = VEH.line;
-    const dx = 1.5*k, dy = -1.2*k;
-
-    g.beginPath(); g.ellipse(0, 3.4*k, 8.0*k, 1.4*k, 0, 0, 7);
-    g.fillStyle = VEH.shade; g.fill();
-
-    g.fillStyle = VEH.hullLo;
-    for (const wx of [-5.2*k, -3.2*k, 4.4*k]){
-      g.beginPath(); g.arc(wx, 2.3*k, 1.2*k, 0, 7); g.fill();
+  // Smoke leaves the funnel in the vessel's own frame, so it rises away from the surface and
+  // trails astern no matter where on the globe the ship is.
+  function drawSmoke3D(fr, u, t, alpha){
+    for (let i = 0; i < 5; i++){
+      const ph = ((t * 0.40) + i / 5) % 1;
+      const lx = -4.55 - ph * 7.5;
+      const ly = 10.2 + ph * 9.0;
+      const w = [
+        fr.P[0] + (fr.F[0]*lx + fr.U[0]*ly) * u,
+        fr.P[1] + (fr.F[1]*lx + fr.U[1]*ly) * u,
+        fr.P[2] + (fr.F[2]*lx + fr.U[2]*ly) * u ];
+      if (w[2] <= 0.02) continue;
+      const sp = SCR(w);
+      const r = (0.9 + ph * 2.3) * u * R;
+      const a = 0.34 * (1 - ph) * (ph < 0.12 ? ph / 0.12 : 1) * alpha;
+      ctx.beginPath(); ctx.arc(sp[0], sp[1], r, 0, 7);
+      ctx.fillStyle = 'rgba(' + VEH.smoke + ',' + a.toFixed(3) + ')';
+      ctx.fill();
     }
-
-    box3(g, -7.4*k, -3.4*k, 10.0*k, 5.4*k, dx, dy, VEH.box[1]);   // trailer
-    box3(g, 2.9*k, -1.6*k, 4.5*k, 3.6*k, dx*0.8, dy*0.8, VEH.hull);
-    g.fillStyle = VEH.tower; g.fillRect(3.3*k, -1.1*k, 2.4*k, 1.3*k);
   }
 
   let focus = null;
@@ -1341,58 +1362,52 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       const at = atFraction(v.arc, v.f);
       const cur = project(at.pos);
       if (cur[2] <= 0.02) continue;                       // round the back of the globe
-      // fade in and out at the ends so a vehicle does not pop into being at the quay
       const vis = Math.min(1, Math.min(v.f, 1-v.f)/0.05) * Math.min(1, cur[2]/0.20)
                 * (dim ? 0.30 : 1);
       if (vis <= 0.02) continue;
 
-      // wake or dust: a few fading marks behind
-      for (let k=1;k<=6;k++){
-        const bf = v.f - k*0.006; if (bf <= 0) break;
-        const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
-        const f = 1-k/7;
-        ctx.beginPath(); ctx.arc(q[0],q[1], (v.arc.mode === 'sea' ? 1.5 : 0.85)*f, 0, 7);
-        ctx.fillStyle = `rgba(143,138,129,${(0.42*f*vis).toFixed(3)})`; ctx.fill();
-      }
-
-      // Heading is taken from a little behind to a little ahead along the route, not from
-      // the segment the vessel happens to be standing on: that snapped a step at every
-      // waypoint. It is then eased toward, so a bend reads as a turn rather than a flick.
+      // Frame in view space. Forward runs along the route, read from a little behind to a
+      // little ahead so it does not step at every waypoint.
       const LOOK = 0.004;
-      const b0 = project(atFraction(v.arc, Math.max(0, v.f - LOOK)).pos);
-      const b1 = project(atFraction(v.arc, Math.min(1, v.f + LOOK)).pos);
-      const target = Math.atan2(b1[1]-b0[1], b1[0]-b0[0]);
-      if (v.ang === undefined || reduced) v.ang = target;
-      else {
-        let d = target - v.ang;
-        while (d >  Math.PI) d -= Math.PI*2;
-        while (d < -Math.PI) d += Math.PI*2;
-        v.ang += d * Math.min(1, dt*7);                 // ease, frame-rate independent
-      }
-      // Rotating by the full heading would turn the vessel's own "up" with it, so anything
-      // westbound would sail upside down - deck under the hull. Kept upright and mirrored
-      // instead: pointing back along +x and flipped in x is the same heading, deck on top.
-      let ang = v.ang, mirror = false;
-      if (ang > Math.PI/2 || ang < -Math.PI/2){ ang -= Math.PI; mirror = true; }
-      // About twice the old silhouette, but not so large it outgrows the routes it runs on:
-      // the overland legs are only ~35px end to end.
-      // Ships and trucks are scaled apart. A ship has an ocean to cross and can carry the
-      // size; a truck runs a 39px overland leg, and at the same scale it covered the route
-      // and pushed into the ASEAN label.
+      const pb = rot(atFraction(v.arc, Math.max(0, v.f - LOOK)).pos);
+      const pa = rot(atFraction(v.arc, Math.min(1, v.f + LOOK)).pos);
+      const Pv = rot(at.pos);
+      const Nv = nrm3(rot(nrm3(at.pos)));
+      let F = [pa[0]-pb[0], pa[1]-pb[1], pa[2]-pb[2]];
+      let rad = dot3(F, Nv);
+      F = nrm3([F[0]-Nv[0]*rad, F[1]-Nv[1]*rad, F[2]-Nv[2]*rad]);
+
+      // Standing on the true normal means the ship is seen from straight overhead wherever it
+      // faces the viewer, which reads as a deck plan. The mast is leaned toward screen-up by a
+      // fixed angle so it is a model on a map, seen three-quarter, everywhere on the globe.
+      const ct = Math.cos(VEH_TILT), st = Math.sin(VEH_TILT);
+      let U = nrm3([Nv[0]*ct, Nv[1]*ct + st, Nv[2]*ct]);
+      rad = dot3(U, F);
+      U = nrm3([U[0]-F[0]*rad, U[1]-F[1]*rad, U[2]-F[2]*rad]);
+      const S = cross3(F, U);
+      const fr = { P: Pv, F, U, S };
+
       const near = Math.min(1, cur[2]);
       const k = v.arc.mode === 'sea' ? 1.26 + 0.63*near : 0.82 + 0.38*near;
-      ctx.save();
-      ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
-      if (mirror) ctx.scale(-1, 1);
-      // The glyphs carry their own colours, so fade them with the context rather than by
-      // baking alpha into every fill.
-      ctx.globalAlpha = vis;
-      // Frozen clock under reduced motion, so the smoke sits still with everything else.
-      const smokeT = reduced ? 0 : performance.now() / 1000;
-      if (v.arc.mode === 'sea') drawShip(ctx, k, smokeT); else drawTruck(ctx, k);
-      ctx.restore();
-    }
+      const u = k / R;                                    // vessel units to sphere units
 
+      ctx.globalAlpha = vis;
+
+      // wake or dust, laid on the surface behind
+      for (let j = 1; j <= 6; j++){
+        const bf = v.f - j*0.006; if (bf <= 0) break;
+        const q = project(atFraction(v.arc, bf).pos); if (q[2] <= 0.02) continue;
+        const f = 1 - j/7;
+        ctx.beginPath(); ctx.arc(q[0], q[1], 0.9*f*k, 0, 7);
+        ctx.fillStyle = `rgba(143,138,129,${(0.40*f).toFixed(3)})`; ctx.fill();
+      }
+
+      if (v.arc.mode === 'sea' && !reduced) drawSmoke3D(fr, u, performance.now()/1000, 1);
+      else if (v.arc.mode === 'sea') drawSmoke3D(fr, u, 0, 1);
+
+      drawSolid(v.arc.mode === 'sea' ? SHIP_PARTS : TRUCK_PARTS, fr, u, vis);
+      ctx.globalAlpha = 1;
+    }
   }
 
   // Camera tween. Centring a place means yaw = -longitude and pitch = latitude; the yaw
