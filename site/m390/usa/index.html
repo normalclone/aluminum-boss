@@ -746,6 +746,10 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1376,7 +1380,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       // size; a truck runs a 39px overland leg, and at the same scale it covered the route
       // and pushed into the ASEAN label.
       const near = Math.min(1, cur[2]);
-      const k = v.arc.mode === 'sea' ? 1.80 + 0.90*near : 0.82 + 0.38*near;
+      const k = v.arc.mode === 'sea' ? 1.26 + 0.63*near : 0.82 + 0.38*near;
       ctx.save();
       ctx.translate(cur[0], cur[1]); ctx.rotate(ang);
       if (mirror) ctx.scale(-1, 1);
