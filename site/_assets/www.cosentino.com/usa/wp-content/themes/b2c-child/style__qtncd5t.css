@@ -15669,7 +15669,7 @@ body.category-case-studies .cosCardTagsContainer, body.category-professional-blo
 }
 .pro-post .pb-xxl.vc_row-o-equal-height .vc_col-has-fill:first-child .vc_column-inner {
   padding-top: 0 !important;
-  background: url("../../../../en-base/wp-content/uploads/2021/08/FOTO@1x.jpg");
+  background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   background-size: cover !important;
   background-position: center !important;
 }

@@ -8,7 +8,7 @@
   margin-bottom: 5rem;
 }
 .cosentino-showcase.main-showcase .header-main-showcase {
-  background: url("../../../../img/headers/header-muestrario.jpg") no-repeat;
+  background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E) no-repeat;
   background-position: center center;
   background-size: cover;
   padding: 200px 20px;
@@ -11917,13 +11917,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
+  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .banner-hybriq {
-    background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   }
 }
 .cosentino-showcase .banner-hybriq .title {
@@ -12003,13 +12003,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("../../../../../../../../../assetsstatic.cosentino.com/silestone-xm/banner/fondo1.jpg");
+  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .banner-xm {
-    background-image: url("../../../../../../../../../assetsstatic.cosentino.com/silestone-xm/banner/fondo-movil.jpg");
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
     gap: 40px;
     padding: 40px;
     color: #ced1d0;
@@ -14094,7 +14094,7 @@
   text-decoration: underline;
 }
 .cosentino-showcase.rockmaster .banner-quickcut .imagen {
-  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/inspiration/quickcut.jpg");
+  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   background-size: cover;
   background-position: center;
 }
@@ -14744,13 +14744,13 @@
   margin: 0;
   padding: 24px 25px;
   border-radius: 4px;
-  background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg.jpg");
+  background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   background-size: cover;
   background-position: bottom;
 }
 @media (max-width: 991.98px) {
   .cosentino-showcase .cabecera_color .banner-hybriq {
-    background-image: url("../../../../../../../../wp-content/themes/b2c-child/img/hybriq/hybriq-bg-mbl.jpg");
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%228%22%20height%3D%228%22%20fill%3D%22%238f8981%22%2F%3E%3C%2Fsvg%3E);
   }
 }
 .cosentino-showcase .cabecera_color .banner-hybriq .title {
