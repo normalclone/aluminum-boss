@@ -991,6 +991,10 @@ id="core-menu-mobile"
 
 
 
+
+
+
+
 <!-- ============ EXPORT GLOBE — injected section ============ -->
 <style>
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
@@ -1740,6 +1744,8 @@ id="core-menu-mobile"
 
   let last = performance.now();
   function frame(now){
+  rafPending = false;
+  if (!rafOn) return;
     const dt = Math.min(.05,(now-last)/1000); last = now;
     if (tw){
       tw.t += (dt*1000)/tw.ms;
@@ -1784,7 +1790,32 @@ id="core-menu-mobile"
     buttons.push(b); li.appendChild(b); list.appendChild(li);
   });
 
-  resize(); requestAnimationFrame(frame);
+  resize();
+
+// RAF_GATE - the loop runs only while the section is on screen and the tab is in front.
+// Off-screen it kept drawing every frame, which the reader paid for while looking at
+// something else on the page entirely.
+let rafOn = false, rafPending = false;
+function rafStart(){
+  if (rafOn) return;
+  rafOn = true;
+  last = performance.now();              // reset the clock so nothing lurches after a pause
+  if (!rafPending){ rafPending = true; requestAnimationFrame(frame); }
+}
+function rafStop(){ rafOn = false; }
+(function(){
+  const host = document.querySelector('.vgx');
+  if (!host || typeof IntersectionObserver === 'undefined'){ rafStart(); return; }
+  const near = () => { const r = host.getBoundingClientRect();
+                       return r.bottom > -150 && r.top < innerHeight + 150; };
+  new IntersectionObserver(es => {
+    if (es[0].isIntersecting && document.visibilityState !== 'hidden') rafStart(); else rafStop();
+  }, { rootMargin: '150px' }).observe(host);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') rafStop(); else if (near()) rafStart();
+  });
+})();
+
 })();
 </script>
 <!-- ============ /EXPORT GLOBE ============ -->
@@ -2435,7 +2466,10 @@ function draw(){
   ctx.textAlign = 'left';
 }
 
+let last = 0;
 function frame(){
+  rafPending = false;
+  if (!rafOn) return;
   // The canvas keeps its last size when hidden, so draw() would happily paint into a box
   // nobody sees. Skip the work instead.
   if (!cv.offsetWidth && !cv.offsetHeight){ requestAnimationFrame(frame); return; }
@@ -2543,7 +2577,31 @@ cv.addEventListener('keydown', e => {
 
 document.fonts.ready.then(() => { resize(); draw(); });
 resize();
-requestAnimationFrame(frame);
+
+// RAF_GATE - the loop runs only while the section is on screen and the tab is in front.
+// Off-screen it kept drawing every frame, which the reader paid for while looking at
+// something else on the page entirely.
+let rafOn = false, rafPending = false;
+function rafStart(){
+  if (rafOn) return;
+  rafOn = true;
+  last = performance.now();              // reset the clock so nothing lurches after a pause
+  if (!rafPending){ rafPending = true; requestAnimationFrame(frame); }
+}
+function rafStop(){ rafOn = false; }
+(function(){
+  const host = document.querySelector('.vfx');
+  if (!host || typeof IntersectionObserver === 'undefined'){ rafStart(); return; }
+  const near = () => { const r = host.getBoundingClientRect();
+                       return r.bottom > -150 && r.top < innerHeight + 150; };
+  new IntersectionObserver(es => {
+    if (es[0].isIntersecting && document.visibilityState !== 'hidden') rafStart(); else rafStop();
+  }, { rootMargin: '150px' }).observe(host);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') rafStop(); else if (near()) rafStart();
+  });
+})();
+
 })();
 
 </script>
