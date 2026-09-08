@@ -39,6 +39,7 @@ function pages(dir, out) {
     p.on('response', r => {
       if (r.url().startsWith(BASE) && r.status() >= 400) seen.push(r.status() + ' ' + r.url());
     });
+    p.on('pageerror', e => seen.push('JS ' + String(e.message).split(/\r?\n/)[0]));
     p.on('requestfailed', r => {
       if (r.url().startsWith(BASE)) seen.push('FAIL ' + r.url());
     });
