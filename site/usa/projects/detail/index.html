@@ -243,6 +243,12 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   function open(i, from) {
     opener = from || null;
     view.hidden = false;
+    // Locking the page removes the scrollbar, and everything behind would jump sideways by its
+    // width. The theme used to hold that space open permanently with scrollbar-gutter, which
+    // left an empty strip down the right of every full-bleed section; the gutter is gone, so
+    // the width is given back here for as long as the viewer is up.
+    var bar = window.innerWidth - document.documentElement.clientWidth;
+    if (bar > 0) document.body.style.paddingRight = bar + 'px';
     document.body.style.overflow = 'hidden';
     show(i);
     view.querySelector('.ab-v-close').focus();
@@ -251,6 +257,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   function close() {
     view.hidden = true;
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
     // send focus back to the thumbnail that opened it, or a keyboard user is dropped at the
     // top of the document with no idea where they were
     if (opener) opener.focus();
