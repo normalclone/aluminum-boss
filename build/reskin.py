@@ -117,7 +117,11 @@ def reskin(path):
     # in the browser does not, and the default it used to fall back to was one level too deep
     # for the homepage - harmless locally, a 404 once served from a subpath on Pages.
     s = re.sub(r'\sdata-ab-root="[^"]*"', '', s, count=1)
-    s = re.sub(r'<html\b', '<html data-ab-root="%s"' % (prefix or './'), s, count=1)
+    s = re.sub(r'\sdata-ab-hero="[^"]*"', '', s, count=1)
+    # A page whose hero runs to the top of the screen must not also reserve a strip at the top
+    # for the header, because the header floats over it. Every other page must.
+    hero = ' data-ab-hero="1"' if 'class="abhero"' in s else ''
+    s = re.sub(r'<html\b', '<html data-ab-root="%s"%s' % (prefix or './', hero), s, count=1)
 
     # the stylesheet and helpers must be present even on pages build-pages.py did not generate
     if '_app/app.css' not in s:

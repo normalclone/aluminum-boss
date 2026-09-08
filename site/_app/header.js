@@ -24,6 +24,25 @@
     });
   }
 
+
+  // The bar is transparent while the hero is still behind it, and takes its background once the
+  // hero has scrolled past - which is the only state the concept draws. Pages without a hero
+  // never enter the transparent state.
+  var bar = document.querySelector('.abh');
+  var hero = document.getElementById('abhero');
+  if (bar && hero) {
+    var raf = 0;
+    var apply = function () {
+      raf = 0;
+      var h = bar.getBoundingClientRect().height;
+      bar.classList.toggle('is-over', hero.getBoundingClientRect().bottom > h);
+    };
+    var onScroll = function () { if (!raf) raf = requestAnimationFrame(apply); };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    apply();
+  }
+
   // The Vietnamese edition is not built yet. Rather than a dead toggle that silently does
   // nothing, say so - a control that looks live and is not costs more trust than an honest one.
   var locale = document.querySelectorAll('.abh-locale button');

@@ -4,10 +4,11 @@
 # and door systems. It is cropped to the frame the concept itself uses and re-encoded. The
 # picture is not retouched.
 #
-#   1. Sides. The concept page is 1920x1080 and the photograph fills it, which for a 1600x760
-#      source means scaling by 1.421 and losing 124px from each side. That crop is not
-#      incidental: it takes the standard lamp out of the frame, and the lamp is exactly where
-#      the six product names sit. Showing the picture whole put the words on top of it.
+#   1. Sides. The concept crops 124px from each side, which takes the standard lamp out of the
+#      frame - the lamp sits exactly where the six product names go. This crop keeps that, then
+#      shifts the window a further 124px right, to the original's right edge, so the BossGroup
+#      logo on the wall is whole rather than cut in half. The hero is anchored right, so the
+#      logo is the part that survives when the viewport crops the photograph further.
 #   2. Top. The strip carrying "Thuong hieu thuoc BossGroup" goes: it would land under the
 #      header and collide with the claim, and the wordmark already says it. In the concept it is
 #      masked with a pale rectangle instead; cropping is tidier. The BossGroup logo on the wall
@@ -22,7 +23,7 @@ OUT = os.path.join(ROOT, '_media')
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'concept-img0.png')
 CROP_TOP = 104                  # the caption sits between y=45 and y=85
-CROP_L, CROP_R = 124, 1476      # the concept's own left and right edges
+CROP_L, CROP_R = 248, 1600      # shifted right of the concept's frame, see note 1
 
 im = Image.open(SRC).convert('RGB')
 w, h = im.size
