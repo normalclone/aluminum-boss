@@ -1,0 +1,30 @@
+{
+ "drop": [
+  "/usa/dekton/",
+  "/usa/silestone/",
+  "/usa/sensa/",
+  "/usa/scalea/",
+  "/usa/eclos/",
+  "/usa/new-silestone/",
+  "/usa/recycled-display/",
+  "/t834/usa/dekton/",
+  "/t834/usa/silestone/",
+  "/t834/usa/sensa/",
+  "/t834/usa/scalea/",
+  "/t834/usa/eclos/",
+  "/m390/usa/dekton/",
+  "/m390/usa/silestone/",
+  "/m390/usa/sensa/",
+  "/m390/usa/scalea/",
+  "/m390/usa/eclos/"
+ ],
+ "repoint": {
+  "/usa/dekton/": "/usa/products/",
+  "/usa/silestone/": "/usa/products/",
+  "/usa/sensa/": "/usa/products/",
+  "/usa/scalea/": "/usa/products/",
+  "/usa/eclos/": "/usa/products/",
+  "/usa/new-silestone/": "/usa/products/",
+  "/usa/recycled-display/": "/usa/products/"
+ }
+}
