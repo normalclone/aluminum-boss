@@ -1,0 +1,84 @@
+/* Layout for the data-driven sections.
+ *
+ * Everything is prefixed ab- and every rule is nested under .ab, because this file loads on
+ * pages that already carry sixteen of the theme's stylesheets. Nesting stops these rules
+ * leaking outwards; it does not stop the theme leaking in, so anything the theme sets loudly
+ * (font-family, letter-spacing on headings) is restated here rather than inherited and hoped for.
+ */
+
+.ab {
+  --ab-ink: #1d1d1b;
+  --ab-mute: #6f6a62;
+  --ab-line: #d8d5d0;
+  --ab-wash: #f4f2ef;
+  --ab-accent: #1d1d1b;
+  font-family: 'Gotham', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: var(--ab-ink);
+}
+
+.ab a { color: inherit; text-decoration: none; }
+.ab img { max-width: 100%; height: auto; display: block; }
+
+.ab-wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+/* ---- section opener ---- */
+.ab-lede { padding: 96px 0 40px; }
+.ab-lede h1 { font-size: clamp(38px, 5vw, 64px); line-height: 1.04; margin: 0 0 18px; font-weight: 400; }
+.ab-lede p { font-size: 17px; line-height: 1.6; max-width: 62ch; color: var(--ab-mute); margin: 0; }
+
+/* ---- category band: a heading, then one scrollable row of tiles ---- */
+.ab-band { padding: 30px 0 44px; border-top: 1px solid var(--ab-line); }
+.ab-band:first-of-type { border-top: 0; }
+.ab-band-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 6px; }
+.ab-band-head h2 { font-size: 26px; margin: 0; font-weight: 500; letter-spacing: 0.01em; }
+.ab-band-head .ab-more { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 2px; white-space: nowrap; }
+.ab-band-sub { font-size: 15px; color: var(--ab-mute); margin: 0 0 22px; max-width: 70ch; }
+
+/* A scroll-snapped row rather than a carousel library: it keeps working with the keyboard,
+   with a trackpad, and on a phone, and there is no frozen slider state to re-initialise. */
+.ab-row {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(232px, 1fr);
+  gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+  padding-bottom: 10px; scrollbar-width: thin;
+}
+.ab-row > * { scroll-snap-align: start; }
+.ab-tile { display: block; }
+.ab-tile .ab-thumb { background: var(--ab-wash); overflow: hidden; }
+.ab-tile img { width: 100%; transition: transform .5s cubic-bezier(.2,.7,.3,1); }
+.ab-tile:hover img { transform: scale(1.04); }
+.ab-tile h3 { font-size: 16px; font-weight: 500; margin: 14px 0 4px; }
+.ab-tile p { font-size: 13px; line-height: 1.45; color: var(--ab-mute); margin: 0; }
+
+/* ---- detail page ---- */
+.ab-hero { position: relative; background: var(--ab-wash); margin-top: 40px; }
+.ab-hero img { width: 100%; }
+.ab-crumb { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ab-mute); padding: 72px 0 0; }
+.ab-crumb a:hover { border-bottom: 1px solid currentColor; }
+.ab-title { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.06; font-weight: 400; margin: 14px 0 0; }
+.ab-tagline { font-size: 18px; color: var(--ab-mute); margin: 12px 0 0; max-width: 62ch; }
+
+.ab-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 28px 40px; padding: 44px 0; margin: 44px 0 0; border-top: 1px solid var(--ab-line); border-bottom: 1px solid var(--ab-line); }
+.ab-spec dt { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ab-mute); margin: 0 0 6px; }
+.ab-spec dd { font-size: 16px; margin: 0; line-height: 1.4; }
+
+.ab-body { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; padding: 56px 0; align-items: start; }
+.ab-body p { font-size: 16px; line-height: 1.65; margin: 0 0 16px; }
+
+.ab-items { padding: 8px 0 80px; }
+.ab-items h2 { font-size: 26px; font-weight: 500; margin: 0 0 24px; }
+.ab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 34px 24px; }
+.ab-card h3 { font-size: 17px; font-weight: 500; margin: 14px 0 6px; }
+.ab-card .ab-card-spec { font-size: 13px; color: var(--ab-mute); line-height: 1.5; margin: 0 0 8px; }
+.ab-card p { font-size: 14px; line-height: 1.55; margin: 0; }
+
+.ab-fail { padding: 80px 0; color: #8a2020; font-size: 15px; }
+
+@media (max-width: 900px) {
+  .ab-body { grid-template-columns: 1fr; gap: 0; }
+  .ab-lede { padding: 64px 0 28px; }
+}
+@media (max-width: 640px) {
+  .ab-wrap { padding: 0 18px; }
+  .ab-row { grid-auto-columns: minmax(190px, 1fr); gap: 14px; }
+  .ab-specs { padding: 32px 0; gap: 22px; }
+}
