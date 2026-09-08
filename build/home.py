@@ -2,6 +2,10 @@
 #
 # Only the hero: the sections below it - the export globe and the factory map - are ours already
 # and stay where they are.
+#
+# The new hero goes directly after </header>, not where the old one sat. The old hero lived
+# inside section.core-container, which carries 38px of side padding, so a full-bleed backdrop
+# stopped 38px short of both edges. The concept's opening screen runs edge to edge.
 import io, os, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -9,45 +13,53 @@ ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
 PAGE = os.path.join(ROOT, 'usa', 'index.html')
 HERO = io.open(os.path.join(HERE, 'hero.html'), encoding='utf-8').read().strip()
 
-OPEN = '<section class="section-hero">'
-CLOSE = '</section>'
+H1 = ('<h1 id="abhero-h1" class="ab-visually-hidden">'
+      'Boss Group &mdash; aluminium extrusion, finishing and fabrication in Vietnam</h1>')
 
 
-def replace_hero(s):
-    a = s.find(OPEN)
+def cut_section(s, opening):
+    """Removes the element that starts at `opening`, counting nested <section> tags.
+
+    Taking the first </section> would cut the old hero off half way: it contains four nested
+    <section class="leyenda"> blocks.
+    """
+    a = s.find(opening)
     if a < 0:
-        return s, 'khong tim thay section-hero'
-    # walk to the matching close: the hero contains nested <section class="leyenda"> blocks, so
-    # counting is required - taking the first </section> would cut it off mid-way
-    i, depth = a + len(OPEN), 1
+        return s, 0
+    i, depth = a + len(opening), 1
     while depth:
         o = s.find('<section', i)
-        c = s.find(CLOSE, i)
+        c = s.find('</section>', i)
         if c < 0:
-            return s, 'khong tim thay the dong'
+            return s, 0
         if 0 <= o < c:
             depth += 1
             i = o + 8
         else:
             depth -= 1
-            i = c + len(CLOSE)
-    return s[:a] + HERO + s[i:], 'da thay %d KB hero' % ((i - a) // 1024)
+            i = c + len('</section>')
+    return s[:a] + s[i:], i - a
 
 
 s = io.open(PAGE, encoding='utf-8', errors='replace').read()
-s, note = replace_hero(s)
+
+# idempotent: drop whatever hero is there now, old or ours, then place a fresh one
+s, n_old = cut_section(s, '<section class="section-hero">')
+s, n_new = cut_section(s, '<section class="abhero" id="abhero">')
+s = re.sub(r'<h1 id="abhero-h1".*?</h1>\s*', '', s, flags=re.S)
+s = s.replace('<span id="abhero-next"></span>', '')
+
+anchor = '</header>'
+at = s.find(anchor)
+if at < 0:
+    raise SystemExit('khong tim thay </header>')
+at += len(anchor)
+s = s[:at] + '\n' + H1 + '\n' + HERO + '\n' + s[at:]
 
 if '_app/home.js' not in s:
     tag = '<script src="../_app/home.js"></script>'
     s = s.replace('</body>', tag + '\n</body>', 1) if '</body>' in s else s + '\n' + tag
 
-# the claim used to be the page's only h1-equivalent; give the document a real one for anyone
-# arriving by search or screen reader, without putting a second headline on the screen
-if 'abhero-h1' not in s:
-    s = s.replace('<section class="abhero"',
-                  '<h1 id="abhero-h1" class="ab-visually-hidden">'
-                  'Boss Group &mdash; aluminium extrusion, finishing and fabrication in Vietnam'
-                  '</h1>\n<section class="abhero"', 1)
-
 io.open(PAGE, 'w', encoding='utf-8').write(s)
-print(note)
+print('go hero cu %d KB, hero hien tai %d KB, dat lai ngay sau </header>'
+      % (n_old // 1024, n_new // 1024))
