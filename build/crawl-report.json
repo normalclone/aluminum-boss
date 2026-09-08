@@ -4,17 +4,16 @@
   [
    "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreMarcas/marcas__q19uuziy.css",
    "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreMarcas/marcas__q19uuziy.css",
-   "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/core/buttons/button/button__q19uuziy.js",
-   "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/core/buttons/button/button__q19uuziy.js",
    "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreEspacios/espacios__q19uuziy.js",
    "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreEspacios/espacios__q19uuziy.js",
+   "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/core/buttons/button/button__q19uuziy.js",
+   "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/core/buttons/button/button__q19uuziy.js",
    "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreHybriq/hybriq__q19uuziy.js",
    "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreHybriq/hybriq__q19uuziy.js",
    "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreMarcas/marcas__q19uuziy.js",
    "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreMarcas/marcas__q19uuziy.js",
    "404 http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreCity/city__q19uuziy.js",
-   "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreCity/city__q19uuziy.js",
-   "JS Cannot read properties of null (reading 'style')"
+   "FAIL http://127.0.0.1:8999/_assets/www.cosentino.com/usa/wp-content/themes/b2c-child/core-components/sections/home/CoreCity/city__q19uuziy.js"
   ]
  ]
 ]

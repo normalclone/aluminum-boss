@@ -23,9 +23,8 @@
     // as content, and the caption below already names what is selected.
     var src = c.image ? AB.root() + '_media/' + c.image : AB.ph(1920, 1080, '');
     bg.style.backgroundImage = 'url("' + src + '")';
-    // Dark display type needs the photograph held back on its left; over the flat grey there is
-    // nothing to hold back and the scrim would only mute it.
-    bg.classList.toggle('has-photo', !!c.image);
+    // No scrim: the hero shows the photograph at its own aspect ratio, so the words land on the
+    // pale wall the photograph puts under them, exactly as the concept has it.
     cap.innerHTML = '<strong>' + AB.esc(c.name) + '</strong> ' + AB.esc(c.tagline);
     var all = words.querySelectorAll('a');
     for (var k = 0; k < all.length; k++) all[k].className = k === i ? 'is-on' : '';

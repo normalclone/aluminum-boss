@@ -51,21 +51,21 @@ header a, header button, .menu-btn, .action-btn { font-stretch: 125%; }
    header is a wordmark, seven links and a locale switch. */
 .abh { position: sticky; top: 0; z-index: 1000; background: #fff; border-bottom: 1px solid #e4e1dc; }
 .abh-bar {
-  max-width: 1440px; margin: 0 auto; padding: 0 28px; height: 68px;
+  max-width: 1920px; margin: 0 auto; padding: 0 2.5vw; height: clamp(56px, 4.7vw, 88px);
   display: flex; align-items: center; gap: 30px;
 }
 .abh a, .abh button { color: #1d1d1b; text-decoration: none; }
 
 .abh-mark {
   font-family: var(--ab-font); font-weight: 800; font-stretch: 125%;
-  font-size: 23px; letter-spacing: -0.02em; white-space: nowrap; flex: none;
+  font-size: clamp(18px, 1.82vw, 34px); letter-spacing: -0.02em; white-space: nowrap; flex: none;
 }
 .abh-mark span { font-weight: 600; }
 
-.abh-nav { display: flex; gap: 26px; margin-left: auto; }
+.abh-nav { display: flex; gap: 1.5vw; margin-left: auto; }
 .abh-nav a {
   font-family: var(--ab-font); font-weight: 700; font-stretch: 125%;
-  font-size: 15px; letter-spacing: -0.012em; white-space: nowrap;
+  font-size: clamp(13px, 1.43vw, 26px); letter-spacing: -0.012em; white-space: nowrap;
   padding: 24px 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
 }
 .abh-nav a:hover { border-bottom-color: #cdc9c3; }
@@ -113,47 +113,51 @@ header a, header button, .menu-btn, .action-btn { font-stretch: 125%; }
 }
 
 /* ============================ homepage hero ============================
-   The concept's opening screen: a photograph, the claim, and the six product families stacked
-   at display size. The word under the pointer sets the backdrop; following it opens that family. */
+   The concept's opening screen: the photograph, the claim, and the six product families.
+
+   The hero takes its aspect ratio from the photograph rather than from the viewport, so the
+   picture is shown whole - no cropping by the browser, and therefore no washed-out scrim needed
+   to rescue text that landed on a busy part of the image. The words sit on the pale wall on the
+   left because that is where the photograph puts it.
+
+   Type is measured from the concept drawing, which is 1920 wide: cap heights of 34px for the
+   families, 17px for the claim. Saira's cap height is 0.69em, so those are 49px and 25px at
+   1920, expressed here in vw so the proportions hold at any width. */
 .abhero {
-  position: relative; min-height: calc(100vh - 68px); display: flex; align-items: center;
+  position: relative; aspect-ratio: 1352 / 656; display: flex; align-items: center;
   overflow: hidden; background: #cfcbc4;
 }
 .abhero-bg {
   position: absolute; inset: 0; background-size: cover; background-position: center;
-  transition: opacity .4s;
 }
-/* A scrim only where there is a photograph behind the words, and only on the side they sit on,
-   so the picture stays a picture on the right where the product actually is. */
-.abhero-bg.has-photo::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(100deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.82) 26%,
-                                      rgba(255,255,255,.44) 52%, rgba(255,255,255,0) 68%);
-}
-.abhero-inner { position: relative; width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 28px; }
+.abhero-inner { position: relative; width: 100%; max-width: 1920px; margin: 0 auto; padding: 0 2.5vw; }
 .abhero-claim {
   font-family: var(--ab-font); font-weight: 700; font-stretch: 125%; letter-spacing: -0.012em;
-  font-size: clamp(15px, 1.5vw, 20px); line-height: 1.25; color: #1d1d1b; margin: 0 0 22px;
+  font-size: clamp(13px, 1.28vw, 27px); line-height: 1.06; color: #1d1d1b;
+  margin: 0 0 1.05em;
 }
-.abhero-words { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(2px, .8vh, 10px); }
+.abhero-words { display: flex; flex-direction: column; align-items: flex-start; }
 .abhero-words a {
   font-family: var(--ab-font); font-weight: 800; font-stretch: 125%; letter-spacing: -0.02em;
-  font-size: clamp(30px, 5.4vw, 76px); line-height: 1.08; text-decoration: none;
-  color: rgba(29,29,27,.42); transition: color .22s;
+  font-size: clamp(21px, 2.57vw, 54px); line-height: 1.52; text-decoration: none;
+  color: rgba(29,29,27,.42); transition: color .2s;
 }
 .abhero-words a:hover, .abhero-words a.is-on { color: #1d1d1b; }
-.abhero-words a:focus-visible { outline: 2px solid #1d1d1b; outline-offset: 4px; }
+.abhero-words a:focus-visible { outline: 2px solid #1d1d1b; outline-offset: 3px; }
 
+/* Bottom left, under the words and aligned with them, where the floor is pale. It began on the
+   right and wrapped over the sofa, which is both busy and dark. */
 .abhero-caption {
-  position: absolute; right: 28px; bottom: 34px; margin: 0; max-width: 40ch; text-align: right;
-  font-family: var(--ab-font); font-size: 14px; line-height: 1.5; color: rgba(29,29,27,.72);
+  position: absolute; left: 2.5vw; bottom: 4.5%; margin: 0; max-width: 46ch;
+  font-family: var(--ab-font); font-size: clamp(11px, .78vw, 16px); line-height: 1.5;
+  color: rgba(29,29,27,.78);
 }
 .abhero-caption strong { font-stretch: 125%; font-weight: 700; }
 
-.abhero-scroll { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); }
+.abhero-scroll { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); }
 .abhero-scroll span {
-  display: block; width: 20px; height: 32px; border: 1.5px solid rgba(29,29,27,.55); border-radius: 11px;
-  position: relative;
+  display: block; width: 20px; height: 32px; border: 1.5px solid rgba(29,29,27,.55);
+  border-radius: 11px; position: relative;
 }
 .abhero-scroll span::after {
   content: ''; position: absolute; left: 50%; top: 7px; width: 2px; height: 6px; margin-left: -1px;
@@ -162,10 +166,19 @@ header a, header button, .menu-btn, .action-btn { font-stretch: 125%; }
 @keyframes abhero-wheel { 0%,100% { transform: translateY(0); opacity: 1 } 60% { transform: translateY(9px); opacity: 0 } }
 @media (prefers-reduced-motion: reduce) { .abhero-scroll span::after { animation: none } }
 
-@media (max-width: 700px) {
-  .abhero { min-height: calc(100vh - 60px); }
-  .abhero-caption { position: static; text-align: left; padding: 22px 18px 0; max-width: none; }
-  .abhero-inner { padding: 0 18px; }
+/* Below this width the photograph's own 2.44:1 shape is a letterbox slot too short to hold six
+   lines of display type. Rather than crop the picture and put the words back on top of it - which
+   is what made a scrim necessary in the first place - the two are stacked: picture, then words. */
+@media (max-width: 860px) {
+  .abhero { display: block; aspect-ratio: auto; background: #fff; }
+  .abhero-bg { position: relative; inset: auto; width: 100%; aspect-ratio: 3 / 2;
+               background-position: 66% center; }
+  .abhero-inner { padding: 26px 18px 4px; }
+  .abhero-claim { font-size: 15px; margin-bottom: 16px; }
+  .abhero-words a { font-size: clamp(23px, 6.4vw, 34px); line-height: 1.32; color: rgba(29,29,27,.5); }
+  .abhero-caption { position: static; text-align: left; max-width: none;
+                    padding: 14px 18px 4px; font-size: 13px; }
+  .abhero-scroll { display: none; }
 }
 
 .ab {
