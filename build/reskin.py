@@ -19,6 +19,11 @@ THIRD_PARTY = re.compile(
     r'|window\.__be|brightedge|cookiebot|abtasty|hotjar|connect\.facebook\.net'
     r'|google\.com/recaptcha|sdk\.woosmap\.com|doubleclick', re.I)
 
+# Theme components whose markup this site replaced. The script stays in the page and throws on
+# load looking for an element that is no longer there - CoreHero was reading .style off null on
+# every homepage view.
+DEAD_COMPONENT = re.compile(r'CoreHero/hero__|core-components/sections/home/CoreHero', re.I)
+
 
 def pages():
     out = []
@@ -81,7 +86,7 @@ def strip_leftovers(s):
     out, last, dropped = [], 0, 0
     for m in re.finditer(r'<script\b[^>]*>.*?</script>', s, re.S | re.I):
         block = m.group(0)
-        if THIRD_PARTY.search(block):
+        if THIRD_PARTY.search(block) or DEAD_COMPONENT.search(block):
             out.append(s[last:m.start()])
             last = m.end()
             dropped += 1
@@ -107,6 +112,12 @@ def reskin(path):
     if a < 0 or b < 0:
         return False, 'khong co <header>'
     s = s[:a] + head.strip() + s[b + len('</header>'):]
+
+    # Stamp the way back to the site root. The build knows the depth of every page; the script
+    # in the browser does not, and the default it used to fall back to was one level too deep
+    # for the homepage - harmless locally, a 404 once served from a subpath on Pages.
+    s = re.sub(r'\sdata-ab-root="[^"]*"', '', s, count=1)
+    s = re.sub(r'<html\b', '<html data-ab-root="%s"' % (prefix or './'), s, count=1)
 
     # the stylesheet and helpers must be present even on pages build-pages.py did not generate
     if '_app/app.css' not in s:

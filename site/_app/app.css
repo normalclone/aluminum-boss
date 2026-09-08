@@ -123,6 +123,13 @@ header a, header button, .menu-btn, .action-btn { font-stretch: 125%; }
   position: absolute; inset: 0; background-size: cover; background-position: center;
   transition: opacity .4s;
 }
+/* A scrim only where there is a photograph behind the words, and only on the side they sit on,
+   so the picture stays a picture on the right where the product actually is. */
+.abhero-bg.has-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.82) 26%,
+                                      rgba(255,255,255,.44) 52%, rgba(255,255,255,0) 68%);
+}
 .abhero-inner { position: relative; width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 28px; }
 .abhero-claim {
   font-family: var(--ab-font); font-weight: 700; font-stretch: 125%; letter-spacing: -0.012em;
@@ -132,7 +139,7 @@ header a, header button, .menu-btn, .action-btn { font-stretch: 125%; }
 .abhero-words a {
   font-family: var(--ab-font); font-weight: 800; font-stretch: 125%; letter-spacing: -0.02em;
   font-size: clamp(30px, 5.4vw, 76px); line-height: 1.08; text-decoration: none;
-  color: rgba(29,29,27,.34); transition: color .22s;
+  color: rgba(29,29,27,.42); transition: color .22s;
 }
 .abhero-words a:hover, .abhero-words a.is-on { color: #1d1d1b; }
 .abhero-words a:focus-visible { outline: 2px solid #1d1d1b; outline-offset: 4px; }

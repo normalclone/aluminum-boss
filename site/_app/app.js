@@ -47,12 +47,18 @@
     return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
   }
 
-  // The page states its own depth below the site root, because a detail page sits one level
-  // deeper than its listing and the two share this file.
+  // Every page is stamped with its own way back to the site root by the build, because pages
+  // sit at three different depths and this file is shared by all of them.
+  //
+  // Guessing a default was wrong in a way that only showed once deployed: the site is served
+  // from a subpath on Pages, and a prefix with one ../ too many resolves above the site root
+  // rather than at it. A browser silently clamps that at the origin, so it worked locally,
+  // where the site root and the origin root are the same directory, and 404'd in production.
   function root() {
-    var el = document.querySelector('[data-depth]');
-    var d = el ? +el.getAttribute('data-depth') : 2;
-    return new Array(d + 1).join('../');
+    var el = document.querySelector('[data-ab-root]');
+    if (el) return el.getAttribute('data-ab-root');
+    var d = document.querySelector('[data-depth]');
+    return new Array((d ? +d.getAttribute('data-depth') : 2) + 1).join('../');
   }
 
   function load(name) {

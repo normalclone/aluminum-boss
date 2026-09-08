@@ -18,11 +18,14 @@
     if (i === at || !items[i]) return;
     at = i;
     var c = items[i];
-    // No label on the backdrop: at full bleed the placeholder caption lands in the middle of
-    // the screen and reads as content. The caption below already names what is selected.
-    // Two layers would let this cross-fade, but with placeholder art there is nothing to
-    // cross-fade between; a plain swap is honest about that and costs nothing to replace later.
-    bg.style.backgroundImage = 'url("' + AB.ph(1920, 1080, '') + '")';
+    // A family with a photograph uses it; the rest fall back to the plain grey field. No label
+    // on the placeholder: at full bleed its caption lands in the middle of the screen and reads
+    // as content, and the caption below already names what is selected.
+    var src = c.image ? AB.root() + '_media/' + c.image : AB.ph(1920, 1080, '');
+    bg.style.backgroundImage = 'url("' + src + '")';
+    // Dark display type needs the photograph held back on its left; over the flat grey there is
+    // nothing to hold back and the scrim would only mute it.
+    bg.classList.toggle('has-photo', !!c.image);
     cap.innerHTML = '<strong>' + AB.esc(c.name) + '</strong> ' + AB.esc(c.tagline);
     var all = words.querySelectorAll('a');
     for (var k = 0; k < all.length; k++) all[k].className = k === i ? 'is-on' : '';

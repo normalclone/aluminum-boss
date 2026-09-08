@@ -6,6 +6,7 @@
    "id": "profile",
    "name": "Profile",
    "tagline": "System profiles for windows, doors and partitions",
+   "image": "hero-profile.jpg",
    "blurb": "Thermal-break and plain extrusions in 6063-T5, drawn on 1,800-tonne and 2,500-tonne presses. Every system ships with its own gaskets, drainage and hardware set, so a fabricator receives a complete opening rather than a bundle of bars.",
    "items": [
     {"id": "profile-sliding-93", "name": "Sliding 93", "spec": "Frame depth 93 mm · 2 or 3 track · sash up to 200 kg",
