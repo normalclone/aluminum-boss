@@ -1,0 +1,26 @@
+{
+ "drop": [
+  "/usa/gallery/",
+  "/usa/inspiration/",
+  "/usa/inspiration/architecture/",
+  "/usa/inspirations/",
+  "/usa/inspiration-old/",
+  "/usa/kitchens/contemporary-veining/",
+  "/usa/living-room/boho-chic-classic-renovated/",
+  "/usa/outdoor/continuity-versatility-durability-outdoor/",
+  "/usa/downloads/",
+  "/usa/download-c-bath/"
+ ],
+ "repoint": {
+  "/usa/gallery/": "/usa/projects/",
+  "/usa/inspiration/": "/usa/projects/",
+  "/usa/inspiration/architecture/": "/usa/projects/",
+  "/usa/inspirations/": "/usa/projects/",
+  "/usa/inspiration-old/": "/usa/projects/",
+  "/usa/kitchens/contemporary-veining/": "/usa/projects/",
+  "/usa/living-room/boho-chic-classic-renovated/": "/usa/projects/",
+  "/usa/outdoor/continuity-versatility-durability-outdoor/": "/usa/projects/",
+  "/usa/downloads/": "/usa/documents/",
+  "/usa/download-c-bath/": "/usa/documents/"
+ }
+}

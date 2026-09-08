@@ -1,0 +1,67 @@
+{
+ "section": "Documents",
+ "intro": "Catalogues, technical data, certificates and installation guides. Everything here is a PDF and everything is current — superseded editions are removed rather than left to be downloaded by mistake.",
+ "note": "Need something that is not here, or an edition in another language? Ask the technical desk.",
+ "categories": [
+  {
+   "id": "catalogues",
+   "name": "Catalogues",
+   "blurb": "The full range, by product family. Sections drawn to scale with ordering codes.",
+   "items": [
+    {"id": "cat-profile-2026", "title": "Profile Systems Catalogue 2026", "blurb": "Every window, door and partition system with sections at 1:1, glazing ranges, hardware schedules and ordering codes.", "edition": "2026.1", "lang": "English", "pages": 184},
+    {"id": "cat-facade-2026", "title": "Facade Systems Catalogue 2026", "blurb": "Unitised and stick systems, panels, cassettes and louvres, with typical details and test data.", "edition": "2026.1", "lang": "English", "pages": 148},
+    {"id": "cat-furniture-2026", "title": "Furniture Profiles Catalogue", "blurb": "Handles, frames, wardrobe track, LED channel and plinth, with finish options per section.", "edition": "2026.1", "lang": "English", "pages": 96},
+    {"id": "cat-honeycomb-2026", "title": "Honeycomb Panels Catalogue", "blurb": "Core specifications, bonded panel build-ups and the standard applications for each.", "edition": "2026.1", "lang": "English", "pages": 64},
+    {"id": "cat-profile-vi", "title": "Catalogue Hệ Nhôm Định Hình", "blurb": "Phiên bản tiếng Việt của catalogue hệ profile, đầy đủ mặt cắt và mã đặt hàng.", "edition": "2026.1", "lang": "Tiếng Việt", "pages": 184}
+   ]
+  },
+  {
+   "id": "technical",
+   "name": "Technical data",
+   "blurb": "Performance figures, alloy data and the tolerances we actually hold.",
+   "items": [
+    {"id": "td-alloy-temper", "title": "Alloy and Temper Data Sheet", "blurb": "Mechanical properties for 6060, 6063, 6061, 6082 and 7003 across the tempers we supply, with typical extrusion tolerances.", "edition": "Rev 7", "lang": "English", "pages": 24},
+    {"id": "td-thermal", "title": "Thermal Performance Guide", "blurb": "Uf values by system and glazing build-up, calculated to ISO 10077-2, with the condensation risk assessment method.", "edition": "Rev 4", "lang": "English", "pages": 38},
+    {"id": "td-structural", "title": "Structural Sizing Tables", "blurb": "Span tables for mullions and transoms by wind load, and the deflection limits they are based on.", "edition": "Rev 3", "lang": "English", "pages": 52},
+    {"id": "td-finish", "title": "Finish Specification Guide", "blurb": "Anodising and coating classes, film thickness, pretreatment and how to write a finish into a specification.", "edition": "Rev 5", "lang": "English", "pages": 31},
+    {"id": "td-tolerance", "title": "Extrusion Tolerance Standard", "blurb": "What we hold on wall thickness, straightness, twist and cut length, against EN 12020-2.", "edition": "Rev 2", "lang": "English", "pages": 18}
+   ]
+  },
+  {
+   "id": "certificates",
+   "name": "Certificates",
+   "blurb": "Current certification for the plants and the lines. Reissued annually.",
+   "items": [
+    {"id": "cert-iso-9001", "title": "ISO 9001:2015 Certificate", "blurb": "Quality management, all five plants. Issued by the certification body named on the document.", "edition": "2026", "lang": "English", "pages": 2},
+    {"id": "cert-iso-14001", "title": "ISO 14001:2015 Certificate", "blurb": "Environmental management, all five plants.", "edition": "2026", "lang": "English", "pages": 2},
+    {"id": "cert-iatf-16949", "title": "IATF 16949 Certificate", "blurb": "Automotive quality management, covering the Binh Duong automotive line only.", "edition": "2026", "lang": "English", "pages": 2},
+    {"id": "cert-qualicoat", "title": "QUALICOAT Class 2 Licence", "blurb": "Powder coating licence for the vertical line, with the approved powder systems listed.", "edition": "2026", "lang": "English", "pages": 4},
+    {"id": "cert-qualanod", "title": "QUALANOD Licence", "blurb": "Anodising licence covering both lines, including the 25 µm marine process.", "edition": "2026", "lang": "English", "pages": 4},
+    {"id": "cert-aama", "title": "AAMA 2604 and 2605 Test Reports", "blurb": "Third-party weathering, adhesion and chemical resistance results for the powder and PVDF systems.", "edition": "2025", "lang": "English", "pages": 46}
+   ]
+  },
+  {
+   "id": "installation",
+   "name": "Installation",
+   "blurb": "For the people fitting it. Written to be used on site, not read at a desk.",
+   "items": [
+    {"id": "inst-window", "title": "Window and Door Installation Guide", "blurb": "Setting out, fixing centres, packing, sealing and the drainage checks to make before the finishes go on.", "edition": "Rev 6", "lang": "English", "pages": 68},
+    {"id": "inst-unitised", "title": "Unitised Facade Installation Manual", "blurb": "Bracket setting, crane handling, stack joint engagement and the sequence for closing a bay.", "edition": "Rev 3", "lang": "English", "pages": 84},
+    {"id": "inst-cassette", "title": "Cassette Cladding Fixing Guide", "blurb": "Rail carrier setting out, cassette hook engagement and removal without disturbing the neighbours.", "edition": "Rev 2", "lang": "English", "pages": 42},
+    {"id": "inst-care", "title": "Care and Maintenance", "blurb": "Cleaning intervals by exposure, what not to use on an anodised surface, and what the warranty requires you to record.", "edition": "Rev 4", "lang": "English", "pages": 16},
+    {"id": "inst-window-vi", "title": "Hướng Dẫn Lắp Đặt Cửa", "blurb": "Bản tiếng Việt của hướng dẫn lắp đặt cửa sổ và cửa đi, dùng trực tiếp tại công trường.", "edition": "Rev 6", "lang": "Tiếng Việt", "pages": 68}
+   ]
+  },
+  {
+   "id": "corporate",
+   "name": "Corporate",
+   "blurb": "Company reporting and the documents procurement departments ask for.",
+   "items": [
+    {"id": "corp-profile", "title": "Company Profile 2026", "blurb": "Plants, capacity, markets and capability, in the form usually wanted for a prequalification pack.", "edition": "2026", "lang": "English", "pages": 28},
+    {"id": "corp-sustainability", "title": "Sustainability Report 2025", "blurb": "Recycled content, energy, water and waste, with the figures that did not improve reported alongside those that did.", "edition": "2025", "lang": "English", "pages": 54},
+    {"id": "corp-terms", "title": "General Conditions of Sale", "blurb": "Standard terms for export orders, including incoterms, tolerance on quantity and the claims procedure.", "edition": "2026", "lang": "English", "pages": 12},
+    {"id": "corp-warranty", "title": "Warranty Terms", "blurb": "What is covered, for how long, by finish family and exposure, and what voids it.", "edition": "2026", "lang": "English", "pages": 9}
+   ]
+  }
+ ]
+}

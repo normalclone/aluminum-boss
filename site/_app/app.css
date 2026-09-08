@@ -196,6 +196,110 @@
 
 @media (max-width: 700px) { .ab-fields { grid-template-columns: 1fr; } }
 
+/* ---- projects: albums by year ---- */
+.ab-year { padding: 30px 0 52px; border-top: 1px solid var(--ab-line); }
+.ab-year:first-of-type { border-top: 0; }
+.ab-year-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 26px; }
+.ab-year-head h2 { font-size: 40px; font-weight: 300; margin: 0; letter-spacing: -0.01em; }
+.ab-year-head span { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ab-mute); }
+.ab-albums { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px 28px; }
+.ab-album-cover { display: block; position: relative; background: var(--ab-wash); overflow: hidden; }
+.ab-album-cover img { width: 100%; transition: transform .55s cubic-bezier(.2,.7,.3,1); }
+.ab-album:hover .ab-album-cover img { transform: scale(1.04); }
+.ab-album-count {
+  position: absolute; left: 14px; bottom: 14px; font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; background: rgba(255,255,255,.94); color: var(--ab-ink);
+  padding: 7px 12px;
+}
+.ab-album h3 { font-size: 19px; font-weight: 500; margin: 16px 0 5px; }
+.ab-album-where { font-size: 14px; color: var(--ab-mute); margin: 0 0 3px; }
+.ab-album-scope { font-size: 13px; color: var(--ab-mute); margin: 0; }
+
+/* ---- contact sheet ----
+   A uniform three-column grid with the opening frame across the top. An earlier version mixed
+   two- and three-column spans for rhythm; the spans did not tile into the row and left a dead
+   column down the right of every album. Rhythm is not worth a hole in the page. */
+.ab-sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 14px 0 80px; }
+.ab-shot { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; text-align: left; font: inherit; }
+.ab-shot:first-child { grid-column: 1 / -1; }
+.ab-shot img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--ab-wash); transition: opacity .3s; }
+.ab-shot:first-child img { aspect-ratio: 21 / 9; }
+.ab-shot:hover img { opacity: .86; }
+.ab-shot:focus-visible { outline: 2px solid var(--ab-ink); outline-offset: 3px; }
+.ab-shot-cap { display: block; font-size: 12px; line-height: 1.45; color: var(--ab-mute); margin-top: 9px; }
+
+/* ---- gallery viewer ---- */
+.ab-viewer { position: fixed; inset: 0; z-index: 2000; background: rgba(18,17,16,.96); display: grid; place-items: center; padding: 56px 76px; }
+.ab-viewer[hidden] { display: none; }
+.ab-v-stage { margin: 0; max-width: 100%; max-height: 100%; display: flex; flex-direction: column; gap: 16px; }
+.ab-v-stage img { max-width: 100%; max-height: calc(100vh - 150px); object-fit: contain; margin: 0 auto; }
+.ab-v-stage figcaption { display: flex; justify-content: space-between; gap: 24px; color: #cfcbc4; font-size: 14px; }
+.ab-v-count { color: #8d8880; white-space: nowrap; }
+.ab-viewer button {
+  position: absolute; background: none; border: 0; color: #cfcbc4; cursor: pointer;
+  font-size: 28px; line-height: 1; padding: 14px 18px;
+}
+.ab-viewer button:hover { color: #fff; }
+.ab-viewer button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.ab-v-close { top: 10px; right: 14px; font-size: 40px !important; }
+.ab-v-prev { left: 8px; top: 50%; transform: translateY(-50%); }
+.ab-v-next { right: 8px; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 900px) {
+  .ab-sheet { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .ab-shot, .ab-shot.is-wide { grid-column: span 1; }
+  .ab-viewer { padding: 52px 12px 20px; }
+  .ab-v-prev { left: 0; } .ab-v-next { right: 0; }
+}
+
+/* ---- documents ---- */
+.ab-doccat { padding: 34px 0 12px; border-top: 1px solid var(--ab-line); }
+.ab-doccat:first-of-type { border-top: 0; }
+.ab-doccat-head { margin-bottom: 20px; }
+.ab-doccat-head h2 { font-size: 24px; font-weight: 500; margin: 0 0 6px; }
+.ab-doccat-head p { font-size: 14px; color: var(--ab-mute); margin: 0; max-width: 66ch; }
+
+.ab-doc { display: flex; align-items: center; gap: 20px; border-top: 1px solid var(--ab-line); }
+.ab-doc:last-child { border-bottom: 1px solid var(--ab-line); }
+.ab-doc-main { display: flex; gap: 20px; align-items: flex-start; flex: 1; padding: 20px 0; min-width: 0; }
+.ab-doc:hover { background: var(--ab-wash); }
+.ab-doc-icon {
+  flex: none; width: 44px; height: 54px; display: grid; place-items: center;
+  font-size: 10px; letter-spacing: .08em; color: #fff; background: #b4302a;
+  clip-path: polygon(0 0, 74% 0, 100% 22%, 100% 100%, 0 100%);
+}
+.ab-doc-text { min-width: 0; }
+.ab-doc-title { display: block; font-size: 16px; font-weight: 500; }
+.ab-doc-blurb { display: block; font-size: 14px; line-height: 1.55; color: var(--ab-mute); margin: 5px 0 6px; max-width: 76ch; }
+.ab-doc-meta { display: block; font-size: 12px; letter-spacing: .04em; color: var(--ab-mute); }
+.ab-doc-dl { flex: none; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--ab-ink); padding: 10px 22px; margin-right: 4px; }
+.ab-doc-dl:hover { background: var(--ab-ink); color: #fff; }
+.ab-docnote { font-size: 14px; color: var(--ab-mute); padding: 34px 0 88px; margin: 0; }
+
+.ab-docactions { display: flex; align-items: center; gap: 26px; margin: 30px 0 0; }
+/* .ab a { color: inherit } is two classes deep and wins over .ab-submit's white, which left
+   this button as a black rectangle with invisible text. Match the specificity rather than
+   reaching for !important. */
+.ab .ab-docactions a.ab-submit { margin: 0; display: inline-block; color: #fff; }
+.ab-plain { font-size: 14px; color: var(--ab-mute); border-bottom: 1px solid currentColor; }
+.ab-plain:hover { color: var(--ab-ink); }
+
+.ab-preview { margin: 8px 0 0; background: var(--ab-wash); border: 1px solid var(--ab-line); }
+.ab-preview object { display: block; width: 100%; height: 720px; }
+.ab-preview-fallback { padding: 48px 24px; text-align: center; font-size: 15px; color: var(--ab-mute); }
+.ab-preview-fallback a { border-bottom: 1px solid currentColor; }
+
+.ab-docminis { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 4px 24px; }
+.ab-doc-mini { display: flex; gap: 16px; align-items: center; padding: 14px 0; border-top: 1px solid var(--ab-line); }
+.ab-doc-mini:hover .ab-doc-title { text-decoration: underline; text-underline-offset: 3px; }
+.ab-doc-mini .ab-doc-icon { width: 34px; height: 42px; font-size: 9px; }
+
+@media (max-width: 700px) {
+  .ab-doc { flex-wrap: wrap; gap: 0; padding-bottom: 16px; }
+  .ab-doc-dl { margin: 0 0 4px 64px; }
+  .ab-preview object { height: 460px; }
+}
+
 .ab-fail { padding: 80px 0; color: #8a2020; font-size: 15px; }
 
 @media (max-width: 900px) {
