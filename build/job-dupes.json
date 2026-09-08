@@ -1,0 +1,9 @@
+{
+ "drop": [
+  "/usa/contact-2/",
+  "/usa/color-details/"
+ ],
+ "repoint": {
+  "/usa/contact-2/": "/usa/contact/"
+ }
+}

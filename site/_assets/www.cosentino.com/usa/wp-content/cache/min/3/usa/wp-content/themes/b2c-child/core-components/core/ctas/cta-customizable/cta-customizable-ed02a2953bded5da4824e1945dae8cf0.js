@@ -1,1 +1,0 @@
-document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.vwo_bl a').forEach(function(btn){btn.addEventListener('click',function(){sessionStorage.setItem('ctaScrollTo','section-CTA');sessionStorage.setItem('ctaOpenModal','modal-cta')})})})
