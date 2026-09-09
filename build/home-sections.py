@@ -7,7 +7,7 @@ import io, os, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
-PAGE = os.path.join(ROOT, 'usa', 'index.html')
+PAGE = os.path.join(ROOT, 'index.html')
 
 # class -> what it was. Matched on the opening tag of a <section> or <div>.
 DROP = [

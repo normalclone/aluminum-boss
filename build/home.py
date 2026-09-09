@@ -10,7 +10,7 @@ import io, os, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
-PAGE = os.path.join(ROOT, 'usa', 'index.html')
+PAGE = os.path.join(ROOT, 'index.html')
 HERO = io.open(os.path.join(HERE, 'hero.html'), encoding='utf-8').read().strip()
 
 H1 = ('<h1 id="abhero-h1" class="ab-visually-hidden">'

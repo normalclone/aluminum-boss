@@ -1,28 +1,30 @@
 # aluminum-boss — demo site
 
 Static mirror of a surfaces manufacturer's site, used as the shell for two custom sections
-built for this project. Serve `site/` with any static file server and open `/usa/`.
+built for this project. Serve `site/` with any static file server and open `/`.
 
 ## Layout
 
-| Path | Viewport it was captured at | Pages |
-|---|---|---|
-| `/usa/` | desktop 1440 | 102 |
-| `/t834/usa/` | tablet 834 | 21 |
-| `/m390/usa/` | mobile 390 | 21 |
+Fifteen pages: a home page and seven sections, each with a list and a detail view.
 
-The desktop tree is now responsive on its own: `/usa/` reflows from 1440 down to 390 with no
-horizontal overflow on any of its 102 pages. The tablet and mobile trees predate that fix and
-are kept only as a reference capture; there is no longer a reason to send anyone to them.
+    /              about-us/     colors/     contact/
+    documents/     news/         products/   projects/
 
-They were originally separate because each is a serialization of the same URLs at a different
-width, with computed pixel sizes baked into `style` attributes where inline styles outrank
-media queries. That is now handled by overriding those frozen values below the width they were
-captured at - see `frozen-width-fix` in each page's head.
+Every section's detail page is addressed by query string - `/colors/detail/?id=an-dark-bronze`
+- so one file serves every entry and the content comes from `_data/`.
+
+The tree used to sit under `/usa/`, the path it was crawled from. Nothing referred to that name
+except the crawl, so it was removed and every page moved up one level. Pages are relative, not
+absolute, so each page carries its own way back to the root in `data-ab-root`.
+
+It reflows from 1440 down to 390 with no horizontal overflow. Pages captured at a fixed width
+have computed pixel sizes baked into `style` attributes, where inline styles outrank media
+queries; those frozen values are overridden below the width they were captured at - see
+`frozen-width-fix` in each page's head.
 
 ## The two custom sections
 
-Both are injected into the three homepages, between "Architectural Surfaces" and "New":
+Both sit on the home page, below the opening screen:
 
 1. **Export globe** (`.vgx`) — orthographic globe carrying two kinds of route: sea lanes to
    the EU, North America and Australia, and overland runs to Laos, Cambodia and Thailand,

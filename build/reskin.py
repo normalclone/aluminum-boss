@@ -10,7 +10,9 @@ ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
 HEADER = io.open(os.path.join(HERE, 'header.html'), encoding='utf-8').read()
 FOOTER = io.open(os.path.join(HERE, 'footer.html'), encoding='utf-8').read()
 
-NAV_KEY = re.compile(r'/usa/([a-z0-9-]+)/')
+# The site sits at the root of what is published, so the first path segment is the section.
+# The home page's own relative path is '/./', which has no segment and so marks nothing.
+NAV_KEY = re.compile(r'^/([a-z0-9-]+)/')
 
 # Markers that identify a script block as belonging to a third-party service rather than to the
 # page. Matched against the whole <script>...</script>, so an inline loader is caught as well as
@@ -206,6 +208,11 @@ def reskin(path):
     # for the header, because the header floats over it. Every other page must.
     hero = ' data-ab-hero="1"' if 'class="abhero"' in s else ''
     s = re.sub(r'<html\b', '<html data-ab-root="%s"%s' % (prefix or './', hero), s, count=1)
+
+    # On the home page {{ROOT}} is empty, so the header and footer links back to it collapse to
+    # href="". A browser resolves that to the current page, which is correct, but it reads like
+    # a template that failed to fill in.
+    s = s.replace('href=""', 'href="./"')
 
     PREFIX[0] = prefix
     s = fix_head(s, sec)
