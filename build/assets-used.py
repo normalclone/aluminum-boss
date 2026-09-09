@@ -43,7 +43,11 @@ def refs(text, base_dir):
 
 def walk():
     seen, queue = set(), []
-    # every page under site/ is an entry point, plus anything the app layer loads by name
+    # Entry points are this site's own pages. Files under _assets are reachable only by being
+    # referenced from one of them - and reachability is transitive, so a single link into a
+    # captured third-party page keeps everything that page references alive too. The old footer
+    # linked to saved copies of the company's Instagram, Twitter and Pinterest profiles, which is
+    # how several megabytes of them stayed in the "in use" column.
     for root, dirs, files in os.walk(ROOT):
         if '_assets' in root.split(os.sep):
             continue

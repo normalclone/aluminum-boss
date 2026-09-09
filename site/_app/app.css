@@ -289,7 +289,10 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-row > * { scroll-snap-align: start; }
 .ab-tile { display: block; }
 .ab-tile .ab-thumb { background: var(--ab-wash); overflow: hidden; }
-.ab-tile img { width: 100%; transition: transform .5s cubic-bezier(.2,.7,.3,1); }
+/* A real photograph and a placeholder have different shapes; without a fixed ratio the tile
+   carrying the photograph sat shorter than the rest of the row. */
+.ab-tile img { width: 100%; aspect-ratio: 17 / 15; object-fit: cover;
+               transition: transform .5s cubic-bezier(.2,.7,.3,1); }
 .ab-tile:hover img { transform: scale(1.04); }
 .ab-tile h3 { font-size: 16px; font-weight: 500; margin: 14px 0 4px; }
 .ab-tile p { font-size: 13px; line-height: 1.45; color: var(--ab-mute); margin: 0; }
@@ -556,3 +559,57 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
   .ab-row { grid-auto-columns: minmax(190px, 1fr); gap: 14px; }
   .ab-specs { padding: 32px 0; gap: 22px; }
 }
+
+/* ============================ footer ============================
+   Replaces the theme's footer, which carried five columns of links to a different company:
+   product warranties, city showrooms, a press room. Eighty-four of the hundred-odd visible
+   mentions of the old brand were in this block, repeated on every page. */
+.abf {
+  background: #1d1d1b; color: #cfcbc4; margin-top: 0;
+  font-family: var(--ab-font); padding: 0;
+}
+.abf a { color: inherit; text-decoration: none; }
+.abf-inner { max-width: 1920px; margin: 0 auto; padding: 5vw 2.5vw 2.6vw; }
+
+.abf-top { display: flex; flex-wrap: wrap; gap: 24px 56px; align-items: baseline; padding-bottom: 42px; border-bottom: 1px solid rgba(255,255,255,.14); }
+.abf-mark { font-weight: 800; font-stretch: 125%; font-size: clamp(20px, 1.82vw, 34px); letter-spacing: -0.02em; color: #fff; white-space: nowrap; }
+.abf-mark span { font-weight: 600; }
+.abf-line { margin: 0; font-size: 14px; line-height: 1.6; color: #918b82; max-width: 46ch; }
+
+.abf-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 40px 32px; padding: 42px 0 46px; }
+.abf-col h2 { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #7e7871; margin: 0 0 16px; font-weight: 700; font-stretch: 125%; }
+.abf-col a { display: block; font-size: 14px; line-height: 1.5; padding: 5px 0; }
+.abf-col a:hover { color: #fff; }
+.abf-contact p { margin: 0 0 14px; font-size: 14px; line-height: 1.6; color: #918b82; }
+.abf-contact a:hover { color: #fff; }
+
+.abf-legal { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; margin: 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); font-size: 12px; color: #7e7871; }
+.abf-note { color: #6b665f; }
+
+@media (max-width: 700px) {
+  .abf-inner { padding: 44px 18px 26px; }
+  .abf-cols { gap: 30px 20px; padding: 32px 0 34px; }
+}
+
+/* ============================ homepage sections ============================
+   What replaced the old homepage below the factory map. Each band is drawn from the same JSON
+   as the section it points at, so the homepage cannot advertise something the site no longer has. */
+.abhb-band { padding: clamp(48px, 5vw, 92px) 0; }
+.abhb-band--wash { background: var(--ab-wash); }
+.abhb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+.abhb-head h2 {
+  font-family: var(--ab-font); font-stretch: 125%; letter-spacing: -0.012em;
+  font-size: clamp(24px, 2.2vw, 40px); font-weight: 600; margin: 0;
+}
+.abhb .ab-swatches { padding-bottom: 0; }
+.abhb .ab-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.abhb .ab-card p { margin-top: 6px; }
+
+.abhb-cta { background: #1d1d1b; color: #fff; padding: clamp(52px, 5.5vw, 104px) 0; }
+.abhb-cta h2 {
+  font-family: var(--ab-font); font-stretch: 125%; letter-spacing: -0.02em; color: #fff;
+  font-size: clamp(28px, 3.4vw, 60px); font-weight: 700; margin: 0 0 14px;
+}
+.abhb-cta p { font-size: 17px; line-height: 1.6; color: #b6b0a8; margin: 0 0 30px; max-width: 52ch; }
+.ab .abhb-cta a.ab-submit { display: inline-block; background: #fff; color: #1d1d1b; border-color: #fff; }
+.ab .abhb-cta a.ab-submit:hover { background: #e9e5df; }
