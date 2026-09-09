@@ -1,0 +1,41 @@
+@model List<QlWeb2.Areas.Admin.Controllers.MediaController.MediaItem>
+@{ ViewData["Title"] = "Pictures"; }
+
+<h1>Pictures</h1>
+<p class="ad-sub">
+    Upload a picture here, then paste its file name into an image field under Content. JPG, PNG,
+    WebP or GIF, up to 20 MB.
+</p>
+
+<form class="ad-drop" method="post" enctype="multipart/form-data"
+      asp-area="Admin" asp-controller="Media" asp-action="Upload">
+    @Html.AntiForgeryToken()
+    <input type="file" name="file" accept="image/jpeg,image/png,image/webp,image/gif" required>
+    <button type="submit" class="ad-save" style="margin-left:10px">Upload</button>
+</form>
+
+@if (Model.Count == 0)
+{
+    <p>No pictures yet.</p>
+}
+else
+{
+    <div class="ad-media">
+    @foreach (var item in Model)
+    {
+        <figure>
+            <img src="/_media/@item.Name" alt="" loading="lazy">
+            <figcaption>
+                @item.Name
+                <span class="ad-num">@((item.Bytes / 1024).ToString("N0")) KB · @item.Modified.ToLocalTime().ToString("d MMM yyyy")</span>
+                <form method="post" asp-area="Admin" asp-controller="Media" asp-action="Delete" style="margin-top:7px"
+                      onsubmit="return confirm('Delete @item.Name? Any page still using it will show a blank space.');">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="name" value="@item.Name">
+                    <button type="submit" class="ad-plain">Delete</button>
+                </form>
+            </figcaption>
+        </figure>
+    }
+    </div>
+}

@@ -1,0 +1,18 @@
+@model List<QlWeb2.Models.ContentDocument>
+@{
+    ViewData["Title"] = "Content";
+    var labels = (Dictionary<string, string>)ViewData["Labels"]!;
+}
+
+<h1>Content</h1>
+<p class="ad-sub">Each section of the site and when it was last changed.</p>
+
+<div class="ad-cards">
+@foreach (var doc in Model)
+{
+    <a class="ad-card" asp-area="Admin" asp-controller="Content" asp-action="Edit" asp-route-id="@doc.Name">
+        <b>@(labels.TryGetValue(doc.Name, out var l) ? l : JsonForm.Humanise(doc.Name))</b>
+        <span>Last changed @doc.UpdatedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm")</span>
+    </a>
+}
+</div>

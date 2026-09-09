@@ -1,0 +1,46 @@
+@model QlWeb2.Controllers.NewsIndexViewModel
+
+<div class="container">
+  <p class="breadcrumb"><a asp-controller="Home" asp-action="Index">Home</a> &gt; News</p>
+  <h1 class="news-title">News</h1>
+
+  @if (Model.Featured != null)
+  {
+    <a asp-action="Details" asp-route-slug="@Model.Featured.Slug" class="featured" style="display:block; color:inherit;">
+      @Html.Media($"news-{Model.Featured.Slug}", Model.Featured.Title)
+      <div class="featured__overlay">
+        <h2>@Model.Featured.Title</h2>
+        <p class="meta">@Model.Featured.PublishedAt.ToString("MMMM d, yyyy") &middot; Written by @Model.Featured.Author</p>
+      </div>
+    </a>
+  }
+
+  <div class="news-grid">
+    @foreach (var a in Model.Articles)
+    {
+      <a asp-action="Details" asp-route-slug="@a.Slug" class="card news-card" style="color:inherit;">
+        @Html.Media($"news-{a.Slug}", a.Title)
+        <h3>@a.Title</h3>
+        <p class="meta">@a.PublishedAt.ToString("MMMM d, yyyy") &middot; Written by @a.Author</p>
+      </a>
+    }
+  </div>
+
+  @if (Model.TotalPages > 1)
+  {
+    <nav class="pagination">
+      @if (Model.Page > 1)
+      {
+        <a asp-action="Index" asp-route-page="@(Model.Page - 1)">&larr; Prev</a>
+      }
+      @for (int i = 1; i <= Model.TotalPages; i++)
+      {
+        <a asp-action="Index" asp-route-page="@i" class="@(i == Model.Page ? "is-active" : "")">@i</a>
+      }
+      @if (Model.Page < Model.TotalPages)
+      {
+        <a asp-action="Index" asp-route-page="@(Model.Page + 1)">Next &rarr;</a>
+      }
+    </nav>
+  }
+</div>

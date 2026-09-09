@@ -1,0 +1,29 @@
+/*
+  Primary typeface: Square721 Extd BT (Bitstream / Monotype) — commercial font.
+  Buy a license at https://www.myfonts.com/collections/square-721-font-bitstream
+  then drop the files below. Until then, the fallback stack renders in their place
+  (layout/spacing already matches the licensed font's metrics as closely as a
+  fallback stack can — expect the real font to look tighter once installed).
+*/
+@font-face {
+  font-family: 'Square721 Extd BT';
+  src: url('../fonts/square721-extended-bt/square721-extended-bt-regular.woff2') format('woff2'),
+       url('../fonts/square721-extended-bt/square721-extended-bt-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Square721 Extd BT';
+  src: url('../fonts/square721-extended-bt/square721-extended-bt-bold.woff2') format('woff2'),
+       url('../fonts/square721-extended-bt/square721-extended-bt-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-primary: 'Square721 Extd BT', 'Arial Narrow', Arial, sans-serif;
+  --font-fallback-note: 'until real font files are added, headings will look narrower than the target site';
+}

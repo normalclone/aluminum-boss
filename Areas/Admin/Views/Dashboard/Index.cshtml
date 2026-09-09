@@ -1,0 +1,67 @@
+@model DashboardController.DashboardViewModel
+@{
+    ViewData["Title"] = "Overview";
+    var labels = (Dictionary<string, string>)ViewData["Labels"]!;
+}
+
+<h1>Site content</h1>
+<p class="ad-sub">
+    Everything on the public site that can be changed without a developer. Edits appear on the
+    site as soon as they are saved.
+</p>
+
+@if (Model.UsingDefaultPassword)
+{
+    <p class="ad-flash is-bad">
+        This account still uses the password it was set up with, which is written in the source code.
+        <a asp-area="Admin" asp-controller="Account" asp-action="Password">Change it</a> before anyone else has the address.
+    </p>
+}
+
+<h2>Sections</h2>
+<div class="ad-cards">
+    @foreach (var doc in Model.Documents.OrderBy(d => d.Name))
+    {
+        <a class="ad-card" asp-area="Admin" asp-controller="Content" asp-action="Edit" asp-route-id="@doc.Name">
+            <b>@(labels.TryGetValue(doc.Name, out var l) ? l : JsonForm.Humanise(doc.Name))</b>
+            <span>Last changed @doc.UpdatedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm")</span>
+        </a>
+    }
+</div>
+
+<h2>Also here</h2>
+<div class="ad-cards">
+    <a class="ad-card" asp-area="Admin" asp-controller="Layout" asp-action="Index">
+        <b>Page order</b>
+        <span>@Model.RegionCount sections on the home page@(Model.HiddenRegions > 0 ? $", {Model.HiddenRegions} hidden" : "")</span>
+    </a>
+    <a class="ad-card" asp-area="Admin" asp-controller="Seo" asp-action="Index">
+        <b>Search listing</b>
+        <span>Titles and descriptions for @Model.PageCount pages</span>
+    </a>
+    <a class="ad-card" asp-area="Admin" asp-controller="Media" asp-action="Index">
+        <b>Pictures</b>
+        <span>Upload and manage images</span>
+    </a>
+</div>
+
+@if (Model.RecentEdits.Count > 0)
+{
+    <h2>Recent changes</h2>
+    <table>
+        <thead><tr><th>Section</th><th>Changed</th><th>By</th></tr></thead>
+        <tbody>
+        @foreach (var edit in Model.RecentEdits)
+        {
+            <tr>
+                <td>@(labels.TryGetValue(edit.Name, out var el) ? el : JsonForm.Humanise(edit.Name))</td>
+                <td class="ad-num">@edit.SavedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm")</td>
+                <td class="ad-num">@edit.SavedBy</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p class="ad-sub" style="margin-top:12px">
+        Each row is a version that can be put back from the section's own history.
+    </p>
+}

@@ -1,0 +1,38 @@
+:root {
+  /* Colors — extracted from computed styles on the live reference pages */
+  --c-text: #212529;
+  --c-bg: #ffffff;
+  --c-section-alt: #e7e7e6;
+  --c-footer-bg: #232323;
+  --c-footer-text: #ffffff;
+  --c-accent-yellow: #ffed72;
+  --c-accent-terracotta: #b98a63; /* approximate — refined visually in diff loop */
+  --c-btn-text-dark: #3c3c3b;
+  --c-border: #d9d9d8;
+  --c-muted: #626262;
+
+  /* Type scale */
+  --fs-hero: 75px;
+  --fs-h1: 48px;
+  --fs-h2: 38px;
+  --fs-h3: 22px;
+  --fs-nav: 16px;
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-caption: 12px;
+
+  --lh-body: 24px;
+  --ls-label: 0.5px;
+
+  /* Spacing scale (rough 4/8pt rhythm observed in layout) */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+  --space-2xl: 140px;
+
+  /* Layout */
+  --container-max: 1140px;
+  --header-h: 88px;
+}

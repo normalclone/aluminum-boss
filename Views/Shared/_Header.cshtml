@@ -1,0 +1,25 @@
+@{
+    var heroHeader = ViewData["HeroHeader"] as bool? ?? false;
+    var headerClass = "site-header" + (heroHeader ? " on-dark" : "");
+    var headerStyle = heroHeader ? "position:absolute; width:100%;" : "";
+    string ActiveIf(string controller) =>
+        string.Equals(ViewContext.RouteData.Values["controller"] as string, controller, StringComparison.OrdinalIgnoreCase)
+            ? "is-active" : "";
+}
+<header class="@headerClass" style="@headerStyle">
+  <div class="site-header__bar">
+    <a asp-controller="Home" asp-action="Index" class="site-header__logo">YOUR BRAND</a>
+    <nav class="site-nav">
+      <a asp-controller="Colors" asp-action="Index" class="@ActiveIf("Colors")">Colors</a>
+      <a href="#">Products</a>
+      <a href="#">Spaces</a>
+      <a href="#">Inspiration</a>
+      <a asp-controller="About" asp-action="Index" class="@ActiveIf("About")">About Us</a>
+      <a asp-controller="News" asp-action="Index" class="@ActiveIf("News")">News</a>
+    </nav>
+    <div class="site-header__utility">
+      <span>USA</span>
+      <a href="#" class="btn btn-outline">Where To Buy</a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,102 @@
+.page-product .site-header { background: var(--c-footer-bg); color: #fff; position: static; }
+.breadcrumb { font-size: 12px; color: var(--c-muted); padding: var(--space-sm) 0; }
+.breadcrumb a { color: var(--c-muted); }
+
+.product-top {
+  display: grid;
+  grid-template-columns: 90px 1fr 420px;
+  gap: var(--space-md);
+  padding-bottom: var(--space-lg);
+}
+.product-thumbs { display: flex; flex-direction: column; gap: 8px; }
+.product-thumbs .ph-img { aspect-ratio: 1; }
+.product-main-img .ph-img { aspect-ratio: 4/3; }
+.product-info h1 {
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.product-info__subtitle { font-size: 13px; color: var(--c-muted); letter-spacing: 0.5px; margin-bottom: var(--space-md); }
+.product-info h2.label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--c-muted);
+  margin-bottom: 8px;
+}
+.product-info p.desc { font-size: 14px; line-height: 1.6; margin-bottom: var(--space-md); }
+.product-info .btn { margin-bottom: var(--space-md); }
+
+.spec-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+.spec-row h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  border-bottom: 1px solid var(--c-border);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.spec-row p { font-size: 14px; }
+
+.section-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--c-muted); margin-bottom: var(--space-sm); }
+.slab-view .ph-img { aspect-ratio: 21/9; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 140px;
+  gap: 8px;
+}
+.projects-grid .ph-img { height: 100%; aspect-ratio: auto; }
+.projects-grid > :nth-child(3) { grid-column: span 2; grid-row: span 2; }
+
+.dark-banner {
+  background: var(--c-footer-bg);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.dark-banner .ph-img { aspect-ratio: 4/3; }
+.dark-banner__text { display: flex; flex-direction: column; justify-content: center; padding: var(--space-lg); gap: var(--space-sm); }
+.dark-banner__text h2 { font-size: 26px; font-weight: 400; }
+
+.similar-grid { grid-template-columns: repeat(3, 1fr); max-width: 700px; }
+.similar-grid .ph-img { aspect-ratio: 1; }
+
+.refurb-split {
+  background: #dce9ee;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.refurb-split__text { padding: var(--space-xl); display: flex; flex-direction: column; justify-content: center; gap: var(--space-sm); max-width: 380px; }
+.refurb-split .ph-img { aspect-ratio: 4/3; }
+
+.brand-section { background: #000; color: #fff; padding: var(--space-2xl) 0; }
+.brand-section__mark { font-size: 13px; letter-spacing: 2px; color: var(--c-accent-yellow); margin-bottom: var(--space-sm); }
+.brand-section__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); align-items: start; }
+.brand-section h2 { font-size: 30px; font-weight: 400; margin-bottom: var(--space-md); max-width: 480px; }
+.brand-section p { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+.benefits-row { grid-template-columns: repeat(5, 1fr); }
+.benefit-card .ph-img { aspect-ratio: 1; margin-bottom: 8px; }
+.benefit-card h4 { font-size: 13px; text-transform: uppercase; margin-bottom: 4px; }
+.benefit-card p { font-size: 12px; color: var(--c-muted); }
+
+.moodboard-split { grid-template-columns: 1fr 1.4fr; background: #f2f2f1; align-items: center; }
+.moodboard-split .ph-img { aspect-ratio: 4/3; }
+.moodboard-split__text { padding: var(--space-xl); }
+
+@media (max-width: 900px) {
+  .product-top { grid-template-columns: 1fr; }
+  .product-thumbs { flex-direction: row; overflow-x: auto; }
+  .spec-row, .projects-grid, .similar-grid, .brand-section__grid, .benefits-row { grid-template-columns: repeat(2, 1fr); }
+  .dark-banner, .refurb-split, .moodboard-split { grid-template-columns: 1fr; }
+  .dark-banner__text, .refurb-split__text, .moodboard-split__text { padding: var(--space-lg) var(--space-md); max-width: none; }
+}

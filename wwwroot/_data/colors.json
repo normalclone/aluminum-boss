@@ -1,0 +1,50 @@
+{
+ "section": "Colors",
+ "intro": "Every profile leaves the plant finished. Anodising and powder coating run on our own lines in Binh Duong, so colour is a production step rather than a subcontract, and a repeat order two years later still matches.",
+ "filters": [
+  {"id": "family", "label": "Finish", "options": ["Anodised", "Powder coated", "Wood grain", "PVDF", "Mechanical"]},
+  {"id": "use", "label": "Use", "options": ["Interior", "Exterior", "Marine"]},
+  {"id": "gloss", "label": "Gloss", "options": ["Matt", "Satin", "Gloss", "Textured"]}
+ ],
+ "items": [
+  {"id": "an-natural", "name": "Natural Silver", "code": "AN-100", "hex": "#c9ccce", "family": "Anodised", "use": "Exterior", "gloss": "Satin", "note": "The reference anodised finish. 15 µm on exterior work, 10 µm inside."},
+  {"id": "an-champagne", "name": "Champagne", "code": "AN-210", "hex": "#c8b193", "family": "Anodised", "use": "Exterior", "gloss": "Satin", "note": "Electrolytically coloured, not dyed, so the tone does not drift under UV."},
+  {"id": "an-light-bronze", "name": "Light Bronze", "code": "AN-320", "hex": "#8c7357", "family": "Anodised", "use": "Exterior", "gloss": "Satin", "note": "The most specified bronze on facade work in this region."},
+  {"id": "an-dark-bronze", "name": "Dark Bronze", "code": "AN-340", "hex": "#4a3b2c", "family": "Anodised", "use": "Exterior", "gloss": "Satin", "note": "Deep bronze. Batch control matters here; we hold ±2 ΔE across a run."},
+  {"id": "an-black", "name": "Anodic Black", "code": "AN-400", "hex": "#22211f", "family": "Anodised", "use": "Exterior", "gloss": "Matt", "note": "Two-step black. Fingerprints show less than on black powder."},
+  {"id": "an-gold", "name": "Pale Gold", "code": "AN-250", "hex": "#c4a656", "family": "Anodised", "use": "Interior", "gloss": "Gloss", "note": "Interior trim and shopfitting. Not recommended on coastal exteriors."},
+  {"id": "an-brushed", "name": "Brushed Silver", "code": "AN-110", "hex": "#b6b9bb", "family": "Anodised", "use": "Interior", "gloss": "Satin", "note": "Linear brush before anodising. Grain direction is specified per elevation."},
+  {"id": "an-marine", "name": "Marine Silver", "code": "AN-150", "hex": "#bcc2c4", "family": "Anodised", "use": "Marine", "gloss": "Satin", "note": "25 µm anodic layer for coastal and offshore exposure."},
+
+  {"id": "pc-9016", "name": "Traffic White", "code": "RAL 9016", "hex": "#f1f0ea", "family": "Powder coated", "use": "Exterior", "gloss": "Gloss", "note": "The volume white. Held in stock, no minimum batch."},
+  {"id": "pc-9010", "name": "Pure White", "code": "RAL 9010", "hex": "#f0ece2", "family": "Powder coated", "use": "Interior", "gloss": "Satin", "note": "Slightly warmer than 9016. Common on interior joinery."},
+  {"id": "pc-9006", "name": "White Aluminium", "code": "RAL 9006", "hex": "#a5a8a6", "family": "Powder coated", "use": "Exterior", "gloss": "Satin", "note": "Metallic grey. Reads close to natural anodised at a distance."},
+  {"id": "pc-9007", "name": "Grey Aluminium", "code": "RAL 9007", "hex": "#8f8b85", "family": "Powder coated", "use": "Exterior", "gloss": "Satin", "note": "Darker metallic. Pairs with dark bronze on mixed elevations."},
+  {"id": "pc-7016", "name": "Anthracite Grey", "code": "RAL 7016", "hex": "#383e42", "family": "Powder coated", "use": "Exterior", "gloss": "Matt", "note": "The default dark grey on residential window systems."},
+  {"id": "pc-7021", "name": "Black Grey", "code": "RAL 7021", "hex": "#2f3234", "family": "Powder coated", "use": "Exterior", "gloss": "Matt", "note": "Reads black in daylight without the heat gain of true black."},
+  {"id": "pc-9005", "name": "Jet Black", "code": "RAL 9005", "hex": "#0e0e10", "family": "Powder coated", "use": "Exterior", "gloss": "Matt", "note": "Surface temperature runs high in direct sun; check thermal break sizing."},
+  {"id": "pc-8017", "name": "Chocolate Brown", "code": "RAL 8017", "hex": "#442f29", "family": "Powder coated", "use": "Exterior", "gloss": "Satin", "note": "Long-standing choice on villa joinery."},
+  {"id": "pc-6005", "name": "Moss Green", "code": "RAL 6005", "hex": "#0f4336", "family": "Powder coated", "use": "Exterior", "gloss": "Gloss", "note": "Heritage and conservation work."},
+  {"id": "pc-5010", "name": "Gentian Blue", "code": "RAL 5010", "hex": "#0e4c8a", "family": "Powder coated", "use": "Exterior", "gloss": "Gloss", "note": "Industrial and institutional. Strong colour retention."},
+  {"id": "pc-3020", "name": "Traffic Red", "code": "RAL 3020", "hex": "#bb1f10", "family": "Powder coated", "use": "Exterior", "gloss": "Gloss", "note": "Signage, retail fronts and plant rooms."},
+  {"id": "pc-1013", "name": "Oyster White", "code": "RAL 1013", "hex": "#e3d9c6", "family": "Powder coated", "use": "Interior", "gloss": "Satin", "note": "Warm off-white for interior partitions."},
+  {"id": "pc-7039", "name": "Quartz Grey", "code": "RAL 7039", "hex": "#6b665e", "family": "Powder coated", "use": "Exterior", "gloss": "Textured", "note": "Fine texture hides handling marks on site."},
+  {"id": "pc-sable", "name": "Sablé Bronze", "code": "SB-300", "hex": "#5c4a38", "family": "Powder coated", "use": "Exterior", "gloss": "Textured", "note": "Coarse texture. The usual answer when a facade must not show installation scuffs."},
+
+  {"id": "wg-oak", "name": "Light Oak", "code": "WG-110", "hex": "#c39a63", "family": "Wood grain", "use": "Exterior", "gloss": "Matt", "note": "Sublimated over a powder base. Grain runs along the extrusion."},
+  {"id": "wg-walnut", "name": "Walnut", "code": "WG-220", "hex": "#6b4530", "family": "Wood grain", "use": "Exterior", "gloss": "Matt", "note": "The most requested wood tone on sliding systems."},
+  {"id": "wg-teak", "name": "Burma Teak", "code": "WG-240", "hex": "#9a6a3a", "family": "Wood grain", "use": "Exterior", "gloss": "Satin", "note": "Warmer and redder than walnut."},
+  {"id": "wg-ash", "name": "Grey Ash", "code": "WG-310", "hex": "#9c9187", "family": "Wood grain", "use": "Exterior", "gloss": "Matt", "note": "Weathered timber look without the maintenance."},
+  {"id": "wg-wenge", "name": "Wenge", "code": "WG-410", "hex": "#3d2f26", "family": "Wood grain", "use": "Interior", "gloss": "Matt", "note": "Dark interior joinery and shopfitting."},
+
+  {"id": "pv-silver", "name": "PVDF Metallic Silver", "code": "PV-100", "hex": "#b9bcc0", "family": "PVDF", "use": "Exterior", "gloss": "Satin", "note": "Two-coat PVDF. Specified where a 20-year colour warranty is required."},
+  {"id": "pv-grey", "name": "PVDF Storm Grey", "code": "PV-200", "hex": "#6e7376", "family": "PVDF", "use": "Exterior", "gloss": "Satin", "note": "Three-coat option available for high-UV sites."},
+  {"id": "pv-bronze", "name": "PVDF Bronze", "code": "PV-300", "hex": "#7a6247", "family": "PVDF", "use": "Exterior", "gloss": "Satin", "note": "Matches AN-320 closely enough to mix anodised and coated on one elevation."},
+  {"id": "pv-champagne", "name": "PVDF Champagne", "code": "PV-210", "hex": "#c2ab8b", "family": "PVDF", "use": "Exterior", "gloss": "Satin", "note": "Where champagne is wanted on a coated rather than anodised substrate."},
+  {"id": "pv-marine", "name": "PVDF Marine White", "code": "PV-050", "hex": "#e8e6e0", "family": "PVDF", "use": "Marine", "gloss": "Satin", "note": "Salt-spray tested to 4,000 hours."},
+
+  {"id": "me-mirror", "name": "Mirror Polish", "code": "ME-100", "hex": "#d6dade", "family": "Mechanical", "use": "Interior", "gloss": "Gloss", "note": "Polished then clear-anodised. Interior feature work only."},
+  {"id": "me-sandblast", "name": "Sandblasted", "code": "ME-200", "hex": "#adafae", "family": "Mechanical", "use": "Interior", "gloss": "Matt", "note": "Even matt surface that takes fingerprints far less readily than polish."},
+  {"id": "me-hairline", "name": "Hairline", "code": "ME-300", "hex": "#bfc2c3", "family": "Mechanical", "use": "Interior", "gloss": "Satin", "note": "Fine unidirectional grain, standard on handles and trims."}
+ ]
+}

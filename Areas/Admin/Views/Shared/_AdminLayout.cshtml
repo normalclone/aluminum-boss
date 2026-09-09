@@ -1,0 +1,54 @@
+@*
+    The admin shell.
+
+    Its stylesheet is separate from the public site's and is never loaded by it: the site's CSS is
+    the thing being preserved pixel for pixel, and an admin style that leaked into it would be a
+    slow way to break exactly what this port is measured on.
+*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>@ViewData["Title"] — Site content</title>
+    <link rel="stylesheet" href="~/admin/admin.css" asp-append-version="true">
+</head>
+<body>
+<header class="ad-top">
+    <a class="ad-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Site content</a>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <nav class="ad-nav">
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Overview</a>
+            <a asp-area="Admin" asp-controller="Content" asp-action="Index">Content</a>
+            <a asp-area="Admin" asp-controller="Layout" asp-action="Index">Page order</a>
+            <a asp-area="Admin" asp-controller="Seo" asp-action="Index">Search listing</a>
+            <a asp-area="Admin" asp-controller="Media" asp-action="Index">Pictures</a>
+        </nav>
+        <div class="ad-right">
+            <a class="ad-view" href="/" target="_blank" rel="noopener">View site</a>
+            <a asp-area="Admin" asp-controller="Account" asp-action="Password">@User.Identity.Name</a>
+            <form asp-area="Admin" asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="ad-plain">Sign out</button>
+            </form>
+        </div>
+    }
+</header>
+
+<main class="ad-main">
+    @if (TempData["Flash"] is string flash)
+    {
+        <p class="ad-flash">@flash</p>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <p class="ad-flash is-bad">@error</p>
+    }
+    @RenderBody()
+</main>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

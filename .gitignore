@@ -1,3 +1,20 @@
+# --- .NET ---------------------------------------------------------------------------------
+bin/
+obj/
+.vs/
+*.user
+
+# The content database. Deliberately not committed: this repo is public, and the file carries
+# the admin password hash. It is also not a source file - ContentSeeder rebuilds it from
+# wwwroot/_data/*.json on first run, so a fresh clone starts with the site's own content.
+#
+# The consequence is worth knowing: anything edited through the admin lives only in this file
+# and is therefore not in git. It needs its own backup.
+App_Data/*.db
+App_Data/*.db-shm
+App_Data/*.db-wal
+
+# --- static site ---------------------------------------------------------------------------
 # Backups written by the section injectors before each run
 *.pre-factory
 *.pre-globe

@@ -1,0 +1,115 @@
+{
+ "section": "Products",
+ "intro": "Six product families, extruded and finished in Binh Duong and shipped from Ho Chi Minh City to 43 markets.",
+ "categories": [
+  {
+   "id": "profile",
+   "name": "Profile",
+   "tagline": "System profiles for windows, doors and partitions",
+   "image": "hero-profile.jpg",
+   "blurb": "Thermal-break and plain extrusions in 6063-T5, drawn on 1,800-tonne and 2,500-tonne presses. Every system ships with its own gaskets, drainage and hardware set, so a fabricator receives a complete opening rather than a bundle of bars.",
+   "items": [
+    {"id": "profile-sliding-93", "name": "Sliding 93", "spec": "Frame depth 93 mm · 2 or 3 track · sash up to 200 kg",
+     "text": "A wide-track sliding system for balcony and terrace openings. The 93 mm frame carries double glazing to 24 mm and takes a tandem roller rated for a 200 kg sash."},
+    {"id": "profile-casement-55", "name": "Casement 55 TB", "spec": "Frame depth 55 mm · polyamide thermal break 24 mm · Uf 2.1 W/m²K",
+     "text": "The volume seller. A 24 mm polyamide strip separates inner and outer shells, which is what brings Uf down to 2.1 and keeps condensation off the inner face in air-conditioned rooms."},
+    {"id": "profile-curtain-50", "name": "Mullion 50", "spec": "Face width 50 mm · depth 65–250 mm · infill to 32 mm",
+     "text": "Stick-system mullion and transom for shopfronts and low-rise glazing. Depth is chosen per span, so one face width covers a single storey or a four-metre atrium bay."},
+    {"id": "profile-partition-40", "name": "Office Partition 40", "spec": "Face width 40 mm · single or double glazed · flush both sides",
+     "text": "A slim demountable partition for fit-outs. Both faces sit flush with the glass, so the same profile reads identically from either side of the wall."},
+    {"id": "profile-industrial", "name": "Industrial Extrusion", "spec": "6061-T6 and 6082-T6 · to 12 m · mill, anodised or powder",
+     "text": "Structural sections drawn to customer dies: solar mounting rails, conveyor frames, heat sinks and machine beds. Dies are cut in-house, first samples in 18 days."}
+   ]
+  },
+  {
+   "id": "facade",
+   "name": "Facade",
+   "tagline": "Unitised and stick systems, panels and louvres",
+   "blurb": "Facade work is where tolerance stops being a number on a drawing. Units are assembled and water-tested in the factory, then shipped glazed, so the site crew hangs a finished bay instead of building one at height.",
+   "items": [
+    {"id": "facade-unitised-160", "name": "Unitised UC160", "spec": "Depth 160 mm · unit to 1.5 × 4.2 m · tested to AAMA 501",
+     "text": "Factory-glazed unit with a split mullion and dual air seals. Each production run is water-tested at 720 Pa before it leaves the plant."},
+    {"id": "facade-acp", "name": "Composite Panel", "spec": "4 mm · A2 or FR core · PVDF 3-coat",
+     "text": "Aluminium composite in 1,220 and 1,500 mm widths. The A2 core is specified where the local code sets a limit on facade combustibility."},
+    {"id": "facade-solid", "name": "Solid Panel", "spec": "2.5–4 mm sheet · folded and stiffened · any RAL",
+     "text": "Single-skin folded panel with welded return legs and a bonded stiffener. Used where a composite core is not permitted, or where a deeper reveal is wanted."},
+    {"id": "facade-louvre", "name": "Sun Louvre", "spec": "Blade 200–400 mm · fixed or adjustable · span to 4 m",
+     "text": "Aerofoil blades on a concealed carrier. Blade pitch is set from the shading study rather than from a catalogue default."},
+    {"id": "facade-cladding", "name": "Cassette Cladding", "spec": "Hook-on cassette · open or closed joint · rear-ventilated",
+     "text": "Hook-on cassettes on a rail carrier, removable one at a time from the face. Sizes follow the setting-out grid, not the sheet size."}
+   ]
+  },
+  {
+   "id": "furniture",
+   "name": "Furniture",
+   "tagline": "Profiles for cabinetry, wardrobes and shopfitting",
+   "blurb": "Furniture profiles are judged by their edges and their finish, because they are seen and touched at arm's length. These run on a separate anodising line to keep handling marks off the visible faces.",
+   "items": [
+    {"id": "furniture-handle-g", "name": "G-Profile Handle", "spec": "Continuous handle · lengths to 5.8 m · anodised or brushed",
+     "text": "A continuous recessed pull that replaces hardware on a handleless kitchen. Cut to the run so the shadow line is unbroken across a bank of doors."},
+    {"id": "furniture-frame-slim", "name": "Slim Door Frame", "spec": "Face 20 mm · glass 4–8 mm · mitre or butt corner",
+     "text": "A 20 mm frame for glazed cabinet fronts. The gasket takes 4 to 8 mm, which covers clear, reeded and lacquered glass without a change of section."},
+    {"id": "furniture-wardrobe", "name": "Wardrobe Track", "spec": "Top-hung · door to 80 kg · soft close both ends",
+     "text": "Top-hung sliding gear for wardrobe doors. The carriage is serviceable from the front, which matters in a fitted run with no side access."},
+    {"id": "furniture-led", "name": "LED Channel", "spec": "Recessed, surface or corner · opal or frosted diffuser",
+     "text": "Extruded channel with a snap-in diffuser and end caps. Fin depth is set so the strip sits at the focal distance of the diffuser and no dots show."},
+    {"id": "furniture-skirting", "name": "Plinth & Skirting", "spec": "Height 100–150 mm · clip-on seal · adjustable foot",
+     "text": "Cabinet plinth with a clip-on seal at the floor. Adjustable feet take up the 12 mm of level a screed usually leaves behind."}
+   ]
+  },
+  {
+   "id": "door-accessory",
+   "name": "Door's Accessory",
+   "tagline": "Hardware and gaskets that ship with the system",
+   "blurb": "Hardware is sold with the profile it was tested against. A system that passes a 25,000-cycle test only holds that number with the hinge and gasket it was tested on, so the two travel together.",
+   "items": [
+    {"id": "door-hinge-3d", "name": "3D Adjustable Hinge", "spec": "Leaf to 130 kg · ±3 mm on three axes · 25,000 cycles",
+     "text": "Adjustable after installation on all three axes, which is what lets a door be squared against an opening that moved after the frame went in."},
+    {"id": "door-multipoint", "name": "Multipoint Lock", "spec": "3, 5 or 7 point · 35 mm backset · stainless keeps",
+     "text": "Hooks and rollers on a single throw. Keeps are stainless because they are the part that stays wet on an exposed entrance."},
+    {"id": "door-handle", "name": "Lever & Pull Set", "spec": "Anodised, powder or PVD · pull to 1,800 mm",
+     "text": "Matched lever and pull in the same finish batch as the profile, so a door and its handle leave the plant the same colour."},
+    {"id": "door-gasket", "name": "EPDM Gasket Set", "spec": "Co-extruded · −40 to 120 °C · vulcanised corners",
+     "text": "Corners are vulcanised rather than cut and butted, which is where a gasket usually starts leaking after the first thermal cycle."},
+    {"id": "door-closer", "name": "Concealed Closer", "spec": "EN 2–4 · in-leaf · hold-open option",
+     "text": "Closer housed inside the leaf, invisible when the door is shut. Force is adjustable across EN 2 to 4 without removing the door."}
+   ]
+  },
+  {
+   "id": "car-accessory",
+   "name": "Car's Accessory",
+   "tagline": "Extrusions and pressings for the automotive tier",
+   "blurb": "Automotive parts are made to a drawing and a PPAP file, not to a catalogue. This line runs to IATF 16949 with full traceability from billet lot to packed carton.",
+   "items": [
+    {"id": "car-roof-rail", "name": "Roof Rail", "spec": "6063-T6 · stretch-formed · anodised or PVD",
+     "text": "Stretch-formed rail with a machined foot. Curvature is held to the body datum, not to the rail's own centreline."},
+    {"id": "car-battery-tray", "name": "EV Battery Tray Section", "spec": "6082-T6 · friction-stir welded · leak tested",
+     "text": "Multi-void extrusion for battery enclosures, friction-stir welded and helium leak tested. Wall thickness is set by the crash case, not by the press."},
+    {"id": "car-trim", "name": "Body Side Trim", "spec": "Bright anodised · roll-formed clip · UV stable",
+     "text": "Bright-anodised trim with an integral clip channel. The anodic layer is specified at 15 microns for road salt exposure."},
+    {"id": "car-bumper", "name": "Bumper Beam", "spec": "7003-T6 · crush-can interface · CAE validated",
+     "text": "Closed-section beam in 7003, drawn and then bent to the sweep. Section is signed off against the customer's own crash model."},
+    {"id": "car-heat-sink", "name": "Power Module Heat Sink", "spec": "Fin pitch to 2 mm · aspect ratio 18:1 · skived option",
+     "text": "High-aspect fins for inverter and charger modules. Where the pitch goes below 2 mm the part is skived rather than extruded."}
+   ]
+  },
+  {
+   "id": "honeycomb",
+   "name": "Honeycomb",
+   "tagline": "Aluminium honeycomb core and bonded panels",
+   "blurb": "Honeycomb buys stiffness per kilogram. A 25 mm bonded panel is roughly the bending stiffness of 12 mm solid aluminium at about a fifth of the weight, which is why it ends up in lifts, ceilings and vehicle interiors.",
+   "items": [
+    {"id": "honeycomb-core", "name": "Bare Core", "spec": "Cell 6–19 mm · foil 40–80 µm · blocks or slices",
+     "text": "Expanded 3003 core supplied as block or cut slice. Cell size and foil gauge are chosen from the shear load, not from what is in stock."},
+    {"id": "honeycomb-panel", "name": "Bonded Panel", "spec": "10–50 mm · skins 0.7–1.5 mm · to 1.5 × 4 m",
+     "text": "Core bonded between aluminium skins on a heated press. Flatness holds within 0.5 mm per metre after cure."},
+    {"id": "honeycomb-lift", "name": "Lift Car Panel", "spec": "Class A2 · stainless or anodised face · edge-sealed",
+     "text": "Panels for lift cars and doors, where the weight saved comes straight off the counterweight and the motor duty."},
+    {"id": "honeycomb-ceiling", "name": "Ceiling Raft", "spec": "Perforated face · acoustic fleece · NRC to 0.85",
+     "text": "Perforated face with a fleece backing behind the core. Perforation pattern is set from the absorption target for the room."},
+    {"id": "honeycomb-vehicle", "name": "Vehicle Floor Panel", "spec": "Non-slip face · 25–40 mm · point load 300 kg",
+     "text": "Bus and rail floor panel with a bonded non-slip face. Rated for a 300 kg point load on a 100 mm footprint."}
+   ]
+  }
+ ]
+}

@@ -1,0 +1,64 @@
+@model QlWeb2.Controllers.ColorsIndexViewModel
+
+<div class="container">
+  <section class="colors-hero">
+    <div class="colors-hero__text">
+      <h1>Your Dream Kitchen Or Bathroom Starts Here</h1>
+      <a href="#" class="btn btn-primary">Request a quote</a>
+    </div>
+    @Html.Media("colors-hero", "Hero kitchen photo")
+  </section>
+
+  <div class="filter-bar">
+    <a asp-action="Index" asp-route-brand="@Model.SelectedBrand" class="filter-pill @(Model.SelectedFamily == null ? "is-active" : "")">All Colors</a>
+    @foreach (var family in Model.Families)
+    {
+      <a asp-action="Index" asp-route-family="@family" asp-route-brand="@Model.SelectedBrand"
+         class="filter-pill @(Model.SelectedFamily == family ? "is-active" : "")">@family</a>
+    }
+  </div>
+  <div class="filter-bar" style="border-top:none;">
+    <a asp-action="Index" asp-route-family="@Model.SelectedFamily" class="filter-pill @(Model.SelectedBrand == null ? "is-active" : "")">All Brands</a>
+    @foreach (var b in Model.Brands)
+    {
+      <a asp-action="Index" asp-route-brand="@b.Key" asp-route-family="@Model.SelectedFamily"
+         class="filter-pill @(Model.SelectedBrand == b.Key ? "is-active" : "")">@b.Value</a>
+    }
+  </div>
+
+  <div class="swatch-grid">
+    @foreach (var p in Model.Products)
+    {
+      <a asp-controller="Colors" asp-action="Detail" asp-route-brand="@p.BrandSlug" asp-route-slug="@p.Slug"
+         class="card swatch-card" style="color:inherit;" data-family="@p.ColorFamily" data-brand="@p.BrandSlug">
+        @Html.Media($"product-{p.Slug}", p.Name)
+        <p class="swatch-card__name">@p.Name</p>
+        <p class="swatch-card__brand">@p.BrandName &middot; @p.ColorFamily</p>
+      </a>
+    }
+  </div>
+
+  @if (Model.Products.Count == 0)
+  {
+    <p style="text-align:center; color:var(--c-muted); padding: var(--space-xl) 0;">No colors match this filter.</p>
+  }
+
+  @if (Model.TotalPages > 1)
+  {
+    <nav class="pagination">
+      @if (Model.Page > 1)
+      {
+        <a asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-family="@Model.SelectedFamily" asp-route-brand="@Model.SelectedBrand">&larr; Prev</a>
+      }
+      @for (int i = 1; i <= Model.TotalPages; i++)
+      {
+        <a asp-action="Index" asp-route-page="@i" asp-route-family="@Model.SelectedFamily" asp-route-brand="@Model.SelectedBrand"
+           class="@(i == Model.Page ? "is-active" : "")">@i</a>
+      }
+      @if (Model.Page < Model.TotalPages)
+      {
+        <a asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-family="@Model.SelectedFamily" asp-route-brand="@Model.SelectedBrand">Next &rarr;</a>
+      }
+    </nav>
+  }
+</div>

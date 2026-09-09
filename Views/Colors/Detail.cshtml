@@ -1,0 +1,124 @@
+@model QlWeb2.Controllers.ProductDetailViewModel
+@{
+    var p = Model.Product;
+}
+
+<div class="container">
+  <p class="breadcrumb">
+    <a asp-action="Index">Colors</a> &gt;
+    <a asp-action="Index" asp-route-brand="@p.BrandSlug">@p.BrandName</a> &gt;
+    @p.Name
+  </p>
+
+  <div class="product-top">
+    <div class="product-thumbs">
+      @for (int t = 1; t <= 4; t++)
+      {
+        @Html.Media($"product-{p.Slug}-thumb-{t}", $"{p.Name} thumbnail {t}")
+      }
+    </div>
+    <div class="product-main-img">
+      @Html.Media($"product-{p.Slug}-lifestyle", $"{p.Name} in a finished space")
+    </div>
+    <div class="product-info">
+      <h1>@p.Name</h1>
+      <p class="product-info__subtitle">@p.BrandName.ToUpper() &mdash; @p.FinishName.ToUpper()</p>
+      <h2 class="label">Description</h2>
+      <p class="desc">@p.Description</p>
+      <a href="#" class="btn btn-primary">Request a quote</a>
+      <h2 class="label" style="margin-top:var(--space-md);">Request Samples</h2>
+      <p style="font-size:13px; color:var(--c-muted);">Finishes: @p.FinishName &mdash; <a href="#" class="card__link">Order sample &rarr;</a></p>
+    </div>
+  </div>
+
+  <div class="spec-row">
+    <div><h3>Finishes Available</h3><p>@p.FinishName</p></div>
+    <div><h3>Thicknesses</h3><p>@p.Thicknesses</p></div>
+    <div><h3>Format</h3><p>@p.Format</p></div>
+    <div><h3>Professional Resources</h3><p><a href="#" class="card__link">Download spec sheet &rarr;</a></p></div>
+  </div>
+
+  <section class="section slab-view">
+    <p class="section-label">Detailed view of the full slab &nbsp;<a href="#" class="card__link">Open in a new tab &rarr;</a></p>
+    @Html.Media($"product-{p.Slug}-slab", $"{p.Name} full slab detail")
+  </section>
+
+  <section class="section">
+    <p class="section-label">Projects using this material &nbsp;<a href="#" class="card__link">View the full gallery &rarr;</a></p>
+    <div class="projects-grid">
+      @for (int j = 1; j <= 5; j++)
+      {
+        @Html.Media($"project-{j:00}", $"Project {j}")
+      }
+    </div>
+  </section>
+</div>
+
+<section class="dark-banner">
+  @Html.Media("showroom", "Showroom storefront")
+  <div class="dark-banner__text">
+    <h2>Find where to buy this product</h2>
+    <p style="font-size:14px; color:#ccc;">Use our locator to find showrooms and partner stores near you.</p>
+    <a href="#" class="btn btn-white" style="align-self:flex-start;">Where to buy</a>
+  </div>
+</section>
+
+<div class="container section">
+  <p class="section-label">Similar colors</p>
+  <div class="card-grid similar-grid">
+    @foreach (var s in Model.SimilarProducts)
+    {
+      <a asp-action="Detail" asp-route-brand="@s.BrandSlug" asp-route-slug="@s.Slug" class="card" style="color:inherit;">
+        @Html.Media($"product-{s.Slug}", s.Name)
+        <p class="swatch-card__name">@s.Name</p>
+        <span class="card__link">View color &rarr;</span>
+      </a>
+    }
+    @if (!Model.SimilarProducts.Any())
+    {
+      <p style="color:var(--c-muted); font-size:14px;">No similar colors found in this family yet.</p>
+    }
+  </div>
+</div>
+
+<section class="refurb-split">
+  <div class="refurb-split__text">
+    <h2 class="section-heading" style="font-size:26px;">Do you have a refurbishment?</h2>
+    <p style="font-size:14px;">Select a certified professional and they'll contact you to get started on a quote.</p>
+    <a href="#" class="btn btn-dark" style="align-self:flex-start;">Request a quote</a>
+  </div>
+  @Html.Media("refurbishment", "Professional consultation photo")
+</section>
+
+<section class="brand-section">
+  <div class="container brand-section__grid">
+    <div>
+      <p class="brand-section__mark">@p.BrandName</p>
+      <h2>Why You Should Choose This Material</h2>
+    </div>
+    <p>A paragraph describing the technical properties, performance, and versatility of this material line &mdash; durability, colors, textures, and ideal applications for residential and commercial projects.</p>
+  </div>
+  <div class="container" style="margin-top:var(--space-md);">
+    <a href="#" class="btn btn-outline" style="color:#fff;">View more</a>
+  </div>
+</section>
+
+<section class="section container">
+  <p class="section-label">Material benefits</p>
+  <div class="card-grid benefits-row">
+    <div class="card benefit-card">@Html.Media("benefit-01", "High scratch resistance")<h4>High Scratch Resistance</h4><p>Short supporting line about this benefit.</p></div>
+    <div class="card benefit-card">@Html.Media("benefit-02", "Stain resistant")<h4>Stain Resistant</h4><p>Short supporting line about this benefit.</p></div>
+    <div class="card benefit-card">@Html.Media("benefit-03", "Fire and heat resistance")<h4>Fire &amp; Heat Resistance</h4><p>Short supporting line about this benefit.</p></div>
+    <div class="card benefit-card">@Html.Media("benefit-04", "High impact resistance")<h4>High Impact Resistance</h4><p>Short supporting line about this benefit.</p></div>
+    <div class="card benefit-card">@Html.Media("benefit-05", "Abrasion resistant")<h4>Abrasion Resistant</h4><p>Short supporting line about this benefit.</p></div>
+  </div>
+</section>
+
+<section class="section card-grid moodboard-split">
+  <div class="moodboard-split__text">
+    <h2 class="section-heading" style="font-size:24px;">Combine This Material Like A Pro</h2>
+    <p style="font-size:14px; color:var(--c-muted); margin: var(--space-sm) 0;">Make your own combination of materials with our digital moodboard application.</p>
+    <a href="#" class="btn btn-dark">Go to moodboard app</a>
+  </div>
+  @Html.Media("moodboard", "Moodboard flatlay")
+</section>

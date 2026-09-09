@@ -1,0 +1,53 @@
+.page-colors { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
+.page-colors h1, .page-colors h2, .page-colors h3 { font-family: var(--font-primary); }
+
+.colors-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-xl) 0;
+}
+.colors-hero__text { max-width: 420px; }
+.colors-hero h1 {
+  font-size: 40px;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: var(--space-md);
+}
+.colors-hero .ph-img { aspect-ratio: 16/9; }
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--c-border);
+  border-bottom: 1px solid var(--c-border);
+}
+.filter-pill {
+  padding: 6px 16px;
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--c-muted);
+}
+.filter-pill.is-active { background: var(--c-text); color: #fff; border-color: var(--c-text); }
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md) var(--space-sm);
+  padding: var(--space-xl) 0;
+}
+.swatch-card .ph-img { aspect-ratio: 1; margin-bottom: 10px; }
+.swatch-card__name { font-size: 14px; font-weight: 500; }
+.swatch-card__brand { font-size: 12px; color: var(--c-muted); }
+
+.load-more { text-align: center; padding-bottom: var(--space-xl); }
+
+@media (max-width: 900px) {
+  .colors-hero { grid-template-columns: 1fr; }
+  .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+}

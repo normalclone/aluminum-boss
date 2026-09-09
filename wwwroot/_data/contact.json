@@ -1,0 +1,92 @@
+{
+ "section": "Contact",
+ "intro": "Tell us what you are building and we will put the right engineer on it. Enquiries are answered within one working day, Ho Chi Minh City time.",
+ "offices": [
+  {"name": "Head office & Binh Duong plant", "lines": ["Lot 14, VSIP II-A Industrial Park", "Tan Uyen, Binh Duong, Vietnam"], "phone": "+84 274 3999 100", "email": "sales@bossgroup.vn"},
+  {"name": "Export desk", "lines": ["Cat Lai packing hall", "Thu Duc, Ho Chi Minh City, Vietnam"], "phone": "+84 28 3999 220", "email": "export@bossgroup.vn"}
+ ],
+ "routes": [
+  {
+   "id": "quote",
+   "name": "Request a quotation",
+   "blurb": "Send a drawing, a section or a bill of quantities. We come back with tonnage, finish options, lead time and FOB pricing.",
+   "cta": "Start",
+   "intro": "The more of the technical section you can fill in, the closer the first quotation will be. If you only have a sketch, send it anyway and leave the rest blank.",
+   "fields": [
+    {"n": "Company", "t": "text", "req": true},
+    {"n": "Contact name", "t": "text", "req": true},
+    {"n": "Email", "t": "email", "req": true},
+    {"n": "Telephone", "t": "tel"},
+    {"n": "Country", "t": "text", "req": true},
+    {"n": "Product family", "t": "select", "req": true,
+     "opts": ["Profile", "Facade", "Furniture", "Door's accessory", "Car's accessory", "Honeycomb"]},
+    {"n": "Alloy and temper", "t": "text", "hint": "6063-T5 unless specified"},
+    {"n": "Finish", "t": "select",
+     "opts": ["Mill finish", "Anodised", "Powder coated", "Wood grain", "PVDF"]},
+    {"n": "Estimated annual tonnage", "t": "text"},
+    {"n": "Required delivery", "t": "date"},
+    {"n": "Incoterm", "t": "select", "opts": ["FOB Ho Chi Minh City", "CIF", "EXW", "Not sure yet"]},
+    {"n": "Drawing or bill of quantities", "t": "file", "hint": "PDF, DWG, STEP or a photograph of a sketch. Up to 20 MB."},
+    {"n": "Anything else we should know", "t": "textarea"}
+   ]
+  },
+  {
+   "id": "sample",
+   "name": "Order finish samples",
+   "blurb": "Physical swatches of any finish in the Colors section, cut on the profile you intend to use. Sent free within ASEAN, at cost elsewhere.",
+   "cta": "Request samples",
+   "intro": "A colour on a screen is not a colour. Tell us which finishes and we will cut them on a real section rather than sending a paper chip.",
+   "fields": [
+    {"n": "Company", "t": "text", "req": true},
+    {"n": "Contact name", "t": "text", "req": true},
+    {"n": "Email", "t": "email", "req": true},
+    {"n": "Delivery address", "t": "textarea", "req": true},
+    {"n": "Country", "t": "text", "req": true},
+    {"n": "Finish codes", "t": "text", "req": true, "hint": "For example AN-320, RAL 7016, WG-220"},
+    {"n": "Cut on which profile", "t": "text", "hint": "Leave blank for a flat sample bar"},
+    {"n": "Project this is for", "t": "text"}
+   ]
+  },
+  {
+   "id": "technical",
+   "name": "Technical assistance",
+   "blurb": "Die design, thermal performance, structural sizing, coating specification. Answered by the engineer who works on that line, not by a call centre.",
+   "cta": "Ask an engineer",
+   "intro": "Questions go to the group that owns them: extrusion and dies, finishing chemistry, or facade engineering. Say which and it gets there faster.",
+   "fields": [
+    {"n": "Company", "t": "text", "req": true},
+    {"n": "Contact name", "t": "text", "req": true},
+    {"n": "Email", "t": "email", "req": true},
+    {"n": "Subject area", "t": "select", "req": true,
+     "opts": ["Die design and extrusion", "Anodising and coating", "Facade engineering",
+              "Structural and thermal", "Automotive and PPAP", "Honeycomb panels"]},
+    {"n": "Existing order or project reference", "t": "text"},
+    {"n": "Your question", "t": "textarea", "req": true},
+    {"n": "Drawing or photograph", "t": "file"}
+   ]
+  },
+  {
+   "id": "become-distributor",
+   "name": "Become a distributor",
+   "blurb": "We appoint one distributor per territory and back them with stock, samples and technical support rather than only a price list.",
+   "cta": "Apply",
+   "intro": "Exclusivity works both ways. We will ask about your warehouse, your fabricator base and what you already carry, because a territory only supports one of these relationships.",
+   "fields": [
+    {"n": "Company", "t": "text", "req": true},
+    {"n": "Contact name", "t": "text", "req": true},
+    {"n": "Position", "t": "text"},
+    {"n": "Email", "t": "email", "req": true},
+    {"n": "Telephone", "t": "tel", "req": true},
+    {"n": "Territory applied for", "t": "text", "req": true},
+    {"n": "Years trading", "t": "text"},
+    {"n": "Warehouse capacity", "t": "text", "hint": "Square metres under cover"},
+    {"n": "Brands currently carried", "t": "textarea"},
+    {"n": "Company profile", "t": "file"}
+   ]
+  }
+ ],
+ "consent": [
+  "I authorise Böss Group to contact me about this enquiry and about related products and services.",
+  "I accept the Privacy Policy and the terms of the Contact Clause."
+ ]
+}

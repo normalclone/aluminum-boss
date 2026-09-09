@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Sign in";
+    Layout = "_AdminLayout";
+}
+
+<div class="ad-login">
+    <h1>Sign in</h1>
+
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+    {
+        <p class="ad-error">@error.ErrorMessage</p>
+    }
+
+    <form method="post" asp-area="Admin" asp-controller="Account" asp-action="Login"
+          asp-route-returnUrl="@ViewData["ReturnUrl"]">
+        @Html.AntiForgeryToken()
+
+        <div class="ad-field">
+            <label for="username">User name</label>
+            <input type="text" id="username" name="username" autocomplete="username" autofocus required>
+        </div>
+
+        <div class="ad-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+        </div>
+
+        <div class="ad-actions">
+            <button type="submit" class="ad-save">Sign in</button>
+        </div>
+    </form>
+</div>

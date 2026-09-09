@@ -1,0 +1,25 @@
+@model List<QlWeb2.Models.PageSeo>
+@{ ViewData["Title"] = "Search listing"; }
+
+<h1>Search listing</h1>
+<p class="ad-sub">
+    What each page calls itself in a browser tab, in search results, and when someone pastes its
+    link into a chat. A description of roughly 150 characters is what search engines will show.
+</p>
+
+<table>
+    <thead><tr><th>Page</th><th>Title</th><th>Description</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var seo in Model)
+    {
+        <tr class="@(seo.NoIndex ? "is-off" : "")">
+            <td><b>@seo.Label</b><span class="ad-hint">@seo.Path</span></td>
+            <td>@(string.IsNullOrWhiteSpace(seo.Title) ? "—" : seo.Title)</td>
+            <td class="ad-num">@(seo.Description.Length) chars@(seo.NoIndex ? " · hidden from search" : "")</td>
+            <td class="ad-num">
+                <a class="ad-move" asp-area="Admin" asp-controller="Seo" asp-action="Edit" asp-route-id="@seo.Id">Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

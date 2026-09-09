@@ -1,0 +1,70 @@
+@model List<QlWeb2.Models.PageRegion>
+@{
+    ViewData["Title"] = "Page order";
+    var inPage = (List<string>)ViewData["InPage"]!;
+    var mismatch = inPage.Count > 0 && !inPage.OrderBy(x => x).SequenceEqual(Model.Select(r => r.Key).OrderBy(x => x));
+}
+
+<h1>Home page order</h1>
+<p class="ad-sub">
+    The bands of the home page, top to bottom. You can change the order and turn a band off. What is
+    inside a band is edited under Content — that separation is deliberate: moving whole bands is
+    always safe at every screen size, while rearranging what sits inside one is not.
+</p>
+
+@if (mismatch)
+{
+    <p class="ad-flash is-bad">
+        The page contains @inPage.Count sections but this list has @Model.Count. The page was probably
+        edited by hand. Moving anything now could drop a section.
+    </p>
+}
+
+<table>
+    <thead><tr><th>Section</th><th>Shown</th><th>Order</th></tr></thead>
+    <tbody>
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        var region = Model[i];
+        <tr class="@(region.Visible ? "" : "is-off")">
+            <td>
+                <b>@region.Label</b>
+                @if (region.Locked)
+                {
+                    <span class="ad-hint">Always first — the page has to open with something.</span>
+                }
+            </td>
+            <td class="ad-num">
+                <form method="post" asp-area="Admin" asp-controller="Layout" asp-action="Toggle">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@region.Id">
+                    <button type="submit" class="ad-move" disabled="@region.Locked"
+                            title="@(region.Visible ? "Hide this band" : "Show this band")">
+                        @(region.Visible ? "Shown" : "Hidden")
+                    </button>
+                </form>
+            </td>
+            <td class="ad-num">
+                <form method="post" asp-area="Admin" asp-controller="Layout" asp-action="Move" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@region.Id">
+                    <input type="hidden" name="direction" value="up">
+                    <button type="submit" class="ad-move" aria-label="Move up"
+                            disabled="@(i == 0 || region.Locked || Model[i - 1].Locked)">↑</button>
+                </form>
+                <form method="post" asp-area="Admin" asp-controller="Layout" asp-action="Move" style="display:inline">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@region.Id">
+                    <input type="hidden" name="direction" value="down">
+                    <button type="submit" class="ad-move" aria-label="Move down"
+                            disabled="@(i == Model.Count - 1 || region.Locked || Model[i + 1].Locked)">↓</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="ad-actions">
+    <a class="ad-btn is-quiet" href="/" target="_blank" rel="noopener">View the home page</a>
+</div>

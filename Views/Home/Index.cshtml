@@ -1,0 +1,162 @@
+@model QlWeb2.Controllers.HomeViewModel
+@{
+    ViewData["HeroHeader"] = true;
+}
+
+<section class="hero" style="@Html.BackgroundStyle("home-hero")">
+  <a href="#" class="btn btn-primary hero__cta">Request a quote</a>
+  <div class="hero__content">
+    <p class="hero__tagline">Sustainable materials, thoughtfully designed</p>
+    <h1 class="hero__heading">Kitchens Bathrooms Facades Commercial</h1>
+  </div>
+  <a href="#" class="btn btn-white hero__help">Can we help you?</a>
+</section>
+
+<section class="finder container">
+  <p class="eyebrow">Your Brand Architectural Surfaces</p>
+  <h2 class="finder__heading">Design That Shapes Everyday Spaces</h2>
+  <div class="tabs finder__tabs">
+    <a href="#" class="is-active">Kitchens</a>
+    <a href="#">Bathrooms</a>
+    <a href="#">Other Interiors</a>
+    <a href="#">Contract</a>
+    <a href="#">Commercial</a>
+  </div>
+  <div class="card-grid card-grid--3">
+    <div class="card">
+      @Html.Media("category-countertops", "Countertops")
+      <p class="card__title">Countertops</p>
+    </div>
+    <div class="card">
+      @Html.Media("category-cladding", "Cladding and coverings")
+      <p class="card__title">Cladding and coverings</p>
+    </div>
+    <div class="card">
+      @Html.Media("category-sinks", "Sinks")
+      <p class="card__title">Sinks</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="new-section__head">
+      <h2 class="eyebrow" style="font-size:20px; color:var(--c-text);">New</h2>
+    </div>
+    <div class="card-grid card-grid--3">
+      @foreach (var p in Model.NewProducts)
+      {
+        <a asp-controller="Colors" asp-action="Detail" asp-route-brand="@p.BrandSlug" asp-route-slug="@p.Slug" class="card new-card" style="color:inherit;">
+          @Html.Media($"product-{p.Slug}", p.Name)
+          <span class="new-card__badge">New</span>
+          <p class="new-card__title">@p.BrandName: @p.Name</p>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <p class="eyebrow" style="text-align:center;">Style Finder</p>
+  <div class="style-picker__tabs" style="justify-content:center;">
+    <button class="tabs is-active">All Brands</button>
+    <button class="tabs">Brand A</button>
+    <button class="tabs">Brand B</button>
+    <button class="tabs">Brand C</button>
+    <button class="tabs">Brand D</button>
+  </div>
+  <div class="card-grid card-grid--5">
+    @foreach (var p in Model.FeaturedSwatches)
+    {
+      <div class="card swatch">
+        @Html.Media($"product-{p.Slug}", p.Name)
+        <a asp-controller="Colors" asp-action="Detail" asp-route-brand="@p.BrandSlug" asp-route-slug="@p.Slug" class="card__link">View color</a>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="promo-banner">
+  <div class="promo-banner__text">
+    <h2 class="promo-banner__heading">Featured Product. A Highlight Headline For Your Newest Innovation.</h2>
+    <a href="#" class="btn btn-white">Discover more</a>
+  </div>
+  @Html.Media("promo-featured", "Featured product photo")
+</section>
+
+<section class="section container">
+  <p class="eyebrow">Inspiration Galleries</p>
+  <div class="tabs" style="margin: var(--space-xs) 0 var(--space-lg);">
+    <a href="#" class="is-active">All Spaces</a>
+    <a href="#">Kitchens</a>
+    <a href="#">Bathrooms</a>
+    <a href="#">Other Interiors</a>
+    <a href="#">Facades</a>
+    <a href="#">Commercial</a>
+  </div>
+  <div class="card-grid gallery-grid">
+    @for (int i = 1; i <= 10; i++)
+    {
+      @Html.Media($"gallery-{i:00}", $"Gallery image {i}")
+    }
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container split">
+    <div class="split__text">
+      <h2 class="section-heading">Material Name. A Descriptive Headline About Your Product's Key Benefit.</h2>
+      <a href="#" class="card__link" style="display:inline-block; margin-top:var(--space-sm);">Learn more about this feature &rarr;</a>
+    </div>
+    @Html.Media("material-closeup", "Material close-up")
+  </div>
+</section>
+
+<section class="section container split">
+  <div class="split__text">
+    <h2 class="section-heading">Planning A Renovation? We Can Help.</h2>
+    <p style="margin: var(--space-sm) 0;">Our network of partners helps you find the right options for any project, wherever you are.</p>
+    <a href="#" class="btn btn-dark">Where to buy</a>
+  </div>
+  @Html.Media("renovation", "Renovation project photo")
+</section>
+
+<section class="section container">
+  <h2 class="section-heading" style="text-align:center; max-width:700px; margin:0 auto var(--space-lg);">Versatile Solutions For Any Space</h2>
+  <div class="solutions-intro">
+    <p>A brief description of how your surfaces perform in flooring applications across styles and finishes.</p>
+    <p>A brief description of cladding and wall-covering use cases, indoors and out.</p>
+    <p>A brief description of furniture and custom fabrication possibilities.</p>
+  </div>
+  <div class="card-grid card-grid--3">
+    <div class="card solution-card">@Html.Media("solution-flooring", "Flooring")<a href="#" class="card__link">View more &rarr;</a></div>
+    <div class="card solution-card">@Html.Media("solution-cladding", "Cladding")<a href="#" class="card__link">View more &rarr;</a></div>
+    <div class="card solution-card">@Html.Media("solution-furniture", "Furniture")<a href="#" class="card__link">View more &rarr;</a></div>
+  </div>
+</section>
+
+<section class="quote-bar">
+  <p>&quot;Bringing inspiration, craftsmanship, and creativity to every project we touch.&quot;</p>
+  <a href="#" class="btn btn-outline">Send information &rarr;</a>
+</section>
+
+<section class="section section-alt">
+  <div class="container newsletter">
+    <div>
+      <h2 class="section-heading" style="font-size:26px;">Get Inspired With Our Newsletter</h2>
+      <p style="color:var(--c-muted); font-size:14px; margin-top:8px;">Get updates on new products, colors, and the latest news.</p>
+    </div>
+    <form class="newsletter-form" method="post" asp-controller="Home" asp-action="Subscribe">
+      <div class="radios">
+        <label><input type="radio" name="role" value="homeowner" checked> I am a homeowner</label>
+        <label><input type="radio" name="role" value="professional"> I am a professional</label>
+      </div>
+      <input type="email" name="email" placeholder="Enter your email address">
+      <button class="btn btn-dark" style="align-self:flex-start;" type="submit">I want to subscribe</button>
+      @if (TempData["SubscribeMessage"] is string msg)
+      {
+        <p class="newsletter-form__confirm" style="font-size:13px; color:var(--c-muted);">@msg</p>
+      }
+    </form>
+  </div>
+</section>

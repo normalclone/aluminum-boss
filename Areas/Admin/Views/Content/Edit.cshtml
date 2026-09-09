@@ -1,0 +1,103 @@
+@model List<FormField>
+@{
+    var name = (string)ViewData["Name"]!;
+    var title = (string)ViewData["Title"]!;
+    ViewData["Title"] = title;
+
+    // Fields arrive flat, in document order, each carrying the heading it belongs under. Grouping
+    // them here keeps a long document navigable without the form needing to know anything about
+    // which document it is showing.
+    var groups = Model
+        .GroupBy(f => string.IsNullOrEmpty(f.Group) ? title : f.Group)
+        .ToList();
+}
+
+<h1>@title</h1>
+<p class="ad-sub">
+    Changes appear on the site as soon as you save. Fields shown in grey are addresses and settings
+    the site's own layout depends on — they are here so you can see them, not change them.
+</p>
+
+<form method="post" asp-area="Admin" asp-controller="Content" asp-action="Edit" asp-route-id="@name">
+    @Html.AntiForgeryToken()
+
+    @{ var first = true; }
+    @foreach (var group in groups)
+    {
+        @* The first group is open so the page does not look empty; the rest fold away because a
+           document like Projects has a dozen of them and an unbroken wall of fields is unusable. *@
+        <details class="ad-group" open="@(first || groups.Count <= 2)">
+            <summary>@group.Key <span class="ad-hint" style="display:inline">— @group.Count() fields</span></summary>
+            <div>
+            @foreach (var field in group)
+            {
+                <div class="ad-field @(field.Kind == FieldKind.Locked ? "is-locked" : "")">
+                    @switch (field.Kind)
+                    {
+                        case FieldKind.Toggle:
+                            <div class="ad-check">
+                                <input type="checkbox" id="@field.Path" name="@field.Path"
+                                       checked="@(field.Value == "true")">
+                                <label for="@field.Path">@field.Label</label>
+                            </div>
+                            break;
+
+                        case FieldKind.Colour:
+                            <label for="@field.Path">@field.Label</label>
+                            <div class="ad-colour">
+                                <input type="color" value="@(field.Value.StartsWith("#") ? field.Value : "#cccccc")"
+                                       oninput="this.nextElementSibling.value = this.value">
+                                <input type="text" id="@field.Path" name="@field.Path" value="@field.Value">
+                            </div>
+                            break;
+
+                        case FieldKind.Image:
+                            <label for="@field.Path">@field.Label</label>
+                            <div class="ad-image">
+                                <img src="@(string.IsNullOrWhiteSpace(field.Value) ? "" : "/_media/" + field.Value)"
+                                     alt="" onerror="this.style.visibility='hidden'">
+                                <input type="text" id="@field.Path" name="@field.Path" value="@field.Value"
+                                       placeholder="File name from Pictures, or leave empty">
+                            </div>
+                            <span class="ad-hint">Upload under Pictures, then paste the file name here.</span>
+                            break;
+
+                        case FieldKind.Number:
+                            <label for="@field.Path">@field.Label</label>
+                            <input type="number" step="any" id="@field.Path" name="@field.Path" value="@field.Value">
+                            break;
+
+                        case FieldKind.Paragraphs:
+                            <label for="@field.Path">@field.Label</label>
+                            <textarea id="@field.Path" name="@field.Path" rows="7">@field.Value</textarea>
+                            <span class="ad-hint">Leave a blank line between paragraphs.</span>
+                            break;
+
+                        case FieldKind.LongText:
+                            <label for="@field.Path">@field.Label</label>
+                            <textarea id="@field.Path" name="@field.Path" rows="4">@field.Value</textarea>
+                            break;
+
+                        case FieldKind.Locked:
+                            <label for="@field.Path">@field.Label</label>
+                            <input type="text" id="@field.Path" value="@field.Value" readonly disabled>
+                            break;
+
+                        default:
+                            <label for="@field.Path">@field.Label</label>
+                            <input type="text" id="@field.Path" name="@field.Path" value="@field.Value">
+                            break;
+                    }
+                </div>
+            }
+            </div>
+        </details>
+        first = false;
+    }
+
+    <div class="ad-actions">
+        <button type="submit" class="ad-save">Save changes</button>
+        <a class="ad-btn is-quiet" asp-area="Admin" asp-controller="Content" asp-action="History" asp-route-id="@name">History</a>
+        <a class="ad-btn is-quiet" href="/" target="_blank" rel="noopener">View site</a>
+    </div>
+</form>

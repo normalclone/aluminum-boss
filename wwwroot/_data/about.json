@@ -1,0 +1,92 @@
+{
+ "section": "About us",
+ "lede": "We are Böss Group",
+ "intro": "An aluminium extruder in Binh Duong that finishes, fabricates and ships what it draws. Five plants, one coastline, forty-three export markets.",
+ "figures": {
+  "title": "Key figures 2026",
+  "tabs": [
+   {"label": "Production", "rows": [
+     ["Extrusion capacity", "62,000 t / year"],
+     ["Presses", "6"],
+     ["Anodising lines", "2"],
+     ["Powder coating lines", "3"]
+   ]},
+   {"label": "Company", "rows": [
+     ["People", "1,840"],
+     ["Export markets", "43"],
+     ["Plants", "5"],
+     ["Founded", "2004"]
+   ]}
+  ]
+ },
+ "chapters": [
+  {
+   "id": "company",
+   "name": "Company",
+   "title": "One origin, four markets",
+   "lede": "Everything we sell is drawn, finished and packed in Vietnam. That is a commercial position, not a sentiment.",
+   "body": [
+    "Böss Group extrudes, finishes and fabricates aluminium at five plants between Nghe An and Binh Duong. The largest is at Binh Duong, twenty-eight kilometres from the export packing halls at Cat Lai, which is where most of what we make leaves the country.",
+    "Keeping extrusion, anodising, powder coating and fabrication under one roof is unusual at our size and it is the reason a customer can order a complete window system rather than a bundle of bars. It also means that when a colour has to be matched two years after the first delivery, the matching is done on the line that made the original, against a retained sample, rather than negotiated between three subcontractors.",
+    "We sell into forty-three markets. The four that matter by volume are the European Union, North America, Australia and our ASEAN neighbours, and they want different things: the EU asks first about thermal performance and recycled content, North America about AAMA classes and lead time, Australia about cyclonic ratings and coastal exposure, ASEAN about price and how fast a truck can get there."
+   ]
+  },
+  {
+   "id": "capability",
+   "name": "Capability",
+   "title": "What the plants can actually do",
+   "lede": "Six presses, 62,000 tonnes a year, and the finishing capacity to keep up with them — which is the part that usually does not keep up.",
+   "body": [
+    "Extrusion runs on six presses from 800 to 2,500 tonnes, covering circumscribing circles from 20 to 320 millimetres. Dies are cut and corrected in house; first samples from a new die take eighteen days, and the correction loop that follows is the difference between a section that holds tolerance across a full billet and one that holds it for the first three metres.",
+    "Finishing is where most extruders under-invest. We run two anodising lines, one of them a 25-micron marine line, and three powder lines including a vertical line certified to QUALICOAT Class 2. Coating capacity was sized against the presses rather than against last year's order book, so a finished order does not wait behind an unfinished one.",
+    "Fabrication covers cutting, CNC machining, punching, friction-stir welding and assembly. Facade units are glazed and water-tested before they ship, which moves the difficult work off the scaffold and into a building where it can be repeated."
+   ]
+  },
+  {
+   "id": "history",
+   "name": "History",
+   "title": "2004 to now",
+   "lede": "A single 800-tonne press in Binh Duong, and a decision early on to finish what we drew.",
+   "body": [
+    "The company started in 2004 with one 800-tonne press serving the domestic window trade. For the first four years everything was sold mill-finish or sent out for coating, which is the normal way to start and the normal ceiling to run into.",
+    "The first anodising line went in during 2009. It was too big for the order book at the time and that was the point: it changed what we could be asked for. Export enquiries followed within eighteen months, first to Cambodia and Laos by road, then to Australia by sea.",
+    "The Nghe An and Thanh Hoa plants opened in 2014 and 2017 to serve the north and to shorten the road leg to the Chinese border crossings. Quy Nhon followed in 2021 for central-region projects and coastal work.",
+    "The automotive line was commissioned in 2023 and certified to IATF 16949 in 2025. It is a different business from architectural extrusion — different tolerances, different paperwork, different customers — and it was built as a separate line for that reason."
+   ]
+  },
+  {
+   "id": "quality",
+   "name": "Quality",
+   "title": "What we are certified to, and what that means",
+   "lede": "Certification is not a claim about our products. It is a claim that we can prove what happened to them.",
+   "body": [
+    "The plants hold ISO 9001 and ISO 14001. The powder line is certified to QUALICOAT Class 2 and AAMA 2604, with a PVDF line to AAMA 2605. Anodising is to QUALANOD and AS 1231. The automotive line holds IATF 16949.",
+    "Behind the certificates is the part that took the longest to build: traceability. A finished profile resolves to its billet lot, its alloy certificate, its die history, its coating batch and the test results for that batch. Most of the work of the IATF programme was this, not the parts.",
+    "Testing is done on site. Salt spray to 4,000 hours, accelerated weathering, coating thickness and adhesion, and water penetration testing at 720 Pa for facade units. Where a project requires third-party witness testing we arrange it rather than substituting our own results for it."
+   ]
+  },
+  {
+   "id": "impact",
+   "name": "Impact",
+   "title": "Aluminium is recyclable; that is not the same as recycled",
+   "lede": "Remelting aluminium takes about five per cent of the energy of making it from ore. What matters is how much of what we draw came from remelt.",
+   "body": [
+    "Billet across the group ran at 61 per cent recycled content in 2025, most of it post-industrial: our own extrusion scrap, offcuts returned from fabricators, and reclaimed sections from demolition where the alloy can be verified.",
+    "The two anodising lines discharge to an on-site treatment plant with closed-loop rinse recovery. Pretreatment on the powder lines moved from chromate to chrome-free zirconium during 2025, which removes a hazardous waste stream rather than treating it.",
+    "Rooftop solar across the five plants covers about 18 per cent of electrical demand. That figure will not go much higher without storage, because extrusion load is heaviest on night shifts.",
+    "We publish the numbers annually and we publish the ones that did not improve. Scope 3 remains the weak part of the picture, dominated by primary billet purchased when remelt supply is short."
+   ]
+  },
+  {
+   "id": "careers",
+   "name": "Careers",
+   "title": "Work with us",
+   "lede": "Die design, metallurgy, coating chemistry, facade engineering. The people we struggle to hire are the ones who have done it on a line, not only on a drawing.",
+   "body": [
+    "The group employs 1,840 people. Around 240 are in engineering and technical roles across die design, metallurgy, coating chemistry, quality and facade engineering.",
+    "Our apprentice programme takes twenty-four people a year across extrusion, finishing and fabrication, on a two-year rotation that includes six months in quality. Putting apprentices through quality is deliberate: someone who has measured coating thickness for six months operates a coating line differently afterwards.",
+    "Engineering graduates join on an eighteen-month programme rotating through three plants. We recruit from Ho Chi Minh City University of Technology, Hanoi University of Science and Technology and Da Nang, and we sponsor final-year projects on die correction and on extrusion of high-recycled-content billet, which is where our own open problems are."
+   ]
+  }
+ ]
+}

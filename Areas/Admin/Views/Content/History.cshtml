@@ -1,0 +1,43 @@
+@model List<QlWeb2.Models.ContentRevision>
+@{
+    var name = (string)ViewData["Name"]!;
+    var title = (string)ViewData["Title"]!;
+    ViewData["Title"] = title + " history";
+}
+
+<h1>@title — history</h1>
+<p class="ad-sub">
+    Every save keeps the version it replaced. Putting one back is itself a change, so nothing is
+    ever lost by trying.
+</p>
+
+@if (Model.Count == 0)
+{
+    <p>No changes have been saved yet.</p>
+}
+else
+{
+    <table>
+        <thead><tr><th>Saved</th><th>By</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var rev in Model)
+        {
+            <tr>
+                <td>@rev.SavedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm")</td>
+                <td class="ad-num">@rev.SavedBy</td>
+                <td class="ad-num">
+                    <form method="post" asp-area="Admin" asp-controller="Content" asp-action="Restore">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="revisionId" value="@rev.Id">
+                        <button type="submit" class="ad-move">Put this back</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<div class="ad-actions">
+    <a class="ad-btn is-quiet" asp-area="Admin" asp-controller="Content" asp-action="Edit" asp-route-id="@name">Back to @title</a>
+</div>
