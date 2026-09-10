@@ -15,7 +15,8 @@
       var cards = years[y].map(function (a) {
         return '<a class="ab-album" href="detail/?id=' + encodeURIComponent(a.id) + '">' +
                  '<span class="ab-album-cover">' +
-                   '<img src="' + AB.ph(760, 520, a.title) + '" width="760" height="520" alt="' +
+                   '<img src="' + (a.image ? AB.root() + '_media/' + a.image
+                                           : AB.ph(760, 520, a.title)) + '" width="760" height="520" alt="' +
                      AB.esc(a.title) + '" loading="lazy">' +
                    '<span class="ab-album-count">' + a.photos.length + ' photographs</span>' +
                  '</span>' +

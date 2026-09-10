@@ -20,7 +20,8 @@
       .sort(function (x, y) { return x.date < y.date ? 1 : -1; }).slice(0, 3)
       .map(function (x) {
         return '<a class="ab-card" href="?id=' + encodeURIComponent(x.id) + '">' +
-                 '<img src="' + AB.ph(400, 260, x.title) + '" width="400" height="260" alt="' +
+                 '<img src="' + (x.image ? AB.root() + '_media/' + x.image
+                                         : AB.ph(400, 260, x.title)) + '" width="400" height="260" alt="' +
                    AB.esc(x.title) + '" loading="lazy">' +
                  '<h3>' + AB.esc(x.title) + '</h3>' +
                  '<p class="ab-card-spec">' + longDate(x.date) + '</p></a>';
@@ -33,7 +34,8 @@
         '<h1 class="ab-title ab-article-title">' + AB.esc(a.title) + '</h1>' +
         '<p class="ab-post-meta">' + longDate(a.date) + ' &nbsp;|&nbsp; Written by: ' +
           AB.esc(a.author) + '</p>' +
-        '<div class="ab-hero"><img src="' + AB.ph(1240, 560, a.title) +
+        '<div class="ab-hero"><img src="' + (a.image ? AB.root() + '_media/' + a.image
+                                                       : AB.ph(1240, 560, a.title)) +
           '" width="1240" height="560" alt="' + AB.esc(a.title) + '"></div>' +
         '<div class="ab-article">' +
           '<p class="ab-standfirst">' + AB.esc(a.excerpt) + '</p>' +

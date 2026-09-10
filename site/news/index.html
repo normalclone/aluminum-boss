@@ -276,7 +276,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       return '<a class="ab-post' + (i === 0 ? ' is-lead' : '') + '" href="detail/?id=' +
                encodeURIComponent(a.id) + '">' +
                '<span class="ab-post-img"><img src="' +
-                 AB.ph(i === 0 ? 1240 : 600, i === 0 ? 560 : 380, a.title) +
+                 (a.image ? AB.root() + '_media/' + a.image
+                          : AB.ph(i === 0 ? 1240 : 600, i === 0 ? 560 : 380, a.title)) +
                  '" width="' + (i === 0 ? 1240 : 600) + '" height="' + (i === 0 ? 560 : 380) +
                  '" alt="' + AB.esc(a.title) + '" loading="lazy"></span>' +
                '<span class="ab-post-tags">' + a.tags.map(AB.esc).join(' &middot; ') + '</span>' +

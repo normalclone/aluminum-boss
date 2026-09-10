@@ -9,7 +9,7 @@
   function show(i) {
     at = (i + photos.length) % photos.length;
     var p = photos[at];
-    vImg.src = AB.ph(1600, 1060, p.c);
+    vImg.src = p.image ? AB.root() + '_media/' + p.image : AB.ph(1600, 1060, p.c);
     vImg.alt = p.c;
     vCap.textContent = p.c;
     vNum.textContent = (at + 1) + ' / ' + photos.length;
@@ -74,7 +74,8 @@
     var tiles = a.photos.map(function (p, i) {
       var w = i === 0 ? 1260 : 620, h = i === 0 ? 540 : 414;
       return '<button type="button" class="ab-shot" data-i="' + i + '">' +
-               '<img src="' + AB.ph(w, h, p.c) + '" width="' + w + '" height="' + h +
+               '<img src="' + (p.image ? AB.root() + '_media/' + p.image
+                                       : AB.ph(w, h, p.c)) + '" width="' + w + '" height="' + h +
                  '" alt="' + AB.esc(p.c) + '" loading="lazy">' +
                '<span class="ab-shot-cap">' + AB.esc(p.c) + '</span>' +
              '</button>';
@@ -83,7 +84,8 @@
     var others = d.albums.filter(function (x) { return x.id !== a.id; })
       .sort(function (x, y) { return y.year - x.year; }).slice(0, 3).map(function (x) {
         return '<a class="ab-card" href="?id=' + encodeURIComponent(x.id) + '">' +
-                 '<img src="' + AB.ph(400, 280, x.title) + '" width="400" height="280" alt="' +
+                 '<img src="' + (x.image ? AB.root() + '_media/' + x.image
+                                         : AB.ph(400, 280, x.title)) + '" width="400" height="280" alt="' +
                    AB.esc(x.title) + '" loading="lazy">' +
                  '<h3>' + AB.esc(x.title) + '</h3>' +
                  '<p class="ab-card-spec">' + AB.esc(x.year + ' · ' + x.location) + '</p></a>';
