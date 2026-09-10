@@ -491,12 +491,12 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 /* Everything is scoped under .vgx- so nothing here can reach the host page's rules.
    Light palette taken from the site itself: #f8f8f8 ground, warm stone greys (R≥G≥B),
    #232323 for ink, and #f8e870 kept for the one thing that is "selected". */
-.vgx{--vgx-paper:#f8f8f8;--vgx-ink:#232323;--vgx-ink-2:#4a4640;--vgx-stone:#8f8a81;
+.vgx{--vgx-paper:#fff;--vgx-ink:#232323;--vgx-ink-2:#4a4640;--vgx-stone:#8f8a81;
   --vgx-stone-2:#c9c5bd;--vgx-hair:#e2ded7;--vgx-signal:#f8e870;--vgx-gold:#a8801a;--vgx-bleed:38px;
   --vgx-face:Diagramm,"Helvetica Neue",Helvetica,Arial,sans-serif;
   --vgx-mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
   background:var(--vgx-paper);color:var(--vgx-ink);font-family:var(--vgx-face);
-  padding:76px 0 84px;border-top:1px solid var(--vgx-hair);border-bottom:1px solid var(--vgx-hair);
+  padding:76px 0 84px;border-bottom:1px solid var(--vgx-hair);
   margin-left:calc(-1 * var(--vgx-bleed));margin-right:calc(-1 * var(--vgx-bleed))}
 .vgx *{box-sizing:border-box}
 /* Mirrors the neighbouring "new" section's own geometry (margin-left:-45.5px + 38px
