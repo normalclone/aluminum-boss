@@ -1,111 +1,142 @@
 {
- "section": "News",
- "intro": "Plant, product and market news from Böss Group.",
- "items": [
-  {
-   "id": "press-line-2500",
-   "title": "Second 2,500-tonne press commissioned at Binh Duong",
-   "date": "2026-08-19",
-   "author": "Böss Group",
-   "tags": ["Plant", "Capacity"],
-   "excerpt": "The new press lifts extrusion capacity by 14,000 tonnes a year and takes billet up to 254 mm, which brings large curtain-wall mullions in house.",
-   "body": [
-    "The second 2,500-tonne press at the Binh Duong plant ran its first commercial billet on 11 August, eleven weeks after the foundation pour. It lifts group extrusion capacity by roughly 14,000 tonnes a year.",
-    "The reason for the size is circle diameter rather than tonnage. The press takes 254 mm billet, which covers curtain-wall mullions up to a 320 mm circumscribing circle. Those sections were previously bought in from two suppliers in Guangdong, with the delay and the colour-matching problem that implies when the rest of the elevation is finished on our own line.",
-    "The press shares the existing handling line but has its own run-out table and stretcher, so a long structural section no longer blocks the window-profile schedule behind it. In practice that was the more expensive of the two constraints.",
-    "Ageing ovens were added at the same time. Total oven capacity is now 96 tonnes per cycle, which is what keeps a press of this size from simply moving the bottleneck one step downstream."
-   ]
-  },
-  {
-   "id": "qualicoat-class-2",
-   "title": "Coating line certified to QUALICOAT Class 2",
-   "date": "2026-06-30",
-   "author": "Quality Assurance",
-   "tags": ["Certification", "Finishing"],
-   "excerpt": "The vertical powder line now holds Class 2, which is the threshold most facade specifications in Australia and the Gulf are written against.",
-   "body": [
-    "The vertical powder coating line at Binh Duong was certified to QUALICOAT Class 2 in June, following two years at Class 1.",
-    "The practical difference is weathering. Class 2 requires two years of Florida exposure at 45 degrees with at least 50 per cent gloss retention, against one year for Class 1. Specifications in Australia and the Gulf are commonly written to Class 2 or to AAMA 2604, and until now those enquiries had to be answered with a PVDF quote whether or not the project needed one.",
-    "Pretreatment moved from chromate to a chrome-free zirconium process at the same time. That was not required by the certification, but it removes a hazardous waste stream from the plant and is increasingly asked about in tender documents."
-   ]
-  },
-  {
-   "id": "ev-battery-tray",
-   "title": "First EV battery tray programme reaches PPAP",
-   "date": "2026-05-12",
-   "author": "Automotive",
-   "tags": ["Automotive", "Product"],
-   "excerpt": "A multi-void 6082 extrusion, friction-stir welded and helium leak tested, has passed production part approval for a Thai assembly plant.",
-   "body": [
-    "The automotive line received PPAP approval in May for a battery enclosure tray supplied to an assembly plant in Rayong. It is the first programme to reach approval since IATF 16949 certification last year.",
-    "The part is a multi-void 6082-T6 extrusion, friction-stir welded into a frame and helium leak tested at 5 × 10⁻⁶ mbar·l/s. Wall thickness is set by the crash case rather than by what the press can comfortably draw, which meant three die iterations before the sections held tolerance across a full billet.",
-    "Traceability runs from billet lot to packed carton. Every tray carries a laser-etched code that resolves to its alloy certificate, weld parameters and leak test result, which is the part of the programme that took longest to build and the part the customer audited hardest."
-   ]
-  },
-  {
-   "id": "honeycomb-line",
-   "title": "Honeycomb panel press expands to 4 metre panels",
-   "date": "2026-03-24",
-   "author": "Böss Group",
-   "tags": ["Plant", "Product"],
-   "excerpt": "The heated press now takes 1.5 × 4 m panels, covering full-height lift car walls without a joint.",
-   "body": [
-    "The honeycomb bonding press has been extended to accept panels of 1.5 by 4 metres, up from 1.5 by 2.5.",
-    "The driver was lift cars. A full-height car wall is typically 2.6 to 3.2 metres, and producing it as two bonded panels meant a visible joint and a stiffener behind it. Customers had been asking for a single panel for two years.",
-    "Flatness across the longer platen holds within 0.5 mm per metre after cure, measured on every tenth panel. That figure was the open question during commissioning; a longer press does not automatically hold the same flatness, and the heating zones had to be rebalanced twice."
-   ]
-  },
-  {
-   "id": "vietbuild-2026",
-   "title": "Böss Group at Vietbuild Ho Chi Minh City 2026",
-   "date": "2026-02-18",
-   "author": "Marketing",
-   "tags": ["Events"],
-   "excerpt": "Stand B2-14, with the full profile range, the new sablé finishes and a cutaway of the UC160 unitised system.",
-   "body": [
-    "We will be at Vietbuild Ho Chi Minh City from 9 to 13 March, stand B2-14 in hall B2.",
-    "On the stand: the complete profile range in section, the new sablé textured finishes, and a full-height cutaway of the UC160 unitised facade unit showing the split mullion and both air seals. The cutaway is the one worth the walk, because the dual-seal arrangement is difficult to explain on a drawing and obvious once you can put a hand through it.",
-    "Technical staff from extrusion, finishing and the facade group will be on the stand for the full five days."
-   ]
-  },
-  {
-   "id": "eclos-sable-range",
-   "title": "Sablé textured finishes added to the standard range",
-   "date": "2025-12-08",
-   "author": "Finishing",
-   "tags": ["Product", "Finishing"],
-   "excerpt": "Five coarse-textured powder finishes now hold stock status, aimed at facade work where installation scuffs are the recurring complaint.",
-   "body": [
-    "Five sablé finishes have moved from special-order to stock: bronze, anthracite, black, quartz grey and a warm sand.",
-    "Texture is not a styling decision on a facade. A smooth satin panel shows every handling mark from the crate to the bracket, and on a tall elevation those marks are concentrated exactly where the installers could reach. A coarse texture scatters the light and the marks stop reading.",
-    "Stock status means no minimum batch and no colour-matching risk between a first order and a defects-period replacement, which for a facade contractor is usually the more valuable half of the change."
-   ]
-  },
-  {
-   "id": "solar-rail-supply",
-   "title": "Three-year supply agreement for solar mounting rail",
-   "date": "2025-10-02",
-   "author": "Böss Group",
-   "tags": ["Market", "Industrial"],
-   "excerpt": "An agreement with a mounting-system manufacturer in Malaysia covers 6,000 tonnes a year of 6061-T6 rail.",
-   "body": [
-    "A three-year agreement signed in September covers roughly 6,000 tonnes a year of 6061-T6 mounting rail for a solar racking manufacturer in Johor.",
-    "The sections are not difficult. What the customer was buying was schedule reliability across a monsoon season and a mill certificate they could hand to their own certifying body without adding a step.",
-    "Volume of this kind changes how the press is loaded rather than what it makes. It fills the shifts that architectural work leaves uneven, which is what makes the architectural side quotable at a sensible lead time."
-   ]
-  },
-  {
-   "id": "iatf-16949",
-   "title": "Automotive line certified to IATF 16949",
-   "date": "2025-07-15",
-   "author": "Quality Assurance",
-   "tags": ["Certification", "Automotive"],
-   "excerpt": "Certification closes the last gap that kept the plant off tier-one bid lists.",
-   "body": [
-    "The automotive extrusion and machining line was certified to IATF 16949 in July after a fourteen-month programme.",
-    "The standard is less about the parts than about being able to prove what happened to them. Most of the work was traceability and change control: a die correction now generates a record that ties to every billet drawn after it.",
-    "Certification does not win programmes on its own. It removes the reason a tier-one buyer stops reading at the first page, which had been the practical position until now."
-   ]
-  }
- ]
+  "section": "News",
+  "intro": "Plant, product and market news from Böss Group.",
+  "items": [
+    {
+      "id": "press-line-2500",
+      "title": "Second 2,500-tonne press commissioned at Binh Duong",
+      "date": "2026-08-19",
+      "author": "Böss Group",
+      "tags": [
+        "Plant",
+        "Capacity"
+      ],
+      "excerpt": "The new press lifts extrusion capacity by 14,000 tonnes a year and takes billet up to 254 mm, which brings large curtain-wall mullions in house.",
+      "body": [
+        "The second 2,500-tonne press at the Binh Duong plant ran its first commercial billet on 11 August, eleven weeks after the foundation pour. It lifts group extrusion capacity by roughly 14,000 tonnes a year.",
+        "The reason for the size is circle diameter rather than tonnage. The press takes 254 mm billet, which covers curtain-wall mullions up to a 320 mm circumscribing circle. Those sections were previously bought in from two suppliers in Guangdong, with the delay and the colour-matching problem that implies when the rest of the elevation is finished on our own line.",
+        "The press shares the existing handling line but has its own run-out table and stretcher, so a long structural section no longer blocks the window-profile schedule behind it. In practice that was the more expensive of the two constraints.",
+        "Ageing ovens were added at the same time. Total oven capacity is now 96 tonnes per cycle, which is what keeps a press of this size from simply moving the bottleneck one step downstream."
+      ],
+      "image": ""
+    },
+    {
+      "id": "qualicoat-class-2",
+      "title": "Coating line certified to QUALICOAT Class 2",
+      "date": "2026-06-30",
+      "author": "Quality Assurance",
+      "tags": [
+        "Certification",
+        "Finishing"
+      ],
+      "excerpt": "The vertical powder line now holds Class 2, which is the threshold most facade specifications in Australia and the Gulf are written against.",
+      "body": [
+        "The vertical powder coating line at Binh Duong was certified to QUALICOAT Class 2 in June, following two years at Class 1.",
+        "The practical difference is weathering. Class 2 requires two years of Florida exposure at 45 degrees with at least 50 per cent gloss retention, against one year for Class 1. Specifications in Australia and the Gulf are commonly written to Class 2 or to AAMA 2604, and until now those enquiries had to be answered with a PVDF quote whether or not the project needed one.",
+        "Pretreatment moved from chromate to a chrome-free zirconium process at the same time. That was not required by the certification, but it removes a hazardous waste stream from the plant and is increasingly asked about in tender documents."
+      ],
+      "image": ""
+    },
+    {
+      "id": "ev-battery-tray",
+      "title": "First EV battery tray programme reaches PPAP",
+      "date": "2026-05-12",
+      "author": "Automotive",
+      "tags": [
+        "Automotive",
+        "Product"
+      ],
+      "excerpt": "A multi-void 6082 extrusion, friction-stir welded and helium leak tested, has passed production part approval for a Thai assembly plant.",
+      "body": [
+        "The automotive line received PPAP approval in May for a battery enclosure tray supplied to an assembly plant in Rayong. It is the first programme to reach approval since IATF 16949 certification last year.",
+        "The part is a multi-void 6082-T6 extrusion, friction-stir welded into a frame and helium leak tested at 5 × 10⁻⁶ mbar·l/s. Wall thickness is set by the crash case rather than by what the press can comfortably draw, which meant three die iterations before the sections held tolerance across a full billet.",
+        "Traceability runs from billet lot to packed carton. Every tray carries a laser-etched code that resolves to its alloy certificate, weld parameters and leak test result, which is the part of the programme that took longest to build and the part the customer audited hardest."
+      ],
+      "image": ""
+    },
+    {
+      "id": "honeycomb-line",
+      "title": "Honeycomb panel press expands to 4 metre panels",
+      "date": "2026-03-24",
+      "author": "Böss Group",
+      "tags": [
+        "Plant",
+        "Product"
+      ],
+      "excerpt": "The heated press now takes 1.5 × 4 m panels, covering full-height lift car walls without a joint.",
+      "body": [
+        "The honeycomb bonding press has been extended to accept panels of 1.5 by 4 metres, up from 1.5 by 2.5.",
+        "The driver was lift cars. A full-height car wall is typically 2.6 to 3.2 metres, and producing it as two bonded panels meant a visible joint and a stiffener behind it. Customers had been asking for a single panel for two years.",
+        "Flatness across the longer platen holds within 0.5 mm per metre after cure, measured on every tenth panel. That figure was the open question during commissioning; a longer press does not automatically hold the same flatness, and the heating zones had to be rebalanced twice."
+      ],
+      "image": ""
+    },
+    {
+      "id": "vietbuild-2026",
+      "title": "Böss Group at Vietbuild Ho Chi Minh City 2026",
+      "date": "2026-02-18",
+      "author": "Marketing",
+      "tags": [
+        "Events"
+      ],
+      "excerpt": "Stand B2-14, with the full profile range, the new sablé finishes and a cutaway of the UC160 unitised system.",
+      "body": [
+        "We will be at Vietbuild Ho Chi Minh City from 9 to 13 March, stand B2-14 in hall B2.",
+        "On the stand: the complete profile range in section, the new sablé textured finishes, and a full-height cutaway of the UC160 unitised facade unit showing the split mullion and both air seals. The cutaway is the one worth the walk, because the dual-seal arrangement is difficult to explain on a drawing and obvious once you can put a hand through it.",
+        "Technical staff from extrusion, finishing and the facade group will be on the stand for the full five days."
+      ],
+      "image": ""
+    },
+    {
+      "id": "eclos-sable-range",
+      "title": "Sablé textured finishes added to the standard range",
+      "date": "2025-12-08",
+      "author": "Finishing",
+      "tags": [
+        "Product",
+        "Finishing"
+      ],
+      "excerpt": "Five coarse-textured powder finishes now hold stock status, aimed at facade work where installation scuffs are the recurring complaint.",
+      "body": [
+        "Five sablé finishes have moved from special-order to stock: bronze, anthracite, black, quartz grey and a warm sand.",
+        "Texture is not a styling decision on a facade. A smooth satin panel shows every handling mark from the crate to the bracket, and on a tall elevation those marks are concentrated exactly where the installers could reach. A coarse texture scatters the light and the marks stop reading.",
+        "Stock status means no minimum batch and no colour-matching risk between a first order and a defects-period replacement, which for a facade contractor is usually the more valuable half of the change."
+      ],
+      "image": ""
+    },
+    {
+      "id": "solar-rail-supply",
+      "title": "Three-year supply agreement for solar mounting rail",
+      "date": "2025-10-02",
+      "author": "Böss Group",
+      "tags": [
+        "Market",
+        "Industrial"
+      ],
+      "excerpt": "An agreement with a mounting-system manufacturer in Malaysia covers 6,000 tonnes a year of 6061-T6 rail.",
+      "body": [
+        "A three-year agreement signed in September covers roughly 6,000 tonnes a year of 6061-T6 mounting rail for a solar racking manufacturer in Johor.",
+        "The sections are not difficult. What the customer was buying was schedule reliability across a monsoon season and a mill certificate they could hand to their own certifying body without adding a step.",
+        "Volume of this kind changes how the press is loaded rather than what it makes. It fills the shifts that architectural work leaves uneven, which is what makes the architectural side quotable at a sensible lead time."
+      ],
+      "image": ""
+    },
+    {
+      "id": "iatf-16949",
+      "title": "Automotive line certified to IATF 16949",
+      "date": "2025-07-15",
+      "author": "Quality Assurance",
+      "tags": [
+        "Certification",
+        "Automotive"
+      ],
+      "excerpt": "Certification closes the last gap that kept the plant off tier-one bid lists.",
+      "body": [
+        "The automotive extrusion and machining line was certified to IATF 16949 in July after a fourteen-month programme.",
+        "The standard is less about the parts than about being able to prove what happened to them. Most of the work was traceability and change control: a die correction now generates a record that ties to every billet drawn after it.",
+        "Certification does not win programmes on its own. It removes the reason a tier-one buyer stops reading at the first page, which had been the practical position until now."
+      ],
+      "image": ""
+    }
+  ]
 }

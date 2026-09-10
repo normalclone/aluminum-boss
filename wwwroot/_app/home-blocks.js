@@ -38,8 +38,15 @@
     });
     d.items.forEach(function (c) { if (pick.length < 10 && pick.indexOf(c) < 0) pick.push(c); });
     t.innerHTML = pick.slice(0, 10).map(function (c) {
+      // A finish is a surface, not a flat colour. The hex stays as the fallback, but next to
+      // photographed surfaces a plain chip reads as an empty box - so use the photograph
+      // when there is one.
+      var chip = c.image
+        ? '<span class="ab-chip"><img src="' + AB.root() + '_media/' + AB.esc(c.image) +
+          '" alt="" loading="lazy"></span>'
+        : '<span class="ab-chip" style="background:' + AB.esc(c.hex) + '"></span>';
       return '<a class="ab-swatch" href="colors/detail/?id=' + encodeURIComponent(c.id) + '">' +
-               '<span class="ab-chip" style="background:' + AB.esc(c.hex) + '"></span>' +
+               chip +
                '<span class="ab-swatch-name">' + AB.esc(c.name) + '</span>' +
                '<span class="ab-swatch-meta">' + AB.esc(c.code) + '</span></a>';
     }).join('');
@@ -52,7 +59,8 @@
       .sort(function (a, b) { return b.year - a.year; }).slice(0, 3)
       .map(function (a) {
         return '<a class="ab-card" href="projects/detail/?id=' + encodeURIComponent(a.id) + '">' +
-                 '<img src="' + AB.ph(420, 300, a.title) + '" width="420" height="300" alt="' +
+                 '<img src="' + (a.image ? AB.root() + '_media/' + a.image
+                                          : AB.ph(420, 300, a.title)) + '" width="420" height="300" alt="' +
                    AB.esc(a.title) + '" loading="lazy">' +
                  '<h3>' + AB.esc(a.title) + '</h3>' +
                  '<p class="ab-card-spec">' + AB.esc(a.year + ' · ' + a.location) + '</p>' +
@@ -68,7 +76,8 @@
       .map(function (a) {
         var p = a.date.split('-');
         return '<a class="ab-card" href="news/detail/?id=' + encodeURIComponent(a.id) + '">' +
-                 '<img src="' + AB.ph(420, 280, a.title) + '" width="420" height="280" alt="' +
+                 '<img src="' + (a.image ? AB.root() + '_media/' + a.image
+                                          : AB.ph(420, 280, a.title)) + '" width="420" height="280" alt="' +
                    AB.esc(a.title) + '" loading="lazy">' +
                  '<h3>' + AB.esc(a.title) + '</h3>' +
                  '<p class="ab-card-spec">' + (+p[2]) + ' ' + MONTH[+p[1] - 1] + ' ' + p[0] + '</p>' +

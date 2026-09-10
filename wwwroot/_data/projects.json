@@ -1,189 +1,361 @@
 {
- "section": "Projects",
- "intro": "Buildings and programmes our aluminium went into, arranged by the year the work completed. Each album is a set of photographs from site and from the plant.",
- "albums": [
-  {
-   "id": "marina-central-tower",
-   "year": 2026,
-   "title": "Marina Central Tower",
-   "location": "Ho Chi Minh City, Vietnam",
-   "client": "Phu My Hung Development",
-   "scope": "Unitised facade, 18,400 m²",
-   "products": ["Unitised UC160", "Sun Louvre", "PVDF Storm Grey"],
-   "note": "Forty-two storeys on a river-facing site, which meant wind loads that pushed the unit size down and the seal detail up. Units were glazed and water-tested at Binh Duong and craned straight from the trailer.",
-   "photos": [
-    {"c": "West elevation from the river walk"},
-    {"c": "Typical unit before glazing, split mullion visible"},
-    {"c": "Water test at 720 Pa in the facade hall"},
-    {"c": "Crane lift, level 28"},
-    {"c": "Sun louvre run on the south face"},
-    {"c": "Corner unit detail at level 3"},
-    {"c": "Podium glazing at night"},
-    {"c": "Stack joint before the transom cover goes on"}
-   ]
-  },
-  {
-   "id": "brisbane-riverhouse",
-   "year": 2026,
-   "title": "Riverhouse Apartments",
-   "location": "Brisbane, Australia",
-   "client": "Aria Property Group",
-   "scope": "Window and door systems, 214 apartments",
-   "products": ["Sliding 93", "Casement 55 TB", "Anodic Black"],
-   "note": "Cyclonic region, which set the sash weight and therefore the roller specification. Anodic black rather than powder because the balconies are within 200 metres of tidal water.",
-   "photos": [
-    {"c": "Balcony sliders, typical apartment"},
-    {"c": "Sliding 93 track before the sash goes in"},
-    {"c": "Anodising line, 25 µm marine run"},
-    {"c": "Casement unit under cyclonic test"},
-    {"c": "North elevation, levels 8 to 14"},
-    {"c": "Threshold detail at balcony door"}
-   ]
-  },
-  {
-   "id": "rayong-battery-plant",
-   "year": 2025,
-   "title": "EV Battery Tray Programme",
-   "location": "Rayong, Thailand",
-   "client": "Confidential, tier one",
-   "scope": "Battery enclosure trays, 74,000 units per year",
-   "products": ["EV Battery Tray Section"],
-   "note": "Multi-void 6082 extrusion, friction-stir welded and helium leak tested. Three die iterations before the sections held tolerance across a full billet, which is the part of an automotive programme nobody photographs.",
-   "photos": [
-    {"c": "Friction-stir weld cell"},
-    {"c": "Tray frame after welding, before machining"},
-    {"c": "Helium leak test station"},
-    {"c": "Extrusion run-out, multi-void section"},
-    {"c": "Die correction on the second iteration"},
-    {"c": "Packed trays on the export dock"},
-    {"c": "Laser-etched traceability code"}
-   ]
-  },
-  {
-   "id": "hanoi-opera-residences",
-   "year": 2025,
-   "title": "Opera Residences",
-   "location": "Hanoi, Vietnam",
-   "client": "Sun Group",
-   "scope": "Facade cassettes and window systems, 9,600 m²",
-   "products": ["Cassette Cladding", "Casement 55 TB", "Sablé Bronze"],
-   "note": "A conservation-area frontage where the planning condition was that the metalwork must not read as new. Sablé bronze scatters the light enough that the elevation settles into the street rather than announcing itself.",
-   "photos": [
-    {"c": "Street elevation, completed"},
-    {"c": "Cassette on the rail carrier before fixing"},
-    {"c": "Sablé bronze sample against the neighbouring stone"},
-    {"c": "Reveal detail at a window head"},
-    {"c": "Coating line, textured powder run"},
-    {"c": "Courtyard elevation"},
-    {"c": "Open-joint cassette corner"}
-   ]
-  },
-  {
-   "id": "johor-solar",
-   "year": 2025,
-   "title": "Solar Mounting Rail Supply",
-   "location": "Johor, Malaysia",
-   "client": "Racking system manufacturer",
-   "scope": "6,000 t per year, three-year agreement",
-   "products": ["Industrial Extrusion"],
-   "note": "Not architectural work and not difficult sections. What the customer bought was schedule reliability across a monsoon season and a mill certificate they could pass straight to their certifying body.",
-   "photos": [
-    {"c": "Rail on the run-out table"},
-    {"c": "Stretcher, 12 m lengths"},
-    {"c": "Bundled and strapped for sea freight"},
-    {"c": "Mill finish rail, stock bay"},
-    {"c": "Ageing oven charge"}
-   ]
-  },
-  {
-   "id": "rotterdam-office",
-   "year": 2024,
-   "title": "Wilhelmina Office Fit-out",
-   "location": "Rotterdam, Netherlands",
-   "client": "CBRE Netherlands",
-   "scope": "Demountable partitions, 6,200 m²",
-   "products": ["Office Partition 40", "Slim Door Frame", "Natural Silver"],
-   "note": "Demountable was the whole brief: the tenant expected to reconfigure twice within the lease. Both faces of the partition sit flush with the glass so a wall reads the same from either side after it moves.",
-   "photos": [
-    {"c": "Open-plan floor, partitions installed"},
-    {"c": "Partition head detail at the ceiling grid"},
-    {"c": "Glazed door in a slim frame"},
-    {"c": "Junction where three partitions meet"},
-    {"c": "Packed partition kit before shipping"},
-    {"c": "Meeting room, double-glazed acoustic run"}
-   ]
-  },
-  {
-   "id": "danang-resort",
-   "year": 2024,
-   "title": "My Khe Beach Resort",
-   "location": "Da Nang, Vietnam",
-   "client": "Vinpearl",
-   "scope": "Villa joinery and pool pavilions",
-   "products": ["Sliding 93", "Burma Teak", "Marine Silver"],
-   "note": "Forty metres from the surf line. Everything visible is either 25-micron marine anodised or wood-grain over a marine primer; the fixings behind are stainless throughout, which is the part that decides whether the job still looks like this in ten years.",
-   "photos": [
-    {"c": "Villa frontage onto the beach"},
-    {"c": "Pocket slider fully open"},
-    {"c": "Wood grain finish, close detail"},
-    {"c": "Pool pavilion structure"},
-    {"c": "Salt spray test coupon at 4,000 hours"},
-    {"c": "Sill drainage before the deck goes down"},
-    {"c": "Evening, west villa"}
-   ]
-  },
-  {
-   "id": "singapore-lift-cars",
-   "year": 2023,
-   "title": "Honeycomb Lift Car Programme",
-   "location": "Singapore",
-   "client": "Lift manufacturer, OEM",
-   "scope": "2,400 car wall sets",
-   "products": ["Lift Car Panel", "Bonded Panel", "Hairline"],
-   "note": "The weight saved comes off the counterweight and then off the motor duty, which is the argument that sold the programme. Extending our press to 4 metres removed the joint that had been the objection.",
-   "photos": [
-    {"c": "Car wall panel, hairline face"},
-    {"c": "Honeycomb core before bonding"},
-    {"c": "Heated press, 4 m platen"},
-    {"c": "Edge seal detail"},
-    {"c": "Flatness check after cure"},
-    {"c": "Assembled car interior"}
-   ]
-  },
-  {
-   "id": "phnom-penh-mall",
-   "year": 2023,
-   "title": "Chroy Changvar Mall",
-   "location": "Phnom Penh, Cambodia",
-   "client": "Overseas Cambodian Investment",
-   "scope": "Shopfronts and mall glazing, 4,100 m²",
-   "products": ["Mullion 50", "Composite Panel", "Traffic White"],
-   "note": "Delivered overland in three days from Binh Duong, which is the whole reason the job came to us rather than to a Chinese supplier quoting a lower rate and a six-week sea leg.",
-   "photos": [
-    {"c": "Main entrance glazing"},
-    {"c": "Mullion 50 stick system going up"},
-    {"c": "Composite panel soffit"},
-    {"c": "Loading for the overland run"},
-    {"c": "Atrium roof glazing"}
-   ]
-  },
-  {
-   "id": "los-angeles-adaptive",
-   "year": 2022,
-   "title": "Alameda Adaptive Reuse",
-   "location": "Los Angeles, United States",
-   "client": "Shimoda Design Group",
-   "scope": "Replacement windows and infill cladding, 3,300 m²",
-   "products": ["Casement 55 TB", "Solid Panel", "Anthracite Grey"],
-   "note": "A 1926 warehouse where the openings were all slightly different and none of them square. Every unit was measured on site and made to that measurement, which is slower than a schedule of five types and the only thing that works on a building like this.",
-   "photos": [
-    {"c": "South facade after completion"},
-    {"c": "Original opening before the new frame"},
-    {"c": "Site survey, one of 340 openings"},
-    {"c": "Solid panel infill at a former loading bay"},
-    {"c": "Interior, restored truss and new glazing"},
-    {"c": "Head detail against original brick"}
-   ]
-  }
- ]
+  "section": "Projects",
+  "intro": "Buildings and programmes our aluminium went into, arranged by the year the work completed. Each album is a set of photographs from site and from the plant.",
+  "albums": [
+    {
+      "id": "marina-central-tower",
+      "year": 2026,
+      "title": "Marina Central Tower",
+      "location": "Ho Chi Minh City, Vietnam",
+      "client": "Phu My Hung Development",
+      "scope": "Unitised facade, 18,400 m²",
+      "products": [
+        "Unitised UC160",
+        "Sun Louvre",
+        "PVDF Storm Grey"
+      ],
+      "note": "Forty-two storeys on a river-facing site, which meant wind loads that pushed the unit size down and the seal detail up. Units were glazed and water-tested at Binh Duong and craned straight from the trailer.",
+      "photos": [
+        {
+          "c": "West elevation from the river walk"
+        },
+        {
+          "c": "Typical unit before glazing, split mullion visible"
+        },
+        {
+          "c": "Water test at 720 Pa in the facade hall"
+        },
+        {
+          "c": "Crane lift, level 28"
+        },
+        {
+          "c": "Sun louvre run on the south face"
+        },
+        {
+          "c": "Corner unit detail at level 3"
+        },
+        {
+          "c": "Podium glazing at night"
+        },
+        {
+          "c": "Stack joint before the transom cover goes on"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "brisbane-riverhouse",
+      "year": 2026,
+      "title": "Riverhouse Apartments",
+      "location": "Brisbane, Australia",
+      "client": "Aria Property Group",
+      "scope": "Window and door systems, 214 apartments",
+      "products": [
+        "Sliding 93",
+        "Casement 55 TB",
+        "Anodic Black"
+      ],
+      "note": "Cyclonic region, which set the sash weight and therefore the roller specification. Anodic black rather than powder because the balconies are within 200 metres of tidal water.",
+      "photos": [
+        {
+          "c": "Balcony sliders, typical apartment"
+        },
+        {
+          "c": "Sliding 93 track before the sash goes in"
+        },
+        {
+          "c": "Anodising line, 25 µm marine run"
+        },
+        {
+          "c": "Casement unit under cyclonic test"
+        },
+        {
+          "c": "North elevation, levels 8 to 14"
+        },
+        {
+          "c": "Threshold detail at balcony door"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "rayong-battery-plant",
+      "year": 2025,
+      "title": "EV Battery Tray Programme",
+      "location": "Rayong, Thailand",
+      "client": "Confidential, tier one",
+      "scope": "Battery enclosure trays, 74,000 units per year",
+      "products": [
+        "EV Battery Tray Section"
+      ],
+      "note": "Multi-void 6082 extrusion, friction-stir welded and helium leak tested. Three die iterations before the sections held tolerance across a full billet, which is the part of an automotive programme nobody photographs.",
+      "photos": [
+        {
+          "c": "Friction-stir weld cell"
+        },
+        {
+          "c": "Tray frame after welding, before machining"
+        },
+        {
+          "c": "Helium leak test station"
+        },
+        {
+          "c": "Extrusion run-out, multi-void section"
+        },
+        {
+          "c": "Die correction on the second iteration"
+        },
+        {
+          "c": "Packed trays on the export dock"
+        },
+        {
+          "c": "Laser-etched traceability code"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "hanoi-opera-residences",
+      "year": 2025,
+      "title": "Opera Residences",
+      "location": "Hanoi, Vietnam",
+      "client": "Sun Group",
+      "scope": "Facade cassettes and window systems, 9,600 m²",
+      "products": [
+        "Cassette Cladding",
+        "Casement 55 TB",
+        "Sablé Bronze"
+      ],
+      "note": "A conservation-area frontage where the planning condition was that the metalwork must not read as new. Sablé bronze scatters the light enough that the elevation settles into the street rather than announcing itself.",
+      "photos": [
+        {
+          "c": "Street elevation, completed"
+        },
+        {
+          "c": "Cassette on the rail carrier before fixing"
+        },
+        {
+          "c": "Sablé bronze sample against the neighbouring stone"
+        },
+        {
+          "c": "Reveal detail at a window head"
+        },
+        {
+          "c": "Coating line, textured powder run"
+        },
+        {
+          "c": "Courtyard elevation"
+        },
+        {
+          "c": "Open-joint cassette corner"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "johor-solar",
+      "year": 2025,
+      "title": "Solar Mounting Rail Supply",
+      "location": "Johor, Malaysia",
+      "client": "Racking system manufacturer",
+      "scope": "6,000 t per year, three-year agreement",
+      "products": [
+        "Industrial Extrusion"
+      ],
+      "note": "Not architectural work and not difficult sections. What the customer bought was schedule reliability across a monsoon season and a mill certificate they could pass straight to their certifying body.",
+      "photos": [
+        {
+          "c": "Rail on the run-out table"
+        },
+        {
+          "c": "Stretcher, 12 m lengths"
+        },
+        {
+          "c": "Bundled and strapped for sea freight"
+        },
+        {
+          "c": "Mill finish rail, stock bay"
+        },
+        {
+          "c": "Ageing oven charge"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "rotterdam-office",
+      "year": 2024,
+      "title": "Wilhelmina Office Fit-out",
+      "location": "Rotterdam, Netherlands",
+      "client": "CBRE Netherlands",
+      "scope": "Demountable partitions, 6,200 m²",
+      "products": [
+        "Office Partition 40",
+        "Slim Door Frame",
+        "Natural Silver"
+      ],
+      "note": "Demountable was the whole brief: the tenant expected to reconfigure twice within the lease. Both faces of the partition sit flush with the glass so a wall reads the same from either side after it moves.",
+      "photos": [
+        {
+          "c": "Open-plan floor, partitions installed"
+        },
+        {
+          "c": "Partition head detail at the ceiling grid"
+        },
+        {
+          "c": "Glazed door in a slim frame"
+        },
+        {
+          "c": "Junction where three partitions meet"
+        },
+        {
+          "c": "Packed partition kit before shipping"
+        },
+        {
+          "c": "Meeting room, double-glazed acoustic run"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "danang-resort",
+      "year": 2024,
+      "title": "My Khe Beach Resort",
+      "location": "Da Nang, Vietnam",
+      "client": "Vinpearl",
+      "scope": "Villa joinery and pool pavilions",
+      "products": [
+        "Sliding 93",
+        "Burma Teak",
+        "Marine Silver"
+      ],
+      "note": "Forty metres from the surf line. Everything visible is either 25-micron marine anodised or wood-grain over a marine primer; the fixings behind are stainless throughout, which is the part that decides whether the job still looks like this in ten years.",
+      "photos": [
+        {
+          "c": "Villa frontage onto the beach"
+        },
+        {
+          "c": "Pocket slider fully open"
+        },
+        {
+          "c": "Wood grain finish, close detail"
+        },
+        {
+          "c": "Pool pavilion structure"
+        },
+        {
+          "c": "Salt spray test coupon at 4,000 hours"
+        },
+        {
+          "c": "Sill drainage before the deck goes down"
+        },
+        {
+          "c": "Evening, west villa"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "singapore-lift-cars",
+      "year": 2023,
+      "title": "Honeycomb Lift Car Programme",
+      "location": "Singapore",
+      "client": "Lift manufacturer, OEM",
+      "scope": "2,400 car wall sets",
+      "products": [
+        "Lift Car Panel",
+        "Bonded Panel",
+        "Hairline"
+      ],
+      "note": "The weight saved comes off the counterweight and then off the motor duty, which is the argument that sold the programme. Extending our press to 4 metres removed the joint that had been the objection.",
+      "photos": [
+        {
+          "c": "Car wall panel, hairline face"
+        },
+        {
+          "c": "Honeycomb core before bonding"
+        },
+        {
+          "c": "Heated press, 4 m platen"
+        },
+        {
+          "c": "Edge seal detail"
+        },
+        {
+          "c": "Flatness check after cure"
+        },
+        {
+          "c": "Assembled car interior"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "phnom-penh-mall",
+      "year": 2023,
+      "title": "Chroy Changvar Mall",
+      "location": "Phnom Penh, Cambodia",
+      "client": "Overseas Cambodian Investment",
+      "scope": "Shopfronts and mall glazing, 4,100 m²",
+      "products": [
+        "Mullion 50",
+        "Composite Panel",
+        "Traffic White"
+      ],
+      "note": "Delivered overland in three days from Binh Duong, which is the whole reason the job came to us rather than to a Chinese supplier quoting a lower rate and a six-week sea leg.",
+      "photos": [
+        {
+          "c": "Main entrance glazing"
+        },
+        {
+          "c": "Mullion 50 stick system going up"
+        },
+        {
+          "c": "Composite panel soffit"
+        },
+        {
+          "c": "Loading for the overland run"
+        },
+        {
+          "c": "Atrium roof glazing"
+        }
+      ],
+      "image": ""
+    },
+    {
+      "id": "los-angeles-adaptive",
+      "year": 2022,
+      "title": "Alameda Adaptive Reuse",
+      "location": "Los Angeles, United States",
+      "client": "Shimoda Design Group",
+      "scope": "Replacement windows and infill cladding, 3,300 m²",
+      "products": [
+        "Casement 55 TB",
+        "Solid Panel",
+        "Anthracite Grey"
+      ],
+      "note": "A 1926 warehouse where the openings were all slightly different and none of them square. Every unit was measured on site and made to that measurement, which is slower than a schedule of five types and the only thing that works on a building like this.",
+      "photos": [
+        {
+          "c": "South facade after completion"
+        },
+        {
+          "c": "Original opening before the new frame"
+        },
+        {
+          "c": "Site survey, one of 340 openings"
+        },
+        {
+          "c": "Solid panel infill at a former loading bay"
+        },
+        {
+          "c": "Interior, restored truss and new glazing"
+        },
+        {
+          "c": "Head detail against original brick"
+        }
+      ],
+      "image": ""
+    }
+  ]
 }
