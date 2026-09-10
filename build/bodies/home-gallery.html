@@ -1,0 +1,88 @@
+<!--region:gallery-->
+<div class="abgal">
+  <!-- The theme's own core-header + core-gallery markup, so the existing component CSS
+       (already linked on this page) styles it with almost nothing added. The theme's
+       CoreGallery class is deliberately NOT used: it drives a KeenSlider and fetches tab
+       content from wp-admin-ajax. _app/gallery.js lays the tiles out as a static grid and
+       initialises lightGallery with the same options the theme used. -->
+  <style>
+    /* Gutter. The theme section had no CSS of its own on this page (.row-1/.row-2 belong to
+       a stylesheet that is not loaded), so the horizontal rhythm is set here to match the
+       neighbouring home blocks: same 1280px measure, same 24px edge. */
+    .abgal { overflow-x: hidden; }
+    .abgal .section-galeria { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    /* .core-gallery__content__grid is a KeenSlider rail (display:flex) and the 2x2 item is a
+       two-row column-flow grid sized by the slider. Without the slider, turn the rail into a
+       plain block and let the one item wrap as a four-across grid. Everything else - the
+       square crop, the hover dim, the gradient and the plus - comes from the theme. */
+    .abgal .core-gallery__content__grid { display: block; overflow: hidden !important; }
+    #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      grid-auto-flow: row;
+    }
+    @media (max-width: 1024px) {
+      #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: .5rem;
+      }
+    }
+
+    /* The theme tile carries no caption - the original put a link in the alt text. A caption
+       sits in the bottom half of the gradient the filter already draws. */
+    .abgal .abgal-cap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 10px 12px;
+      font-size: 13px; line-height: 1.3; color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+      text-align: left; z-index: 2; pointer-events: none;
+    }
+    @media (max-width: 600px) { .abgal .abgal-cap { font-size: 11px; padding: 7px 8px; } }
+
+    .abgal .core-gallery__content__item__filter { flex-direction: column; }
+    .abgal .core-gallery__nav__tags { padding-left: 0; list-style: none; }
+    .abgal .abgal-empty { padding: 40px 0; color: #6f6a62; }
+  </style>
+
+  <section class="section-galeria" id="post-gallery">
+    <div class="row-1">
+      <div class="core-header p-80">
+        <div class="core-header__col core-header__col__title">
+          <h2 class="font-display-md font-family-diagramm font-light" id="abgal-heading">Finished work</h2>
+        </div>
+        <div class="core-header__col core-header__col__description">
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-1"></p>
+        </div>
+        <div class="core-header__col core-header__col__description">
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-2"></p>
+        </div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div id="section-gallery-bossgal" class="core-gallery pb-40">
+        <div class="core-gallery__spinner-overlay" style="display:none">
+          <div class="spinner"></div>
+        </div>
+        <div class="core-gallery__nav">
+          <div class="core-gallery__nav__selected-tag font-body-base font-normal" id="abgal-selected">
+            <span class="core-gallery__nav__selected-tag__text">All work</span>
+            <span class="core-gallery__nav__selected-tag__arrow"></span>
+          </div>
+          <ul class="core-gallery__nav__tags" id="abgal-tags"></ul>
+        </div>
+        <div class="core-gallery__content">
+          <div id="slider-bossgal" class="core-gallery__content__grid">
+            <div class="core-gallery__content__item grid-2x2" id="abgal-items"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!--/region:gallery-->

@@ -1,0 +1,100 @@
+{
+  "heading": "Finished work",
+  "intro": [
+    "Twelve jobs that left the two plants in the last three years, photographed after installation. Facades, interiors, furniture components and vehicle parts — the four things the extrusion presses spend most of their time on.",
+    "Every caption names the alloy, the temper and the finish, because that is what a buyer needs before asking for a price. Open a tile for the full description."
+  ],
+  "tags": [
+    { "id": "all", "label": "All work" },
+    { "id": "facades", "label": "Facades" },
+    { "id": "interiors", "label": "Interiors" },
+    { "id": "furniture", "label": "Furniture" },
+    { "id": "transport", "label": "Transport" }
+  ],
+  "items": [
+    {
+      "id": "curtain-wall-hanoi",
+      "cat": "facades",
+      "caption": "Unitised curtain wall, Hanoi office tower",
+      "description": "Thermally broken mullions and transoms in 6063-T6, anodised natural silver to 15 microns. 4,200 m2 of facade shipped in eleven loads over five months. Bracket holes were machined at Nghe An against the installer's setting-out drawings, so nothing was drilled at height.",
+      "image": ""
+    },
+    {
+      "id": "rainscreen-da-nang",
+      "cat": "facades",
+      "caption": "Ventilated rainscreen, Da Nang hotel",
+      "description": "Extruded carrier rails and pressed cassette frames behind a 50 mm cavity. PVDF coated to RAL 7016 matt at 30 microns nominal, two-coat, with a fifteen-year film warranty. Cassettes were numbered by elevation and stacked in fixing order.",
+      "image": ""
+    },
+    {
+      "id": "sunshade-fins",
+      "cat": "facades",
+      "caption": "Sunshade fins, hospital ward block",
+      "description": "Elliptical fins 250 mm deep at 900 mm centres, spanning between cast brackets. Powder coated bronze, 60 microns, polyester for tropical exposure. Each fin was drilled and tapped in the works; the site crew fixed 1,800 of them with a spanner and nothing else.",
+      "image": ""
+    },
+    {
+      "id": "shopfront-binh-duong",
+      "cat": "interiors",
+      "caption": "Shopfront and entrance screen, Binh Duong",
+      "description": "Thermal break framing carrying a 24 mm double-glazed unit, anodised black to 20 microns. Doors run on floor springs. The screens were fabricated, glazed and squared on the bench before they left the factory, so the shopfitter set them in a single day.",
+      "image": ""
+    },
+    {
+      "id": "office-partitions",
+      "cat": "interiors",
+      "caption": "Glazed office partitions, 45 mm framing",
+      "description": "Slim 45 mm sections in a wood grain finish, sublimated over a light bronze primer coat. Gaskets and cover caps arrived cut to length and bagged per opening, which is why a floor of 62 screens went up in nine working days.",
+      "image": ""
+    },
+    {
+      "id": "ceiling-baffles",
+      "cat": "interiors",
+      "caption": "Ceiling baffles, transport interchange",
+      "description": "Roll-formed baffles hung from an extruded carrier, 80 mm deep on a 200 mm pitch. Mill finish inside the cavity, powder coated matt white on the visible faces. Perforated to 22 per cent open area with an acoustic fleece behind.",
+      "image": ""
+    },
+    {
+      "id": "handle-profiles",
+      "cat": "furniture",
+      "caption": "Handle profiles for kitchen fronts",
+      "description": "J-profile and C-profile handle sections drawn in 3 m lengths, anodised champagne. Cut, mitred and end-capped to the cabinetmaker's cutting list, then packed in the order the fronts are assembled. Repeat run, four times a year.",
+      "image": ""
+    },
+    {
+      "id": "table-frames",
+      "cat": "furniture",
+      "caption": "Table frames, contract seating",
+      "description": "Tapered legs drawn on a die cut for this job, joined to the rail with concealed brackets and a single grub screw. Powder coated matt white and cured at 200 degrees C. 1,400 frames for a canteen fit-out, flat packed two to a carton.",
+      "image": ""
+    },
+    {
+      "id": "wardrobe-track",
+      "cat": "furniture",
+      "caption": "Sliding wardrobe track and stile set",
+      "description": "Top track, bottom guide and 20 mm door stiles as a matched set in 6063-T5. Anodised light bronze. The stile takes a 10 mm panel or an 8 mm mirror without an adaptor, which removed two part numbers from the customer's stock list.",
+      "image": ""
+    },
+    {
+      "id": "roof-rails",
+      "cat": "transport",
+      "caption": "Roof rails and side steps, pickup conversion",
+      "description": "6082-T6 sections bent on a three-roll former, welded at the end castings, then hard anodised to 20 microns for salt spray. Tested to 1,000 hours neutral salt spray with no filiform corrosion at the cut edges.",
+      "image": ""
+    },
+    {
+      "id": "honeycomb-floor",
+      "cat": "transport",
+      "caption": "Honeycomb floor panels, refrigerated body",
+      "description": "26 mm aluminium honeycomb core between 1 mm skins, edged with an extruded closing section. 8 kg per square metre against 22 for the plywood floor it replaced, and it does not take up water.",
+      "image": ""
+    },
+    {
+      "id": "trailer-sides",
+      "cat": "transport",
+      "caption": "Curtain-side trailer top rail and posts",
+      "description": "Top rail, corner post and rear frame in 6005A-T6, mill finish, cut and punched to the body builder's jig. Supplied as a kit per trailer with the fasteners, so the line does no sawing.",
+      "image": ""
+    }
+  ]
+}

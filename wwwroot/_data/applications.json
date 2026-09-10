@@ -1,0 +1,162 @@
+{
+  "eyebrow": "Boss Group applications",
+  "heading": "Where the extrusions end up",
+  "intro": "The same billet becomes a curtain wall mullion, a desk leg or a battery tray, depending on the die it is pushed through, the finish it is given and the fabrication that follows. These are the jobs our profiles are drawn for.",
+  "tabs": [
+    {
+      "id": "facades",
+      "label": "Facades",
+      "items": [
+        {
+          "title": "Unitised curtain walling",
+          "text": "Mullions and transoms in 6063-T6, thermally broken with polyamide strips and powder coated before the units are glazed.",
+          "image": ""
+        },
+        {
+          "title": "Rainscreen cladding",
+          "text": "Honeycomb panels bonded to 1 mm skins, cut to size and folded into cassettes for concealed-fix carrier systems.",
+          "image": ""
+        },
+        {
+          "title": "Solar shading",
+          "text": "Aerofoil and box louvres up to 4 m long, anodised to 20 microns for coastal sites where a powder coat would chalk.",
+          "image": ""
+        },
+        {
+          "title": "Windows and doors",
+          "text": "Casement, sliding and lift-and-slide frames, with the hardware channels and drainage slots machined before despatch.",
+          "image": ""
+        },
+        {
+          "title": "Balustrades",
+          "text": "Base channels and top rails for structural glass, supplied mill finish or in a wood grain to match the joinery beside them.",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "interiors",
+      "label": "Interiors",
+      "items": [
+        {
+          "title": "Partition systems",
+          "text": "Slim double-glazed office partitions on 45 mm and 80 mm frames, in matt black anodise or a powder coat matched to the client's colour.",
+          "image": ""
+        },
+        {
+          "title": "Ceiling and wall baffles",
+          "text": "Open-cell grids and blade baffles, punched for services and clipped to carrier rails with no fixings on show.",
+          "image": ""
+        },
+        {
+          "title": "Lighting profiles",
+          "text": "Recessed, surface and suspended LED channels with their diffuser tracks, cut to length and end-capped.",
+          "image": ""
+        },
+        {
+          "title": "Shower enclosures",
+          "text": "Wall profiles, glass channels and seal carriers for walk-in screens. Anodised finishes hold up where the water is hard.",
+          "image": ""
+        },
+        {
+          "title": "Skirting and trim",
+          "text": "Shadow-gap skirting, corner beads and tile trims, in brushed or wood grain finishes.",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "furniture",
+      "label": "Furniture",
+      "items": [
+        {
+          "title": "Desk and table frames",
+          "text": "Legs, beams and cable trays for height-adjustable desks, drilled and tapped so the fitter only needs a hex key.",
+          "image": ""
+        },
+        {
+          "title": "Handleless kitchen profiles",
+          "text": "J-profiles, C-channels and gola rails cut in matched lengths, so a run of doors reads as one continuous line.",
+          "image": ""
+        },
+        {
+          "title": "Wardrobe and sliding tracks",
+          "text": "Top-hung tracks, bottom guides and frame sections for sliding and folding door sets.",
+          "image": ""
+        },
+        {
+          "title": "Shelving uprights",
+          "text": "Slotted uprights and brackets for shop and library fit-outs, anodised so a repeat order still matches years later.",
+          "image": ""
+        },
+        {
+          "title": "Seat frames",
+          "text": "Bent and welded frames for contract chairs and benches, supplied ready for upholstery.",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "label": "Transport",
+      "items": [
+        {
+          "title": "Bus and coach bodywork",
+          "text": "Floor planks, window pillars and skirt sections, extruded to the bodybuilder's own dies and held in stock for them.",
+          "image": ""
+        },
+        {
+          "title": "Truck bodies and trailers",
+          "text": "Side boards, load-securing rails and tailgate sections in 6082-T6, where the weight saved is weight carried.",
+          "image": ""
+        },
+        {
+          "title": "Battery enclosures",
+          "text": "Tray extrusions and friction-stir-welded floors for electric vehicle packs, machined flat for the sealing face.",
+          "image": ""
+        },
+        {
+          "title": "Car trim and roof rails",
+          "text": "Bright-anodised mouldings, roof rails and sill covers for the vehicle accessories market.",
+          "image": ""
+        },
+        {
+          "title": "Marine fittings",
+          "text": "Rubbing strakes, deck sections and mast track, anodised for salt water and specified by alloy rather than by colour.",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": "industrial",
+      "label": "Industrial",
+      "items": [
+        {
+          "title": "Machine framing",
+          "text": "T-slot profiles from 20 mm to 80 mm, cut and tapped to a drawing and sent with the brackets and fasteners.",
+          "image": ""
+        },
+        {
+          "title": "Heat sinks",
+          "text": "Deep-fin extrusions for inverters and LED drivers, run on the large press and cut to length.",
+          "image": ""
+        },
+        {
+          "title": "Solar mounting",
+          "text": "Rails, mid and end clamps for roof and ground-mount arrays, mill finish or anodised for a twenty-five year life.",
+          "image": ""
+        },
+        {
+          "title": "Conveyor and handling",
+          "text": "Guide rails, side frames and roller supports for packaging and bottling lines.",
+          "image": ""
+        },
+        {
+          "title": "Cable management",
+          "text": "Ladder, tray and trunking sections for plant rooms and tunnels, where steel would have to be galvanised first.",
+          "image": ""
+        }
+      ]
+    }
+  ]
+}

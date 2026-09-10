@@ -17,13 +17,18 @@ public static class ContentSeeder
     /// <summary>Documents to import, in the order they appear in the admin.</summary>
     public static readonly (string Name, string Label)[] Documents =
     {
-        ("products",  "Products"),
-        ("colors",    "Finishes"),
-        ("documents", "Documents"),
-        ("projects",  "Projects"),
-        ("news",      "News"),
-        ("about",     "About us"),
-        ("contact",   "Contact"),
+        ("products",     "Products"),
+        ("colors",       "Finishes"),
+        ("documents",    "Documents"),
+        ("projects",     "Projects"),
+        ("news",         "News"),
+        ("about",        "About us"),
+        ("contact",      "Contact"),
+        // Home-page sections. They have no page of their own, so they appear here or nowhere.
+        ("applications", "Home — where the profiles go"),
+        ("highlights",   "Home — what's new"),
+        ("gallery",      "Home — finished work"),
+        ("feature",      "Home — finish samples panel"),
     };
 
     /// <summary>
@@ -32,14 +37,18 @@ public static class ContentSeeder
     /// </summary>
     private static readonly (string Key, string Label, bool Locked)[] HomeRegions =
     {
-        ("hero",      "Opening screen",      true),
-        ("globe",     "Export globe",        false),
-        ("factories", "Factory map",         false),
-        ("products",  "Product families",    false),
-        ("colors",    "Finishes strip",      false),
-        ("projects",  "Recent projects",     false),
-        ("news",      "News strip",          false),
-        ("cta",       "Closing call to action", false),
+        ("hero",         "Opening screen",         true),
+        ("globe",        "Export globe",           false),
+        ("factories",    "Factory map",            false),
+        ("highlights",   "New — what's changed",   false),
+        ("products",     "Product families",       false),
+        ("applications", "Where the profiles go",  false),
+        ("colors",       "Finishes strip",         false),
+        ("feature",      "Finish samples panel",   false),
+        ("projects",     "Recent projects",        false),
+        ("gallery",      "Finished work gallery",  false),
+        ("news",         "News strip",             false),
+        ("cta",          "Closing call to action", false),
     };
 
     private static readonly (string Path, string Label, string Title, string Description)[] Pages =

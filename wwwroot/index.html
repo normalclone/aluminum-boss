@@ -225,7 +225,8 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <meta name="description" content="Aluminium extrusion, finishing and fabrication in Vietnam. Profile, facade, furniture, door and car accessories, and honeycomb panels, shipped to forty-three markets.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Boss Group">
-<meta property="og:title" content="Title set from the admin 1788978061458">
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<meta property="og:title" content="Boss Group - Vietnam's Leading Aluminum Exporter">
 <meta property="og:description" content="Aluminium extrusion, finishing and fabrication in Vietnam. Profile, facade, furniture, door and car accessories, and honeycomb panels, shipped to forty-three markets.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="_media/favicon.svg" type="image/svg+xml">
@@ -2142,6 +2143,71 @@ function rafStop(){ rafOn = false; }
 
 </script>
 <!-- ============ /FACTORY MAP ============ --><!--/region:factories-->
+<!--region:highlights-->
+<!-- ab-home-highlights -->
+<div class="ab-nov" id="ab-nov-wrap">
+<style>
+/* The theme's own full bleed is margin-left/right:calc(-50vw + 50%). That is 100vw wide, and
+   100vw includes the scrollbar, so on a page tall enough to scroll it is ~15px wider than the
+   viewport and the page gains a horizontal scrollbar. The wrapper below is bled out to the
+   real viewport edges from JS instead, measured against documentElement.clientWidth, so the
+   section is still edge to edge and nothing overflows. */
+.ab-nov .core-slider-novedades{margin-left:0;margin-right:0}
+/* The theme's .shadow gradient never shows: it is absolutely positioned with no offsets, so it
+   lands at its static position ahead of the image, and the image carries z-index:0 and paints
+   over it. Pinning it and lifting it one layer is what the rule was written to do. */
+.ab-nov .core-slider-novedades .shadow{top:0;left:0;z-index:2}
+.ab-nov .core-slider-novedades__title{margin:0 0 32px;max-width:20ch}
+/* The theme caps the headline at 70% of the card, which is a sensible gutter on a 444px card
+   and about 155px on a phone - four lines for a sentence that fits in two. */
+@media (max-width:600px){.ab-nov .core-slider-novedades__slide__card-body__name{max-width:92%}}
+/* Only used if KeenSlider is not on the page - see highlights.js. */
+.ab-nov .ab-nov-fallback{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.ab-nov .ab-nov-fallback::-webkit-scrollbar{display:none}
+.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 calc((100% - 32px)/3);scroll-snap-align:start}
+@media (max-width:1024px){.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 62%}}
+@media (max-width:600px){.ab-nov .ab-nov-fallback{gap:8px}.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 88%}}
+</style>
+  <section class="core-slider-novedades" id="ab-novedades">
+    <div class="header">
+      <div class="d-flex">
+        <p class="font-body-base text-uppercase font-normal">New</p>
+        <svg class="svg_black" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 7.43897L20 7.43896L20 16.5613" stroke="#3C3C3B" stroke-miterlimit="10"></path>
+          <path d="M24.0005 12.5613L20.0005 16.5613L16.0005 12.5613" stroke="#3C3C3B" stroke-miterlimit="10"></path>
+        </svg>
+      </div>
+    </div>
+
+    <h2 class="core-slider-novedades__title font-display-md" id="ab-nov-heading">New capacity, finishes and approvals</h2>
+
+    <div class="slider-page">
+      <p class="font-13" id="page-count-abnov">01/02</p>
+    </div>
+
+    <div id="slider-nav-abnov" class="slider-nav d-flex align-items-center justify-content-between">
+      <div class="progress-container mr-5 ml-0">
+        <div id="progress-bar-abnov" class="progress-bar"></div>
+      </div>
+      <div id="prev-btn-abnov" class="arrow-link__left p-2 disabled" role="button" tabindex="0" aria-label="Previous">
+        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8 16L1 8.5L8 1" stroke="#3C3C3B"></path>
+          <line x1="1" y1="8.5" x2="18" y2="8.5" stroke="#3C3C3B"></line>
+        </svg>
+      </div>
+      <div id="next-btn-abnov" class="arrow-link__right p-2" role="button" tabindex="0" aria-label="Next">
+        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 1L17 8.5L10 16" stroke="#3C3C3B"></path>
+          <line x1="17" y1="8.5" y2="8.5" stroke="#3C3C3B"></line>
+        </svg>
+      </div>
+    </div>
+
+    <div id="slider-abnov" class="keen-slider"></div>
+  </section>
+</div>
+<!-- /ab-home-highlights -->
+<!--/region:highlights-->
 <!--region:products-->
 <div class="ab abhb" data-depth="1">
 <section class="abhb-band">
@@ -2155,6 +2221,37 @@ function rafStop(){ rafOn = false; }
   </section>
 </div>
 <!--/region:products-->
+<!--region:applications-->
+<!-- ab-applications: theme core-tabs + core-slider, driven by /_data/applications.json -->
+<div class="bg-section bg-gris-claro ab-applications">
+    <div class="bg-section__container">
+        <hr>
+        <section id="section-applications" class="section-espacios">
+            <!-- row-1 is max-width:80% in the theme with no auto margins, which puts a centred
+                 heading visibly left of the page centre; the inline margin puts it back. -->
+            <div class="row-1" style="margin-left:auto;margin-right:auto">
+                <p class="font-16 font-family-diagramm font-normal text-center" id="abap-eyebrow">Boss Group applications</p>
+                <h2 class="font-40 font-family-diagramm font-light text-center" id="abap-heading">Where the extrusions end up</h2>
+                <p class="font-16 font-light text-center" id="abap-intro" style="max-width:60ch;margin:0 auto">The same billet becomes a curtain wall mullion, a desk leg or a battery tray, depending on the die it is pushed through, the finish it is given and the fabrication that follows.</p>
+            </div>
+            <div class="row-2">
+                <div id="abap-tabs" class="core-tabs pb-40">
+                    <div class="core-tabs__nav">
+                        <ul class="core-tabs__nav__tags" id="abap-tablist" role="tablist" aria-label="Application areas"></ul>
+                        <div id="abap-arrows" class="core-tabs__nav__arrows">
+                            <span class="arrow-link arrow-link__left" role="button" tabindex="0" aria-label="Previous applications"></span>
+                            <span class="arrow-link arrow-link__right" role="button" tabindex="0" aria-label="Next applications"></span>
+                        </div>
+                    </div>
+                    <div class="core-tabs__content">
+                        <div id="abap-slider" class="core-slider keen-slider" role="tabpanel" tabindex="0"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!--/region:applications-->
 <!--region:colors-->
 <div class="ab abhb" data-depth="1">
 <section class="abhb-band abhb-band--wash">
@@ -2169,6 +2266,91 @@ function rafStop(){ rafOn = false; }
   </section>
 </div>
 <!--/region:colors-->
+<!--region:feature--><!-- ============ FINISH SAMPLES CTA - injected section ============ -->
+<style>
+/* One full-width panel: a photograph with the offer written across it. The theme's own
+   core-cta-customizable holds the structure; everything below is the variant that turns its
+   side-by-side text and image into an overlay, because the copy has to sit on the photograph
+   rather than beside it.
+   Full-bleed on the page's own grid: the shared parent insets its children by 38px, so the
+   band pulls back by exactly that much and no more. Below 1024 the inset is smaller, and the
+   same negative margin would push the panel past the right edge of the viewport - so it
+   stops, and the panel sits in normal flow. */
+.abfc{--abfc-bleed:38px}
+.abfc *{box-sizing:border-box}
+.abfc .abfc-band{margin-left:calc(-1 * var(--abfc-bleed));margin-right:calc(-1 * var(--abfc-bleed));
+  padding:clamp(40px,4vw,72px) 0}
+.abfc .abfc-cta{position:relative;flex-direction:row;align-items:stretch;
+  justify-content:flex-start;
+  margin:0;width:auto;max-width:none;height:auto;min-height:clamp(400px,36vw,560px);
+  overflow:hidden;background:#1d1d1b}
+/* The image stops being a column and becomes the ground the panel is drawn on. */
+.abfc .abfc-cta .core-cta-customizable__image-col{position:absolute;top:0;left:0;
+  width:100%;height:100%;flex:none;z-index:0}
+.abfc .abfc-cta .core-cta-customizable__image-col__image{position:absolute;top:0;left:0;
+  width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:center}
+/* White on a photograph is a gamble, so the panel does not take it: a scrim heavy enough to
+   hold the type at 4.5:1 over the mid-grey placeholder, thinning out to nothing over the half
+   of the frame the text never reaches. */
+.abfc .abfc-cta::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;
+  z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(16,16,15,.92) 0%,rgba(16,16,15,.86) 30%,
+    rgba(16,16,15,.62) 58%,rgba(16,16,15,.14) 88%,rgba(16,16,15,0) 100%)}
+/* The panel runs the full width of the viewport, but its copy still lines up with the
+   1280px column the sections above and below are set in: the left padding is whichever is
+   larger, the panel's own inset or the distance in to that column. */
+.abfc .abfc-cta .core-cta-customizable__text-col{position:relative;z-index:2;
+  flex:0 1 62%;max-width:920px;color:#fff;justify-content:flex-end;
+  padding:clamp(34px,3.6vw,64px) clamp(22px,3vw,56px);
+  padding-left:max(clamp(22px,3vw,56px),62px,calc((100% - 1280px) / 2 + 24px))}
+.abfc .abfc-cta .core-cta-customizable__text-col__top{display:block}
+.abfc .abfc-cta .core-cta-customizable__text-col__bottom__text{max-width:none;
+  margin:0 0 14px;font-size:13px;line-height:1.2;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.74)}
+/* font-40 is the theme's own step, but it reaches 53px on a tablet - twice the size of the
+   headings either side of this panel. This one is meant to be the loudest thing on the page,
+   not a different page. */
+.abfc .abfc-cta .core-cta-customizable__text-col__top h2{max-width:18ch;margin:0;
+  font-size:clamp(29px,3vw,46px);font-weight:300;line-height:1.04;letter-spacing:-.012em;
+  text-shadow:0 2px 30px rgba(0,0,0,.55)}
+.abfc .abfc-cta .abfc-text{max-width:46ch;margin:18px 0 0;
+  font-size:clamp(15px,1.15vw,18px);line-height:1.6;color:rgba(255,255,255,.88);
+  text-shadow:0 1px 18px rgba(0,0,0,.5)}
+.abfc .abfc-cta .core-cta-customizable__text-col__bottom{display:flex;flex-wrap:wrap;
+  align-items:center;gap:14px 26px;margin-top:clamp(26px,3vw,44px)}
+/* .ab a sets colour to inherit, which on this panel is white - and the button is white. */
+.abfc .abfc-cta a.btn{color:#1d1d1b;font-size:14px;letter-spacing:.02em}
+.abfc .abfc-cta a.abfc-alt{color:#fff;font-size:14px;letter-spacing:.02em;
+  text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.abfc .abfc-cta a.abfc-alt:hover{color:rgba(255,255,255,.7)}
+/* Narrow: the frame is taller than it is wide, so the scrim turns through 90 degrees and the
+   copy sits on the bottom of the photograph instead of the left of it. */
+@media (max-width:1024px){
+  .abfc .abfc-band{margin-left:0;margin-right:0}
+  .abfc .abfc-cta{min-height:520px}
+  .abfc .abfc-cta::after{background:linear-gradient(180deg,rgba(16,16,15,.34) 0%,
+    rgba(16,16,15,.5) 24%,rgba(16,16,15,.78) 55%,rgba(16,16,15,.92) 100%)}
+  /* The band no longer bleeds here, so the copy is measured from the panel's own edge
+     again rather than from the 1280px column. */
+  .abfc .abfc-cta .core-cta-customizable__text-col{flex:1 1 100%;max-width:none;
+    padding-left:clamp(22px,3vw,56px)}
+  .abfc .abfc-cta .core-cta-customizable__text-col__top h2{max-width:22ch}
+}
+@media (max-width:600px){
+  .abfc .abfc-band{padding:32px 0}
+  .abfc .abfc-cta{min-height:470px}
+  .abfc .abfc-cta .core-cta-customizable__text-col__top h2{max-width:none}
+  .abfc .abfc-cta .core-cta-customizable__text-col{padding:28px 20px 32px}
+  .abfc .abfc-cta .abfc-text{max-width:none}
+  .abfc .abfc-cta .core-cta-customizable__text-col__bottom{gap:12px 20px;margin-top:24px}
+}
+</style>
+<div class="ab abfc" id="abfc" data-depth="1">
+  <section class="abfc-band" aria-labelledby="abfc-title">
+    <div class="core-cta-customizable abfc-cta" id="abfc-cta"></div>
+  </section>
+</div>
+<!-- ============ /FINISH SAMPLES CTA ============ --><!--/region:feature-->
 <!--region:projects-->
 <div class="ab abhb" data-depth="1">
 <section class="abhb-band">
@@ -2182,6 +2364,94 @@ function rafStop(){ rafOn = false; }
   </section>
 </div>
 <!--/region:projects-->
+<!--region:gallery-->
+<div class="abgal">
+  <!-- The theme's own core-header + core-gallery markup, so the existing component CSS
+       (already linked on this page) styles it with almost nothing added. The theme's
+       CoreGallery class is deliberately NOT used: it drives a KeenSlider and fetches tab
+       content from wp-admin-ajax. _app/gallery.js lays the tiles out as a static grid and
+       initialises lightGallery with the same options the theme used. -->
+  <style>
+    /* Gutter. The theme section had no CSS of its own on this page (.row-1/.row-2 belong to
+       a stylesheet that is not loaded), so the horizontal rhythm is set here to match the
+       neighbouring home blocks: same 1280px measure, same 24px edge. */
+    .abgal { overflow-x: hidden; }
+    .abgal .section-galeria { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+    /* .core-gallery__content__grid is a KeenSlider rail (display:flex) and the 2x2 item is a
+       two-row column-flow grid sized by the slider. Without the slider, turn the rail into a
+       plain block and let the one item wrap as a four-across grid. Everything else - the
+       square crop, the hover dim, the gradient and the plus - comes from the theme. */
+    .abgal .core-gallery__content__grid { display: block; overflow: hidden !important; }
+    #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      grid-auto-flow: row;
+    }
+    @media (max-width: 1024px) {
+      #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      #section-gallery-bossgal .core-gallery__content__item.grid-2x2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: .5rem;
+      }
+    }
+
+    /* The theme tile carries no caption - the original put a link in the alt text. A caption
+       sits in the bottom half of the gradient the filter already draws. */
+    .abgal .abgal-cap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 10px 12px;
+      font-size: 13px; line-height: 1.3; color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+      text-align: left; z-index: 2; pointer-events: none;
+    }
+    @media (max-width: 600px) { .abgal .abgal-cap { font-size: 11px; padding: 7px 8px; } }
+
+    .abgal .core-gallery__content__item__filter { flex-direction: column; }
+    .abgal .core-gallery__nav__tags { padding-left: 0; list-style: none; }
+    .abgal .abgal-empty { padding: 40px 0; color: #6f6a62; }
+  </style>
+
+  <section class="section-galeria" id="post-gallery">
+    <div class="row-1">
+      <div class="core-header p-80">
+        <div class="core-header__col core-header__col__title">
+          <h2 class="font-display-md font-family-diagramm font-light" id="abgal-heading">Finished work</h2>
+        </div>
+        <div class="core-header__col core-header__col__description">
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-1"></p>
+        </div>
+        <div class="core-header__col core-header__col__description">
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-2"></p>
+        </div>
+      </div>
+    </div>
+    <div class="row-2">
+      <div id="section-gallery-bossgal" class="core-gallery pb-40">
+        <div class="core-gallery__spinner-overlay" style="display:none">
+          <div class="spinner"></div>
+        </div>
+        <div class="core-gallery__nav">
+          <div class="core-gallery__nav__selected-tag font-body-base font-normal" id="abgal-selected">
+            <span class="core-gallery__nav__selected-tag__text">All work</span>
+            <span class="core-gallery__nav__selected-tag__arrow"></span>
+          </div>
+          <ul class="core-gallery__nav__tags" id="abgal-tags"></ul>
+        </div>
+        <div class="core-gallery__content">
+          <div id="slider-bossgal" class="core-gallery__content__grid">
+            <div class="core-gallery__content__item grid-2x2" id="abgal-items"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!--/region:gallery-->
 <!--region:news-->
 <div class="ab abhb" data-depth="1">
 <section class="abhb-band abhb-band--wash">
@@ -2465,6 +2735,10 @@ if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_c
 <script src="_app/header.js"></script>
 <script src="_app/home.js"></script>
 <script src="_app/home-blocks.js"></script>
+<script src="_app/applications.js"></script>
+<script src="_app/highlights.js"></script>
+<script src="_app/gallery.js"></script>
+<script src="_app/feature.js"></script>
 </body>
 
 </html>

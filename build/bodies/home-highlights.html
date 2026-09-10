@@ -1,0 +1,65 @@
+<!--region:highlights-->
+<!-- ab-home-highlights -->
+<div class="ab-nov" id="ab-nov-wrap">
+<style>
+/* The theme's own full bleed is margin-left/right:calc(-50vw + 50%). That is 100vw wide, and
+   100vw includes the scrollbar, so on a page tall enough to scroll it is ~15px wider than the
+   viewport and the page gains a horizontal scrollbar. The wrapper below is bled out to the
+   real viewport edges from JS instead, measured against documentElement.clientWidth, so the
+   section is still edge to edge and nothing overflows. */
+.ab-nov .core-slider-novedades{margin-left:0;margin-right:0}
+/* The theme's .shadow gradient never shows: it is absolutely positioned with no offsets, so it
+   lands at its static position ahead of the image, and the image carries z-index:0 and paints
+   over it. Pinning it and lifting it one layer is what the rule was written to do. */
+.ab-nov .core-slider-novedades .shadow{top:0;left:0;z-index:2}
+.ab-nov .core-slider-novedades__title{margin:0 0 32px;max-width:20ch}
+/* The theme caps the headline at 70% of the card, which is a sensible gutter on a 444px card
+   and about 155px on a phone - four lines for a sentence that fits in two. */
+@media (max-width:600px){.ab-nov .core-slider-novedades__slide__card-body__name{max-width:92%}}
+/* Only used if KeenSlider is not on the page - see highlights.js. */
+.ab-nov .ab-nov-fallback{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.ab-nov .ab-nov-fallback::-webkit-scrollbar{display:none}
+.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 calc((100% - 32px)/3);scroll-snap-align:start}
+@media (max-width:1024px){.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 62%}}
+@media (max-width:600px){.ab-nov .ab-nov-fallback{gap:8px}.ab-nov .ab-nov-fallback .core-slider-novedades__slide{flex:0 0 88%}}
+</style>
+  <section class="core-slider-novedades" id="ab-novedades">
+    <div class="header">
+      <div class="d-flex">
+        <p class="font-body-base text-uppercase font-normal">New</p>
+        <svg class="svg_black" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 7.43897L20 7.43896L20 16.5613" stroke="#3C3C3B" stroke-miterlimit="10"></path>
+          <path d="M24.0005 12.5613L20.0005 16.5613L16.0005 12.5613" stroke="#3C3C3B" stroke-miterlimit="10"></path>
+        </svg>
+      </div>
+    </div>
+
+    <h2 class="core-slider-novedades__title font-display-md" id="ab-nov-heading">New capacity, finishes and approvals</h2>
+
+    <div class="slider-page">
+      <p class="font-13" id="page-count-abnov">01/02</p>
+    </div>
+
+    <div id="slider-nav-abnov" class="slider-nav d-flex align-items-center justify-content-between">
+      <div class="progress-container mr-5 ml-0">
+        <div id="progress-bar-abnov" class="progress-bar"></div>
+      </div>
+      <div id="prev-btn-abnov" class="arrow-link__left p-2 disabled" role="button" tabindex="0" aria-label="Previous">
+        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M8 16L1 8.5L8 1" stroke="#3C3C3B"></path>
+          <line x1="1" y1="8.5" x2="18" y2="8.5" stroke="#3C3C3B"></line>
+        </svg>
+      </div>
+      <div id="next-btn-abnov" class="arrow-link__right p-2" role="button" tabindex="0" aria-label="Next">
+        <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 1L17 8.5L10 16" stroke="#3C3C3B"></path>
+          <line x1="17" y1="8.5" y2="8.5" stroke="#3C3C3B"></line>
+        </svg>
+      </div>
+    </div>
+
+    <div id="slider-abnov" class="keen-slider"></div>
+  </section>
+</div>
+<!-- /ab-home-highlights -->
+<!--/region:highlights-->

@@ -1,0 +1,31 @@
+<!--region:applications-->
+<!-- ab-applications: theme core-tabs + core-slider, driven by /_data/applications.json -->
+<div class="bg-section bg-gris-claro ab-applications">
+    <div class="bg-section__container">
+        <hr>
+        <section id="section-applications" class="section-espacios">
+            <!-- row-1 is max-width:80% in the theme with no auto margins, which puts a centred
+                 heading visibly left of the page centre; the inline margin puts it back. -->
+            <div class="row-1" style="margin-left:auto;margin-right:auto">
+                <p class="font-16 font-family-diagramm font-normal text-center" id="abap-eyebrow">Boss Group applications</p>
+                <h2 class="font-40 font-family-diagramm font-light text-center" id="abap-heading">Where the extrusions end up</h2>
+                <p class="font-16 font-light text-center" id="abap-intro" style="max-width:60ch;margin:0 auto">The same billet becomes a curtain wall mullion, a desk leg or a battery tray, depending on the die it is pushed through, the finish it is given and the fabrication that follows.</p>
+            </div>
+            <div class="row-2">
+                <div id="abap-tabs" class="core-tabs pb-40">
+                    <div class="core-tabs__nav">
+                        <ul class="core-tabs__nav__tags" id="abap-tablist" role="tablist" aria-label="Application areas"></ul>
+                        <div id="abap-arrows" class="core-tabs__nav__arrows">
+                            <span class="arrow-link arrow-link__left" role="button" tabindex="0" aria-label="Previous applications"></span>
+                            <span class="arrow-link arrow-link__right" role="button" tabindex="0" aria-label="Next applications"></span>
+                        </div>
+                    </div>
+                    <div class="core-tabs__content">
+                        <div id="abap-slider" class="core-slider keen-slider" role="tabpanel" tabindex="0"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!--/region:applications-->
