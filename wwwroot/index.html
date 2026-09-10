@@ -1234,9 +1234,16 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   }
 
   let last = performance.now();
+  // Interaction is a tween (tw) or a drag; everything else is the idle spin.
+  const AMBIENT_MS = 1000 / 24;
+  let lastDraw = 0;
   function frame(now){
   rafPending = false;
   if (!rafOn) return;
+    if (!tw && !dragging && now - lastDraw < AMBIENT_MS) { requestAnimationFrame(frame); return; }
+    lastDraw = now;
+    // dt is measured from the last frame that actually drew, so skipping frames leaves the
+    // rotation speed unchanged rather than slowing it to a crawl.
     const dt = Math.min(.05,(now-last)/1000); last = now;
     if (tw){
       tw.t += (dt*1000)/tw.ms;
@@ -1984,12 +1991,18 @@ function draw(){
 }
 
 let last = 0;
+const AMBIENT_MS = 1000 / 24;
+let lastDraw = 0;
 function frame(){
   rafPending = false;
   if (!rafOn) return;
   // The canvas keeps its last size when hidden, so draw() would happily paint into a box
   // nobody sees. Skip the work instead.
   if (!cv.offsetWidth && !cv.offsetHeight){ requestAnimationFrame(frame); return; }
+  // Same as the globe: the drift is ambient, a drag is not.
+  const nowMs = performance.now();
+  if (!dragging && nowMs - lastDraw < AMBIENT_MS) { requestAnimationFrame(frame); return; }
+  lastDraw = nowMs;
   if (spin && !dragging && !reduced){
     drift += 0.0045;
     yaw = YAW_CUR + Math.sin(drift) * 0.13;      // stays within a readable arc
