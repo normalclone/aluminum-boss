@@ -48,6 +48,54 @@
       bar.classList.toggle('is-over', over);
     };
 
+    // The words fade out just before they would reach the bar. Distances are measured once
+    // here and after a resize, so the scroll handler itself reads no layout at all - it only
+    // looks at scrollY, which is free.
+    var inner = hero.querySelector('.abhero-inner');
+    if (inner) {
+      var fadeFrom = 0, fadeTo = 1, pending = false, shown = -1;
+
+      var remeasure = function () {
+        var barH = bar.offsetHeight;
+        // Where the text's top edge sits in the document.
+        var top = inner.getBoundingClientRect().top + window.pageYOffset;
+        // Gone by the time its top reaches the underside of the bar; fading over the 180px of
+        // scroll before that, which is short enough to read as the words leaving with the
+        // photograph rather than as a separate effect.
+        fadeTo = Math.max(1, top - barH);
+        fadeFrom = Math.max(0, fadeTo - 180);
+      };
+
+      var paint = function () {
+        pending = false;
+        var y = window.pageYOffset;
+        var v = y <= fadeFrom ? 1 : y >= fadeTo ? 0 : 1 - (y - fadeFrom) / (fadeTo - fadeFrom);
+        v = Math.round(v * 100) / 100;
+        if (v === shown) return;          // most scroll frames change nothing
+        shown = v;
+        hero.style.setProperty('--abhero-fade', v);
+      };
+
+      var onScroll = function () {
+        if (pending) return;
+        pending = true;
+        window.requestAnimationFrame(paint);
+      };
+
+      remeasure();
+      paint();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { remeasure(); paint(); }, { passive: true });
+
+      // The word list arrives from products.json after this runs, and the display face may load
+      // later still. Either changes the height of the box the fade window is derived from.
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(function () { remeasure(); paint(); }).observe(inner);
+      } else if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { remeasure(); paint(); });
+      }
+    }
+
     if ('IntersectionObserver' in window) {
       var barH = Math.round(bar.offsetHeight);
       new IntersectionObserver(function (entries) {

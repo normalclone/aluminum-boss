@@ -165,6 +165,13 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
   position: relative; width: 100%; max-width: 1920px; margin: 0 auto;
   padding: 0 2.5vw 4.5vh;
 }
+
+/* Everything the hero paints except the photograph. header.js drives --abhero-fade from the
+   scroll position so this text is gone by the time it would reach the header. Defaulting to 1
+   means a page with the script blocked shows the hero exactly as before. */
+.abhero-inner,
+.abhero-caption,
+.abhero-scroll { opacity: var(--abhero-fade, 1); }
 .abhero-claim {
   font-family: var(--ab-font); font-weight: 700; font-stretch: 125%; letter-spacing: -0.012em;
   font-size: clamp(13px, 1.28vw, 27px); line-height: 1.06; color: #1d1d1b;
