@@ -8,9 +8,6 @@
   'use strict';
   if (!window.AB) return;
 
-  var MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
   function el(id) { return document.getElementById(id); }
 
   AB.load('products').then(function (d) {
@@ -68,20 +65,4 @@
       }).join('');
   }).catch(function () {});
 
-  AB.load('news').then(function (d) {
-    var t = el('abhb-news');
-    if (!t) return;
-    t.innerHTML = d.items.slice()
-      .sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 3)
-      .map(function (a) {
-        var p = a.date.split('-');
-        return '<a class="ab-card" href="news/detail/?id=' + encodeURIComponent(a.id) + '">' +
-                 '<img src="' + (a.image ? AB.root() + '_media/' + a.image
-                                          : AB.ph(420, 280, a.title)) + '" width="420" height="280" alt="' +
-                   AB.esc(a.title) + '" loading="lazy">' +
-                 '<h3>' + AB.esc(a.title) + '</h3>' +
-                 '<p class="ab-card-spec">' + (+p[2]) + ' ' + MONTH[+p[1] - 1] + ' ' + p[0] + '</p>' +
-                 '<p>' + AB.esc(a.excerpt) + '</p></a>';
-      }).join('');
-  }).catch(function () {});
 }());

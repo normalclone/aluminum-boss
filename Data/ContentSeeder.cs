@@ -47,7 +47,8 @@ public static class ContentSeeder
         ("feature",      "Finish samples panel",   false),
         ("projects",     "Recent projects",        false),
         ("gallery",      "Finished work gallery",  false),
-        ("news",         "News strip",             false),
+        // No news strip: the "New" slider above carries the same stories, and the page was
+        // running both. The /news/ page is unaffected, and the header and footer still reach it.
         ("cta",          "Closing call to action", false),
     };
 
