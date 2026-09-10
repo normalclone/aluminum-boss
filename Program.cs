@@ -42,19 +42,25 @@ if (adminEnabled)
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+// Only when the admin is on. With it off nothing reads the database, so there is no reason to
+// create a schema or import a second copy of every document that would immediately go stale.
+//
+// EnsureCreated has to be here rather than inside the seeder: it used to sit in the prototype's
+// seeder, and removing that left the file being created with no tables in it - which the site
+// did not notice, because with the admin off it never asks.
+if (adminEnabled)
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    DbSeeder.Seed(db);
-    // Importing the JSON into the database is only worth doing when the database is what answers
-    // for it. Left running with the admin off it would keep a second, stale copy of every
-    // document that nothing reads.
-    if (adminEnabled) ContentSeeder.Seed(db, app.Environment.WebRootPath);
+    db.Database.EnsureCreated();
+    ContentSeeder.Seed(db, app.Environment.WebRootPath);
 }
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    // A static page, not a controller action: the app no longer has an MVC surface of its
+    // own, and an error page that needs the framework to be working is the wrong shape.
+    app.UseExceptionHandler("/500.html");
     app.UseHsts();
 }
 
@@ -86,18 +92,6 @@ if (adminEnabled)
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
 }
 
-app.MapControllerRoute(
-    name: "productDetail",
-    pattern: "colors/{brand}/{slug}",
-    defaults: new { controller = "Colors", action = "Detail" });
-
-app.MapControllerRoute(
-    name: "newsDetail",
-    pattern: "news/{slug}",
-    defaults: new { controller = "News", action = "Details" });
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+// No conventional routes: every page of the site is a file under wwwroot, and the only
+// controllers left belong to the admin area, which registers its own route above when enabled.
 app.Run();

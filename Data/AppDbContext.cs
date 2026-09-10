@@ -7,8 +7,6 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Product> Products => Set<Product>();
-    public DbSet<NewsArticle> NewsArticles => Set<NewsArticle>();
 
     public DbSet<ContentDocument> ContentDocuments => Set<ContentDocument>();
     public DbSet<ContentRevision> ContentRevisions => Set<ContentRevision>();
@@ -18,14 +16,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>()
-            .HasIndex(p => new { p.BrandSlug, p.Slug })
-            .IsUnique();
-
-        modelBuilder.Entity<NewsArticle>()
-            .HasIndex(a => a.Slug)
-            .IsUnique();
-
         modelBuilder.Entity<ContentDocument>()
             .HasIndex(d => d.Name)
             .IsUnique();
