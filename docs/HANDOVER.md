@@ -38,6 +38,19 @@ Năm màn hình, mỗi cái làm một việc:
 "Phụ kiện nhôm định hình" → `/news/phu-kien-nhom-dinh-hinh/`. Chỉ một lần duy nhất — sau đó sửa
 tiêu đề bao nhiêu lần cũng không làm trang đổi địa chỉ, vì lúc ấy đã có người giữ đường link.
 
+### Ô chọn, thay vì ô gõ
+
+Vài ô trong trình soạn là **danh sách để chọn**, không phải ô để gõ — vì giá trị của chúng bắt
+buộc phải khớp một thứ đã có ở nơi khác:
+
+| Ô | Phải khớp |
+|---|---|
+| **Finish family** của một màu | một dòng trong bảng thông số theo họ — sai là ba dòng Coating / Standard / Colour warranty của màu ấy thành dấu gạch ngang |
+| **Gloss**, **Exposure** của một màu | đúng chữ mà bộ lọc ở trang Colors đang dùng — gõ `satin` thay vì `Satin` là màu ấy **biến mất khỏi bộ lọc** mà không báo gì |
+
+Nếu một ô đang mang giá trị không có trong danh sách, nó vẫn nằm đó, ở đầu danh sách, kèm chữ
+*"— not on the list"*. Chọn một giá trị đúng là xong.
+
 ### Đổi ảnh
 
 Ảnh nào cũng bấm được, kể cả những chỗ đang là **hình vẽ thay thế** — chính chỗ trống đó mới là

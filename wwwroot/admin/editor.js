@@ -339,6 +339,7 @@
     excerpt: 'summary',
     eyebrow: 'small heading',
     familySpecs: 'finish family',
+    family: 'finish family',
     figures: 'specs table',
     lang: 'language',
     // Not "intro": about.json has an "intro" of its own, and two boxes on one screen with the
@@ -352,6 +353,9 @@
     since: 'in operation since',
     spec: 'specification',
     std: 'standard',
+    // "Exposure" is what the specification table on the page calls it, and the client reads that
+    // table; "use" is what the file calls it, and nobody reads the file.
+    use: 'exposure',
   };
 
   // Read by tools/labels.js, which walks every page and names the lists with no entry above.
@@ -623,6 +627,36 @@
         box.appendChild(field);
         inputs[f.address] = held;
         showThumb(held, f.value);
+        return;
+      }
+
+      // A field whose value has to be one of a set is a list, not a box. Typing "satin" where
+      // the filter above the listing matches "Satin" takes that finish out of the filter, and
+      // nothing anywhere says so - the only fix that holds is not offering the wrong answer.
+      //
+      // A value the page reports that is NOT in the list stays in the list as its first option:
+      // somebody has already typed a wrong one, and hiding it would silently change their data
+      // the moment they touched anything else on the page.
+      if (f.kind === 'pick' && f.options && f.options.length) {
+        var choose = document.createElement('select');
+        choose.id = id;
+        choose.setAttribute('data-address', f.address);
+        var offer = f.options.slice();
+        if (offer.indexOf(f.value) < 0) offer.unshift(f.value);
+        offer.forEach(function (o) {
+          var option = document.createElement('option');
+          option.value = o;
+          option.textContent = o + (f.options.indexOf(o) < 0 ? ' — not on the list' : '');
+          choose.appendChild(option);
+        });
+        choose.value = f.value;
+        choose.addEventListener('change', function () {
+          send({ type: 'ab:text', address: f.address, value: choose.value });
+          mark(f.address, choose.value);
+        });
+        field.appendChild(choose);
+        box.appendChild(field);
+        inputs[f.address] = choose;
         return;
       }
 

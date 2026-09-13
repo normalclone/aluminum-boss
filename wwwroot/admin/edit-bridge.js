@@ -14,9 +14,10 @@
       { type: 'ab:list' }                   send the addresses again (after a reload)
 
     page -> editor
-      { type: 'ab:ready', url, fields: [{ address, kind, value, shape? }] }   on load
+      { type: 'ab:ready', url, fields: [{ address, kind, value, shape?, options? }] }  on load
                                           shape = { w, h, from } of an image field's slot,
                                           from = 'attr' (the layout said so) | 'box' (measured)
+                                          options = the only values a 'pick' field may hold
       { type: 'ab:pick', address }                                    someone clicked it
 
   WHAT CAN BE PATCHED LIVE, AND WHAT CANNOT. An address written as data-ab-t, data-ab-lead or
@@ -35,7 +36,7 @@
   if (w.parent === w) return;   // Not in a frame: there is nobody to talk to.
 
   var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines'],
-               ['data-ab-img', 'img']];
+               ['data-ab-img', 'img'], ['data-ab-pick', 'pick']];
 
   // Two kinds of address, and the leading dot says which.
   //
@@ -69,7 +70,7 @@
       var cut = src.indexOf('_media/');
       return cut < 0 ? '' : src.slice(cut + 7);
     }
-    if (kind === 't') return el.textContent;
+    if (kind === 't' || kind === 'pick') return el.textContent;
     if (kind === 'lead') {
       var first = el.firstChild;
       return first && first.nodeType === 3 ? first.data : '';
@@ -92,7 +93,7 @@
       if (el.tagName === 'IMG' && value) el.setAttribute('src', root() + '_media/' + value);
       return;
     }
-    if (kind === 't') { el.textContent = value; return; }
+    if (kind === 't' || kind === 'pick') { el.textContent = value; return; }
     if (kind === 'lead') {
       var first = el.firstChild;
       if (first && first.nodeType === 3) first.data = value;
@@ -108,7 +109,8 @@
   }
 
   function each(fn) {
-    var all = d.querySelectorAll('[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img]');
+    var all = d.querySelectorAll(
+      '[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img],[data-ab-pick]');
     for (var i = 0; i < all.length; i++) {
       var a = attr(all[i]);
       if (a) fn(all[i], a.address, a.kind);
@@ -120,6 +122,9 @@
     each(function (el, address, kind) {
       var f = { address: address, kind: kind, value: read(el, kind) };
       if (kind === 'img') f.shape = shape(el);
+      // The options travel with the field. The editor has no way to know that "gloss" means one
+      // of four words - the page is the only side that has read the file.
+      if (kind === 'pick') f.options = (el.getAttribute('data-ab-opts') || '').split('|');
       out.push(f);
     });
     return out;
@@ -195,7 +200,7 @@
   // editor sends a message, and there is no editor.
   var style = d.createElement('style');
   style.textContent =
-    '[data-ab-t]:hover,[data-ab-lead]:hover,[data-ab-lines]:hover' +
+    '[data-ab-t]:hover,[data-ab-lead]:hover,[data-ab-lines]:hover,[data-ab-pick]:hover' +
     '{outline:1px dashed rgba(31,106,68,.55);outline-offset:2px;cursor:text}' +
     // A picture gets a solid outline and a pointer, not a text cursor: you are not going to
     // type into it, you are going to choose one.

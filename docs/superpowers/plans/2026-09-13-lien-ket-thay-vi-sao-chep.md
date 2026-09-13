@@ -129,7 +129,7 @@ chứng minh địa chỉ trỏ vào vị trí thật trong tệp news chứ kh�
 
 ---
 
-## Task 19: Những trường phải khớp một danh sách, nhưng đang cho gõ tự do
+## Task 19: Những trường phải khớp một danh sách, nhưng đang cho gõ tự do — XONG
 
 Cùng nguyên tắc, một lớp khác. Ba trường của một màu:
 
@@ -156,11 +156,11 @@ sắp có.
 
 ### Các bước
 
-- [ ] **Step 1: `data-ab-pick` + `data-ab-opts` trong bộ ghép và `Verify`.**
-- [ ] **Step 2: Cầu nối báo `kind: 'pick'`.**
-- [ ] **Step 3: Trình soạn vẽ `<select>`.**
-- [ ] **Step 4: Máy chủ từ chối giá trị ngoài danh sách** + phép thử đơn vị.
-- [ ] **Step 5: Verify** — `parity` (một `<select>` ở khu soạn không chạm vào trang công khai),
+- [x] **Step 1: `data-ab-pick` + `data-ab-opts` trong bộ ghép và `Verify`.**
+- [x] **Step 2: Cầu nối báo `kind: 'pick'`.**
+- [x] **Step 3: Trình soạn vẽ `<select>`.**
+- [x] **Step 4: Máy chủ từ chối giá trị ngoài danh sách** + phép thử đơn vị.
+- [x] **Step 5: Verify** — `parity` (một `<select>` ở khu soạn không chạm vào trang công khai),
       `editor-shot`, `labels`, và một phép thử ghi giá trị bậy qua `curl`.
 - [x] **Step 6: Commit.**
 
@@ -173,3 +173,27 @@ sắp có.
 | `projects.albums.N.products` | Đọc như một danh sách sản phẩm, nhưng dữ liệu thật trộn tên sản phẩm (`Bonded Panel`, `Casement 55 TB`) với **tên màu** (`Anodic Black`, `Burma Teak`). Không phải một tập hợp nào cả, nên không có danh sách nào để chọn từ đó. Giữ nguyên phần đã ghi ở Task 15. |
 | `gallery.items.N.cat` | Phải là một `id` trong `gallery.tags`, nhưng nó không phải chữ trên trang — nó là thuộc tính để lọc. Cùng lớp với `highlights.items.N.id`, nên nó thuộc về màn hình danh sách; để lại cho tới khi có người thật cần đổi. |
 | Tiêu đề thẻ luôn lấy của bài | Cả sáu thẻ đang cố tình ngắn hơn. Bỏ ghi đè là vứt đi một quyết định biên tập. Nếu chủ dự án muốn thẻ luôn bằng bài, xoá sáu trường `title` là xong — không cần sửa mã. |
+
+### Kết quả đo
+
+`dotnet test` 79/79 — mười phép thử mới, và chúng hỏi **máy chủ có từ chối không**, chứ không hỏi
+màn hình có vẽ đúng không: `satin` viết thường, `Eggshell`, `Marine` (có thật ở site khác, không
+có trong tệp này), `Wood grain` khi `familySpecs` không có dòng ấy, và chuỗi rỗng. Thêm hai phép
+thử cho hai kiểu hỏng ngược chiều: **một giá trị bị từ chối không được kéo cả lô xuống theo** (mất
+cái ghi chú bên cạnh chỉ vì gõ sai độ bóng là biến một giá trị sai thành một màn hình hỏng), và
+**mọi trường khác vẫn nói được bất cứ điều gì** — kiểm ba trường có tên của một tệp, không phải
+một tâm trạng.
+
+`editor-shot` 12/12 · `labels` 33/33 · `collection` 14/14 ·
+`parity --against baseline/task15` 15/15 — một `<select>` trong khu soạn không chạm vào trang
+công khai, và con số chứng minh điều đó.
+
+Nhãn của hai ô lấy tên mà **trang** gọi chúng, không phải tên tệp gọi: `use` → *exposure* (bảng
+thông số trên trang ghi "Exposure"), `family` → *finish family*.
+
+### Một giá trị sai đã có sẵn thì sao
+
+Ô chọn giữ nguyên nó, ở đầu danh sách, kèm chữ *"— not on the list"*. Bỏ nó ra khỏi danh sách thì
+`<select>` sẽ tự nhảy sang lựa chọn đầu tiên, và lần sau người dùng chạm vào bất cứ thứ gì trên
+trang ấy, một giá trị họ chưa từng chọn sẽ được lưu đè lên. Sửa dữ liệu của người khác trong lúc
+họ không nhìn là đúng thứ mà cả hai task này tồn tại để chặn.

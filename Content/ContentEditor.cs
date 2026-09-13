@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 namespace QlWeb2.Content;
 
@@ -112,6 +113,14 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // Same reason, and the same door. The editor draws these as a list to choose from,
+            // but the list is drawn by a script on a screen, and a screen is not a control.
+            if (Allowed(doc, name, path) is { } only && !only.Contains(change.Value, StringComparer.Ordinal))
+            {
+                rejected.Add(change.Address);
+                continue;
+            }
+
             if (ContentPath.TrySet(doc, path, change.Value))
             {
                 applied++;
@@ -138,6 +147,38 @@ public sealed class ContentEditor
 
     /// <summary>The fields the ten kinds use to name an item, in the order the list screen reads them.</summary>
     private static readonly string[] TitleFields = ["title", "name", "label", "caption"];
+
+    /// <summary>
+    /// The only values an address may hold, or null when it may hold anything.
+    ///
+    /// Three fields of a finish are not sentences, they are one of a set: the gloss and the
+    /// exposure have to match the filter above the listing exactly, and the family has to match a
+    /// row in familySpecs. A value off the list does not fail - it disappears out of a filter, or
+    /// turns three rows of the specification table into em dashes, quietly and much later.
+    ///
+    /// The set is read out of the same document, so it cannot drift away from the thing that has
+    /// to match it. Kept in step with SectionRenderer.PickAddress, which is what puts these
+    /// fields on the screen as a list in the first place.
+    /// </summary>
+    private static List<string>? Allowed(JsonNode doc, string name, string path)
+    {
+        if (!name.Equals("colors", StringComparison.OrdinalIgnoreCase)) return null;
+        if (!ItemField.IsMatch(path)) return null;
+
+        var field = path[(path.LastIndexOf('.') + 1)..];
+        if (field is "gloss" or "use") return Filter(doc, field);
+        if (field is "family")
+            return (doc["familySpecs"] as JsonObject)?.Select(p => p.Key).ToList();
+        return null;
+    }
+
+    private static readonly Regex ItemField =
+        new(@"^items\.\d+\.(gloss|use|family)$", RegexOptions.Compiled);
+
+    private static List<string>? Filter(JsonNode doc, string id)
+        => ((doc["filters"] as JsonArray)?.OfType<JsonNode>()
+                .FirstOrDefault(f => f["id"]?.ToString() == id)?["options"] as JsonArray)
+           ?.OfType<JsonNode>().Select(o => o.ToString()).ToList();
 
     private static readonly System.Text.RegularExpressions.Regex Placeholder =
         new("^new-[0-9a-f]{6}$", System.Text.RegularExpressions.RegexOptions.Compiled);

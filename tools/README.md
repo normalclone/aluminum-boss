@@ -441,6 +441,9 @@ làm nổi lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà ch
 trang có ảnh · mỗi ô ảnh nói được cỡ nên tải lên · bảng chọn ảnh mở ra được và nhắc lại cỡ ấy ·
 và chữ của chính một MỤC (không chỉ chữ của khung trang) sửa được, vá sống được.
 
+`labels.js` đọc cả ô gõ lẫn **ô chọn**: từ Task 19 ba trường của một màu là `<select>`, và cái
+nhãn trên chúng đi qua đúng bảng chữ ấy.
+
 Phép đo cỡ ảnh đọc **số**, không đọc chữ: cái nhãn đổi cách viết lúc nào cũng được, còn quy tắc
 thì không — khuyến nghị không được nhỏ hơn ô thật, và không được vượt 2000 px cạnh dài.
 

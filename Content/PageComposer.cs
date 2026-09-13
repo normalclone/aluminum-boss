@@ -30,6 +30,8 @@ namespace QlWeb2.Content;
 ///                  cannot be wrapped in a span of its own without flattening the mark.
 ///   data-ab-lines  an array of strings, joined with &lt;br&gt;. Addresses and taglines are written
 ///                  as lines in the data rather than as one string with markup in it.
+///   data-ab-pick   the element's text, but it has to be one of the options listed beside it in
+///                  data-ab-opts. Drawn as a list to choose from rather than a box to type in.
 ///   data-ab-count  how many items that list is showing. The one address nobody types a value
 ///                  into: a tally written by hand goes wrong the first time somebody hides
 ///                  something, and goes wrong silently.
@@ -455,7 +457,7 @@ public sealed class PageComposer
                           .Select(m => (At: m.Index, Name: m.Groups[1].Value))
                           .ToList();
 
-        foreach (Match m in Regex.Matches(html, @"data-ab-(?:t|lead|lines)=""([^""]+)"""))
+        foreach (Match m in Regex.Matches(html, @"data-ab-(?:t|lead|lines|pick)=""([^""]+)"""))
         {
             var address = m.Groups[1].Value;
 

@@ -232,6 +232,39 @@ public sealed class SectionRenderer
     private static string Or(string mine, string theirs) => mine.Length > 0 ? mine : theirs;
 
     /// <summary>
+    /// An address whose value has to be one of a set that already exists.
+    ///
+    /// A finish's gloss is not a sentence, it is one of four words, and the filter above the list
+    /// matches on it exactly. Typed as "satin" instead of "Satin" that finish simply stops
+    /// appearing under Gloss, and nothing anywhere says so. The options travel with the address
+    /// so the editor can offer them; they are read out of the same document, so they cannot drift
+    /// away from the filter that has to match them.
+    ///
+    /// Empty when there are no options to offer - an address with an empty list would be a box
+    /// nobody can put anything in.
+    /// </summary>
+    private static string PickAddress(JsonNode? item, string field, IReadOnlyList<string> options)
+        => item is null || options.Count == 0 ? TextAddress(item, field)
+         : " data-ab-pick=\"." + Esc(Where(item, field)) + "\""
+         + " data-ab-opts=\"" + Esc(string.Join("|", options)) + "\"";
+
+    /// <summary>The options one of the listing's filters offers, in the order the file holds them.</summary>
+    private static List<string> Options(JsonNode doc, string filterId)
+        => ((doc["filters"] as JsonArray)?.OfType<JsonNode>()
+                .FirstOrDefault(f => Str(f, "id") == filterId)?["options"] as JsonArray)
+           ?.OfType<JsonNode>().Select(o => o.ToString()).ToList() ?? [];
+
+    /// <summary>
+    /// The finish families, taken from the table they are keys into rather than from the filter.
+    ///
+    /// The filter lists the same five words, but this value's job is to find a row in
+    /// familySpecs: a family offered here that has no row there would give the colour three
+    /// em dashes where its coating, standard and warranty belong.
+    /// </summary>
+    private static List<string> Families(JsonNode doc)
+        => (doc["familySpecs"] as JsonObject)?.Select(p => p.Key).ToList() ?? [];
+
+    /// <summary>
     /// The attribute that lets the editor point at a word.
     ///
     /// The same idea as <see cref="ImgAddress"/> and, until now, the one this renderer did not
@@ -1230,12 +1263,14 @@ public sealed class SectionRenderer
         (string K, string V, string A)[] rows =
         [
             ("Code", Str(c, "code"), TextAddress(c, "code")),
-            // No address: "family" is the key this colour's coating, standard and warranty are
-            // looked up under. Editing it here would not rename the family - it would take this
-            // one colour out of it, and three rows of its own table would turn into em dashes.
-            ("Finish", family, string.Empty),
-            ("Gloss", Str(c, "gloss"), TextAddress(c, "gloss")),
-            ("Exposure", Str(c, "use"), TextAddress(c, "use")),
+            // "family" is the key this colour's coating, standard and warranty are looked up
+            // under, so it used to carry no address at all: typed free-hand it would not rename
+            // the family, it would take this one colour out of it and turn three rows of its own
+            // table into em dashes. As a list of the families that exist, it is safe, and it is
+            // the only way to move a colour between families without opening the file.
+            ("Finish", family, PickAddress(c, "family", Families(doc))),
+            ("Gloss", Str(c, "gloss"), PickAddress(c, "gloss", Options(doc, "gloss"))),
+            ("Exposure", Str(c, "use"), PickAddress(c, "use", Options(doc, "use"))),
             ("Coating", Spec(spec, "layer"), TextAddress(spec, "layer")),
             ("Standard", Spec(spec, "std"), TextAddress(spec, "std")),
             ("Colour warranty", Spec(spec, "warranty"), TextAddress(spec, "warranty")),
