@@ -221,6 +221,32 @@ public sealed class SectionRenderer
     /// <summary>The same, seen from another item's page one directory along.</summary>
     private static string SiblingHref(JsonNode? item) => "../" + Href(item);
 
+    /// <summary>
+    /// Every slug a section has a page for, in the order the file holds them.
+    ///
+    /// Hidden items are not here: Arr filters them, so an item taken down stops appearing in the
+    /// sitemap on the same request that it stops appearing on the page. A sitemap listing a URL
+    /// that answers 404 is worse than a short sitemap.
+    /// </summary>
+    public List<string> SlugsFor(string section)
+    {
+        var doc = DocFor(section);
+        return doc is null ? [] : DetailItems(section, doc).Select(Slug).ToList();
+    }
+
+    /// <summary>
+    /// The item a detail section is showing, or null.
+    ///
+    /// The head of the page needs the same item the body got - the title, the description and the
+    /// structured data all describe it - and asking twice is how the two end up describing
+    /// different things.
+    /// </summary>
+    public JsonNode? ItemFor(string section, string? itemId)
+    {
+        var doc = DocFor(section);
+        return doc is null ? null : Pick(section, doc, itemId);
+    }
+
     /// <summary>The markup for a named section, or null when the name is not one we render.</summary>
     public string? Render(string section, string rootPrefix, string? itemId = null)
     {

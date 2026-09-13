@@ -520,19 +520,21 @@ Highlights · Applications · Export routes · Factories.
 
 ---
 
-## Task 13: SEO và máy trả lời
+## Task 13: SEO và máy trả lời — XONG
 
 **Files:**
 - Create: `Content/StructuredData.cs`, `Content/SiteFiles.cs`
 - Modify: `Areas/Admin/Views/Collection/Edit.cshtml` (ô SEO)
 
-- [ ] **Step 1: Ô SEO từng mục** — title, description, ảnh chia sẻ, canonical, chặn lập chỉ mục
-- [ ] **Step 2: Danh sách kiểm** — câu trả lời trong 2 câu đầu; số liệu kèm đơn vị; tiêu đề nêu
+- [x] **Step 1: SEO từng mục** — title, description, og:image, canonical, og:type — **suy ra từ
+      chính các trường của mục**, và `seoTitle`/`seoDescription` ghi đè nếu ai đó viết. 94 ô nhập
+      SEO rỗng thì tệ hơn là suy ra.
+- [x] **Step 2: Danh sách kiểm** — câu trả lời trong 2 câu đầu; số liệu kèm đơn vị; tiêu đề nêu
   thực thể; ảnh có alt; mô tả 120–160 ký tự
-- [ ] **Step 3: JSON-LD** — Organization, 5 LocalBusiness, Product, NewsArticle, BreadcrumbList
-- [ ] **Step 4: `sitemap.xml`, `robots.txt` (công tắc từng bot), `llms.txt`**
-- [ ] **Step 5: Verify** — kiểm JSON-LD bằng bộ kiểm schema.org; `sitemap.xml` liệt kê đủ trang
-- [ ] **Step 6: Commit**
+- [x] **Step 3: JSON-LD** — Organization, 5 LocalBusiness, Product, NewsArticle, BreadcrumbList
+- [x] **Step 4: `sitemap.xml` (102 URL), `robots.txt` (8 bot, công tắc trong `site.json`), `llms.txt`** — sinh ra chứ không lưu sẵn
+- [x] **Step 5: Verify** — `tools/seo.js`, 8/8
+- [x] **Step 6: Commit**
 
 ---
 

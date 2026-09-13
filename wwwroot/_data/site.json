@@ -1,5 +1,15 @@
 {
   "_note": "Khung cua site. Menu va cau hero theo nguyen mau PDF — khong tu doi ten.",
+  "origin": "https://aluminumboss.example",
+  "robots": {
+    "GPTBot": true,
+    "ClaudeBot": true,
+    "PerplexityBot": true,
+    "CCBot": true,
+    "Google-Extended": true,
+    "Applebot-Extended": true,
+    "Bytespider": false
+  },
   "wordmark": {
     "lead": "Aluminum",
     "tail": "Böss"
