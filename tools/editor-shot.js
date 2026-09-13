@@ -81,7 +81,20 @@ async function open(page, path) {
   const typed = 'Da sua luc ' + new Date().toISOString().slice(11, 19);
   await first.fill(typed);
   await wait(400);
-  const at = a => '[data-ab-t="' + a + '"],[data-ab-lead="' + a + '"],[data-ab-lines="' + a + '"]';
+  // Hai dang dia chi trong trang, va phai tim duoc ca hai.
+  //
+  // Chu cua khuon mang dia chi day du ("site.nav.1.label"). Chu do bo dung sinh ra mang dia chi
+  // TUONG DOI - ".categories.0.name" - kem mot dau ten tep tren khoi bao quanh; trinh soan ghep
+  // hai manh lai truoc khi hien ra. Phep thu nay tung chi tim dang thu nhat, va no qua duoc chi
+  // vi o nhap dau tien tinh co la cua khuon. Den ngay danh sach o doi thu tu thi no gay.
+  const at = a => {
+    const cut = a.indexOf('.');
+    const doc = a.slice(0, cut), rel = a.slice(cut);
+    const kinds = ['t', 'lead', 'lines'];
+    return kinds.map(k => '[data-ab-' + k + '="' + a + '"]')
+      .concat(kinds.map(k => '[data-ab-doc="' + doc + '"] [data-ab-' + k + '="' + rel + '"]'))
+      .join(',');
+  };
   const inFrame = await frame(page).locator(at(address)).first().textContent();
   // data-ab-lead la doan chu TRUOC the con dau tien, nen textContent con keo theo phan con lai.
   check('go chu -> xem thu doi', inFrame.trim().startsWith(typed),

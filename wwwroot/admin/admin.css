@@ -141,8 +141,13 @@ button.ad-save:hover, .ad-btn:hover { background: #000; }
 .ad-note { display: block; color: var(--ad-mute); font-size: 13px; margin-top: 2px; }
 .ad-state { border: 1px solid var(--ad-line); border-radius: 3px; padding: 4px 10px; background: #fff; }
 tr.is-off .ad-state { border-style: dashed; }
-.ad-order { width: 1%; white-space: nowrap; display: flex; gap: 5px; padding-top: 15px; }
-.ad-order form { display: inline; }
+/* Not display:flex. A td set to flex stops being a table cell: its border-bottom then wraps the
+   two buttons instead of crossing the row, which left a gap in every separator line, and it sat
+   at its own height - the padding-top:15px here was somebody nudging it back into line. Inline
+   blocks put the buttons side by side without taking the cell out of the table. */
+.ad-order { width: 1%; white-space: nowrap; }
+.ad-order form { display: inline-block; }
+.ad-order form + form { margin-left: 5px; }
 .ad-right-cell { width: 1%; white-space: nowrap; text-align: right; }
 .ad-right-cell form { display: inline; margin-left: 12px; }
 
@@ -178,3 +183,10 @@ tr.is-off .ad-state { border-style: dashed; }
 .ad-enquiry dl > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; }
 .ad-enquiry dt { color: var(--ad-mute); font-size: 13px; }
 .ad-enquiry dd { margin: 0; white-space: pre-wrap; }
+
+/* A heading for structure, not for the eye: on a screen whose title is already carried by the
+   nav and the preview bar, a second visible one would be a third place saying the same thing. */
+.ad-sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}

@@ -13,6 +13,11 @@
    panel positioned against it. *@
 <div hidden>@Html.AntiForgeryToken()</div>
 
+@* Every other screen opens with an h1. This one is an app shell - the nav says where you
+   are and the bar over the preview says which page - so the heading is there for structure
+   rather than for the eye, and carries the page being edited because that is what changes. *@
+<h1 class="ad-sr">Edit pages — @current</h1>
+
 <div class="ed" data-ed-page="@current">
     <div class="ed-side">
         <div class="ed-pick">

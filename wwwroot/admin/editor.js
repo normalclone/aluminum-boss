@@ -225,6 +225,11 @@
   // An address reads document.rest.of.the.path, so the first piece names the file the words live
   // in. Grouping by it turns a flat list of sixty addresses into "Site" and "Products" and
   // "About" - the same shape the client already has in their head.
+  // The one group that is on every page: the wordmark, the menu, the footer. It goes last and
+  // starts closed, because it is the same on all fifteen pages and what a page is ABOUT is why
+  // somebody opened this screen.
+  var CHROME = 'Site';
+
   function group(address) {
     var name = address.split('.')[0];
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -232,21 +237,45 @@
 
   // The address is a path into a JSON file, and the client was promised they would never have to
   // look at one. "nav.0.label" is three pieces of plumbing saying one thing: the second item in
-  // the menu. Number from one, because nobody outside this trade counts from zero, and drop the
-  // role word when it is the same on every field in the group. The exact address stays as the
-  // field's tooltip - it is what you need when something does not update and you are asking why.
+  // the menu. Number from one, because nobody outside this trade counts from zero. The exact
+  // address stays as the field's tooltip - it is what you need when something does not update
+  // and you are asking why.
+  //
+  // The role word - label, name, title - is dropped only when the thing it belongs to has
+  // nothing else: a menu item IS its label, so "Nav #1 label" says it twice. A product family
+  // has a name, a tagline and a picture, and there "Categories #1" on the name box reads like a
+  // heading for all three. The comment here used to claim that rule; the code dropped the word
+  // whenever the path had a number in it, which is not the same thing at all.
   var ROLE = /^(label|lead|tail|text|title|heading|name)$/;
 
-  // "4:3" rather than 1.333: the number somebody types into a cropping tool.
+  /** Addresses whose parent holds nothing else - those are the ones that lose their role word. */
+  function alone(fields) {
+    var count = {};
+    fields.forEach(function (f) {
+      var parent = f.address.slice(0, f.address.lastIndexOf('.'));
+      count[parent] = (count[parent] || 0) + 1;
+    });
+    var out = {};
+    fields.forEach(function (f) {
+      out[f.address] = count[f.address.slice(0, f.address.lastIndexOf('.'))] === 1;
+    });
+    return out;
+  }
+
+  // "4:3" rather than 1.333: the number somebody types into a cropping tool. Same rule as
+  // Placeholder.Ratio on the server, so the box and the grey rectangle behind it never disagree
+  // - a second rule written here would drift from that one within a month.
   function ratio(s) {
     var a = s.w, b = s.h;
     while (b) { var t = b; b = a % b; a = t; }
     var w = s.w / a, h = s.h / a;
-    // A ratio nobody can use is worse than none; fall back to one decimal place.
-    return (w > 30 || h > 30) ? (s.w / s.h).toFixed(1) + ':1' : w + ':' + h;
+    if (w <= 32 && h <= 32) return w + ':' + h;
+    return s.w >= s.h ? round2(s.w / s.h) + ':1' : '1:' + round2(s.h / s.w);
   }
 
-  function label(address) {
+  function round2(v) { return Math.round(v * 100) / 100; }
+
+  function label(address, drop) {
     var parts = address.split('.').slice(1);
     var role = parts.length > 1 && ROLE.test(parts[parts.length - 1]) ? parts.pop() : '';
     var numbered = false;
@@ -255,7 +284,8 @@
       numbered = true;
       return '#' + (+p + 1);
     }).join(' ');
-    if (role && !numbered) out += ' ' + role;
+    if (role && !drop) out += ' ' + role;
+    if (!out) out = role;
     return out.charAt(0).toUpperCase() + out.slice(1);
   }
 
@@ -272,31 +302,49 @@
     // wordmark is in the header and the footer, a product family's name is in the hero, in the
     // tile below it and in the band heading - and the page patches every one of them as you
     // type. Two boxes holding the same words is two places to wonder which one is real.
-    var current = null, box = null, done = {};
+    //
+    // And the page's own words first, the site chrome last. The page reports its fields in the
+    // order they sit in the document, which puts the header before everything: somebody who
+    // clicked Edit on a new product landed on the wordmark and seven menu labels, and had to
+    // scroll past thirty-eight boxes to reach the thing they came for. The header and footer are
+    // on every page and are edited once a year; what this page is ABOUT is the reason to be here.
+    var only = alone(fields);
+    var ordered = [], seen = {}, done = {};
     fields.forEach(function (f) {
       if (done[f.address]) return;
       done[f.address] = true;
+      var g = group(f.address);
+      if (!seen[g]) { seen[g] = []; ordered.push(g); }
+      seen[g].push(f);
+    });
+    ordered.sort(function (a, b) {
+      return (a === CHROME ? 1 : 0) - (b === CHROME ? 1 : 0);
+    });
 
-      if (group(f.address) !== current) {
-        current = group(f.address);
-        var section = document.createElement('details');
-        section.className = 'ed-group';
-        section.open = true;
-        var head = document.createElement('summary');
-        head.textContent = current;
-        section.appendChild(head);
-        box = document.createElement('div');
-        section.appendChild(box);
-        list.appendChild(section);
-      }
+    // The site chrome starts closed. It is on every page, it is right where it always is, and
+    // leaving it open is what pushed the page's own words off the bottom of the column.
+    var box = null;
+    ordered.forEach(function (name) {
+      var section = document.createElement('details');
+      section.className = 'ed-group';
+      section.open = name !== CHROME;
+      var head = document.createElement('summary');
+      head.textContent = name + (name === CHROME ? ' — header and footer' : '');
+      section.appendChild(head);
+      box = document.createElement('div');
+      section.appendChild(box);
+      list.appendChild(section);
+      seen[name].forEach(draw);
+    });
 
+    function draw(f) {
       var field = document.createElement('div');
       field.className = 'ed-field';
       var id = 'f-' + f.address.replace(/[^a-z0-9]+/gi, '-');
 
       var cap = document.createElement('label');
       cap.setAttribute('for', id);
-      cap.textContent = label(f.address);
+      cap.textContent = label(f.address, only[f.address]);
       cap.title = f.address;
       field.appendChild(cap);
 
@@ -355,7 +403,7 @@
 
       box.appendChild(field);
       inputs[f.address] = input;
-    });
+    }
   }
 
   function reveal(address) {

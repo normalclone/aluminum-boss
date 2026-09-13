@@ -276,6 +276,38 @@ python json-fallback.py --check    # chỉ báo có lệch không, thoát 1 nế
 
 ---
 
+## `admin-shots.js` — mọi màn hình trong khu quản trị, chụp lại
+
+Bộ đo còn lại kiểm **hành vi**: `collection.js` hỏi "thêm rồi xoá có trả về nguyên văn không",
+`editor-shot.js` hỏi "gõ chữ thì khung xem thử có đổi không". Không cái nào trả lời được câu
+**"màn hình ấy trông ra sao"** — một bảng không có dòng nào, một nút không có nhãn, một dòng kẻ
+đứt quãng, đều đi qua cả hai mà không ai biết.
+
+```bash
+node admin-shots.js http://localhost:5199
+node admin-shots.js http://localhost:5199 --width 390 --out C:/tmp/shots
+```
+
+Chụp 30 ảnh, theo đúng thứ tự một người gặp chúng: đăng nhập → màn soạn → bảng chọn ảnh → mười
+màn danh sách → Pictures → Enquiries → History → đổi mật khẩu. Rồi đi hết **một đường thật**:
+Content → Products → Add an item → Edit → gõ tên → Save → trang công khai → Delete → xác nhận →
+đã dọn sạch, và đối chiếu `products.json` với lúc bắt đầu.
+
+Ba thứ nó tự bắt được bằng máy, và đều là thứ mắt lướt qua sẽ bỏ sót: trang lỗi của ASP.NET, màn
+hình không có `<h1>` nào (khung layout vẽ được nhưng nội dung thì không), và lỗi script trong
+console.
+
+> **Bốn thứ nó tìm ra ngay lần chạy đầu:** khu quản trị không khai báo icon nên mọi trang xin
+> `/favicon.ico` và nhận 404; màn soạn là màn duy nhất không có `<h1>`; ô nhập của chính mục
+> đang sửa nằm **dưới** ba mươi tám ô của header và footer; và cột Order đặt `display:flex` lên
+> một `<td>` nên ô ấy thôi làm ô bảng — đường kẻ ngang đứt một đoạn ở mỗi dòng.
+
+Nó cũng chụp bốn màn hình **đã tháo khỏi menu** từ Task 11. "đạt" ở đó nghĩa là còn vẽ được,
+KHÔNG nghĩa là còn dùng được: nút Save của chúng ghi vào những bảng bộ ghép không đọc. Ai có địa
+chỉ vẫn vào được.
+
+---
+
 ## `canvas-titles.py` — ba con số cuối cùng còn nằm trong HTML
 
 Chạy một lần, giữ lại vì nó là bản ghi của việc đã làm và vì `--check` trả lời được câu "đã làm
