@@ -22,15 +22,6 @@ namespace QlWeb2.Areas.Admin.Controllers;
 [Authorize]
 public class HistoryController : Controller
 {
-    /// <summary>
-    /// How far back the history goes.
-    ///
-    /// Fifty per document is weeks of ordinary editing and a few minutes of a bad afternoon. It
-    /// is a limit rather than a promise: the git history of this repository is the real archive,
-    /// and this is the one the client can reach without asking anybody.
-    /// </summary>
-    private const int Keep = 50;
-
     private readonly AppDbContext _db;
     private readonly ContentStore _store;
     private readonly ContentEditor _editor;
@@ -92,22 +83,9 @@ public class HistoryController : Controller
             await _db.SaveChangesAsync();
         }
 
-        await Trim(revision.Name);
+        await RevisionLog.TrimAsync(_db, revision.Name);
         TempData["Flash"] = $"Restored {revision.Name} to the version from "
                           + revision.SavedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm") + ".";
         return RedirectToAction(nameof(Index), new { name = revision.Name });
-    }
-
-    private async Task Trim(string name)
-    {
-        var old = await _db.ContentRevisions
-            .Where(r => r.Name == name)
-            .OrderByDescending(r => r.SavedAt)
-            .Skip(Keep)
-            .ToListAsync();
-
-        if (old.Count == 0) return;
-        _db.ContentRevisions.RemoveRange(old);
-        await _db.SaveChangesAsync();
     }
 }

@@ -128,6 +128,10 @@ public sealed class SiteFiles
             sb.Append("## ").Append(heading).Append("\n\n");
             foreach (var item in (_store.Get(doc)?[key] as JsonArray)?.OfType<JsonNode>() ?? [])
             {
+                // A hidden item's page answers 404, and sitemap.xml already leaves it out. Listing
+                // it here would be the one file still telling a crawler to go and fetch it.
+                if (item["visible"] is JsonValue v && v.TryGetValue<bool>(out var yes) && !yes) continue;
+
                 var slug = item["slug"]?.ToString() ?? item["id"]?.ToString() ?? "";
                 if (slug.Length == 0) continue;
                 sb.Append("- [").Append(item[title]?.ToString()).Append("](")

@@ -55,6 +55,17 @@
     saveBtn.textContent = 'Save changes';
   }
 
+  // The same URL with a placeholder id swapped for the slug it became. The placeholders are
+  // minted by the server and cannot occur in anything else on the page, so a plain replace is
+  // safe; a page with no id in it comes back untouched.
+  function moved(url, renamed) {
+    if (!renamed) return url;
+    Object.keys(renamed).forEach(function (was) {
+      url = url.split(was).join(renamed[was]);
+    });
+    return url;
+  }
+
   function save() {
     var edits = Object.keys(dirty).map(function (a) { return { address: a, value: dirty[a] }; });
     if (!edits.length) return Promise.resolve();
@@ -70,7 +81,10 @@
       // Reload rather than trust the patched copy. A picture that replaced a coloured square, or
       // a word that also appears in a heading built by the server, only comes out right when the
       // page is built again - and after a save the page on disk is the truth.
-      frame.src = frame.src;
+      //
+      // Sometimes that truth is at a different address: naming a new item for the first time
+      // turns new-3f9a2c into a real slug, and the frame is still pointed at the old one.
+      frame.src = moved(frame.src, r.renamed);
     }).catch(function () {
       saveBtn.disabled = false;
       saveBtn.textContent = 'Save changes';

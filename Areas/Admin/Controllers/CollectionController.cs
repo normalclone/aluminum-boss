@@ -40,7 +40,17 @@ public class CollectionController : Controller
     /// slug; the other three live on the home page and are edited there, which is why their page
     /// is "/" and their items have no link of their own.
     /// </summary>
-    public record Kind(string Key, string Label, string Document, string Array, string Page)
+    /// <param name="CanAdd">
+    /// Whether a new item of this kind can be filled in once it exists.
+    ///
+    /// False for the two canvas blocks. What makes a route a route is its waypoints - forty
+    /// latitude/longitude pairs - and what makes a factory a factory is where it sits on the map.
+    /// None of that is text on the page, so none of it has an address, so a route added here
+    /// would be a blank line in the legend that nobody can ever complete. Hiding, reordering and
+    /// removing still work: those need no new coordinates.
+    /// </param>
+    public record Kind(string Key, string Label, string Document, string Array, string Page,
+                       bool CanAdd = true)
     {
         public bool HasOwnPage => Page != "/";
     }
@@ -55,8 +65,8 @@ public class CollectionController : Controller
         new("gallery",      "Gallery",       "gallery",      "items",      "/"),
         new("highlights",   "Highlights",    "highlights",   "items",      "/"),
         new("applications", "Applications",  "applications", "tabs",       "/"),
-        new("routes",       "Export routes", "globe",        "routes",     "/"),
-        new("factories",    "Factories",     "factories",    "sites",      "/"),
+        new("routes",       "Export routes", "globe",        "routes",     "/", CanAdd: false),
+        new("factories",    "Factories",     "factories",    "sites",      "/", CanAdd: false),
     ];
 
     public IActionResult Index()
@@ -88,6 +98,9 @@ public class CollectionController : Controller
         var kind = Kinds.FirstOrDefault(k => k.Key == id);
         if (kind is null) return NotFound();
         if (!Enum.TryParse<ContentEditor.Op>(op, ignoreCase: true, out var what)) return BadRequest();
+        // The button is not on the screen for these two, so this is only reached by hand - but
+        // the door has to be shut here as well, because the screen is not the only way in.
+        if (what == ContentEditor.Op.Add && !kind.CanAdd) return BadRequest();
 
         var address = what == ContentEditor.Op.Add
             ? $"{kind.Document}.{kind.Array}"
@@ -206,6 +219,10 @@ public class CollectionController : Controller
                 SavedBy = User.Identity?.Name ?? "editor",
             });
         }
-        if (result.Previous.Count > 0) await _db.SaveChangesAsync();
+        if (result.Previous.Count > 0)
+        {
+            await _db.SaveChangesAsync();
+            await RevisionLog.TrimAsync(_db, result.Previous.Keys);
+        }
     }
 }

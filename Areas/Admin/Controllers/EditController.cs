@@ -139,13 +139,20 @@ public class EditController : Controller
                 SavedBy = User.Identity?.Name ?? "editor",
             });
         }
-        if (result.Previous.Count > 0) await _db.SaveChangesAsync();
+        if (result.Previous.Count > 0)
+        {
+            await _db.SaveChangesAsync();
+            await RevisionLog.TrimAsync(_db, result.Previous.Keys);
+        }
 
         return Json(new
         {
             saved = result.Applied,
             rejected = result.Rejected,
             documents = result.Previous.Keys,
+            // A new item that was just given a title also just got its address. The screen is
+            // still looking at the placeholder one, which stopped existing a line ago.
+            renamed = result.Renamed,
         });
     }
 

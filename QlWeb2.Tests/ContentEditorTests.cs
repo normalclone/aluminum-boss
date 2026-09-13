@@ -132,4 +132,109 @@ public class ContentEditorTests : IDisposable
         _editor.Apply([new ContentEditor.Change("news.items.0.title", "Door’s accessory")]);
         Assert.Contains("Door’s accessory", OnDisk());
     }
+
+    /* ---- a new item is given an address by being given a name ------------------------- */
+
+    [Fact]
+    public void Titling_a_brand_new_item_turns_its_placeholder_id_into_a_slug()
+    {
+        // "Add an item" cannot know the title, so it writes new-3f9a2c. Without this the first
+        // article a client writes lives at /news/new-3f9a2c/ for as long as the site does.
+        _editor.Structure("news.items", ContentEditor.Op.Add);
+        var made = ContentPath.Resolve(_store.Get("news"), "items.0.id")!;
+        Assert.StartsWith("new-", made);
+
+        var result = _editor.Apply([new ContentEditor.Change("news.items.0.title", "Press line 2,500 t")]);
+
+        Assert.Equal("press-line-2-500-t", ContentPath.Resolve(_store.Get("news"), "items.0.id"));
+        Assert.Equal("press-line-2-500-t", result.Renamed![made]);
+    }
+
+    [Fact]
+    public void Renaming_happens_once_and_never_again()
+    {
+        // After the first save the address is public. Fixing a typo in the headline must not
+        // move the page out from under everyone who has the link.
+        _editor.Apply([new ContentEditor.Change("news.items.0.title", "A different headline")]);
+
+        Assert.Equal("press-line-2500", ContentPath.Resolve(_store.Get("news"), "items.0.id"));
+        Assert.Empty(_editor.Apply([new ContentEditor.Change("news.items.1.title", "Another")]).Renamed!);
+    }
+
+    [Fact]
+    public void A_title_that_is_already_taken_costs_a_suffix_not_the_save()
+    {
+        _editor.Structure("news.items", ContentEditor.Op.Add);
+        _editor.Apply([new ContentEditor.Change("news.items.0.title", "A press")]);
+
+        // news.items already holds "press-line-2500"; the collision is with the slug this title
+        // makes, "a-press", only once there are two of them.
+        _editor.Structure("news.items", ContentEditor.Op.Add);
+        var result = _editor.Apply([new ContentEditor.Change("news.items.0.title", "A press")]);
+
+        Assert.Equal(1, result.Applied);
+        Assert.Equal("a-press-2", ContentPath.Resolve(_store.Get("news"), "items.0.id"));
+    }
+
+    [Fact]
+    public void A_title_with_nothing_url_shaped_in_it_leaves_the_placeholder_alone()
+    {
+        // An id is a URL. Better a placeholder somebody can still read than an empty path segment.
+        _editor.Structure("news.items", ContentEditor.Op.Add);
+        _editor.Apply([new ContentEditor.Change("news.items.0.title", "?!?")]);
+
+        Assert.StartsWith("new-", ContentPath.Resolve(_store.Get("news"), "items.0.id"));
+    }
+
+    [Theory]
+    [InlineData("Nhôm định hình", "nhom-dinh-hinh")]
+    [InlineData("Đường ống dẫn", "duong-ong-dan")]
+    [InlineData("  Two  spaces  ", "two-spaces")]
+    [InlineData("QUALICOAT class 2", "qualicoat-class-2")]
+    [InlineData("Door’s accessory", "door-s-accessory")]
+    public void Writes_a_title_the_way_a_path_segment_has_to_be_written(string title, string slug)
+    {
+        // The client writes Vietnamese. What comes out has to satisfy the same expression
+        // tools/slugs.py checks every id against.
+        Assert.Equal(slug, ContentEditor.Slugify(title));
+        Assert.Matches("^[a-z0-9]+(-[a-z0-9]+)*$", ContentEditor.Slugify(title));
+    }
+
+    [Fact]
+    public void Two_documents_in_different_categories_cannot_take_the_same_address()
+    {
+        // Documents is the one list the site flattens: one page per file regardless of the
+        // heading it is filed under. Two files in different categories never look like
+        // neighbours on the screen, which is exactly why two of them get the same name.
+        File.WriteAllText(Path.Combine(_root, "_data", "documents.json"), """
+        {
+          "categories": [
+            { "name": "Catalogues", "items": [ { "id": "profile-catalogue", "title": "Profiles" } ] },
+            { "name": "Technical",  "items": [ { "id": "new-a1b2c3",        "title": "" } ] }
+          ]
+        }
+        """);
+        var store = new ContentStore(Path.Combine(_root, "_data"));
+        var editor = new ContentEditor(store, _root);
+
+        editor.Apply([new ContentEditor.Change("documents.categories.1.items.0.title", "Profiles")]);
+
+        Assert.Equal("profiles", ContentPath.Resolve(store.Get("documents"), "categories.1.items.0.id"));
+
+        // And now the collision the flattening makes possible.
+        File.WriteAllText(Path.Combine(_root, "_data", "documents.json"), """
+        {
+          "categories": [
+            { "name": "Catalogues", "items": [ { "id": "profiles", "title": "Profiles" } ] },
+            { "name": "Technical",  "items": [ { "id": "new-a1b2c3", "title": "" } ] }
+          ]
+        }
+        """);
+        store = new ContentStore(Path.Combine(_root, "_data"));
+        editor = new ContentEditor(store, _root);
+
+        editor.Apply([new ContentEditor.Change("documents.categories.1.items.0.title", "Profiles")]);
+
+        Assert.Equal("profiles-2", ContentPath.Resolve(store.Get("documents"), "categories.1.items.0.id"));
+    }
 }

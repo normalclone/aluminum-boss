@@ -103,5 +103,8 @@
     }
   ],
   "lede": "Five factories take billet to finished profile, spread the length of the country from the northern casting lines to the export packing halls in the south.",
-  "title": "Five factories, one coastline."
+  "title": {
+    "lead": "Five factories, ",
+    "tail": "one coastline"
+  }
 }

@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -59,7 +61,13 @@ public sealed class ContentEditor
     /// before, keyed by name - the caller records those as revisions, which is the whole of what
     /// "undo" will be built from.
     /// </summary>
-    public record Result(int Applied, List<string> Rejected, Dictionary<string, string?> Previous);
+    /// <param name="Renamed">
+    /// Placeholder id → the slug it became, for the items that were just given a title. The
+    /// screen that asked for the save is looking at the old address; this is how it learns where
+    /// the page went.
+    /// </param>
+    public record Result(int Applied, List<string> Rejected, Dictionary<string, string?> Previous,
+                         Dictionary<string, string>? Renamed = null);
 
     /// <summary>
     /// Applies a batch of changes and writes every document one of them touched.
@@ -70,6 +78,7 @@ public sealed class ContentEditor
     public Result Apply(IEnumerable<Change> changes)
     {
         var rejected = new List<string>();
+        var renamed = new Dictionary<string, string>(StringComparer.Ordinal);
         var touched = new Dictionary<string, JsonNode>(StringComparer.OrdinalIgnoreCase);
 
         // Loaded is not the same as changed. A batch whose only address is a typo would otherwise
@@ -103,7 +112,12 @@ public sealed class ContentEditor
                 continue;
             }
 
-            if (ContentPath.TrySet(doc, path, change.Value)) { applied++; changed.Add(name); }
+            if (ContentPath.TrySet(doc, path, change.Value))
+            {
+                applied++;
+                changed.Add(name);
+                Named(doc, path, change.Value, renamed);
+            }
             else rejected.Add(change.Address);
         }
 
@@ -119,7 +133,74 @@ public sealed class ContentEditor
             _log?.LogWarning("Bỏ qua {Count} địa chỉ không có thật: {Addr}",
                 rejected.Count, string.Join(", ", rejected.Take(5)));
 
-        return new Result(applied, rejected, previous);
+        return new Result(applied, rejected, previous, renamed);
+    }
+
+    /// <summary>The fields the ten kinds use to name an item, in the order the list screen reads them.</summary>
+    private static readonly string[] TitleFields = ["title", "name", "label", "caption"];
+
+    private static readonly System.Text.RegularExpressions.Regex Placeholder =
+        new("^new-[0-9a-f]{6}$", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    /// <summary>
+    /// Turns the placeholder id of a brand-new item into a slug made from the title it was just
+    /// given, and records the rename.
+    ///
+    /// An id is a URL from the moment the item is saved. "Add an item" cannot know the title yet,
+    /// so it writes <c>new-3f9a2c</c>; without this, the first article a client writes would live
+    /// at <c>/news/new-3f9a2c/</c> for as long as the site does. Renaming happens once, on the
+    /// save that first names the item, and never again: after that the address is public, people
+    /// have it, and moving it is a decision rather than a side effect of fixing a typo.
+    ///
+    /// No redirect is written, deliberately. Nothing has ever linked to a placeholder - it was
+    /// minted minutes ago on a screen only the owner can reach - and a redirect table filling up
+    /// with <c>new-xxxxxx</c> lines would be noise in the one file that has to stay readable.
+    /// </summary>
+    private static void Named(JsonNode doc, string path, string value, Dictionary<string, string> renamed)
+    {
+        var steps = path.Split('.');
+        if (steps.Length < 2 || !TitleFields.Contains(steps[^1], StringComparer.OrdinalIgnoreCase)) return;
+        if (Walk(doc, steps[..^1]) is not JsonObject item) return;
+        if (item["id"]?.ToString() is not { } was || !Placeholder.IsMatch(was)) return;
+
+        var stem = Slugify(value);
+        if (stem.Length == 0) return;
+
+        // A title the client has used before is not an error and must not cost them the save;
+        // it costs the item a suffix instead, which is what every publishing tool does.
+        var idPath = string.Join('.', steps[..^1]) + ".id";
+        var slug = stem;
+        for (var n = 2; n < 100 && !SlugIsFree(doc, idPath, slug); n++) slug = $"{stem}-{n}";
+        if (!SlugIsFree(doc, idPath, slug)) return;
+
+        item["id"] = slug;
+        renamed[was] = slug;
+    }
+
+    /// <summary>
+    /// A title written the way a path segment has to be written.
+    ///
+    /// The client writes Vietnamese, so the marks come off first: decompose, drop every combining
+    /// mark, and translate đ by hand - it is a letter in its own right, not a d wearing an
+    /// accent, so decomposition leaves it untouched. What survives is what
+    /// <c>tools/slugs.py</c> checks for: lowercase letters, digits, single hyphens between them.
+    /// </summary>
+    public static string Slugify(string text)
+    {
+        var flat = text.Replace('Đ', 'D').Replace('đ', 'd').Normalize(NormalizationForm.FormD);
+
+        var sb = new StringBuilder(flat.Length);
+        foreach (var ch in flat)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(ch) == UnicodeCategory.NonSpacingMark) continue;
+            if (char.IsAsciiLetterOrDigit(ch)) sb.Append(char.ToLowerInvariant(ch));
+            else if (sb.Length > 0 && sb[^1] != '-') sb.Append('-');
+        }
+
+        // A path segment, not a sentence. Sixty characters is longer than every slug the site
+        // already has and short enough to read in a browser's address bar.
+        var slug = sb.ToString().Trim('-');
+        return slug.Length > 60 ? slug[..60].Trim('-') : slug;
     }
 
     /// <summary>What a list screen can do to a collection.</summary>
@@ -255,7 +336,7 @@ public sealed class ContentEditor
 
     /// <summary>
     /// Whether this slug may be written: url-shaped, not the word the detail templates use, and
-    /// not already taken by a sibling.
+    /// not already taken by anything it shares a list of pages with.
     ///
     /// The shape rule is the one that would otherwise reach production as a broken link: a space
     /// or a capital in a path segment is legal in a URL and wrong in every other way. "detail" is
@@ -272,18 +353,41 @@ public sealed class ContentEditor
         var steps = path.Split('.');
         if (steps.Length < 2) return false;
 
-        // Every item in the same array, plus - for Documents - every item in every sibling array,
-        // because those are flattened into one list of pages.
-        if (Walk(doc, steps[..^2]) is not JsonArray siblings) return true;
+        var arrayPath = steps[..^2];
+        if (Walk(doc, arrayPath) is not JsonArray siblings) return true;
         var mine = int.TryParse(steps[^2], out var i) ? i : -1;
 
-        for (var n = 0; n < siblings.Count; n++)
-        {
-            if (n == mine || siblings[n] is not JsonObject o) continue;
-            var theirs = o["slug"]?.ToString() ?? o["id"]?.ToString();
-            if (theirs == slug) return false;
-        }
+        foreach (var (list, skip) in Flattened(doc, arrayPath, siblings, mine))
+            for (var n = 0; n < list.Count; n++)
+            {
+                if (n == skip || list[n] is not JsonObject o) continue;
+                var theirs = o["slug"]?.ToString() ?? o["id"]?.ToString();
+                if (theirs == slug) return false;
+            }
         return true;
+    }
+
+    /// <summary>
+    /// Every array this item competes with for an address.
+    ///
+    /// Usually one: its own. The exception is a list of lists - <c>documents.categories[].items</c>
+    /// - which the site flattens into one page per document regardless of category. Two files
+    /// filed under different headings never look like neighbours on the screen, and that is
+    /// exactly why two of them can be given the same name and one of them quietly loses its page.
+    /// </summary>
+    private static IEnumerable<(JsonArray List, int Skip)> Flattened(
+        JsonNode doc, string[] arrayPath, JsonArray own, int mine)
+    {
+        yield return (own, mine);
+
+        // ...categories.3.items -> the key is "items" and the grandparent is "categories".
+        if (arrayPath.Length < 3 || !int.TryParse(arrayPath[^2], out var owner)) yield break;
+        if (Walk(doc, arrayPath[..^2]) is not JsonArray cousins) yield break;
+
+        var key = arrayPath[^1];
+        for (var c = 0; c < cousins.Count; c++)
+            if (c != owner && cousins[c]?[key] is JsonArray also)
+                yield return (also, -1);
     }
 
     private static JsonNode? Walk(JsonNode? node, string[] path)

@@ -34,13 +34,24 @@
     </div>
 }
 
-<form asp-action="Change" method="post" class="ad-addbar">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="id" value="@kind.Key">
-    <input type="hidden" name="index" value="0">
-    <input type="hidden" name="op" value="Add">
-    <button type="submit" class="ad-btn">Add an item</button>
-</form>
+@if (kind.CanAdd)
+{
+    <form asp-action="Change" method="post" class="ad-addbar">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@kind.Key">
+        <input type="hidden" name="index" value="0">
+        <input type="hidden" name="op" value="Add">
+        <button type="submit" class="ad-btn">Add an item</button>
+    </form>
+}
+else
+{
+    <p class="ad-addbar ad-note">
+        Adding to this list needs map coordinates, which are not text on the page &mdash; ask a
+        developer. Everything else works: hide an item, move it, remove it, and edit its words
+        on the home page.
+    </p>
+}
 
 <table>
     <thead>

@@ -17,11 +17,13 @@ const PASS = process.env.AB_ADMIN_PASS || 'changeme';
 
 // Cung danh sach ma CollectionController giu, viet lai o day de doi chieu chu khong de dung chung:
 // neu hai ben lech nhau thi phep do phai keu len, khong duoc im lang di theo.
+// Cot thu ba: co them muc moi duoc khong. Hai khoi canvas thi khong - cai lam nen mot tuyen la
+// bon muoi cap toa do, ma toa do khong phai chu tren trang nen khong co dia chi nao de dien vao.
 const KINDS = [
-  ['products', 'products'], ['colors', 'colors'], ['news', 'news'],
-  ['projects', 'projects'], ['documents', 'documents'], ['gallery', 'gallery'],
-  ['highlights', 'highlights'], ['applications', 'applications'],
-  ['routes', 'globe'], ['factories', 'factories'],
+  ['products', 'products', true], ['colors', 'colors', true], ['news', 'news', true],
+  ['projects', 'projects', true], ['documents', 'documents', true], ['gallery', 'gallery', true],
+  ['highlights', 'highlights', true], ['applications', 'applications', true],
+  ['routes', 'globe', false], ['factories', 'factories', false],
 ];
 
 const read = doc => fs.readFileSync(path.join(DATA, doc + '.json'), 'utf8');
@@ -67,10 +69,37 @@ async function press(page, i, selector) {
     process.exit(1);
   }
 
-  for (const [key, doc] of KINDS) {
+  for (const [key, doc, canAdd] of KINDS) {
     await page.goto(BASE + '/Admin/Collection/Items/' + key, { waitUntil: 'load', timeout: 60000 });
     const start = await rows(page);
     if (start === 0) { check(key, false, 'khong doc duoc muc nao'); continue; }
+
+    // Hai loai khong them duoc: doi hoi nut phai KHONG co, va man hinh phai noi vi sao. Mot nut
+    // bam vao sinh ra mot dong trong khong ai dien noi thi te hon la khong co nut.
+    if (!canAdd) {
+      const noButton = await page.locator('.ad-addbar button').count() === 0;
+      const said = await page.locator('.ad-addbar.ad-note').count() === 1;
+
+      // Con lai van phai lam duoc, va phai tra ve nguyen van.
+      await press(page, 0, '.ad-state');
+      const off = await page.locator('table tbody tr.is-off').count();
+      await press(page, 0, '.ad-state');
+      const on = await page.locator('table tbody tr.is-off').count();
+
+      const first = (await page.locator('table tbody tr').first().locator('b').textContent()).trim();
+      await press(page, 0, '.ad-order form:nth-child(2) button');
+      const down =
+        (await page.locator('table tbody tr').nth(1).locator('b').textContent()).trim() === first;
+      await press(page, 1, '.ad-order form:nth-child(1) button');
+      const up =
+        (await page.locator('table tbody tr').first().locator('b').textContent()).trim() === first;
+
+      check(key, noButton && said && off === 1 && on === 0 && down && up,
+            `${start} muc · khong co nut them=${noButton && said ? 'dat' : 'hong'}`
+            + ` · an=${off === 1 && on === 0 ? 'dat' : 'hong'}`
+            + ` · doi thu tu=${down && up ? 'dat' : 'hong'}`);
+      continue;
+    }
 
     // them
     await Promise.all([
@@ -130,6 +159,51 @@ async function press(page, i, selector) {
   await plain.close();
 
   check('an mot bai -> bien khoi /news/', gone && back, '"' + title + '" an di roi hien lai');
+
+  // Mot muc moi phai lay dia chi tu CAI TEN khach dat cho no, khong phai tu new-3f9a2c.
+  //
+  // Day la duong di that: Content -> Add -> Edit -> go tieu de -> Save. Sau Save, khung xem thu
+  // phai di theo dia chi moi, vi dia chi cu vua ngung ton tai.
+  await page.goto(BASE + '/Admin/Collection/Items/news', { waitUntil: 'load', timeout: 60000 });
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+    page.locator('.ad-addbar button').click(),
+  ]);
+  // Muc moi chua co tieu de nen o cot Item man hinh in chinh id cua no.
+  const placeholder = (await page.locator('table tbody tr').first()
+    .locator('b').textContent()).trim();
+
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 60000 }),
+    page.locator('table tbody tr').first().locator('a.ad-btn').first().click(),
+  ]);
+
+  // O nhap cua dung dia chi ay - trang con mang ca chuc o khac, tu wordmark tro di.
+  const TITLE = 'Phu kien nhom dinh hinh';
+  const box = page.locator('[data-address="news.items.0.title"]');
+  await box.waitFor({ state: 'visible', timeout: 30000 });
+  await box.fill(TITLE);
+  await box.dispatchEvent('input');
+  await page.locator('#ed-save').click();
+  await page.waitForFunction(
+    () => /changes? saved/.test(document.querySelector('#ed-save-note')?.textContent || ''),
+    null, { timeout: 30000 });
+  await wait(page, 800);
+
+  const slugged = JSON.parse(read('news')).items[0].id;
+  const framed = await page.locator('#ed-frame').getAttribute('src');
+  check('mot muc moi lay dia chi tu ten cua no',
+        slugged === 'phu-kien-nhom-dinh-hinh' && (framed || '').includes(slugged),
+        `${placeholder || 'new-xxxxxx'} -> ${slugged} · khung xem thu ${
+          (framed || '').includes(slugged) ? 'di theo' : 'CON O DIA CHI CU'}`);
+
+  // Va don sach: muc vua them phai bien di, neu khong cau hoi cuoi cung se noi doi.
+  await page.goto(BASE + '/Admin/Collection/Items/news', { waitUntil: 'load', timeout: 60000 });
+  await press(page, 0, '.ad-danger-plain');
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+    page.locator('.ad-confirm button[type=submit]').click(),
+  ]);
 
   // Va cau hoi nghiem khac nhat.
   const same = KINDS.filter(([, doc]) => read(doc) !== before[doc]).map(([, doc]) => doc);
