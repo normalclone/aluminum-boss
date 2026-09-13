@@ -18,6 +18,7 @@ const os = require('os');
 const path = require('path');
 const { launch, newCtx, wait } = require('./lib/browser');
 const { table, heading, verdict } = require('./lib/report');
+const { signIn, USER } = require('./lib/admin');
 
 const argv = process.argv.slice(2);
 const opt = (name, fallback) => {
@@ -29,22 +30,17 @@ const BASE = (argv.find(a => a.startsWith('http')) || 'http://127.0.0.1:5117').r
 const WIDTH = +opt('width', 1440);
 const OUT = opt('out', path.join(os.tmpdir(), 'admin-shots'));
 const DATA = path.join(__dirname, '..', 'wwwroot', '_data');
-const USER = process.env.AB_ADMIN_USER || 'admin';
-const PASS = process.env.AB_ADMIN_PASS || 'changeme';
 
 // Muoi loai trong man hinh Content. Viet lai o day chu khong dung chung voi
 // CollectionController: neu hai ben lech nhau thi phep do phai keu len.
 const KINDS = ['products', 'colors', 'news', 'projects', 'documents',
                'gallery', 'highlights', 'applications', 'routes', 'factories'];
 
-// Man hinh con tra loi nhung da thao khoi menu. Chung ghi vao nhung bang khong ai doc - xem
-// Task 11 trong ke hoach. Chup de biet chung con do, chu khong phai de khoe.
-const PARKED = [
-  ['/Admin/Dashboard', 'dashboard-cu'],
-  ['/Admin/Content', 'content-cu'],
-  ['/Admin/Layout', 'layout-cu'],
-  ['/Admin/Seo', 'seo-cu'],
-];
+// Bon man hinh cua ban mau. Task 11 thao chung khoi menu, Task 15 xoa han - chung ghi vao ba
+// bang khong ai doc, va mot nut Save bao "da luu" khi khong luu gi la thu te hon mot trang 404.
+//
+// Do o day chinh la 404: neu mot cai trong so nay ve ra duoc lan nua thi ai do da hoi sinh no.
+const GONE = ['/Admin/Dashboard', '/Admin/Content', '/Admin/Layout', '/Admin/Seo'];
 
 const read = doc => fs.readFileSync(path.join(DATA, doc + '.json'), 'utf8');
 
@@ -123,17 +119,6 @@ async function screen(page, urlPath, name, into = rows) {
   return seen;
 }
 
-async function signIn(page) {
-  await page.goto(BASE + '/Admin', { waitUntil: 'load', timeout: 60000 });
-  if (!page.url().includes('/Account/Login')) return true;
-  await page.fill('input[name=username]', USER);
-  await page.fill('input[name=password]', PASS);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'load', timeout: 60000 }),
-    page.click('button[type=submit]'),
-  ]);
-  return !page.url().includes('/Account/Login');
-}
 
 /* ------------------------------------------------------------------------------------------ */
 
@@ -154,7 +139,7 @@ async function signIn(page) {
   // 1 - man hinh dau tien ai cung gap: chua dang nhap.
   await screen(page, '/Admin/Account/Login', 'login');
 
-  if (!await signIn(page)) {
+  if (!await signIn(page, BASE)) {
     console.log('  Khong dang nhap duoc bang %s.', USER);
     await b.close();
     process.exit(1);
@@ -266,9 +251,17 @@ async function signIn(page) {
   const endFile = await capture(page, 'them-7-da-don-sach');
   check('xoa xong', endRows === startRows, afterAdd + ' -> ' + endRows + ' dong · ' + endFile);
 
-  /* ---- man hinh da thao khoi menu -------------------------------------------------------- */
+  /* ---- man hinh cua ban mau: phai khong con nua -------------------------------------------- */
 
-  for (const [url, name] of PARKED) await screen(page, url, name, parkedRows);
+  // Hoi bang request chu khong mo bang trinh duyet: mot 404 cua MVC khong co than trang nao,
+  // va Chrome coi trang rong kem ma loi la ERR_HTTP_RESPONSE_CODE_FAILURE roi nem ra. Dung chinh
+  // ngu canh cua trang nen cookie dang nhap van di theo - phai hoi voi tu cach nguoi da dang
+  // nhap, khong thi 404 chi dang nghia la "chua dang nhap".
+  for (const url of GONE) {
+    const res = await ctx.request.get(BASE + url, { maxRedirects: 0 });
+    check(url, res.status() === 404,
+          res.status() === 404 ? 'khong con tra loi' : 'CON TRA LOI ' + res.status(), parkedRows);
+  }
 
   /* ---- va cau hoi nghiem khac nhat ------------------------------------------------------- */
 
@@ -281,12 +274,11 @@ async function signIn(page) {
   heading('Moi man hinh trong khu quan tri, rong ' + WIDTH);
   table(['man hinh', 'ket qua', 'chi tiet'], rows, [false, false, false]);
 
-  heading('Da thao khoi menu — con tra loi, va ghi vao bang khong ai doc');
-  table(['man hinh', 'ket qua', 'chi tiet'], parkedRows, [false, false, false]);
-  console.log('\n  %d man hinh nay khong co trong menu tu Task 11. "dat" o day nghia la con ve',
-              PARKED.length);
-  console.log('  duoc, KHONG nghia la con dung duoc — nut Save cua chung ghi vao cac bang ma bo');
-  console.log('  ghep khong doc. Ai co dia chi van vao duoc.');
+  heading('Man hinh cua ban mau — phai da bien mat');
+  table(['dia chi', 'ket qua', 'chi tiet'], parkedRows, [false, false, false]);
+  console.log('\n  %d dia chi nay tung ve ra mot man hinh day du voi mot nut Save khong luu gi.',
+              GONE.length);
+  console.log('  Gio la 404, va do la su that. Ai bookmark mot trong so chung se biet ngay.');
 
   console.log('\n  %d anh trong %s — MO RA NHIN, dung chi doc con so.', shot, OUT);
   verdict(bad === 0, 'moi man hinh ve ra duoc, va duong them mot san pham di het duoc');

@@ -17,7 +17,13 @@ Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "App
 // the database file and seeds it, which is why it is a switch rather than nothing at all.
 var adminEnabled = builder.Configuration.GetValue("Admin:Enabled", false);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // While the seeded password is still in force, every admin screen goes to Change password.
+    // See Areas/Admin/FirstPassword.cs - the point is that it cannot be skipped by adding a
+    // screen and forgetting the check.
+    if (adminEnabled) options.Filters.Add<QlWeb2.Areas.Admin.FirstPasswordFilter>();
+});
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
@@ -35,6 +41,8 @@ builder.Services.AddSingleton<Enquiries>();
 
 if (adminEnabled)
 {
+    builder.Services.AddSingleton<QlWeb2.Areas.Admin.FirstPassword>();
+
     // Cookie authentication straight from the framework - no Identity package, because the admin
     // has one account and no self-service registration, password reset or roles to justify one.
     builder.Services
@@ -55,17 +63,23 @@ if (adminEnabled)
 var app = builder.Build();
 
 // Only when the admin is on. With it off nothing reads the database, so there is no reason to
-// create a schema or import a second copy of every document that would immediately go stale.
+// create a schema at all.
 //
 // EnsureCreated has to be here rather than inside the seeder: it used to sit in the prototype's
 // seeder, and removing that left the file being created with no tables in it - which the site
 // did not notice, because with the admin off it never asks.
+//
+// EnsureCreated also never alters a database that exists. Deleting the three prototype tables at
+// Task 15 is therefore a no-op on an installed site - the tables stay behind, empty of meaning,
+// and nothing opens them. A fresh site simply never gets them.
 if (adminEnabled)
 {
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
-    ContentSeeder.Seed(db, app.Environment.WebRootPath);
+    AdminSeeder.Seed(db);
+    scope.ServiceProvider.GetRequiredService<QlWeb2.Areas.Admin.FirstPassword>()
+        .Set(AdminSeeder.AnyDefault(db));
 }
 
 if (!app.Environment.IsDevelopment())

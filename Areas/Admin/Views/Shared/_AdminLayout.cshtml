@@ -5,6 +5,7 @@
     the thing being preserved pixel for pixel, and an admin style that leaked into it would be a
     slow way to break exactly what this port is measured on.
 *@
+@inject QlWeb2.Areas.Admin.FirstPassword First
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,26 +28,30 @@
     @if (User.Identity?.IsAuthenticated == true)
     {
         @*
-            One link, on purpose.
+            Five links, and there were nine.
 
-            Overview, Content, Page order and Search listing all read and write ContentDocuments,
-            PageRegions and PageSeos - tables nothing serves from any more. The site's words come
-            from wwwroot/_data/*.json through ContentStore, and have since Task 3. Those screens
-            still compile and still work; they simply change nothing anybody can see, which is a
-            worse thing to hand someone than a missing screen.
+            Overview, Content, Page order and Search listing read and wrote ContentDocuments,
+            PageRegions and PageSeos - tables nothing served from any more. They were taken off
+            this bar at Task 11 and deleted at Task 15: they still drew, and their Save buttons
+            still said "Saved", which is a worse thing to hand someone than a missing screen.
+            Anybody who had bookmarked one now gets a 404, which is the truth.
 
-            They come back rebuilt on top of ContentStore: Task 12 the collections, Task 13 the
-            search listing, Task 14 the history. Pictures (MediaController) writes real files
-            under wwwroot/_media and is honest today, but it has no way in yet either - it joins
-            the editor in Task 12 alongside the image picker it belongs to.
+            What replaced them: Content is Task 12's collection lists, Search listing became
+            generated tags (Task 13), History is Task 14, and the running order of the home page
+            lives in the documents the editor writes.
         *@
-        <nav class="ad-nav">
-            <a asp-area="Admin" asp-controller="Edit" asp-action="Index">Edit pages</a>
-            <a asp-area="Admin" asp-controller="Collection" asp-action="Index">Content</a>
-            <a asp-area="Admin" asp-controller="Media" asp-action="Index">Pictures</a>
-            <a asp-area="Admin" asp-controller="Enquiry" asp-action="Index">Enquiries</a>
-            <a asp-area="Admin" asp-controller="History" asp-action="Index">History</a>
-        </nav>
+        @* Hidden while the seeded password is still in force: every one of these bounces back
+           to Change password, and five links that all go to the same place read as a fault. *@
+        @if (!First.Still)
+        {
+            <nav class="ad-nav">
+                <a asp-area="Admin" asp-controller="Edit" asp-action="Index">Edit pages</a>
+                <a asp-area="Admin" asp-controller="Collection" asp-action="Index">Content</a>
+                <a asp-area="Admin" asp-controller="Media" asp-action="Index">Pictures</a>
+                <a asp-area="Admin" asp-controller="Enquiry" asp-action="Index">Enquiries</a>
+                <a asp-area="Admin" asp-controller="History" asp-action="Index">History</a>
+            </nav>
+        }
         <div class="ad-right">
             <a class="ad-view" href="/" target="_blank" rel="noopener">View site</a>
             <a asp-area="Admin" asp-controller="Account" asp-action="Password">@User.Identity.Name</a>

@@ -17,11 +17,10 @@ const fs = require('fs');
 const path = require('path');
 const { launch, newCtx, wait } = require('./lib/browser');
 const { table, heading, verdict } = require('./lib/report');
+const { signIn, USER } = require('./lib/admin');
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
 const ROOT = path.join(__dirname, '..');
-const USER = process.env.AB_ADMIN_USER || 'admin';
-const PASS = process.env.AB_ADMIN_PASS || 'changeme';
 
 // Trang News: mot danh sach bai, moi bai mot tam anh, va du lieu nong nhat trong site.
 const PAGE = '/news/';
@@ -30,17 +29,6 @@ const DOC = 'news';
 const read = tree => fs.readFileSync(path.join(ROOT, tree, '_data', DOC + '.json'), 'utf8');
 const media = () => fs.readdirSync(path.join(ROOT, 'wwwroot', '_media'));
 
-async function signIn(page) {
-  await page.goto(BASE + '/Admin', { waitUntil: 'load', timeout: 60000 });
-  if (!page.url().includes('/Account/Login')) return true;
-  await page.fill('input[name=username]', USER);
-  await page.fill('input[name=password]', PASS);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'load', timeout: 60000 }),
-    page.click('button[type=submit]'),
-  ]);
-  return !page.url().includes('/Account/Login');
-}
 
 (async () => {
   const before = read('wwwroot');
@@ -56,7 +44,7 @@ async function signIn(page) {
   const ctx = await newCtx(b, { width: 1600, height: 1000 });
   const page = await ctx.newPage();
 
-  if (!await signIn(page)) {
+  if (!await signIn(page, BASE)) {
     console.log('  Khong dang nhap duoc bang %s.', USER);
     await b.close();
     process.exit(1);

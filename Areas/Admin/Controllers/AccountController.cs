@@ -11,7 +11,13 @@ namespace QlWeb2.Areas.Admin.Controllers;
 public class AccountController : Controller
 {
     private readonly AppDbContext _db;
-    public AccountController(AppDbContext db) => _db = db;
+    private readonly FirstPassword _first;
+
+    public AccountController(AppDbContext db, FirstPassword first)
+    {
+        _db = db;
+        _first = first;
+    }
 
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
@@ -38,6 +44,10 @@ public class AccountController : Controller
         user.LastSignInAt = DateTime.UtcNow;
         await _db.SaveChangesAsync();
 
+        // The one moment the password is in hand as text. Cheaper than re-deriving the hash, and
+        // it keeps the flag right when the database was replaced under a running app.
+        _first.Set(password == AdminSeeder.DefaultPassword);
+
         var identity = new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, user.Username),
@@ -60,7 +70,13 @@ public class AccountController : Controller
 
     [HttpGet]
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public IActionResult Password() => View();
+    public IActionResult Password()
+    {
+        // Told to the view, not decided by it: while this is set the rest of the admin redirects
+        // here, so the screen has to say why rather than look like an ordinary detour.
+        ViewData["Forced"] = _first.Still;
+        return View();
+    }
 
     [HttpPost]
     [Microsoft.AspNetCore.Authorization.Authorize]
@@ -77,14 +93,20 @@ public class AccountController : Controller
         else if (next != confirm)
             ModelState.AddModelError("", "The two new passwords do not match.");
 
-        if (!ModelState.IsValid) return View();
+        if (!ModelState.IsValid)
+        {
+            ViewData["Forced"] = _first.Still;
+            return View();
+        }
 
         var (hash, salt) = PasswordHasher.Hash(next!);
         user.PasswordHash = hash;
         user.PasswordSalt = salt;
         await _db.SaveChangesAsync();
 
+        _first.Set(next == AdminSeeder.DefaultPassword);
+
         TempData["Flash"] = "Password changed.";
-        return RedirectToAction("Index", "Dashboard");
+        return RedirectToAction("Index", "Edit");
     }
 }

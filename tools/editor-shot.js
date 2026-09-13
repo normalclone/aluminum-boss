@@ -16,24 +16,10 @@ const fs = require('fs');
 const path = require('path');
 const { launch, newCtx, wait } = require('./lib/browser');
 const { table, heading, verdict } = require('./lib/report');
+const { signIn, USER } = require('./lib/admin');
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
 const OUT = process.argv[3] || path.join(require('os').tmpdir(), 'editor-shot');
-const USER = process.env.AB_ADMIN_USER || 'admin';
-const PASS = process.env.AB_ADMIN_PASS || 'changeme';
-
-/** Dang nhap that: cookie auth, va bieu mau co antiforgery token nen phai di qua trang do. */
-async function signIn(page) {
-  await page.goto(BASE + '/Admin', { waitUntil: 'load', timeout: 60000 });
-  if (!page.url().includes('/Account/Login')) return true;
-  await page.fill('input[name=username]', USER);
-  await page.fill('input[name=password]', PASS);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'load', timeout: 60000 }),
-    page.click('button[type=submit]'),
-  ]);
-  return !page.url().includes('/Account/Login');
-}
 
 const frame = page => page.frameLocator('#ed-frame');
 
@@ -60,7 +46,7 @@ async function open(page, path) {
     rows.push([what, ok ? 'dat' : 'KHONG DAT', detail]);
   };
 
-  if (!await signIn(page)) {
+  if (!await signIn(page, BASE)) {
     heading('Man hinh soan');
     console.log('\n  Khong dang nhap duoc bang %s. Dat AB_ADMIN_USER / AB_ADMIN_PASS neu da doi.',
       USER);
