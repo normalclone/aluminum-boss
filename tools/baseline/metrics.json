@@ -1,0 +1,48 @@
+{
+  "ngay": "2026-09-13",
+  "ghi_chu": "Moc nen truoc khi bat dau chuyen sang dung phia may chu. So cuon va idle chi so sanh duoc voi mot lan chay CUNG PHIEN.",
+  "crawl": {
+    "trang": 15,
+    "request_hong": 0,
+    "lien_ket_chet": 0,
+    "lien_ket_kiem": 127,
+    "loi_script": 0
+  },
+  "textmass": {
+    "ghi_chu": "HTML tho / sau khi JS chay. Cac con so HTML tho ~676-687 giong nhau nghia la chi co khung chung.",
+    "te_nhat_phan_tram": 12,
+    "trang": {
+      "/": [
+        1856,
+        5703
+      ],
+      "/products/": [
+        685,
+        3165
+      ],
+      "/colors/": [
+        681,
+        2186
+      ],
+      "/documents/": [
+        687,
+        5890
+      ],
+      "/news/detail/?id=press-line-2500": [
+        672,
+        2095
+      ]
+    }
+  },
+  "overlap": {
+    "vi_tri_chong_chu": 0
+  },
+  "parity": {
+    "anh": 30,
+    "rong": [
+      1440,
+      390
+    ],
+    "thu_muc": "tools/baseline"
+  }
+}

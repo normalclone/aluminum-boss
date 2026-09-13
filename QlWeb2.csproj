@@ -18,9 +18,9 @@
     <!-- site/ is what GitHub Pages publishes and build/ is the tooling that made it. Neither is
          part of the running app, but the Web SDK's default glob picks up every .json under the
          project, so a publish was copying site/_data/*.json into the deployment. -->
-    <Compile Remove="site/**;build/**" />
-    <Content Remove="site/**;build/**" />
-    <None Remove="site/**;build/**" />
+    <Compile Remove="site/**;build/**;tools/**;docs/**" />
+    <Content Remove="site/**;build/**;tools/**;docs/**" />
+    <None Remove="site/**;build/**;tools/**;docs/**" />
   </ItemGroup>
 
 </Project>

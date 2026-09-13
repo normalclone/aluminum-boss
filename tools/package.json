@@ -1,0 +1,17 @@
+{
+  "name": "aluminum-boss-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Bo do de kiem chung moi thay doi tren site. Moi cong cu thoat voi ma 1 khi khong dat.",
+  "scripts": {
+    "crawl": "node crawl.js",
+    "textmass": "node textmass.js",
+    "scroll": "node scroll.js",
+    "idle": "node idle.js",
+    "overlap": "node overlap.js",
+    "check": "node crawl.js && node textmass.js && node overlap.js"
+  },
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}
