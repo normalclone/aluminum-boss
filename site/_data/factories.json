@@ -7,9 +7,9 @@
       "region": "Yen Bai province",
       "lat": 21.72,
       "lon": 104.9,
-      "desc": "Cutting and calibration. Raw marble block arrives, sized slab leaves.",
+      "desc": "Billet casting and homogenising. Scrap and ingot in, extrusion billet out.",
       "since": "2009",
-      "output": "42k t/yr",
+      "output": "6k t/yr",
       "tone": [
         228,
         226,
@@ -27,9 +27,9 @@
       "region": "Thanh Hoa province",
       "lat": 19.81,
       "lon": 105.78,
-      "desc": "The largest slab mill. Gang saws, resin lines, polishing — closest to Hai Phong port.",
+      "desc": "Die shop and the second press hall. Dies are cut, nitrided and corrected here.",
       "since": "2013",
-      "output": "68k t/yr",
+      "output": "12k t/yr",
       "tone": [
         214,
         208,
@@ -47,9 +47,9 @@
       "region": "Nghe An province",
       "lat": 18.68,
       "lon": 105.68,
-      "desc": "Sintered surface production. Presses and kiln lines run continuously.",
+      "desc": "Fabrication and machining. CNC centres, thermal break assembly, battery tray welding.",
       "since": "2016",
-      "output": "55k t/yr",
+      "output": "14k t/yr",
       "tone": [
         196,
         190,
@@ -67,9 +67,9 @@
       "region": "Binh Dinh province",
       "lat": 13.78,
       "lon": 109.22,
-      "desc": "Granite finishing. Flaming, honing and edge profiling beside the port.",
+      "desc": "Anodising. Two lines, 10 to 25 microns, with the sealing tanks beside the port.",
       "since": "2011",
-      "output": "37k t/yr",
+      "output": "9k t/yr",
       "tone": [
         178,
         172,
@@ -87,9 +87,9 @@
       "region": "Binh Duong province",
       "lat": 11.16,
       "lon": 106.68,
-      "desc": "Final polish, quality grading, crating and container loading for export.",
-      "since": "2019",
-      "output": "71k t/yr",
+      "desc": "The main press hall, powder coating, final inspection and container loading.",
+      "since": "2004",
+      "output": "21k t/yr",
       "tone": [
         232,
         228,
@@ -101,5 +101,7 @@
         168
       ]
     }
-  ]
+  ],
+  "lede": "Five factories take billet to finished profile, spread the length of the country from the northern casting lines to the export packing halls in the south.",
+  "title": "Five factories, one coastline."
 }

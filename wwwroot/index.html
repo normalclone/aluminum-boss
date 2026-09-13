@@ -576,17 +576,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       </div>
 
       <div class="vgx-panel-col">
-        <p class="vgx-lede">
-          Finished surfaces leave Vietnam for four markets. Select a destination to turn the globe
-          to it and isolate that route.
-        </p>
+        <p class="vgx-lede" data-ab-t="globe.lede">Finished aluminium leaves Vietnam for four markets. Select a destination to turn the globe to it and isolate that route.</p>
         <ul class="vgx-list" id="vgx-list" data-ab-section="globe-routes"></ul>
       </div>
     </div>
   </div>
 </section>
 
-<script type="application/json" id="vgx-data" data-ab-json="globe">{"section":"Export routes","origin":{"name":"Vietnam","code":"SGN","lat":10.82,"lon":106.63},"routes":[{"key":"eu","mode":"sea","name":"European Union","share":"31%","days":31,"desc":"Malacca Strait, Indian Ocean, Suez, then Rotterdam for onward distribution.","meta":"Sea · Ho Chi Minh City → Rotterdam","at":[46,10],"legs":[{"to":"Rotterdam","code":"RTM","via":[[10.8,106.6],[8.5,105.5],[5.5,104.5],[2.5,103.6],[3.5,100],[5.5,96.5],[6,92],[5.5,85],[6,75],[9,65],[12,55],[12.5,45],[13.5,42.8],[17,40],[22,37.5],[27,34.5],[29.9,32.6],[31.5,32.3],[33.5,28],[34.5,22],[36,14],[37,6],[36,-2],[35.9,-5.6],[36.5,-9],[40,-10.5],[44.5,-9.5],[48.5,-6],[50.2,-1.5],[51.2,2],[51.95,4.14]]}]},{"key":"na","mode":"sea","name":"North America","share":"34%","days":22,"desc":"The Pacific crossing to Los Angeles and Long Beach.","meta":"Sea · Ho Chi Minh City → Los Angeles","at":[30,-170],"legs":[{"to":"Los Angeles","code":"LAX","via":[[10.8,106.6],[13,110],[16,114],[19.5,119],[21.5,122],[24,127],[28,135],[32,145],[36,158],[39,172],[40,-175],[40,-165],[39,-150],[37,-138],[35,-128],[33.9,-118.4]]}]},{"key":"au","mode":"sea","name":"Australia","share":"12%","days":14,"desc":"South through the Indonesian straits and the Torres Strait to Sydney.","meta":"Sea · Ho Chi Minh City → Sydney","at":[-14,133],"legs":[{"to":"Sydney","code":"SYD","via":[[10.8,106.6],[8,107.5],[4,108.5],[0,108.5],[-2.5,108],[-5,110],[-6.5,114],[-7.5,118],[-8.5,123],[-9.5,128],[-10,133],[-10.5,138],[-10.6,142.5],[-13,145.5],[-17,147.5],[-22,152],[-27,153.8],[-31,153],[-33.87,151.2]]}]},{"key":"asean","mode":"land","name":"ASEAN","share":"23%","days":3,"desc":"Overland by road to Laos, Cambodia and Thailand.","meta":"Road · Vientiane · Phnom Penh · Bangkok","at":[14.5,103],"legs":[{"to":"ASEAN","code":"LAO · KHM · THA","via":[[10.8,106.6],[11.3,105.5],[12,104.4],[12.9,103.2],[14,102],[15.2,101.2],[16,100.6]]}]}]}</script>
+<script type="application/json" id="vgx-data" data-ab-json="globe">{"section":"Export routes","origin":{"name":"Vietnam","code":"SGN","lat":10.82,"lon":106.63},"routes":[{"key":"eu","mode":"sea","name":"European Union","share":"31%","days":31,"desc":"Malacca Strait, Indian Ocean, Suez, then Rotterdam for onward distribution.","meta":"Sea · Ho Chi Minh City → Rotterdam","at":[46,10],"legs":[{"to":"Rotterdam","code":"RTM","via":[[10.8,106.6],[8.5,105.5],[5.5,104.5],[2.5,103.6],[3.5,100],[5.5,96.5],[6,92],[5.5,85],[6,75],[9,65],[12,55],[12.5,45],[13.5,42.8],[17,40],[22,37.5],[27,34.5],[29.9,32.6],[31.5,32.3],[33.5,28],[34.5,22],[36,14],[37,6],[36,-2],[35.9,-5.6],[36.5,-9],[40,-10.5],[44.5,-9.5],[48.5,-6],[50.2,-1.5],[51.2,2],[51.95,4.14]]}]},{"key":"na","mode":"sea","name":"North America","share":"34%","days":22,"desc":"The Pacific crossing to Los Angeles and Long Beach.","meta":"Sea · Ho Chi Minh City → Los Angeles","at":[30,-170],"legs":[{"to":"Los Angeles","code":"LAX","via":[[10.8,106.6],[13,110],[16,114],[19.5,119],[21.5,122],[24,127],[28,135],[32,145],[36,158],[39,172],[40,-175],[40,-165],[39,-150],[37,-138],[35,-128],[33.9,-118.4]]}]},{"key":"au","mode":"sea","name":"Australia","share":"12%","days":14,"desc":"South through the Indonesian straits and the Torres Strait to Sydney.","meta":"Sea · Ho Chi Minh City → Sydney","at":[-14,133],"legs":[{"to":"Sydney","code":"SYD","via":[[10.8,106.6],[8,107.5],[4,108.5],[0,108.5],[-2.5,108],[-5,110],[-6.5,114],[-7.5,118],[-8.5,123],[-9.5,128],[-10,133],[-10.5,138],[-10.6,142.5],[-13,145.5],[-17,147.5],[-22,152],[-27,153.8],[-31,153],[-33.87,151.2]]}]},{"key":"asean","mode":"land","name":"ASEAN","share":"23%","days":3,"desc":"Overland by road to Laos, Cambodia and Thailand.","meta":"Road · Vientiane · Phnom Penh · Bangkok","at":[14.5,103],"legs":[{"to":"ASEAN","code":"LAO · KHM · THA","via":[[10.8,106.6],[11.3,105.5],[12,104.4],[12.9,103.2],[14,102],[15.2,101.2],[16,100.6]]}]}],"lede":"Finished aluminium leaves Vietnam for four markets. Select a destination to turn the globe to it and isolate that route."}</script>
 <script>
 (() => {
   'use strict';
@@ -1414,8 +1411,7 @@ function rafStop(){ rafOn = false; }
   <header class="vfx-header">
     <div>
       <h1 id="vfx-title">Five factories, <em>one coastline</em>.</h1>
-      <p class="vfx-sub">Five factories turn raw stone into finished surfaces, spread the length of
-        the country from the northern cutting lines to the export packing halls in the south.
+      <p class="vfx-sub"><span data-ab-t="factories.lede">Five factories take billet to finished profile, spread the length of the country from the northern casting lines to the export packing halls in the south.</span>
         <span class="vfx-onlywide">Drag to turn the view; select a factory to see it.</span></p>
     </div>
     <div class="vfx-tally"><b id="vfx-tally">5</b><span>Factories</span></div>
@@ -1440,7 +1436,7 @@ function rafStop(){ rafOn = false; }
 
 
 
-<script type="application/json" id="vfx-data" data-ab-json="factories">{"section":"Factories","sites":[{"id":"yb","name":"Yen Bai","region":"Yen Bai province","lat":21.72,"lon":104.9,"desc":"Cutting and calibration. Raw marble block arrives, sized slab leaves.","since":"2009","output":"42k t/yr","tone":[228,226,221],"vein":[176,170,160]},{"id":"th","name":"Thanh Hoa","region":"Thanh Hoa province","lat":19.81,"lon":105.78,"desc":"The largest slab mill. Gang saws, resin lines, polishing — closest to Hai Phong port.","since":"2013","output":"68k t/yr","tone":[214,208,196],"vein":[150,142,128]},{"id":"na","name":"Nghe An","region":"Nghe An province","lat":18.68,"lon":105.68,"desc":"Sintered surface production. Presses and kiln lines run continuously.","since":"2016","output":"55k t/yr","tone":[196,190,180],"vein":[120,114,104]},{"id":"bd","name":"Quy Nhon","region":"Binh Dinh province","lat":13.78,"lon":109.22,"desc":"Granite finishing. Flaming, honing and edge profiling beside the port.","since":"2011","output":"37k t/yr","tone":[178,172,164],"vein":[104,98,92]},{"id":"bg","name":"Binh Duong","region":"Binh Duong province","lat":11.16,"lon":106.68,"desc":"Final polish, quality grading, crating and container loading for export.","since":"2019","output":"71k t/yr","tone":[232,228,220],"vein":[190,182,168]}]}</script>
+<script type="application/json" id="vfx-data" data-ab-json="factories">{"section":"Factories","sites":[{"id":"yb","name":"Yen Bai","region":"Yen Bai province","lat":21.72,"lon":104.9,"desc":"Billet casting and homogenising. Scrap and ingot in, extrusion billet out.","since":"2009","output":"6k t/yr","tone":[228,226,221],"vein":[176,170,160]},{"id":"th","name":"Thanh Hoa","region":"Thanh Hoa province","lat":19.81,"lon":105.78,"desc":"Die shop and the second press hall. Dies are cut, nitrided and corrected here.","since":"2013","output":"12k t/yr","tone":[214,208,196],"vein":[150,142,128]},{"id":"na","name":"Nghe An","region":"Nghe An province","lat":18.68,"lon":105.68,"desc":"Fabrication and machining. CNC centres, thermal break assembly, battery tray welding.","since":"2016","output":"14k t/yr","tone":[196,190,180],"vein":[120,114,104]},{"id":"bd","name":"Quy Nhon","region":"Binh Dinh province","lat":13.78,"lon":109.22,"desc":"Anodising. Two lines, 10 to 25 microns, with the sealing tanks beside the port.","since":"2011","output":"9k t/yr","tone":[178,172,164],"vein":[104,98,92]},{"id":"bg","name":"Binh Duong","region":"Binh Duong province","lat":11.16,"lon":106.68,"desc":"The main press hall, powder coating, final inspection and container loading.","since":"2004","output":"21k t/yr","tone":[232,228,220],"vein":[190,182,168]}],"lede":"Five factories take billet to finished profile, spread the length of the country from the northern casting lines to the export packing halls in the south.","title":"Five factories, one coastline."}</script>
 <script>
 
 (() => {
@@ -1483,12 +1479,12 @@ const ARCH = [
   {name:"Truong Sa",lat:10.395,lon:114.729,pts:[[10.730,115.825],[9.687,114.376],[10.828,115.840],[10.181,114.364],[11.112,115.016],[10.372,114.466],[10.372,114.363],[10.393,114.454],[11.045,114.279],[10.016,114.033],[10.238,115.367],[9.768,114.361]]}
 ];
 
-// Five sites placed on the country's real stone corridor, north to south.
+// Five sites placed along the country's industrial spine, north to south.
 // Du lieu tu _data/factories.json, dat vao the JSON ngay tren.
 const SITES = JSON.parse(document.getElementById('vfx-data').textContent).sites;
 
 // ---- procedural surface swatches -------------------------------------
-// The tooltip needs photographs of stone. Rather than ship binaries, each swatch is drawn:
+// The tooltip needs photographs of metal. Rather than ship binaries, each swatch is drawn:
 // a warm base, drifting veins, and fine grain — which is honest about being sample imagery
 // and keeps the file self-contained.
 function swatch(w, h, tone, vein, seed){

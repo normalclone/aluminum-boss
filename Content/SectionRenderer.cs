@@ -297,7 +297,7 @@ public sealed class SectionRenderer
 
     /// <summary>The unfiltered tally. Counted, never written into the prose.</summary>
     private static string ColorCount(JsonNode doc)
-        => ((doc["items"] as JsonArray)?.Count ?? 0) + " finishes";
+        => ((doc["items"] as JsonArray)?.Count ?? 0) + " colors";
 
     /// <summary>
     /// The swatch grid. This is the one listing that shows a real colour instead of the grey
@@ -938,7 +938,7 @@ public sealed class SectionRenderer
             .Append("<p class=\"ab-note\">").Append(Esc(Str(c, "note"))).Append("</p></div></div>")
             .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
             .Append("<div class=\"ab-items\"><h2>Other ").Append(Esc(family.ToLowerInvariant()))
-            .Append(" finishes</h2><div class=\"ab-swatches\">").Append(siblings)
+            .Append(" colors</h2><div class=\"ab-swatches\">").Append(siblings)
             .Append("</div></div></div>").ToString();
     }
 

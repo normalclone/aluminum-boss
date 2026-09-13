@@ -253,6 +253,42 @@ bản `.exe` đang chạy khoá chính file cần ghi đè.
 
 ---
 
+## `json-fallback.py` — bản dự phòng trong thẻ `data-ab-json`
+
+Hai khối canvas đọc dữ liệu từ một thẻ JSON nằm ngay trong trang. Bộ ghép đặt nội dung thật vào
+đó; bản nằm sẵn trong khuôn là đường lui cho thư mục `site/` phục vụ tĩnh — và đường lui đó không
+có gì ép nó phải đúng.
+
+```bash
+python json-fallback.py            # ghi lại bản dự phòng từ file JSON
+python json-fallback.py --check    # chỉ báo có lệch không, thoát 1 nếu lệch
+```
+
+> **Vì sao cần:** sửa `globe.json` mà quên sửa bản dự phòng thì máy chủ vẫn đúng, GitHub Pages vẫn
+> vẽ quả địa cầu bằng dữ liệu cũ, và không ai thấy. Cùng một lớp lỗi với `trees.py`, chỉ khác chỗ
+> giấu.
+
+---
+
+## `compose.js` — trang có thật sự được ghép không
+
+Bộ ghép từ chối phục vụ trang có địa chỉ không phân giải được: nó ghi log rồi trả về khuôn, mà
+chữ dự phòng trong khuôn vẫn đúng. Đó là hành vi đúng, và nó hoàn toàn vô hình.
+
+```bash
+node compose.js http://localhost:5199
+```
+
+> **Đã bắt được:** mọi địa chỉ trên trang chủ ghi `home.title` trong khi dữ liệu ở
+> `site.home.title` — đoạn đầu của địa chỉ là **tên tài liệu** và không có `home.json`. Trang rơi
+> về khuôn từ ngày những địa chỉ đó được viết. Chữ đúng, pixel khớp, crawl sạch, và không một chữ
+> nào trên trang chủ là tham số. Chỉ log biết, mà không ai đọc log.
+
+Cách nhận biết: một trang đã ghép thì **luôn** khác khuôn, vì nội dung khối đổi từ rỗng thành
+markup. Giống hệt khuôn nghĩa là đã rơi về khuôn.
+
+---
+
 ## `publish-static.js` — sinh `site/` từ đầu ra máy chủ
 
 Gọi 15 trang trên máy chủ đang chạy, ghi HTML đã ghép ra `site/`. Giữ GitHub Pages sống trong

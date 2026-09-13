@@ -281,11 +281,11 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   function draw(first) {
     var hits = DATA.items.filter(matches);
     var html = hits.length ? hits.map(tile).join('')
-      : '<p class="ab-empty">No finish matches all three filters. Clear one to widen the search.</p>';
+      : '<p class="ab-empty">No color matches all three filters. Clear one to widen the search.</p>';
     if (!first || !wrapS.firstElementChild) wrapS.innerHTML = html;
     elCount.textContent = hits.length === DATA.items.length
-      ? DATA.items.length + ' finishes'
-      : hits.length + ' of ' + DATA.items.length + ' finishes';
+      ? DATA.items.length + ' colors'
+      : hits.length + ' of ' + DATA.items.length + ' colors';
     var btns = wrapF.querySelectorAll('button');
     for (var i = 0; i < btns.length; i++) {
       var k = btns[i].getAttribute('data-k'), v = btns[i].getAttribute('data-v');
