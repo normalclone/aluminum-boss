@@ -197,3 +197,57 @@ thông số trên trang ghi "Exposure"), `family` → *finish family*.
 `<select>` sẽ tự nhảy sang lựa chọn đầu tiên, và lần sau người dùng chạm vào bất cứ thứ gì trên
 trang ấy, một giá trị họ chưa từng chọn sẽ được lưu đè lên. Sửa dữ liệu của người khác trong lúc
 họ không nhìn là đúng thứ mà cả hai task này tồn tại để chặn.
+
+---
+
+## Task 20: Thẻ là bài, hết — XONG
+
+Task 18 giữ `label` và `title` trên thẻ làm ghi đè tuỳ chọn, với lý do "cả sáu đều ngắn hơn một
+cách có chủ ý". Chủ dự án nói lại: *"Ý tôi là chọn từ những tin tức có sẵn chứ không chỉ ảnh."*
+
+Đọc lại dữ liệu thì lý do ấy không đứng được. Sáu cặp tiêu đề **đã lệch nhau**, và sáu cái nhãn
+trên thẻ — "Binh Duong", "Honeycomb", "Profile" — **không khớp thẻ tag nào của bài, cũng không
+khớp tác giả**. Đó không phải một quyết định biên tập được giữ gìn; đó là một bản sao thứ hai mà
+không có gì giữ cho khớp. Một bản sao không ai đồng bộ không phải là chủ ý, nó là phiên bản thứ
+hai của sự thật.
+
+**Sau Task 20, `highlights.items[]` chỉ còn `{ "id": ... }`.** Tiêu đề, thẻ tag, ảnh và đường dẫn
+đều là của bài, và đều mang địa chỉ **trên bài**:
+
+| Trên thẻ | Địa chỉ | Nghĩa là |
+|---|---|---|
+| dòng tag nhỏ | `news.items.N.tags.0` | sửa là sửa thẻ tag của bài |
+| tiêu đề | `news.items.N.title` | sửa là sửa tiêu đề bài, ở mọi nơi nó xuất hiện |
+| ảnh | `news.items.N.image` | một ô ảnh cho một bài |
+
+Màn hình **Content → Highlights** giờ là đúng một câu hỏi: *những bài nào, theo thứ tự nào, bài
+nào đang ẩn.* Cột Article là chỗ chọn; tiêu đề và ảnh trên dòng đều đọc từ bài.
+
+### Cái gì đổi trên trang, và đổi bao nhiêu
+
+| Thẻ | Trước | Sau |
+|---|---|---|
+| 1 | Binh Duong · Second 2,500-tonne press now running | **Plant** · Second 2,500-tonne press commissioned at Binh Duong |
+| 2 | Finishing · Powder line certified to QUALICOAT Class 2 | **Certification** · Coating line certified to QUALICOAT Class 2 |
+| 3 | Car's Accessory · 6082 battery tray cleared for production | **Automotive** · First EV battery tray programme reaches PPAP |
+| 4 | Honeycomb · Bonded panels now go to four metres | **Plant** · Honeycomb panel press expands to 4 metre panels |
+| 5 | Finishes · Five sablé textures added to stock | **Product** · Sablé textured finishes added to the standard range |
+| 6 | Profile · 6061-T6 solar rail on a three-year agreement | **Market** · Three-year supply agreement for solar mounting rail |
+
+`parity --against baseline/task15`: **đúng một trang lệch** — trang chủ, 6.979 pixel, toàn bộ nằm
+trong khối "New". Mười bốn trang còn lại giống hệt. Con số ấy là bằng chứng thay đổi nằm gọn
+trong chỗ nó phải nằm.
+
+Tiêu đề dài nhất (51 ký tự) xuống ba dòng và vẫn nằm trong thẻ 444×370 — đã chụp và nhìn, không
+chỉ đo. Mốc nền mới: `baseline/task19`.
+
+### Một công cụ thoát với mã 1 và không nói gì
+
+`guide-video.js` tìm tiêu đề thẻ bằng `[data-ab-t=".items.0.title"]`. Sau Task 20 địa chỉ ấy
+thành `news.items.0.title` (tuyệt đối, trỏ sang tệp khác), nên bộ chọn không khớp gì cả — và cái
+chốt bảo vệ ở đó gọi `process.exit(1)` trần: **không một dòng nào in ra**. Người chạy chỉ biết
+"hỏng", không biết hỏng ở đâu, trong khi thứ nó đang tìm chính là thứ vừa bị đổi tên.
+
+Nay hai chốt ấy in bảng và nói rõ nó không tìm thấy cái gì. Và bộ chọn đổi sang **lớp CSS của
+thẻ** thay vì địa chỉ: lớp ấy là hình thức của trang, địa chỉ là nơi dữ liệu nằm, và phép thử này
+hỏi về hình thức.

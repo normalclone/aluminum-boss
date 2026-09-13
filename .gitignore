@@ -57,6 +57,9 @@ tools/baseline/task14/
 # moc de dung tu nay.
 tools/baseline/task15/
 
+# Moc nen sau Task 20: khoi "New" tren trang chu doi chu. Day la moc de dung tu nay.
+tools/baseline/task19/
+
 # Ban tinh sinh tu may chu bang tools/publish-static.js. 369 tep tai nguyen chep sang cong 105
 # trang - tat ca deu sinh lai duoc trong mot phut, va khong cai nao la nguon.
 export/

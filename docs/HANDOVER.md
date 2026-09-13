@@ -87,17 +87,21 @@ Best upload 680 × 600 px          cỡ nên tải lên
 trả đúng tệp ấy cho khách. Một tấm 6 MB thẳng từ máy ảnh là 6 MB trên lưng mọi người vào trang.
 Trần là 2000 px cạnh dài — con số ấy đã nằm sẵn trong dòng gợi ý.
 
-### Thẻ "New" trên trang chủ là bài viết, không phải bản sao
+### Thẻ "New" trên trang chủ LÀ bài viết
 
-Sáu thẻ ở khối **New** trên trang chủ **không có ảnh riêng**. Mỗi thẻ trỏ vào một bài trong mục
-Tin — ảnh và đường dẫn đều lấy từ bài ấy, nên **ảnh chỉ phải chọn một lần**, trên bài.
+Sáu thẻ ở khối **New** trên trang chủ không có nội dung riêng nào cả. Mỗi thẻ là **một bài trong
+mục Tin**: tiêu đề, dòng tag nhỏ phía trên, ảnh và đường dẫn đều là của bài ấy.
 
-- Bấm vào ảnh của thẻ ngay trên trang chủ cũng được: ô nhập hiện ra sẽ ghi *"Article #1 image"*,
-  tức là anh đang sửa ảnh của **bài**.
-- Đổi thẻ sang bài khác: vào **Content → Highlights**, cột **Article**, chọn bài rồi bấm **Set**.
-- Tiêu đề trên thẻ là **tuỳ chọn**: để trống thì thẻ lấy tiêu đề của bài. Hiện cả sáu thẻ đều
-  đang dùng một tiêu đề ngắn hơn tiêu đề bài — đó là cố ý.
+- **Đổi thẻ sang bài khác:** vào **Content → Highlights**, cột **Article**, chọn bài rồi bấm
+  **Set**. Đó là toàn bộ những gì một thẻ có thể đổi.
+- **Sửa chữ trên thẻ là sửa bài.** Bấm vào tiêu đề thẻ ngay trên trang chủ cũng được — ô nhập
+  hiện ra sẽ ghi *"Article #1 title"*, và sửa nó là đổi tiêu đề bài ở **mọi nơi** bài xuất hiện:
+  trang chủ, trang /news/, và trang riêng của bài.
+- **Ảnh chỉ phải chọn một lần**, trên bài.
 - **Ẩn một bài là thẻ của nó cũng biến mất.** Xoá bài cũng vậy. Không có thẻ trắng nào ở lại.
+
+> Trước đây mỗi thẻ mang một tiêu đề và một ô ảnh **riêng**, tách khỏi bài. Kết quả là sáu bài có
+> hai tiêu đề khác nhau ở hai chỗ, và không có gì giữ cho chúng khớp nhau.
 
 ### Thêm, ẩn, đổi thứ tự
 

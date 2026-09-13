@@ -126,6 +126,24 @@ async function bringInFrame(page, selector) {
   await wait(1100);
 }
 
+/**
+ * Dừng giữa chừng, nhưng NÓI RA.
+ *
+ * Hai chỗ trong kịch bản có thể không tìm thấy thứ nó cần, và cả hai từng thoát bằng
+ * process.exit(1) trần: không một dòng nào in ra, không bảng, không lý do. Một công cụ thoát với
+ * mã 1 và im lặng thì người chạy nó chỉ biết là "hỏng", không biết hỏng ở đâu - mà cái nó đang
+ * tìm chính là thứ vừa bị đổi tên.
+ */
+async function stop(ctx, b, rows, why) {
+  await ctx.close();
+  await b.close();
+  heading('Phim huong dan — DUNG GIUA CHUNG');
+  table(['phep thu', 'ket qua', 'chi tiet'], rows, [false, false, false]);
+  console.log('\n  %s', why);
+  console.log('  Khong co tep phim nao duoc ghi.');
+  process.exit(1);
+}
+
 /* ---- kịch bản ---------------------------------------------------------------------------- */
 
 (async () => {
@@ -168,20 +186,21 @@ async function bringInFrame(page, selector) {
   await wait(3600);
 
   /* 2 - cuộn khung xem thử tới khối "New" của trang chủ */
-  await say(page, 'Cuộn khung bên phải xuống khối "New" — các thẻ tin trên trang chủ.');
+  await say(page, 'Cuộn khung bên phải xuống khối "New" — mỗi thẻ là một bài trong mục Tin.');
   const band = '[data-ab-doc="highlights"] .core-slider-novedades__slide';
   await bringInFrame(page, band);
   await wait(1200);
 
   /* 3 - bấm thẳng vào tiêu đề trong khung xem thử */
-  // Phải chỉ rõ tệp: ".items.0.title" là địa chỉ TƯƠNG ĐỐI, và trang chủ có mấy khối cùng dùng
-  // nó - khối Applications mang ".tabs.0.items.0.title" cũng khớp nếu tìm bằng *=.
-  const titleSel = '[data-ab-doc="highlights"] [data-ab-t=".items.0.title"]';
+  // Tìm theo LỚP của thẻ chứ không theo địa chỉ: sau Task 20 tiêu đề thẻ mang địa chỉ tuyệt đối
+  // trỏ sang tệp news ("news.items.0.title"), và một bộ chọn viết theo địa chỉ cũ sẽ không khớp
+  // gì cả - đúng chuyện đã xảy ra, và nó làm công cụ thoát lặng lẽ với mã 1.
+  const titleSel = band + ' .core-slider-novedades__slide__card-body__name';
   const spot = await inFrame(page, titleSel);
   check('tim thay tieu de trong khung xem thu', !!spot, spot ? 'o ' + Math.round(spot.x) + ',' + Math.round(spot.y) : titleSel);
-  if (!spot) { await ctx.close(); await b.close(); process.exit(1); }
+  if (!spot) return stop(ctx, b, rows, 'khong tim thay tieu de the: ' + titleSel);
 
-  await say(page, 'Bấm thẳng vào dòng chữ muốn sửa — không cần biết nó nằm ở ô nào.');
+  await say(page, 'Bấm thẳng vào dòng chữ muốn sửa — không cần biết nó nằm ở tệp nào.');
   await point(page, spot.x, spot.y);
   await wait(1500);
   await tap(page);
@@ -189,15 +208,15 @@ async function bringInFrame(page, selector) {
   await wait(1400);
 
   /* 4 - ô nhập tương ứng sáng lên ở cột trái */
-  const box = page.locator('[data-address="highlights.items.0.title"]');
+  const box = page.locator('[data-address="news.items.0.title"]');
   await box.waitFor({ state: 'visible', timeout: 15000 });
-  await say(page, 'Ô nhập của nó tự cuộn tới và sáng lên ở cột trái.');
+  await say(page, 'Ô nhập tự cuộn tới và sáng lên: "Article #1 title" — thẻ này LÀ bài viết đó.');
   const boxAt = await at(box);
   await point(page, boxAt.x, boxAt.y);
   await wait(3000);
 
   /* 5 - gõ, và nhìn khung xem thử đổi theo từng phím */
-  await say(page, 'Gõ chữ mới. Khung bên phải đổi ngay theo từng phím — chưa ghi gì cả.');
+  await say(page, 'Gõ chữ mới. Sửa ở đây là sửa tiêu đề của bài, ở mọi nơi nó xuất hiện.');
   await box.click();
   await box.fill('');
   await box.type(TITLE, { delay: 55 });
@@ -216,9 +235,9 @@ async function bringInFrame(page, selector) {
    * image" - một ô, một chỗ, không phải hai chỗ phải nhớ điền cả hai. */
   const picAt = await inFrame(page, band + ' .core-slider-novedades__slide__image');
   check('tim thay anh the trong khung xem thu', !!picAt, picAt ? 'o ' + Math.round(picAt.x) + ',' + Math.round(picAt.y) : band);
-  if (!picAt) { await ctx.close(); await b.close(); process.exit(1); }
+  if (!picAt) return stop(ctx, b, rows, 'khong tim thay anh the trong: ' + band);
 
-  await say(page, 'Ảnh thì bấm thẳng vào ảnh. Thẻ này không có ảnh riêng — nó là ảnh của bài.');
+  await say(page, 'Ảnh cũng vậy: thẻ không có ảnh riêng, ảnh là của bài.');
   await point(page, picAt.x, picAt.y);
   await wait(1500);
   await tap(page);

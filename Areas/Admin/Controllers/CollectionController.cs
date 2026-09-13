@@ -219,16 +219,20 @@ public class CollectionController : Controller
         for (var i = 0; i < list.Count; i++)
         {
             var item = list[i];
+            // A pointer kind has nothing of its own to show - no picture, no headline - because
+            // that is the point of it. Everything on the row comes from what it points at, the
+            // same place the card on the site takes it from.
             var linked = source?.FirstOrDefault(a => Text(a, "id") == Text(item, "id"));
-            var image = Text(linked ?? item, "image");
+            var shown = linked ?? item;
+            var image = Text(shown, "image");
             rows.Add(new Row(
                 Index: i,
                 Id: Text(item, "id"),
                 // Each kind names its items differently; take whichever it has rather than
                 // teaching this screen ten field names.
-                Title: First(item, "title", "name", "label", "caption") is { Length: > 0 } t
+                Title: First(shown, "title", "name", "label", "caption") is { Length: > 0 } t
                        ? t : Text(item, "id"),
-                Note: First(item, "tagline", "spec", "code", "year", "location", "description"),
+                Note: First(shown, "tagline", "spec", "code", "year", "location", "description"),
                 Image: image.Length > 0 ? "/_media/" + image : null,
                 Visible: item?["visible"] is not JsonValue v || !v.TryGetValue<bool>(out var y) || y,
                 Page: PageFor(kind, Text(item, "id"))));

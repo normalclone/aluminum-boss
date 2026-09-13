@@ -3,34 +3,22 @@
   "heading": "New capacity, finishes and approvals",
   "items": [
     {
-      "id": "press-line-2500",
-      "label": "Binh Duong",
-      "title": "Second 2,500-tonne press now running"
+      "id": "press-line-2500"
     },
     {
-      "id": "qualicoat-class-2",
-      "label": "Finishing",
-      "title": "Powder line certified to QUALICOAT Class 2"
+      "id": "qualicoat-class-2"
     },
     {
-      "id": "ev-battery-tray",
-      "label": "Car's Accessory",
-      "title": "6082 battery tray cleared for production"
+      "id": "ev-battery-tray"
     },
     {
-      "id": "honeycomb-line",
-      "label": "Honeycomb",
-      "title": "Bonded panels now go to four metres"
+      "id": "honeycomb-line"
     },
     {
-      "id": "eclos-sable-range",
-      "label": "Finishes",
-      "title": "Five sablé textures added to stock"
+      "id": "eclos-sable-range"
     },
     {
-      "id": "solar-rail-supply",
-      "label": "Profile",
-      "title": "6061-T6 solar rail on a three-year agreement"
+      "id": "solar-rail-supply"
     }
   ]
 }

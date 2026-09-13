@@ -228,8 +228,11 @@ public sealed class SectionRenderer
         => item is null ? string.Empty
          : " data-ab-" + kind + "=\"" + Esc(document + "." + Where(item, field)) + "\"";
 
-    /// <summary>The first of two that has anything in it. An empty override means "use theirs".</summary>
-    private static string Or(string mine, string theirs) => mine.Length > 0 ? mine : theirs;
+    /// <summary>The same, for a node that is a value in its own right - one tag out of a list.</summary>
+    private static string ElsewhereAt(string document, JsonNode? node)
+        => node is JsonValue v && v.TryGetValue<string>(out _)
+           ? " data-ab-t=\"" + Esc(document + "." + PathOf(node)) + "\""
+           : string.Empty;
 
     /// <summary>
     /// An address whose value has to be one of a set that already exists.
@@ -922,15 +925,18 @@ public sealed class SectionRenderer
     /// Six news cards in a row that scrolls. Placeholders go in unlabelled here too: the card
     /// already prints the place and the headline in white over the image.
     ///
-    /// A card is a POINTER at an article, not a copy of one. It used to carry its own picture and
-    /// its own copy of the article's path, which meant an article had two picture slots in two
-    /// places and somebody had to remember to fill both. Now the picture comes from the article
-    /// and the path is derived by the same <see cref="Href"/> every other list uses, so the two
-    /// cannot drift.
+    /// A card is a POINTER at an article, and nothing else. It is chosen from the articles that
+    /// exist; everything on it - the headline, the tag above it, the picture, the link - is the
+    /// article's, addressed on the article.
     ///
-    /// What stays on the card is the short headline and the place: all six differ from their
-    /// article's headline, consistently shorter, which is an editorial decision rather than rot.
-    /// Empty means "use the article's".
+    /// It used to be a copy: its own picture slot, its own headline, its own written-out path.
+    /// One article therefore had two headlines and two picture slots in two files, and all six
+    /// pairs had already drifted apart. A copy that nothing keeps in step is not an editorial
+    /// choice, it is a second version of the truth.
+    ///
+    /// So the whole card is editable, and every field on it edits the ARTICLE. Click the headline
+    /// on the home page and the article's headline is what changes - on the home page, on /news/,
+    /// and on the article's own page, because there is only one of it now.
     ///
     /// An article that is hidden or gone takes its card with it. <see cref="Arr"/> filters
     /// visible:false, so hiding one article hides it everywhere it appears - which is the promise
@@ -947,11 +953,15 @@ public sealed class SectionRenderer
 
         for (var i = 0; i < items.Count; i++)
         {
-            var (it, article) = items[i];
+            var (_, article) = items[i];
             var image = Str(article, "image");
             var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(444, 370, "");
-            var title = Or(Str(it, "title"), Str(article, "title"));
-            var label = Or(Str(it, "label"), Str(article, "author"));
+            var title = Str(article, "title");
+
+            // The line over the headline is the article's first tag. It used to be a word typed
+            // onto the card - "Binh Duong", "Honeycomb" - which named nothing the article knew
+            // about itself, so two lists of categories existed and neither was authoritative.
+            var tag = (article?["tags"] as JsonArray)?.OfType<JsonNode>().FirstOrDefault();
 
             sb.Append("<div class=\"core-slider-novedades__slide keen-slider__slide number-slide-")
               .Append(i).Append("\"><a class=\"core-slider-novedades__slide__container\" href=\"")
@@ -968,11 +978,11 @@ public sealed class SectionRenderer
               .Append("<div class=\"core-slider-novedades__slide__card-body\">")
               .Append("<div class=\"core-slider-novedades__slide__card-body_top\">")
               .Append("<div class=\"core-slider-novedades__slide__card-body__logo\">")
-              .Append("<p class=\"core-slider-novedades__logo\"").Append(TextAddress(it, "label"))
-              .Append('>').Append(Esc(label))
+              .Append("<p class=\"core-slider-novedades__logo\"").Append(ElsewhereAt("news", tag))
+              .Append('>').Append(Esc(tag?.ToString() ?? string.Empty))
               .Append("</p></div><div class=\"cos-novedades__enlace\">")
               .Append("<h3 class=\"core-slider-novedades__slide__card-body__name font-display-sm uppercase\"")
-              .Append(TextAddress(it, "title")).Append('>')
+              .Append(Elsewhere("news", article, "title", "t")).Append('>')
               .Append(Esc(title)).Append("</h3></div></div>")
               .Append("<div class=\"extra\">").Append(PlusIcon).Append("</div>")
               .Append("</div></a></div>");
