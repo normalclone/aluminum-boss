@@ -274,13 +274,13 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   AB.load('about').then(function (d) {
     document.getElementById('ab-lede').textContent = d.lede;
     document.getElementById('ab-intro').textContent = d.intro;
-    nav.innerHTML = '<div class="ab-wrap ab-chapbar">' +
+    if (!nav.firstElementChild) nav.innerHTML = '<div class="ab-wrap ab-chapbar">' +
       chapterNav(d.chapters, null, function (c) {
         return 'detail/?id=' + encodeURIComponent(c.id);
       }) + '</div>';
 
     var f = d.figures;
-    figs.innerHTML = '<div class="ab-wrap">' +
+    if (!figs.firstElementChild) figs.innerHTML = '<div class="ab-wrap">' +
       '<h2 class="ab-fig-title">' + AB.esc(f.title) + '</h2>' +
       '<div class="ab-fig-tabs">' + f.tabs.map(function (t, i) {
         return '<button type="button" data-i="' + i + '"' + (i ? '' : ' class="is-on"') + '>' +
@@ -302,9 +302,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       b.className = 'is-on';
       drawFigs(+b.getAttribute('data-i'));
     });
-    drawFigs(0);
+    if (!document.getElementById('ab-fig-body').firstElementChild) drawFigs(0);
 
-    list.innerHTML = d.chapters.map(function (c, i) {
+    if (!list.firstElementChild) list.innerHTML = d.chapters.map(function (c, i) {
       return '<a class="ab-chapcard" href="detail/?id=' + encodeURIComponent(c.id) + '">' +
                '<img src="' + AB.ph(560, 340, c.name) + '" width="560" height="340" alt="' +
                  AB.esc(c.name) + '" loading="lazy">' +

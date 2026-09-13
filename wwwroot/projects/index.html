@@ -264,7 +264,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     d.albums.forEach(function (a) { (years[a.year] = years[a.year] || []).push(a); });
     var order = Object.keys(years).sort(function (a, b) { return b - a; });
 
-    el.innerHTML = order.map(function (y) {
+    if (!el.firstElementChild) el.innerHTML = order.map(function (y) {
       var n = years[y].length;
       var cards = years[y].map(function (a) {
         return '<a class="ab-album" href="detail/?id=' + encodeURIComponent(a.id) + '">' +

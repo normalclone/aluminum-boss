@@ -278,10 +278,11 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     return true;
   }
 
-  function draw() {
+  function draw(first) {
     var hits = DATA.items.filter(matches);
-    wrapS.innerHTML = hits.length ? hits.map(tile).join('')
+    var html = hits.length ? hits.map(tile).join('')
       : '<p class="ab-empty">No finish matches all three filters. Clear one to widen the search.</p>';
+    if (!first || !wrapS.firstElementChild) wrapS.innerHTML = html;
     elCount.textContent = hits.length === DATA.items.length
       ? DATA.items.length + ' finishes'
       : hits.length + ' of ' + DATA.items.length + ' finishes';
@@ -295,7 +296,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   AB.load('colors').then(function (d) {
     DATA = d;
     document.getElementById('ab-intro').textContent = d.intro;
-    wrapF.innerHTML = d.filters.map(function (f) {
+    if (!wrapF.firstElementChild) wrapF.innerHTML = d.filters.map(function (f) {
       var opts = [''].concat(f.options).map(function (o) {
         return '<button type="button" data-k="' + f.id + '" data-v="' + AB.esc(o) + '">' +
                (o ? AB.esc(o) : 'All') + '</button>';
@@ -309,7 +310,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       picked[b.getAttribute('data-k')] = b.getAttribute('data-v');
       draw();
     });
-    draw();
+    draw(true);
   }).catch(function (e) { AB.fail(wrapS, e); });
 }());
 

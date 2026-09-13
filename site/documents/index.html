@@ -279,9 +279,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
            '</div>';
   }
 
-  function draw() {
+  function draw(first) {
     var shown = 0;
-    elC.innerHTML = DATA.categories.map(function (c) {
+    var html = DATA.categories.map(function (c) {
       if (cat && c.id !== cat) return '';
       var items = c.items.filter(function (d) { return !lang || d.lang === lang; });
       if (!items.length) return '';
@@ -292,6 +292,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
                '<div class="ab-docs">' + items.map(function (d) { return row(d, c); }).join('') +
                '</div></section>';
     }).join('') || '<p class="ab-empty">Nothing matches both filters.</p>';
+    if (!first || !elC.firstElementChild) elC.innerHTML = html;
 
     var total = DATA.categories.reduce(function (n, c) { return n + c.items.length; }, 0);
     elN.textContent = shown === total ? total + ' documents'
@@ -324,7 +325,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
              }).join('') + '</div></div>';
     }
 
-    elF.innerHTML =
+    if (!elF.firstElementChild) elF.innerHTML =
       group('Type', 'cat', [{v: '', t: 'All'}].concat(d.categories.map(function (c) {
         return {v: c.id, t: c.name};
       }))) +
@@ -339,7 +340,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       else lang = b.getAttribute('data-v');
       draw();
     });
-    draw();
+    draw(true);
   }).catch(function (e) { AB.fail(elC, e); });
 }());
 

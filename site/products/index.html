@@ -256,7 +256,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   var bands = document.getElementById('ab-bands');
   AB.load('products').then(function (d) {
     document.getElementById('ab-intro').textContent = d.intro;
-    bands.innerHTML = d.categories.map(function (c) {
+    if (!bands.firstElementChild) bands.innerHTML = d.categories.map(function (c) {
       var tiles = c.items.map(function (it) {
         return '<a class="ab-tile" href="detail/?id=' + encodeURIComponent(c.id) +
                '#' + encodeURIComponent(it.id) + '">' +

@@ -272,7 +272,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   AB.load('news').then(function (d) {
     document.getElementById('ab-intro').textContent = d.intro;
     var sorted = d.items.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    el.innerHTML = sorted.map(function (a, i) {
+    if (!el.firstElementChild) el.innerHTML = sorted.map(function (a, i) {
       return '<a class="ab-post' + (i === 0 ? ' is-lead' : '') + '" href="detail/?id=' +
                encodeURIComponent(a.id) + '">' +
                '<span class="ab-post-img"><img src="' +

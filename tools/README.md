@@ -79,11 +79,23 @@ tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--on
 > **Đã ký duyệt:** port từ bản clone tĩnh vào app .NET · dời cả cây lên một cấp · mọi lần đổi
 > nội dung kể từ đó.
 
-**Một trang lệch đơn lẻ thì chụp lại trước khi coi là hồi quy.** Ảnh chụp thỉnh thoảng hỏng —
-font về muộn, ảnh chưa giải mã xong. Đã gặp thật: một trang báo lệch 175 pixel ở lần chụp đầu,
-chụp lại thì giống hệt, và trang đó không hề bị đụng tới trong đợt sửa. Cách phân biệt: chụp
-cùng một trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là
-phép chụp không ổn định; giống nhau mà vẫn lệch với mốc nền thì mới là hồi quy thật.
+**Khác byte không phải câu hỏi.** Công cụ tự đếm pixel lệch quá 32/255 khi hai ảnh khác byte,
+rồi mới kết luận. Trước đó nó báo "KHÁC — chạy compare.py" và để người tự làm; trong một buổi
+chiều, cách đó báo động giả ba lần liền trên những trang không lệch một pixel nào.
+
+**Một trang lệch đơn lẻ thì chụp lại trước khi coi là hồi quy.** Cách phân biệt: chụp cùng một
+trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là phép chụp
+không ổn định; giống nhau mà vẫn lệch với mốc nền thì mới là hồi quy thật. Đã gặp thật hai lần —
+175 pixel trên một thẻ `<select>`, và 4.827 pixel trên trang chủ.
+
+**Ảnh SVG dạng `data:` bị ẩn khi chụp.** Cùng một vấn đề với ô điều khiển, chỉ sâu hơn một tầng:
+một SVG phục vụ qua thẻ `<img>` tự vẽ chữ của nó, và trình duyệt dựng chữ đó theo một trong hai
+cách tuỳ lúc giải mã xong. Đo được: hai lần chụp trang chủ từ **cùng một máy chủ** lệch đúng
+**4.827 pixel**, lần nào cũng đúng con số ấy, gói gọn trong hai dòng chữ bên trong mỗi ảnh
+placeholder của khối gallery — trong khi DOM giống nhau từng ký tự và `settle.js` cho thấy cả
+mười một vùng có cùng đỉnh, cùng chiều cao qua bốn lần tải. Ẩn chúng vẫn giữ nguyên cái khung,
+tức là giữ nguyên bố cục, trong phép so. Không mất gì: `ph-parity.js` đối chiếu hình máy chủ vẽ
+với hình trình duyệt vẽ **từng ký tự**, chặt hơn nhìn ảnh chụp của chúng.
 
 **Ảnh `loading="lazy"` phải được ép tải trước khi chụp.** Ảnh chụp toàn trang không cuộn, nên
 ảnh dưới màn hình vẫn trống. Vô hại khi cả hai bên cùng hoãn như nhau; nguy hiểm ngay khi không:
@@ -165,6 +177,79 @@ python locate-diff.py baseline/products_1440.png after/products_1440.png diff
 
 Một dấu hiệu đáng nhớ: **số pixel lệch giống hệt nhau ở hai bề ngang khác nhau** nghĩa là vùng
 lệch có kích thước cố định — thường là một ô điều khiển, không phải nội dung chạy theo bố cục.
+
+---
+
+## `ph-parity.js` — bản port có còn là bản port không
+
+`Content/Placeholder.cs` là bản chuyển của `AB.ph` trong `_app/app.js`. Hai bên vẽ cùng một cái
+hố trên cùng một trang — máy chủ vẽ cho lần tải đầu, trình duyệt vẽ trong lúc có người đang sửa.
+Lệch nhau là nhấp nháy mỗi lần gõ phím.
+
+```bash
+node ph-parity.js http://localhost:5199
+```
+
+> **Đã bắt được:** `Math.Round` của .NET làm tròn số rưỡi về số **chẵn**, `Math.round` của JS làm
+> tròn **lên**. Một toạ độ tính ra 160,5 thành 161 ở trình duyệt và 160 ở máy chủ, đẩy dòng chữ
+> thông số lên đúng một pixel — 450 pixel lệch. Lỗi đó tìm ra bằng cách chụp cả trang rồi khoanh
+> vùng; công cụ này tìm ra trong bốn giây và chỉ đúng ký tự thứ mấy.
+
+---
+
+## `behaviour.js` — bấm thử những thứ vẫn phải chạy
+
+Script không dựng DOM nữa; chúng gắn hành vi lên HTML **máy chủ** viết ra. Mọi handler giờ chạy
+trên thứ nó không tự viết, và **ảnh chụp không nhìn thấy điều đó**: bộ lọc, bộ xem ảnh và phép
+kiểm biểu mẫu đều đẹp như thường trong ảnh chụp một trang chưa ai chạm vào.
+
+> **Đã bắt được (qua phép so pixel, không qua công cụ này):** bỏ lần dựng đầu cũng bỏ luôn vòng
+> lặp đếm kết quả, nên dòng tổng đọc thành "0 of 25 documents". Cái đó còn hiện ra trong ảnh.
+> Bộ lọc gãy, bộ xem ảnh không mở, biểu mẫu im lặng thì không.
+
+---
+
+## `settle.js` — trang có đứng yên giữa các lần tải không
+
+Tải cùng một trang vài lần rồi báo vùng nào ra chiều cao khác.
+
+> **Đã dùng để loại trừ:** trang chủ lệch 4.827 pixel giữa hai lần chụp từ cùng một máy chủ. Giả
+> thuyết đầu tiên bao giờ cũng là "có thứ gì đó bên trên đổi chiều cao". Công cụ này cho thấy cả
+> mười một vùng có cùng đỉnh và cùng chiều cao qua bốn lần tải, chiều cao tài liệu không đổi một
+> pixel — nên nguyên nhân nằm ở chỗ khác, và đó là chữ bên trong ảnh SVG.
+
+Loại trừ cũng là kết quả: không có nó thì rất dễ đi sửa một dịch chuyển bố cục không tồn tại.
+
+---
+
+## `trees.py` — `site/` và `wwwroot/` có nói cùng một thứ không
+
+`wwwroot/` là thứ máy chủ đọc; `site/` là bản tĩnh GitHub Pages phục vụ. Không có gì ép hai bên
+giống nhau.
+
+```bash
+python trees.py
+```
+
+> **Đã bắt được:** thêm `familySpecs` vào `wwwroot/_data/colors.json` mà quên chép sang `site/`,
+> nên trang chi tiết màu **trên bản đang chạy** hiện "—" ở ba dòng thông số. Không phép đo nào
+> khác bắt được, vì tất cả đều chỉ chạm vào máy chủ.
+
+File dữ liệu và script phải giống **từng byte**. File HTML so sau khi giải mã thực thể và bỏ
+khoảng trắng cạnh thẻ, vì bản tĩnh viết `Böss` còn khuôn viết `B&ouml;ss`, và bộ ghép nối các
+dòng bằng `<br>` không xuống dòng.
+
+---
+
+## `restart.ps1` — dừng, dựng lại, chạy lại
+
+```bash
+powershell -File tools/restart.ps1 5199
+```
+
+Bỏ bước dừng thì MSBuild chờ 30 giây rồi báo `Exceeded retry count of 10` về `apphost.exe` —
+một thông báo nói về chuyện khác hẳn, rất dễ đọc nhầm thành lỗi biên dịch. Nguyên nhân thật là
+bản `.exe` đang chạy khoá chính file cần ghi đè.
 
 ---
 

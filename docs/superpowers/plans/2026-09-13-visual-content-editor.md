@@ -24,8 +24,18 @@ là một `<iframe>` mở chính trang thật, nhận bản nháp qua `postMessa
 - **Giao diện phần mềm bằng tiếng Anh.** Nhãn nút, tiêu đề màn hình, thông báo — tất cả tiếng
   Anh, khớp với khu quản trị hiện có (`Shown` / `Hidden` / `Save changes` / `History`).
   Chú thích trong mã bằng tiếng Anh. Thông điệp commit bằng tiếng Việt.
-- **Không bao giờ để lệch giữa `site/` và `wwwroot/`.** Sau mỗi đợt, `tools/publish-static.js`
-  sinh lại `site/` từ đầu ra của bộ ghép; kiểm bằng `cmp`.
+- **Không bao giờ để lệch giữa `site/` và `wwwroot/`.** Kiểm bằng `python tools/trees.py` — file
+  dữ liệu và script phải giống từng byte, HTML phải giống sau khi giải mã thực thể. Ràng buộc này
+  có vì đã vi phạm một lần và lên thẳng bản đang chạy: thêm `familySpecs` vào
+  `wwwroot/_data/colors.json` mà quên chép sang `site/`, nên trang chi tiết màu trên Pages hiện
+  "—" ở ba dòng thông số, và không phép đo nào bắt được vì tất cả đều chỉ chạm vào máy chủ.
+
+  **HOÃN việc dùng `publish-static.js` sinh lại `site/` cho tới sau Task 10.** Bản tĩnh chỉ có
+  MỘT file cho mỗi khuôn chi tiết, còn bộ ghép dựng bài theo `?id=`; ghi bản đã ghép ra
+  `site/news/detail/index.html` là đóng cứng bài đầu tiên vào đó, rồi guard "chỉ dựng khi khung
+  còn rỗng" sẽ thấy khung có sẵn và không dựng lại — mọi `?id=` trên Pages đều ra một bài. Task 10
+  cho mỗi mục một đường dẫn riêng, lúc đó một file tĩnh cho một mục mới là đúng. Từ giờ tới đó,
+  `site/` giữ nguyên vai trò khuôn và chỉ sửa song song với `wwwroot/`.
 - **Mọi đường dẫn cũ phải sống.** Không được để bất kỳ URL nào từng công bố trả 404.
 - **Không tự sửa toạ độ.** `lat`, `lon`, waypoint tuyến, tỉ lệ % của tuyến là trường khoá.
 - **Placeholder ảnh ghi rõ tỉ lệ** và không bao giờ lặp lại chữ đã hiện trên thẻ.

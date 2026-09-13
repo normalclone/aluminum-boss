@@ -260,7 +260,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   AB.load('contact').then(function (d) {
     document.getElementById('ab-intro').textContent = d.intro;
 
-    elO.innerHTML = d.offices.map(function (o) {
+    if (!elO.firstElementChild) elO.innerHTML = d.offices.map(function (o) {
       return '<div class="ab-office">' +
                '<h2>' + AB.esc(o.name) + '</h2>' +
                '<p>' + o.lines.map(AB.esc).join('<br>') + '</p>' +
@@ -269,7 +269,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
              '</div>';
     }).join('');
 
-    elR.innerHTML = d.routes.map(function (r) {
+    if (!elR.firstElementChild) elR.innerHTML = d.routes.map(function (r) {
       return '<a class="ab-route" href="detail/?id=' + encodeURIComponent(r.id) + '">' +
                '<h3>' + AB.esc(r.name) + '</h3>' +
                '<p>' + AB.esc(r.blurb) + '</p>' +

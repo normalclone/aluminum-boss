@@ -39,6 +39,21 @@ const FREEZE = `
   noControlText.textContent = 'select, input, textarea, option { color: transparent !important; }';
   document.head.appendChild(noControlText);
 
+  // The same problem one level down: an SVG served as an <img> draws its own text, and the
+  // browser rasterises that text one of two ways depending on when the decode finished. Measured
+  // on the home page, two shots from the SAME server differed by exactly 4,827 pixels, every
+  // time, confined to the two text lines inside each placeholder in the gallery - while the DOM
+  // was character-identical and every section measured the same top and the same height across
+  // four loads. Hiding them keeps their boxes, and therefore the layout, in the comparison.
+  //
+  // Nothing is lost by it: ph-parity.js compares the server's drawing with the browser's
+  // character for character, on every placeholder in the site, which is a stricter test of the
+  // same thing than looking at a photograph of it.
+  const noPlaceholderArt = document.createElement('style');
+  noPlaceholderArt.textContent =
+    'img[src^="data:image/svg+xml"] { visibility: hidden !important; }';
+  document.head.appendChild(noPlaceholderArt);
+
   window.scrollTo(0, 0);
 `;
 
