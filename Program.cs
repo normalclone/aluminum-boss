@@ -82,6 +82,42 @@ if (adminEnabled)
         .Set(AdminSeeder.AnyDefault(db));
 }
 
+// Who the visitor is, when something else answers the door.
+//
+// Behind nginx every request arrives from the proxy, so RemoteIpAddress is 127.0.0.1 for
+// everybody. The contact form allows eight enquiries an hour per address; with one address for
+// the whole internet, the ninth visitor of the hour is turned away because of the eighth, and
+// nobody can tell from the outside that this is what happened.
+//
+// X-Forwarded-For fixes that and is also a header anyone can type, so it is only believed when
+// the configuration names the proxy it may come from - Proxy:TrustedIps. Empty, and this
+// middleware is not registered at all: a direct-to-Kestrel site reads the real address already,
+// and trusting the header there would let a visitor choose their own rate-limit bucket.
+var trusted = app.Configuration.GetSection("Proxy:TrustedIps").Get<string[]>() ?? [];
+var proxies = trusted.Select(ip => System.Net.IPAddress.TryParse(ip, out var a) ? a : null)
+                     .OfType<System.Net.IPAddress>().ToArray();
+if (proxies.Length > 0)
+{
+    var forwarded = new Microsoft.AspNetCore.Builder.ForwardedHeadersOptions
+    {
+        ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor
+                         | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto,
+    };
+    // The framework trusts loopback by default. Clear that and list the proxies by hand, so the
+    // configuration is the whole answer to "who may rewrite the caller's address".
+    forwarded.KnownNetworks.Clear();
+    forwarded.KnownProxies.Clear();
+    foreach (var ip in proxies) forwarded.KnownProxies.Add(ip);
+    app.UseForwardedHeaders(forwarded);
+}
+else if (trusted.Length > 0)
+{
+    app.Logger.LogWarning(
+        "Proxy:TrustedIps has {Count} entries and none of them parse as an IP address; " +
+        "X-Forwarded-For is being ignored and every visitor will look like the proxy.",
+        trusted.Length);
+}
+
 if (!app.Environment.IsDevelopment())
 {
     // A static page, not a controller action: the app no longer has an MVC surface of its
