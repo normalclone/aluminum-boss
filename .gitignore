@@ -49,8 +49,13 @@ tools/baseline/task10/
 __pycache__/
 
 # Moc nen sau Task 14 - da go dong "Demonstration site" khoi chan trang, nen moc task10 khong
-# dung lai duoc. Day la moc de dung tu nay.
+# dung lai duoc.
 tools/baseline/task14/
+
+# Moc nen sau Task 15. Chu cua tung muc gio nam trong <span> rieng de sua duoc, nen net chu
+# duoc ve lai o ranh gioi - khong co gi xe dich, nhung moc task14 khong dung lai duoc. Day la
+# moc de dung tu nay.
+tools/baseline/task15/
 
 # Yeu cau lien he do khach that gui, va co so du lieu lich su. Khong thuoc ve git.
 App_Data/enquiries.jsonl

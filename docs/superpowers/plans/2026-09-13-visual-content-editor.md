@@ -619,8 +619,24 @@ không ô nào thuộc về bài viết. Sửa được logo, không sửa đư�
 - [x] **Step 5: Gộp địa chỉ trùng trong danh sách ô.** Một trường hiện ở nhiều chỗ trên cùng
       một trang (wordmark ở đầu và cuối; tên dòng sản phẩm ở hero, ở thẻ, ở tiêu đề dải). Trang
       vẫn vá mọi chỗ khi gõ; hai ô cùng nội dung chỉ là hai chỗ để phân vân cái nào thật.
-- [x] **Step 6: Verify** — `editor-shot` 9/9 (phép thu mới: 16 ô thuộc về bài viết, có
-      `news.items.0.title`), `collection` 13/13, `parity` xem dưới.
+- [x] **Step 6: Verify** — `editor-shot` 10/10, `collection` 13/13, `parity` xem dưới.
+
+### Một phép đo hoá ra đang đo nhầm trang, từ ngày nó được viết
+
+Thêm phép thu thứ chín vào `editor-shot.js` thì lộ ra phép thứ bảy sai từ đầu. Bước 2 gõ một chữ
+vào ô nhập, nên trang mang trạng thái "có thay đổi chưa lưu"; bước 5 đổi trang bằng ô **Page**,
+việc đó bật một hộp thoại hỏi lại, Playwright tự bấm Huỷ, và khung xem thử **ở nguyên chỗ cũ**.
+"43 ô ảnh trên `/products/`" là 43 ô ảnh trên trang chủ. Phép thu vẫn ĐẠT, vì trang chủ cũng có
+ô ảnh.
+
+Mở thẳng bằng địa chỉ thay vì qua ô chọn: 30 ô, và đó mới là `/products/`. Cùng một lớp lỗi với
+bảng chọn ảnh phủ lên khung xem thử ở Task 11b — phép đo đạt vì lý do khác với lý do nó được
+viết ra.
+
+Và phép thu thứ mười, thêm sau: gõ thẳng vào ô của một MỤC rồi đọc `<h1>` trong khung xem thử
+trước khi lưu. Bước 2 gõ vào một địa chỉ của khuôn nên nó đi đường cũ; địa chỉ của mục đi đường
+mới — dấu chấm mở đầu, rồi ghép với tên tệp đóng trên khối bao quanh — và `collection.js` lưu
+rồi tải lại trang, nên một đường vá-sống bị hỏng vẫn qua được nó.
 - [x] **Step 7: Commit**
 
 ### Ba trường cố tình không gắn địa chỉ

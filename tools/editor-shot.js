@@ -152,6 +152,27 @@ async function open(page, path) {
                      + (await page.locator('#ed-frame').getAttribute('src')) + ')');
   await shot('7-item-fields');
 
+  // 8 - go vao o cua MUC thi khung xem thu doi ngay, truoc khi luu.
+  //
+  // Phep thu 2 go vao mot dia chi cua khuon (site.wordmark.lead), di qua duong cu. Dia chi cua
+  // muc di qua duong moi - dau cham mo dau, roi ghep voi ten tep dong tren khoi bao quanh - va
+  // chua co gi chay het ca duong ay: phep thu cua collection.js luu roi tai lai trang, nen mot
+  // duong va-song bi hong van se qua duoc.
+  const titleAddr = own.filter(a => /[.]title$/.test(a))[0];
+  const titleBox = page.locator('[data-address="' + titleAddr + '"]');
+  const before = await titleBox.inputValue();
+  const live = 'Da go luc ' + new Date().toISOString().slice(11, 19);
+  await titleBox.fill(live);
+  await wait(500);
+  const shown = await frame(page).locator('h1.ab-article-title').first().textContent();
+  check('go vao o cua muc -> xem thu doi ngay', shown.trim() === live,
+        titleAddr + ' -> "' + shown.trim() + '"');
+  await shot('8-live-item');
+
+  // Tra ve nhu cu va KHONG luu: phep thu nay chi doc duong va-song.
+  await titleBox.fill(before);
+  await wait(200);
+
   heading('Man hinh soan tren ' + BASE);
   table(['phep thu', 'ket qua', 'chi tiet'], rows, [false, false, false]);
   console.log('\n  Anh o %s — MO RA NHIN, dung chi doc con so.', OUT);
