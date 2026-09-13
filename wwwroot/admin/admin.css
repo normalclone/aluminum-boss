@@ -123,3 +123,37 @@ button.ad-save:hover, .ad-btn:hover { background: #000; }
 .ad-media figcaption { padding: 9px 11px; font-size: 12px; word-break: break-all; }
 .ad-media .ad-num { display: block; color: var(--ad-mute); margin-top: 3px; }
 .ad-drop { border: 1px dashed #c2bcb3; border-radius: 4px; padding: 20px; margin: 0 0 24px; background: var(--ad-wash); }
+
+/* ---- collection lists ---- */
+.ad-crumb { color: var(--ad-mute); font-size: 13px; margin: 0 0 6px; }
+.ad-crumb a { color: inherit; }
+.ad-addbar { margin: 0 0 18px; }
+.ad-thumbcell { width: 1%; }
+.ad-thumbcell img {
+  display: block; width: 56px; height: 42px; object-fit: cover;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: var(--ad-wash);
+}
+.ad-nothumb {
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 42px; color: var(--ad-mute);
+  border: 1px dashed #c2bcb3; border-radius: 3px; background: var(--ad-wash);
+}
+.ad-note { display: block; color: var(--ad-mute); font-size: 13px; margin-top: 2px; }
+.ad-state { border: 1px solid var(--ad-line); border-radius: 3px; padding: 4px 10px; background: #fff; }
+tr.is-off .ad-state { border-style: dashed; }
+.ad-order { width: 1%; white-space: nowrap; display: flex; gap: 5px; padding-top: 15px; }
+.ad-order form { display: inline; }
+.ad-right-cell { width: 1%; white-space: nowrap; text-align: right; }
+.ad-right-cell form { display: inline; margin-left: 12px; }
+
+/* Deleting is the one thing on these screens that cannot be undone from the screen itself. */
+.ad-danger { background: var(--ad-bad); border-color: var(--ad-bad); }
+.ad-danger:hover { background: #8c2822; }
+.ad-danger-plain { color: var(--ad-bad); }
+.ad-danger-plain:hover { color: #8c2822; }
+.ad-confirm {
+  background: #fbf0ef; border-left: 3px solid var(--ad-bad);
+  padding: 14px 16px; margin: 0 0 22px; border-radius: 0 3px 3px 0;
+}
+.ad-confirm p { margin: 0 0 12px; }
+.ad-confirm form { display: flex; gap: 10px; align-items: center; }

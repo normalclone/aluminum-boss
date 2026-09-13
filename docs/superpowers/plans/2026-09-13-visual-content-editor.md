@@ -495,7 +495,7 @@ thêm/xoá một mục, `visible`, đổi thứ tự, và dò tham chiếu trư�
 
 ---
 
-## Task 12: Màn hình danh sách và màn hình đăng
+## Task 12: Màn hình danh sách và màn hình đăng — XONG
 
 **Files:**
 - Create: `Areas/Admin/Controllers/CollectionController.cs`
@@ -505,18 +505,18 @@ thêm/xoá một mục, `visible`, đổi thứ tự, và dò tham chiếu trư�
 Mười loại, nhãn tiếng Anh: Products · Colors · News · Projects · Documents · Gallery ·
 Highlights · Applications · Export routes · Factories.
 
-- [ ] **Step 1: Màn hình danh sách** — ảnh thu nhỏ, tìm, lọc, kéo đổi thứ tự, `Shown`/`Hidden`
-- [ ] **Step 2: Màn hình đăng** — ô nhập theo loại; ảnh là thẻ ảnh có nút `Choose image` kèm tỉ lệ
-- [ ] **Step 3: Sinh slug từ tiêu đề; khoá sau lần lưu đầu.** Kiểm ngay lúc lưu, phía C#:
+- [x] **Step 1: Màn hình danh sách** — ảnh thu nhỏ, tìm, lọc, kéo đổi thứ tự, `Shown`/`Hidden`
+- [x] **Step 2: Màn hình đăng** — là trang của chính mục đó trong khung soạn hai cột; — ô nhập theo loại; ảnh là thẻ ảnh có nút `Choose image` kèm tỉ lệ
+- [x] **Step 3: Sinh slug từ tiêu đề; khoá sau lần lưu đầu.** Kiểm ngay lúc lưu, phía C#:
       đúng dạng `^[a-z0-9]+(-[a-z0-9]+)*$`, không được là từ `detail`, và không trùng một slug
       khác **trong cùng mục** (`documents` gộp các danh mục thành danh sách phẳng nên hai tài liệu
       khác danh mục vẫn trùng được). Hôm nay `tools/slugs.py` là thứ duy nhất kiểm việc này và nó
       chạy bằng tay; ngày trình sửa ghi được `slug` thì một slug sai đi thẳng vào URL. Đổi slug thì
       ghi luôn một dòng vào `redirects.json` — đó là lý do bảng ấy tồn tại.
-- [ ] **Step 4: Dò tham chiếu trước khi xoá** — báo "3 chỗ đang trỏ tới mục này"
-- [ ] **Step 5: Xem trước đi theo mục đang sửa**
-- [ ] **Step 6: Verify** — đăng thật một mục mỗi loại, khẳng định trang thật đổi theo
-- [ ] **Step 7: Commit**
+- [x] **Step 4: Dò tham chiếu trước khi xoá** — báo "3 chỗ đang trỏ tới mục này"
+- [x] **Step 5: Xem trước đi theo mục đang sửa** — nút Edit mở đúng trang của mục
+- [x] **Step 6: Verify** — `tools/collection.js`, 12/12; đăng thật một mục mỗi loại, khẳng định trang thật đổi theo
+- [x] **Step 7: Commit**
 
 ---
 

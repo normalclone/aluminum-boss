@@ -71,7 +71,25 @@ public sealed class SectionRenderer
     };
 
     private static List<JsonNode> Arr(JsonNode? node, string key)
-        => (node?[key] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        => (node?[key] as JsonArray)?.OfType<JsonNode>().Where(Shown).ToList() ?? [];
+
+    /// <summary>
+    /// Whether an item is published. Absent means yes.
+    ///
+    /// Hiding is not deleting, and the difference matters to somebody running a site: a product
+    /// that is out of stock this quarter, an article held until Monday. A hidden item keeps its
+    /// place in the file - so every address around it stays where it was - and disappears from
+    /// every list, every count, and its own page, which then answers 404 like any other address
+    /// nobody has.
+    ///
+    /// The test is written the long way round because these lists also hold plain strings - tags,
+    /// paragraphs, lines of an address - and asking a string whether it is visible throws.
+    /// </summary>
+    private static bool Shown(JsonNode? node)
+        => node is not JsonObject o
+           || o["visible"] is not JsonValue v
+           || !v.TryGetValue<bool>(out var yes)
+           || yes;
 
     /// <summary>
     /// The id this page will actually render, given whatever arrived in the query string.
@@ -254,11 +272,8 @@ public sealed class SectionRenderer
 
     private static string NewsList(JsonNode doc, string root)
     {
-        var items = doc["items"] as JsonArray;
-        if (items is null) return string.Empty;
-
         // Newest first, the order the listing has always shown.
-        var sorted = items.OfType<JsonNode>()
+        var sorted = Arr(doc, "items")
             .OrderByDescending(n => Str(n, "date"), StringComparer.Ordinal)
             .ToList();
 
@@ -301,14 +316,11 @@ public sealed class SectionRenderer
     /// </summary>
     private static string ProductsList(JsonNode doc, string root)
     {
-        var cats = doc["categories"] as JsonArray;
-        if (cats is null) return string.Empty;
-
         var sb = new StringBuilder();
-        foreach (var c in cats.OfType<JsonNode>())
+        foreach (var c in Arr(doc, "categories"))
         {
             var href = Href(c);
-            var items = (c["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+            var items = Arr(c, "items");
 
             var tiles = new StringBuilder();
             foreach (var it in items)
@@ -344,10 +356,7 @@ public sealed class SectionRenderer
     /// </summary>
     private static string ProjectsList(JsonNode doc, string root)
     {
-        var albums = doc["albums"] as JsonArray;
-        if (albums is null) return string.Empty;
-
-        var byYear = albums.OfType<JsonNode>()
+        var byYear = Arr(doc, "albums")
             .GroupBy(a => Str(a, "year"))
             .OrderByDescending(g => g.Key, StringComparer.Ordinal);
 
@@ -421,7 +430,7 @@ public sealed class SectionRenderer
 
     /// <summary>The unfiltered tally. Counted, never written into the prose.</summary>
     private static string ColorCount(JsonNode doc)
-        => ((doc["items"] as JsonArray)?.Count ?? 0) + " colors";
+        => Arr(doc, "items").Count + " colors";
 
     /// <summary>
     /// The swatch grid. This is the one listing that shows a real colour instead of the grey
@@ -430,11 +439,8 @@ public sealed class SectionRenderer
     /// </summary>
     private static string ColorList(JsonNode doc, string root)
     {
-        var items = doc["items"] as JsonArray;
-        if (items is null) return string.Empty;
-
         var sb = new StringBuilder();
-        foreach (var c in items.OfType<JsonNode>())
+        foreach (var c in Arr(doc, "items"))
         {
             sb.Append("<a class=\"ab-swatch\" href=\"")
               .Append(Href(c)).Append("\">").Append(Chip(c, root))
@@ -452,13 +458,13 @@ public sealed class SectionRenderer
     /// </summary>
     private static string DocumentFilters(JsonNode doc)
     {
-        var cats = (doc["categories"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        var cats = Arr(doc, "categories");
 
         var types = new List<(string V, string T)> { (string.Empty, "All") };
         types.AddRange(cats.Select(c => (Str(c, "id"), Str(c, "name"))));
 
         var langs = new List<(string V, string T)> { (string.Empty, "All") };
-        foreach (var d in cats.SelectMany(c => (c["items"] as JsonArray)?.OfType<JsonNode>() ?? []))
+        foreach (var d in cats.SelectMany(c => Arr(c, "items")))
         {
             var l = Str(d, "lang");
             if (l.Length > 0 && !langs.Any(x => x.V == l)) langs.Add((l, l));
@@ -486,8 +492,7 @@ public sealed class SectionRenderer
     /// <summary>Every document in every category, counted rather than written down.</summary>
     private static string DocumentCount(JsonNode doc)
     {
-        var total = (doc["categories"] as JsonArray)?.OfType<JsonNode>()
-            .Sum(c => (c["items"] as JsonArray)?.Count ?? 0) ?? 0;
+        var total = Arr(doc, "categories").Sum(c => Arr(c, "items").Count);
         return total + " documents";
     }
 
@@ -498,13 +503,10 @@ public sealed class SectionRenderer
     /// </summary>
     private static string DocumentList(JsonNode doc, string root)
     {
-        var cats = doc["categories"] as JsonArray;
-        if (cats is null) return string.Empty;
-
         var sb = new StringBuilder();
-        foreach (var c in cats.OfType<JsonNode>())
+        foreach (var c in Arr(doc, "categories"))
         {
-            var items = (c["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+            var items = Arr(c, "items");
             if (items.Count == 0) continue;
 
             var rows = new StringBuilder();
@@ -557,7 +559,7 @@ public sealed class SectionRenderer
         var title = Str(a, "title");
         var tags = (a["tags"] as JsonArray)?.OfType<JsonNode>().Select(t => Esc(t.ToString())) ?? [];
 
-        var more = (doc["items"] as JsonArray)?.OfType<JsonNode>()
+        var more = Arr(doc, "items")
             .Where(x => Str(x, "id") != id)
             .OrderByDescending(x => Str(x, "date"), StringComparer.Ordinal)
             .Take(3) ?? [];
@@ -1334,7 +1336,7 @@ public sealed class SectionRenderer
         // The overview links down into the chapters; a chapter links sideways to its siblings.
         var up = activeId is null ? "" : "../";
 
-        var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        var chapters = Arr(doc, "chapters");
         var sb = new StringBuilder("<div class=\"ab-wrap ab-chapbar\">");
         for (var i = 0; i < chapters.Count; i++)
         {
@@ -1381,7 +1383,7 @@ public sealed class SectionRenderer
     /// <summary>One card per chapter, numbered to match the bar above.</summary>
     private static string AboutChapters(JsonNode doc, string root)
     {
-        var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        var chapters = Arr(doc, "chapters");
         var sb = new StringBuilder();
         for (var i = 0; i < chapters.Count; i++)
         {

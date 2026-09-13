@@ -5,11 +5,26 @@
     "Every caption names the alloy, the temper and the finish, because that is what a buyer needs before asking for a price. Open a tile for the full description."
   ],
   "tags": [
-    { "id": "all", "label": "All work" },
-    { "id": "facades", "label": "Facades" },
-    { "id": "interiors", "label": "Interiors" },
-    { "id": "furniture", "label": "Furniture" },
-    { "id": "transport", "label": "Transport" }
+    {
+      "id": "all",
+      "label": "All work"
+    },
+    {
+      "id": "facades",
+      "label": "Facades"
+    },
+    {
+      "id": "interiors",
+      "label": "Interiors"
+    },
+    {
+      "id": "furniture",
+      "label": "Furniture"
+    },
+    {
+      "id": "transport",
+      "label": "Transport"
+    }
   ],
   "items": [
     {

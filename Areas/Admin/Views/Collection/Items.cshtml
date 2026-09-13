@@ -1,0 +1,119 @@
+@using QlWeb2.Areas.Admin.Controllers
+@model List<CollectionController.Row>
+@{
+    var kind = (CollectionController.Kind)ViewData["Kind"]!;
+    var confirming = TempData["Confirm"] as int?;
+}
+
+<p class="ad-crumb"><a asp-action="Index">Content</a> &nbsp;/&nbsp; @kind.Label</p>
+<h1>@kind.Label</h1>
+<p class="ad-sub">
+    @Model.Count @(Model.Count == 1 ? "item" : "items"), in the order the site shows them.
+    @if (kind.HasOwnPage)
+    {
+        <text>Each one has a page of its own.</text>
+    }
+    else
+    {
+        <text>These appear on the home page.</text>
+    }
+</p>
+
+@if (confirming is int index && TempData["ConfirmWhat"] is string what)
+{
+    <div class="ad-confirm">
+        <p><b>Delete &ldquo;@what&rdquo;?</b> @TempData["ConfirmRefs"]</p>
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@kind.Key">
+            <input type="hidden" name="index" value="@index">
+            <input type="hidden" name="confirmed" value="true">
+            <button type="submit" class="ad-btn ad-danger">Yes, delete it</button>
+            <a class="ad-btn is-quiet" asp-action="Items" asp-route-id="@kind.Key">Keep it</a>
+        </form>
+    </div>
+}
+
+<form asp-action="Change" method="post" class="ad-addbar">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@kind.Key">
+    <input type="hidden" name="index" value="0">
+    <input type="hidden" name="op" value="Add">
+    <button type="submit" class="ad-btn">Add an item</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th class="ad-num">#</th>
+            <th></th>
+            <th>Item</th>
+            <th>Shown</th>
+            <th>Order</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        var row = Model[i];
+        <tr class="@(row.Visible ? "" : "is-off")">
+            <td class="ad-num">@(i + 1)</td>
+            <td class="ad-thumbcell">
+                @if (row.Image is not null)
+                {
+                    <img src="@row.Image" alt="" loading="lazy">
+                }
+                else
+                {
+                    <span class="ad-nothumb">&mdash;</span>
+                }
+            </td>
+            <td>
+                <b>@row.Title</b>
+                @if (row.Note.Length > 0)
+                {
+                    <span class="ad-note">@row.Note</span>
+                }
+            </td>
+            <td>
+                <form asp-action="Change" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@kind.Key">
+                    <input type="hidden" name="index" value="@row.Index">
+                    <input type="hidden" name="op" value="@(row.Visible ? "Hide" : "Show")">
+                    <button type="submit" class="ad-plain ad-state">
+                        @(row.Visible ? "Shown" : "Hidden")
+                    </button>
+                </form>
+            </td>
+            <td class="ad-order">
+                <form asp-action="Change" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@kind.Key">
+                    <input type="hidden" name="index" value="@row.Index">
+                    <input type="hidden" name="op" value="Up">
+                    <button type="submit" class="ad-move" title="Move up" disabled="@(i == 0)">&uarr;</button>
+                </form>
+                <form asp-action="Change" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@kind.Key">
+                    <input type="hidden" name="index" value="@row.Index">
+                    <input type="hidden" name="op" value="Down">
+                    <button type="submit" class="ad-move" title="Move down" disabled="@(i == Model.Count - 1)">&darr;</button>
+                </form>
+            </td>
+            <td class="ad-right-cell">
+                <a class="ad-btn is-quiet" asp-area="Admin" asp-controller="Edit" asp-action="Index"
+                   asp-route-page="@row.Page">Edit</a>
+                <form asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@kind.Key">
+                    <input type="hidden" name="index" value="@row.Index">
+                    <button type="submit" class="ad-plain ad-danger-plain">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

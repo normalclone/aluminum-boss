@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QlWeb2.Content;
@@ -21,6 +22,7 @@ namespace QlWeb2.Areas.Admin.Controllers;
 [Authorize]
 public class EditController : Controller
 {
+    private readonly ContentStore _store;
     private readonly PageComposer _composer;
     private readonly SectionRenderer _sections;
     private readonly ContentEditor _editor;
@@ -28,9 +30,11 @@ public class EditController : Controller
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
 
-    public EditController(PageComposer composer, SectionRenderer sections, ContentEditor editor,
-                          MediaLibrary media, AppDbContext db, IWebHostEnvironment env)
+    public EditController(ContentStore store, PageComposer composer, SectionRenderer sections,
+                          ContentEditor editor, MediaLibrary media, AppDbContext db,
+                          IWebHostEnvironment env)
     {
+        _store = store;
         _composer = composer;
         _sections = sections;
         _editor = editor;
@@ -107,7 +111,22 @@ public class EditController : Controller
     {
         if (edits is null || edits.Count == 0) return Json(new { saved = 0 });
 
+        // What each slug said before, read before anything is written. A renamed slug moves a
+        // page, and the old address has to keep working - which means writing down where it went
+        // while we still know where it came from.
+        var slugs = edits
+            .Where(e => e.Address.EndsWith(".slug", StringComparison.Ordinal))
+            .ToDictionary(e => e.Address, e => Current(e.Address));
+
         var result = _editor.Apply(edits.Select(e => new ContentEditor.Change(e.Address, e.Value)));
+
+        foreach (var edit in edits)
+        {
+            if (!slugs.TryGetValue(edit.Address, out var was) || was is null || was == edit.Value)
+                continue;
+            if (result.Rejected.Contains(edit.Address)) continue;
+            RecordMove(edit.Address, was, edit.Value);
+        }
 
         foreach (var (name, before) in result.Previous)
         {
@@ -128,6 +147,36 @@ public class EditController : Controller
             rejected = result.Rejected,
             documents = result.Previous.Keys,
         });
+    }
+
+    /// <summary>The value an address holds right now, or null.</summary>
+    private string? Current(string address)
+    {
+        var cut = address.IndexOf('.');
+        if (cut <= 0) return null;
+        var doc = _store.Get(address[..cut]);
+        return doc is null ? null : ContentPath.Resolve(doc, address[(cut + 1)..]);
+    }
+
+    /// <summary>
+    /// Writes "the page that was here is now there" into redirects.json.
+    ///
+    /// Which URL an item sits at is a fact about the folder the section lives in, and the list of
+    /// sections is kept once, in <see cref="CollectionController.Kinds"/>. An address whose
+    /// document is not one of them is a kind with no page of its own, and nothing moved.
+    /// </summary>
+    private void RecordMove(string address, string was, string now)
+    {
+        var document = address[..address.IndexOf('.')];
+        var kind = CollectionController.Kinds.FirstOrDefault(
+            k => k.Document == document && k.HasOwnPage);
+        if (kind is null) return;
+
+        var table = _store.Get("redirects") as JsonObject;
+        if (table?["paths"] is not JsonObject paths) return;
+
+        paths[kind.Page + was + "/"] = kind.Page + now + "/";
+        _editor.SaveDocument("redirects", table);
     }
 
     /// <summary>Every picture in the library, newest first.</summary>

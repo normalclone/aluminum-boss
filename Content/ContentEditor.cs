@@ -95,6 +95,14 @@ public sealed class ContentEditor
                 touched[name] = doc;
             }
 
+            // A slug is not text like the rest: it becomes a URL the moment it is saved. Checked
+            // here rather than in the screen, because this is the only door.
+            if (path.EndsWith(".slug", StringComparison.Ordinal) && !SlugIsFree(doc, path, change.Value))
+            {
+                rejected.Add(change.Address);
+                continue;
+            }
+
             if (ContentPath.TrySet(doc, path, change.Value)) { applied++; changed.Add(name); }
             else rejected.Add(change.Address);
         }
@@ -102,11 +110,7 @@ public sealed class ContentEditor
         var previous = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
         foreach (var (name, doc) in touched.Where(t => changed.Contains(t.Key)))
         {
-            // The indented writer ends its lines with Environment.NewLine, which on this machine
-            // is CRLF - so saving one field rewrote all 141 lines of the file. The content files
-            // are LF, the two trees are compared byte for byte, and a diff of the whole document
-            // hides the one line that actually changed.
-            var json = doc.ToJsonString(Pretty).Replace("\r\n", "\n") + "\n";
+            var json = Text(doc);
             previous[name] = _store.Save(name, json);
             Mirror(name, json);
         }
@@ -116,6 +120,226 @@ public sealed class ContentEditor
                 rejected.Count, string.Join(", ", rejected.Take(5)));
 
         return new Result(applied, rejected, previous);
+    }
+
+    /// <summary>What a list screen can do to a collection.</summary>
+    public enum Op { Add, Remove, Up, Down, Show, Hide }
+
+    /// <summary>
+    /// Adds, removes, reorders or hides an item.
+    ///
+    /// Order is the array's own order rather than a sort key on every item: the file already has
+    /// an order, it is the one the page shows, and a second one written beside it is a second
+    /// thing to keep true. Moving an item means moving it.
+    ///
+    /// <paramref name="address"/> names the collection for <see cref="Op.Add"/>
+    /// (<c>news.items</c>) and the item for everything else (<c>news.items.3</c>).
+    /// </summary>
+    public Result Structure(string address, Op op)
+    {
+        var cut = address.IndexOf('.');
+        if (cut <= 0) return Refused(address);
+
+        var name = address[..cut];
+        var raw = _store.RawJson(name);
+        if (raw is null) return Refused(address);
+
+        JsonNode doc;
+        try { doc = JsonNode.Parse(raw)!; }
+        catch (JsonException) { return Refused(address); }
+
+        var path = address[(cut + 1)..].Split('.');
+        var wantsItem = op != Op.Add;
+
+        // The array, and - for everything but Add - which of its items.
+        var arrayPath = wantsItem ? path[..^1] : path;
+        if (Walk(doc, arrayPath) is not JsonArray list) return Refused(address);
+
+        var at = -1;
+        if (wantsItem && (!int.TryParse(path[^1], out at) || at < 0 || at >= list.Count))
+            return Refused(address);
+
+        switch (op)
+        {
+            case Op.Add:
+                // The new item takes its shape from the ones already there, blanked. A template
+                // written here would be a second description of a document's fields, and the
+                // first thing to go stale when one of them gains a field.
+                list.Insert(0, Blank(list.FirstOrDefault()));
+                break;
+
+            case Op.Remove:
+                list.RemoveAt(at);
+                break;
+
+            case Op.Up when at > 0:
+            case Op.Down when at < list.Count - 1:
+            {
+                var to = op == Op.Up ? at - 1 : at + 1;
+                var moved = list[at]!.DeepClone();
+                list.RemoveAt(at);
+                list.Insert(to, moved);
+                break;
+            }
+
+            case Op.Show:
+            case Op.Hide:
+                if (list[at] is not JsonObject item) return Refused(address);
+                // The only field the editor is allowed to create - and showing an item removes it
+                // again rather than writing true. Absent already means shown, which is what all
+                // but a handful of items say by saying nothing; leaving "visible": true behind on
+                // everything anyone ever hid for an afternoon would fill the files with a field
+                // that carries no information.
+                if (op == Op.Hide) item["visible"] = false;
+                else item.Remove("visible");
+                break;
+
+            default:
+                // Up on the first item, Down on the last: nothing to do, and not a failure.
+                return new Result(0, [], []);
+        }
+
+        var json = Text(doc);
+        var previous = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase)
+        {
+            [name] = _store.Save(name, json),
+        };
+        Mirror(name, json);
+        return new Result(1, [], previous);
+    }
+
+    /// <summary>
+    /// Every place in the content that mentions this text, outside the item it belongs to.
+    ///
+    /// Asked before an item is deleted. An id travels: a home-page card points at an article by
+    /// it, a footer link at a product family. Deleting the item leaves those pointing at a 404,
+    /// and the person doing the deleting is the only one who can say whether that matters.
+    /// </summary>
+    public List<string> Mentions(string needle, string exceptDocument)
+    {
+        var found = new List<string>();
+        if (needle.Length < 3) return found;
+
+        foreach (var name in _store.Names)
+        {
+            var raw = _store.RawJson(name);
+            if (raw is null) continue;
+
+            var count = 0;
+            for (var i = raw.IndexOf(needle, StringComparison.Ordinal); i >= 0;
+                 i = raw.IndexOf(needle, i + 1, StringComparison.Ordinal))
+                count++;
+
+            // In its own document the item mentions itself once, as its id; that one is not a
+            // reference to it from somewhere else.
+            if (name.Equals(exceptDocument, StringComparison.OrdinalIgnoreCase)) count--;
+            if (count > 0) found.Add($"{name}.json ({count})");
+        }
+        return found;
+    }
+
+    // ---------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// A document as it should sit on disk.
+    ///
+    /// The indented writer ends its lines with <c>Environment.NewLine</c>, which on this machine
+    /// is CRLF - so saving one field rewrote all 141 lines of the file. The content files are LF,
+    /// the two trees are compared byte for byte, and a diff of the whole document hides the one
+    /// line that actually changed.
+    /// </summary>
+    private static string Text(JsonNode doc)
+        => doc.ToJsonString(Pretty).Replace("\r\n", "\n") + "\n";
+
+    private static Result Refused(string address) => new(0, [address], []);
+
+    /// <summary>
+    /// Whether this slug may be written: url-shaped, not the word the detail templates use, and
+    /// not already taken by a sibling.
+    ///
+    /// The shape rule is the one that would otherwise reach production as a broken link: a space
+    /// or a capital in a path segment is legal in a URL and wrong in every other way. "detail" is
+    /// refused because <c>/news/detail/</c> is the old address of the listing and still redirects;
+    /// an item that claimed it would be unreachable. And a duplicate would quietly take the other
+    /// item's page away - the flattened Documents list is where that is easiest to do by accident,
+    /// since two files in different categories never look like neighbours.
+    /// </summary>
+    private static bool SlugIsFree(JsonNode doc, string path, string slug)
+    {
+        if (!System.Text.RegularExpressions.Regex.IsMatch(slug, "^[a-z0-9]+(-[a-z0-9]+)*$")) return false;
+        if (slug == "detail") return false;
+
+        var steps = path.Split('.');
+        if (steps.Length < 2) return false;
+
+        // Every item in the same array, plus - for Documents - every item in every sibling array,
+        // because those are flattened into one list of pages.
+        if (Walk(doc, steps[..^2]) is not JsonArray siblings) return true;
+        var mine = int.TryParse(steps[^2], out var i) ? i : -1;
+
+        for (var n = 0; n < siblings.Count; n++)
+        {
+            if (n == mine || siblings[n] is not JsonObject o) continue;
+            var theirs = o["slug"]?.ToString() ?? o["id"]?.ToString();
+            if (theirs == slug) return false;
+        }
+        return true;
+    }
+
+    private static JsonNode? Walk(JsonNode? node, string[] path)
+    {
+        foreach (var step in path)
+        {
+            if (node is JsonArray arr)
+                node = int.TryParse(step, out var i) && i >= 0 && i < arr.Count ? arr[i] : null;
+            else if (node is JsonObject obj)
+                node = obj.TryGetPropertyValue(step, out var next) ? next : null;
+            else return null;
+        }
+        return node;
+    }
+
+    /// <summary>
+    /// An item shaped like its neighbours with nothing written in it.
+    ///
+    /// Strings empty, numbers zero, arrays empty, nested objects blanked the same way. The one
+    /// exception is <c>id</c>, which gets a placeholder rather than an empty string: an item with
+    /// no id has no address and no page, and the list screen would show a row nobody can open.
+    /// </summary>
+    private static JsonNode Blank(JsonNode? like)
+    {
+        if (like is not JsonObject shape) return new JsonObject { ["id"] = NewId() };
+
+        var made = new JsonObject();
+        foreach (var (key, value) in shape)
+        {
+            made[key] = value switch
+            {
+                JsonArray => new JsonArray(),
+                JsonObject o => Blank(o),
+                JsonValue v when v.TryGetValue<bool>(out _) => JsonValue.Create(false),
+                JsonValue v when v.TryGetValue<double>(out _) => JsonValue.Create(0),
+                _ => JsonValue.Create(""),
+            };
+        }
+        if (made.ContainsKey("id")) made["id"] = NewId();
+        return made;
+    }
+
+    private static string NewId() => "new-" + Guid.NewGuid().ToString("N")[..6];
+
+    /// <summary>
+    /// Writes a whole document, formatted and mirrored the way every other save is.
+    ///
+    /// For the callers that build a document rather than address a field in one - the redirect
+    /// table, which gains a line when a slug is renamed.
+    /// </summary>
+    public string? SaveDocument(string name, JsonNode doc)
+    {
+        var json = Text(doc);
+        var previous = _store.Save(name, json);
+        Mirror(name, json);
+        return previous;
     }
 
     /// <summary>
