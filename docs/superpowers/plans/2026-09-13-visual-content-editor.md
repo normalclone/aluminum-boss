@@ -103,7 +103,7 @@ Chụp một lần ở Task 2 rồi so lại sau mỗi đợt:
 
 ---
 
-## Task 1: Bộ đo dùng lại được
+## Task 1: Bộ đo dùng lại được — XONG
 
 Mọi đợt sau đều verify bằng bộ này, nên nó phải có trước. Các script hiện nằm rải rác trong thư
 mục tạm của phiên làm việc và sẽ mất khi phiên kết thúc.
@@ -120,27 +120,27 @@ mục tạm của phiên làm việc và sẽ mất khi phiên kết thúc.
 - Mọi công cụ nhận gốc site làm tham số đầu tiên, mặc định `http://127.0.0.1:5117`.
 - Mọi công cụ thoát với mã 1 khi phép đo không đạt, để dùng được trong CI.
 
-- [ ] **Step 1: Dựng `tools/lib/browser.js`**
+- [x] **Step 1: Dựng `tools/lib/browser.js`**
 
 Dò Chrome bằng dấu gạch chéo xuôi — trong chuỗi nháy đơn của JS, `'\P'` co lại thành `'P'` và
 biến đường dẫn thành vô nghĩa.
 
-- [ ] **Step 2: Dựng `tools/lib/pages.js` và `tools/lib/report.js`**
+- [x] **Step 2: Dựng `tools/lib/pages.js` và `tools/lib/report.js`**
 
 `report.js` phải tự đệm chuỗi bằng `padEnd`. `console.log('%-10s', x)` **không có tác dụng trong
 Node** — đã mắc lỗi này nhiều lần trong phiên trước.
 
-- [ ] **Step 3: Chuyển 6 công cụ đo từ thư mục tạm sang `tools/`**
+- [x] **Step 3: Chuyển 6 công cụ đo từ thư mục tạm sang `tools/`**
 
 Mỗi công cụ: `bringToFront()` trước khi đo, và khẳng định `document.visibilityState === 'visible'`.
 `requestAnimationFrame` bị điều tiết về 1Hz khi trang không hiển thị — lỗi này từng cho ra con số
 "1007ms mỗi khung" trên một trang hoàn toàn bình thường.
 
-- [ ] **Step 4: Viết `tools/README.md`**
+- [x] **Step 4: Viết `tools/README.md`**
 
 Mỗi công cụ một đoạn: chạy thế nào, đọc kết quả ra sao, và **nó đã bắt được lỗi thật nào**.
 
-- [ ] **Step 5: Chạy cả 6 công cụ, khẳng định chúng chạy được**
+- [x] **Step 5: Chạy cả 6 công cụ, khẳng định chúng chạy được**
 
 ```
 cd tools && npm install
@@ -148,24 +148,24 @@ node crawl.js http://127.0.0.1:5117
 node textmass.js http://127.0.0.1:5117
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ---
 
-## Task 2: Chụp mốc nền
+## Task 2: Chụp mốc nền — XONG
 
 Không có mốc thì không chứng minh được "không đổi gì".
 
 **Files:**
 - Create: `tools/baseline/` (gitignore ảnh, commit file JSON số liệu)
 
-- [ ] **Step 1: Chạy `parity.js` lưu ảnh 15 trang ở 1440 và 390 vào `tools/baseline/`**
-- [ ] **Step 2: Chạy `crawl.js`, `textmass.js`, `scroll.js`, `idle.js`, ghi kết quả ra `tools/baseline/metrics.json`**
-- [ ] **Step 3: Thêm `tools/baseline/*.png` vào `.gitignore`; commit `metrics.json`**
+- [x] **Step 1: Chạy `parity.js` lưu ảnh 15 trang ở 1440 và 390 vào `tools/baseline/`**
+- [x] **Step 2: Chạy `crawl.js`, `textmass.js`, `scroll.js`, `idle.js`, ghi kết quả ra `tools/baseline/metrics.json`**
+- [x] **Step 3: Thêm `tools/baseline/*.png` vào `.gitignore`; commit `metrics.json`**
 
 ---
 
-## Task 3: `ContentStore` — đọc và ghi JSON
+## Task 3: `ContentStore` — đọc và ghi JSON — XONG
 
 **Files:**
 - Create: `Content/ContentStore.cs`
@@ -179,16 +179,16 @@ Không có mốc thì không chứng minh được "không đổi gì".
   - `IReadOnlyList<string> Names`
   - `event Action<string>? Changed`
 
-- [ ] **Step 1: Viết test cho ghi nguyên tử** — ghi hỏng giữa chừng không được để lại file cụt
-- [ ] **Step 2: Chạy test, khẳng định fail**
-- [ ] **Step 3: Cài đặt: đọc từ `wwwroot/_data/*.json`, ghi qua file tạm rồi `File.Move(overwrite: true)`**
-- [ ] **Step 4: Từ chối JSON không hợp lệ trước khi ghi** — trả lỗi rõ, không ghi gì
-- [ ] **Step 5: Chạy test, khẳng định pass**
-- [ ] **Step 6: Commit**
+- [x] **Step 1: Viết test cho ghi nguyên tử** — ghi hỏng giữa chừng không được để lại file cụt
+- [x] **Step 2: Chạy test, khẳng định fail**
+- [x] **Step 3: Cài đặt: đọc từ `wwwroot/_data/*.json`, ghi qua file tạm rồi `File.Move(overwrite: true)`**
+- [x] **Step 4: Từ chối JSON không hợp lệ trước khi ghi** — trả lỗi rõ, không ghi gì
+- [x] **Step 5: Chạy test, khẳng định pass**
+- [x] **Step 6: Commit**
 
 ---
 
-## Task 4: `ContentPath` — phân giải địa chỉ tham số
+## Task 4: `ContentPath` — phân giải địa chỉ tham số — XONG
 
 `site.nav.1.label` phải trỏ đúng một chỗ trên cây JSON.
 
@@ -200,15 +200,15 @@ Không có mốc thì không chứng minh được "không đổi gì".
   `static bool TrySet(JsonNode root, string path, string value)`
 - Quy ước: đoạn toàn chữ số là chỉ số mảng; các đoạn khác là khoá đối tượng.
 
-- [ ] **Step 1: Test — `site.nav.1.label`, `home.products.heading`, đường dẫn không tồn tại trả null**
-- [ ] **Step 2: Chạy test, khẳng định fail**
-- [ ] **Step 3: Cài đặt**
-- [ ] **Step 4: Chạy test, khẳng định pass**
-- [ ] **Step 5: Commit**
+- [x] **Step 1: Test — `site.nav.1.label`, `home.products.heading`, đường dẫn không tồn tại trả null**
+- [x] **Step 2: Chạy test, khẳng định fail**
+- [x] **Step 3: Cài đặt**
+- [x] **Step 4: Chạy test, khẳng định pass**
+- [x] **Step 5: Commit**
 
 ---
 
-## Task 5: Bóc header và footer ra `site.json`
+## Task 5: Bóc header và footer ra `site.json` — XONG
 
 Đã đo: sau khi chuẩn hoá độ sâu và mục nav đang mở, **header và footer của cả 15 trang là một**.
 Nên đây là một partial dùng chung, không phải 15 bản.
@@ -218,16 +218,16 @@ Nên đây là một partial dùng chung, không phải 15 bản.
 - Create: `tools/extract-chrome.js` (chạy một lần, giữ lại để tái lập)
 - Modify: 15 file `index.html`
 
-- [ ] **Step 1: Viết `tools/extract-chrome.js`** — đọc header/footer của `news/index.html`, sinh
+- [x] **Step 1: Viết `tools/extract-chrome.js`** — đọc header/footer của `news/index.html`, sinh
   `site.json` gồm `wordmark`, `nav[7]`, `footer.columns[]`, `address`, `phone`, `email`, `copyright`
-- [ ] **Step 2: Chạy, kiểm `site.json` bằng mắt**
-- [ ] **Step 3: Thay chữ trong 15 trang bằng `data-ab-t`**, giữ nguyên chữ cũ làm giá trị dự phòng
-- [ ] **Step 4: Kiểm mọi `data-ab-t` đều phân giải được** — `tools/check-addresses.js`
-- [ ] **Step 5: Commit** (trang chưa đổi hình thức vì chữ dự phòng vẫn còn)
+- [x] **Step 2: Chạy, kiểm `site.json` bằng mắt**
+- [x] **Step 3: Thay chữ trong 15 trang bằng `data-ab-t`**, giữ nguyên chữ cũ làm giá trị dự phòng
+- [x] **Step 4: Kiểm mọi `data-ab-t` đều phân giải được** — `tools/check-addresses.js`
+- [x] **Step 5: Commit** (trang chưa đổi hình thức vì chữ dự phòng vẫn còn)
 
 ---
 
-## Task 6: `PageComposer` và middleware
+## Task 6: `PageComposer` và middleware — XONG
 
 **Files:**
 - Create: `Content/PageComposer.cs`, `Content/PageCompositionMiddleware.cs`
@@ -238,20 +238,20 @@ Nên đây là một partial dùng chung, không phải 15 bản.
 - Consumes: `ContentStore`, `ContentPath`
 - Produces: `string? Compose(string urlPath)`; `void Invalidate(string? name = null)`
 
-- [ ] **Step 1: Test — ghép `news/index.html` ra HTML chứa chữ thật, không còn phần tử rỗng**
-- [ ] **Step 2: Chạy test, khẳng định fail**
-- [ ] **Step 3: Cài đặt bằng AngleSharp**; tiền tố `{{ROOT}}` suy từ độ sâu đường dẫn; mục nav
+- [x] **Step 1: Test — ghép `news/index.html` ra HTML chứa chữ thật, không còn phần tử rỗng**
+- [x] **Step 2: Chạy test, khẳng định fail**
+- [x] **Step 3: Cài đặt bằng AngleSharp**; tiền tố `{{ROOT}}` suy từ độ sâu đường dẫn; mục nav
   đang mở suy từ đoạn đầu đường dẫn
-- [ ] **Step 4: Bộ nhớ đệm** — khoá theo đường dẫn, xoá khi `ContentStore.Changed`
-- [ ] **Step 5: Middleware đặt TRÊN `UseStaticFiles`**, chỉ nhận yêu cầu trang (thư mục hoặc `.html`)
-- [ ] **Step 6: Đối chiếu sau khi ghép** — mọi `data-ab-t` khớp JSON, lệch thì trả bản trước và ghi log
-- [ ] **Step 7: Chạy test, khẳng định pass**
-- [ ] **Step 8: Verify** — `parity.js` so với mốc nền phải **0 pixel lệch quá 32**; `crawl.js` sạch
-- [ ] **Step 9: Commit kèm số đo**
+- [x] **Step 4: Bộ nhớ đệm** — khoá theo đường dẫn, xoá khi `ContentStore.Changed`
+- [x] **Step 5: Middleware đặt TRÊN `UseStaticFiles`**, chỉ nhận yêu cầu trang (thư mục hoặc `.html`)
+- [x] **Step 6: Đối chiếu sau khi ghép** — mọi `data-ab-t` khớp JSON, lệch thì trả bản trước và ghi log
+- [x] **Step 7: Chạy test, khẳng định pass**
+- [x] **Step 8: Verify** — `parity.js` so với mốc nền phải **0 pixel lệch quá 32**; `crawl.js` sạch
+- [x] **Step 9: Commit kèm số đo**
 
 ---
 
-## Task 7: Bóc tiêu đề khối trang chủ và hai bộ dữ liệu canvas
+## Task 7: Bóc tiêu đề khối trang chủ và hai bộ dữ liệu canvas — XONG
 
 **Files:**
 - Modify: `wwwroot/_data/site.json` (thêm nhánh `home`)
@@ -259,31 +259,31 @@ Nên đây là một partial dùng chung, không phải 15 bản.
 - Modify: `wwwroot/index.html`
 - Create: `tools/extract-canvas.js`
 
-- [ ] **Step 1: Bóc `const ROUTES` và `const SITES` ra JSON bằng `tools/extract-canvas.js`**
-- [ ] **Step 2: Script nội tuyến đọc từ `AB.load('globe')` / `AB.load('factories')`** thay cho hằng
-- [ ] **Step 3: Bóc 8 tiêu đề khối vào `site.json` nhánh `home`**, gắn `data-ab-t`
-- [ ] **Step 4: Bỏ số đếm viết cứng** — "Six product families", "four markets", "Five factories",
+- [x] **Step 1: Bóc `const ROUTES` và `const SITES` ra JSON bằng `tools/extract-canvas.js`**
+- [x] **Step 2: Script nội tuyến đọc từ `AB.load('globe')` / `AB.load('factories')`** thay cho hằng
+- [x] **Step 3: Bóc 8 tiêu đề khối vào `site.json` nhánh `home`**, gắn `data-ab-t`
+- [x] **Step 4: Bỏ số đếm viết cứng** — "Six product families", "four markets", "Five factories",
   số `5` trong thẻ tally → suy ra từ độ dài mảng
-- [ ] **Step 5: Verify** — pixel giống mốc nền; quả địa cầu vẫn quay; `idle.js` không xấu hơn
-- [ ] **Step 6: Commit**
+- [x] **Step 5: Verify** — pixel giống mốc nền; quả địa cầu vẫn quay; `idle.js` không xấu hơn
+- [x] **Step 6: Commit**
 
 ---
 
-## Task 8: Sinh `site/` từ đầu ra bộ ghép
+## Task 8: Sinh `site/` từ đầu ra bộ ghép — XONG
 
 Giữ GitHub Pages sống trong lúc chuyển đổi, và cho một bản sao tĩnh để sao lưu.
 
 **Files:**
 - Create: `tools/publish-static.js`
 
-- [ ] **Step 1: Viết công cụ** — gọi 15 đường dẫn trên máy chủ đang chạy, ghi HTML ra `site/`
-- [ ] **Step 2: Chạy, `cmp` từng file `site/` với HTML máy chủ trả về**
-- [ ] **Step 3: Verify** — `parity.js` giữa `site/` phục vụ tĩnh và máy chủ: phải giống hệt
-- [ ] **Step 4: Commit**
+- [x] **Step 1: Viết công cụ** — gọi 15 đường dẫn trên máy chủ đang chạy, ghi HTML ra `site/`
+- [x] **Step 2: Chạy, `cmp` từng file `site/` với HTML máy chủ trả về**
+- [x] **Step 3: Verify** — `parity.js` giữa `site/` phục vụ tĩnh và máy chủ: phải giống hệt
+- [x] **Step 4: Commit**
 
 ---
 
-## Task 9: Dựng danh sách phía máy chủ (đợt 2 — phần lớn nhất)
+## Task 9: Dựng danh sách phía máy chủ (đợt 2 — phần lớn nhất) — XONG
 
 Đây là phần khiến bot đọc được nội dung. Làm từng loại một, verify sau mỗi loại.
 
@@ -329,7 +329,7 @@ là mốc đó biến mất.
 
 - [x] **Step cuối: Verify toàn bộ** — trang bài tin 676 → 2.117 ký tự HTML thô; trang chủ
   1.864 → 6.516; 15/15 trang có nội dung thật.
-- [ ] **Commit kèm bảng số trước/sau**
+- [x] **Commit kèm bảng số trước/sau**
 
 ---
 
@@ -538,18 +538,20 @@ Highlights · Applications · Export routes · Factories.
 
 ---
 
-## Task 14: Lịch sử, khôi phục, bàn giao
+## Task 14: Lịch sử, khôi phục, bàn giao — XONG
 
 **Files:**
 - Modify: `Areas/Admin/Controllers/ContentController.cs`
 - Create: `docs/HANDOVER.md`
 
-- [ ] **Step 1: Mỗi lần lưu ghi một bản lịch sử; màn hình xem và khôi phục**
-- [ ] **Step 2: Gỡ câu "Demonstration site — photography and documents are specimens." khỏi footer**
-- [ ] **Step 3: Sửa "raw stone" trong dòng dẫn bản đồ nhà máy** — site này là nhôm
-- [ ] **Step 4: Viết `docs/HANDOVER.md`** — đăng nhập, sao lưu, khôi phục, nơi để ảnh
-- [ ] **Step 5: Verify toàn bộ** — chạy cả 6 công cụ, dán bảng số vào commit
-- [ ] **Step 6: Commit**
+- [x] **Step 1: Mỗi lần lưu ghi một bản lịch sử; màn hình xem và khôi phục** — giữ 50 bản mỗi
+      tệp; khôi phục cũng là một lần lưu nên bản đang chạy được giữ lại: undo có undo
+- [x] **Step 2: Gỡ cả BA câu chỉ dành cho bản demo** — dòng chân trang (124 trang), nút EN/VI,
+      và câu "This demo has no server attached" — câu cuối sửa bằng cách cho biểu mẫu gửi thật
+- [x] **Step 3: Sửa "raw stone"** — đã làm ở commit 6a5a8be
+- [x] **Step 4: Viết `docs/HANDOVER.md`** — đăng nhập, sao lưu, khôi phục, nơi để ảnh
+- [x] **Step 5: Verify toàn bộ** — 14 công cụ, số thật trong thông điệp commit
+- [x] **Step 6: Commit**
 
 ---
 

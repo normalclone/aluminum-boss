@@ -157,3 +157,24 @@ tr.is-off .ad-state { border-style: dashed; }
 }
 .ad-confirm p { margin: 0 0 12px; }
 .ad-confirm form { display: flex; gap: 10px; align-items: center; }
+
+/* ---- history ---- */
+.ad-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.ad-chip {
+  font-size: 13px; padding: 5px 12px; border-radius: 999px; text-decoration: none;
+  border: 1px solid var(--ad-line); background: #fff; color: var(--ad-mute);
+}
+.ad-chip:hover { border-color: #b9b3aa; color: var(--ad-ink); }
+.ad-chip.is-on { background: var(--ad-ink); border-color: var(--ad-ink); color: #fff; }
+.ad-empty { color: var(--ad-mute); }
+
+/* ---- enquiries ---- */
+.ad-enquiries { display: grid; gap: 14px; }
+.ad-enquiry { border: 1px solid var(--ad-line); border-radius: 4px; padding: 14px 16px; }
+.ad-enquiry header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.ad-enquiry header b { text-transform: capitalize; }
+.ad-enquiry header span { color: var(--ad-mute); font-size: 13px; }
+.ad-enquiry dl { margin: 0; display: grid; gap: 6px; }
+.ad-enquiry dl > div { display: grid; grid-template-columns: 160px 1fr; gap: 12px; }
+.ad-enquiry dt { color: var(--ad-mute); font-size: 13px; }
+.ad-enquiry dd { margin: 0; white-space: pre-wrap; }

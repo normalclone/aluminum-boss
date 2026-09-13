@@ -350,6 +350,8 @@ public sealed class ContentEditor
     /// does. Failing to mirror is logged rather than thrown: the site the server serves is
     /// already correct, and refusing the save would be a worse answer than a stale copy.
     /// </summary>
+    public void MirrorTo(string name, string json) => Mirror(name, json);
+
     private void Mirror(string name, string json)
     {
         try

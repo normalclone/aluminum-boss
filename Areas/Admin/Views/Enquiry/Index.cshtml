@@ -1,0 +1,33 @@
+@model List<QlWeb2.Content.Enquiries.Enquiry>
+@{ ViewData["Title"] = "Enquiries"; }
+
+<h1>Enquiries</h1>
+<p class="ad-sub">
+    What people have sent through the contact form, newest first. They are kept in
+    <code>App_Data/enquiries.jsonl</code> &mdash; one line each, so a backup is a file copy.
+</p>
+
+@if (Model.Count == 0)
+{
+    <p class="ad-empty">Nothing yet.</p>
+}
+else
+{
+    <div class="ad-enquiries">
+        @foreach (var e in Model)
+        {
+            <article class="ad-enquiry">
+                <header>
+                    <b>@(e.Route.Length > 0 ? e.Route : "contact")</b>
+                    <span>@e.At.ToLocalTime().ToString("d MMM yyyy, HH:mm")</span>
+                </header>
+                <dl>
+                    @foreach (var (key, value) in e.Fields)
+                    {
+                        <div><dt>@key</dt><dd>@value</dd></div>
+                    }
+                </dl>
+            </article>
+        }
+    </div>
+}

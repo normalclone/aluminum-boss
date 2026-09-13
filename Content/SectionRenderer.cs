@@ -1289,7 +1289,12 @@ public sealed class SectionRenderer
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(Str(r, "name"))).Append("</p>")
             .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(r, "name")))
             .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(r, "intro"))).Append("</p>")
-            .Append("<form class=\"ab-form\" novalidate><div class=\"ab-fields\">").Append(fields)
+            .Append("<form class=\"ab-form\" novalidate>")
+            // A field no person sees and no person fills. The commonest robot fills in
+            // everything it finds, and this costs one input to turn away.
+            .Append("<input type=\"text\" name=\"website\" tabindex=\"-1\" autocomplete=\"off\"")
+            .Append(" aria-hidden=\"true\" style=\"position:absolute;left:-9999px\">")
+            .Append("<div class=\"ab-fields\">").Append(fields)
             .Append("</div><div class=\"ab-consent\">").Append(consent).Append("</div>")
             .Append("<button type=\"submit\" class=\"ab-submit\">").Append(Esc(Str(r, "cta")))
             .Append("</button><p class=\"ab-form-note\" hidden></p></form>")

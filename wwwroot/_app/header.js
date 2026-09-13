@@ -116,7 +116,8 @@
   }
 
   // The Vietnamese edition is not built yet. Rather than a dead toggle that silently does
-  // nothing, say so - a control that looks live and is not costs more trust than an honest one.
+  // nothing, say so - a control that looks live and is not costs more trust than an honest
+  // one. The word "demo" is gone: the site is real now, the translation simply is not done.
   var locale = document.querySelectorAll('.abh-locale button');
   Array.prototype.forEach.call(locale, function (b) {
     b.addEventListener('click', function () {
@@ -128,7 +129,7 @@
         note.className = 'abh-note';
         document.querySelector('.abh').appendChild(note);
       }
-      note.textContent = 'The Vietnamese edition is not part of this demo yet.';
+      note.textContent = 'The Vietnamese edition is not ready yet.';
       clearTimeout(note._t);
       note._t = setTimeout(function () { note.remove(); }, 3200);
     });

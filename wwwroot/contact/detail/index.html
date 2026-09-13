@@ -327,10 +327,27 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
         bad.focus();
         return;
       }
+      var body = new FormData(form);
+      body.append('route', AB.itemId());
       note.hidden = false;
-      note.className = 'ab-form-note is-ok';
-      note.textContent = 'Form complete. This demo has no server attached, so nothing was sent — ' +
-                         'connecting it to an inbox or a CRM is a configuration step, not a rebuild.';
+      note.className = 'ab-form-note';
+      note.textContent = 'Sending…';
+
+      fetch(AB.root() + 'contact/send', { method: 'POST', body: body })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          note.className = 'ab-form-note ' + (r.ok ? 'is-ok' : 'is-bad');
+          note.textContent = r.ok
+            ? 'Thank you — we have your request and will reply within one working day.'
+            : r.why === 'rate'
+              ? 'That is several requests from here in the last hour. Please email us instead.'
+              : 'Nothing was filled in.';
+          if (r.ok) form.reset();
+        })
+        .catch(function () {
+          note.className = 'ab-form-note is-bad';
+          note.textContent = 'The request did not go through. Please email us instead.';
+        });
     });
   }).catch(function (e) { AB.fail(el, e); });
 }());
@@ -385,7 +402,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
     <p class="abf-legal">
       <span data-ab-t="site.footer.copyright">&copy; B&ouml;ss Group. All rights reserved.</span>
-      <span data-ab-t="site.footer.demoNote" class="abf-note">Demonstration site &mdash; photography and documents are specimens.</span>
     </p>
   </div>
 </footer><!-- #colophon .site-footer -->

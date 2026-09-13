@@ -31,6 +31,7 @@ builder.Services.AddSingleton<SlugRouter>();
 builder.Services.AddSingleton<ContentEditor>();
 builder.Services.AddSingleton<MediaLibrary>();
 builder.Services.AddSingleton<SiteFiles>();
+builder.Services.AddSingleton<Enquiries>();
 
 if (adminEnabled)
 {
@@ -80,6 +81,7 @@ app.UseHttpsRedirection();
 // Above UseStaticFiles, and the ordering is the whole point: static files are matched first
 // in the pipeline, so registered below it the raw template would answer and the composition
 // would be silently skipped.
+app.UseMiddleware<EnquiryMiddleware>();
 app.UseMiddleware<SiteFilesMiddleware>();
 app.UseMiddleware<PageCompositionMiddleware>();
 

@@ -47,3 +47,10 @@ tools/baseline/task10/
 
 # fanout.py nap slugs.py nhu mot module nen Python sinh bytecode canh no.
 __pycache__/
+
+# Moc nen sau Task 14 - da go dong "Demonstration site" khoi chan trang, nen moc task10 khong
+# dung lai duoc. Day la moc de dung tu nay.
+tools/baseline/task14/
+
+# Yeu cau lien he do khach that gui, va co so du lieu lich su. Khong thuoc ve git.
+App_Data/enquiries.jsonl
