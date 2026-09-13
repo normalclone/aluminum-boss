@@ -758,6 +758,37 @@ Bốn công cụ cũ đều bấm bằng bộ chọn ấy suốt từ Task 11 �
 
 ---
 
+## Task 17: Nói cỡ ảnh, và quay lại một lần sửa thật — XONG
+
+- [x] **Step 1: Cỡ ảnh nên tải lên, ngay tại chỗ tải lên.** Dưới nút Choose picture chỉ có cái
+      ô — "340 × 300 · 17:15" — mà cái ô không phải câu trả lời. Nay hai dòng: ô thật, rồi
+      **gấp đôi ô**, chặn ở 2000 px cạnh dài. Gấp đôi vì màn hình đời mới vẽ hai điểm ảnh cho
+      mỗi một điểm bố cục đếm; chặn vì máy chủ không thu nhỏ ảnh, nó trả đúng tệp được gửi.
+      Bảng chọn ảnh nhắc lại cả hai, trong phần tử **riêng**: `#ed-shelf-note` là dòng trạng
+      thái và "Uploading photo.jpg…" sẽ xoá mất con số đúng lúc người ta đi tìm nó.
+      Cầu nối khai luôn nguồn của con số: bố cục ghi sẵn `width`/`height` thì nói "Fills"; ô nền
+      không ghi gì và phải đo, mà đo thì chỉ đúng với bề ngang khung xem thử đang mở — nói
+      "About". Hai chữ, và đó là khác nhau giữa một sự thật và một ảnh chụp.
+- [x] **Step 2: Phim hướng dẫn.** `tools/guide-video.js`, 53 giây, phụ đề tiếng Việt cháy vào
+      hình, không lồng tiếng. Cuộn tới đâu thao tác tới đó; con trỏ là một chấm tự vẽ vì Chrome
+      khi quay không vẽ con trỏ thật vào khung hình.
+- [x] **Step 3: Verify** — `editor-shot` 12/12 (hai phép đo mới đọc **số** chứ không đọc chữ:
+      khuyến nghị không được nhỏ hơn ô, không được vượt 2000), `guide-video` 6/6, và xem lại
+      chín khung hình lấy ra từ chính tệp mp4.
+- [x] **Step 4: Commit.**
+
+### Một đoạn phim hỏng mà không có lỗi nào
+
+`recordVideo.size` mặc định của Playwright ép khung hình lọt vào 800×800. Một cửa sổ 1440×900 ghi
+ra thành 800×500: chữ nhoè thành vệt, không thông báo, không mã lỗi — chỉ có một tệp mp4 mở ra
+được và không đọc được. Cùng lớp với `--hide-scrollbars` mặc định của `launch()`: đúng cho mọi
+phép đo pixel, sai cho một đoạn phim mà thanh cuộn chính là thứ cho người xem biết họ đang ở đâu.
+
+Và máy quay chạy ngay từ lúc ngữ cảnh được tạo, nên đăng nhập trong đó là quay luôn biểu mẫu đăng
+nhập. Đăng nhập ở ngữ cảnh khác rồi mang cookie sang.
+
+---
+
 ## Self-Review
 
 **Spec coverage:** Mục 4 (kiến trúc) → Task 6, 9. Mục 5 (mô hình dữ liệu) → Task 5, 7. Mục 6

@@ -26,23 +26,35 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
  * page that is completely healthy. Timing tools must pass { headless: false } and then call
  * page.bringToFront() and assert document.visibilityState before they trust a number.
  */
-async function launch({ headless = true } = {}) {
+/**
+ * @param scrollbars Keep them. Every measuring tool hides them - a scrollbar is a few pixels of
+ *   noise down the edge of an otherwise identical screenshot - but a tool that RECORDS somebody
+ *   scrolling needs them: the bar is how a viewer knows where they are in the page.
+ */
+async function launch({ headless = true, scrollbars = false } = {}) {
   if (!CHROME) throw new Error('Khong tim thay Chrome hay Edge tren may nay');
-  return chromium.launch({
-    executablePath: CHROME,
-    headless,
-    args: ['--force-color-profile=srgb', '--font-render-hinting=none',
-           '--disable-lcd-text', '--hide-scrollbars'],
-  });
+  const args = ['--force-color-profile=srgb', '--font-render-hinting=none', '--disable-lcd-text'];
+  if (!scrollbars) args.push('--hide-scrollbars');
+  return chromium.launch({ executablePath: CHROME, headless, args });
 }
 
-async function newCtx(browser, { width = 1440, height = 900, dpr = 1, mobile = false } = {}) {
+/**
+ * @param video { dir } to record this context to a webm.
+ *
+ *   The size is forced to the viewport on purpose. Playwright's default fits the video inside
+ *   800x800, so a 1440x900 window is written out at 800x500 - readable text becomes a smear, and
+ *   nothing says a word about it. Recording starts the moment this returns, so sign in somewhere
+ *   else and carry the cookies over, or the first seconds of the film are a login form.
+ */
+async function newCtx(browser, { width = 1440, height = 900, dpr = 1, mobile = false,
+                                 video = null } = {}) {
   return browser.newContext({
     viewport: { width, height },
     userAgent: UA,
     deviceScaleFactor: dpr,
     isMobile: mobile,
     hasTouch: mobile,
+    ...(video ? { recordVideo: { dir: video.dir, size: { width, height } } } : {}),
   });
 }
 

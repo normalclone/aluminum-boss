@@ -19,6 +19,10 @@ Năm màn hình, mỗi cái làm một việc:
 | **Enquiries** | Đọc những gì khách gửi qua biểu mẫu liên hệ |
 | **History** | Xem lại và khôi phục một bản nội dung cũ |
 
+> **Có một đoạn phim hướng dẫn dài 53 giây** đi hết một lần sửa thật — đổi chữ và đổi ảnh của
+> một thẻ trên trang chủ, rồi xem kết quả trên trang công khai. Phụ đề tiếng Việt, không lồng
+> tiếng. Người bàn giao quay lại bất cứ lúc nào bằng `node tools/guide-video.js <địa-chỉ>`.
+
 ### Sửa chữ
 
 1. Vào **Edit pages**, chọn trang ở ô **Page** góc trên bên trái.

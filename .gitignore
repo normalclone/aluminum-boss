@@ -63,3 +63,7 @@ export/
 
 # Yeu cau lien he do khach that gui, va co so du lieu lich su. Khong thuoc ve git.
 App_Data/enquiries.jsonl
+
+# Phim huong dan sinh ra boi tools/guide-video.js. Quay lai duoc bat cu luc nao, va mot tep mp4
+# vai megabyte trong git la thu khong ai diff duoc.
+tools/out/

@@ -527,6 +527,44 @@ liệu của khách là một phép thử không ai dám chạy lần hai.
 
 ---
 
+## `guide-video.js` — quay phim hướng dẫn, phụ đề cháy sẵn vào hình
+
+HANDOVER nói được cách sửa nội dung, nhưng người dùng site lần đầu không đọc tài liệu — họ mở màn
+hình lên và nhìn. Công cụ này đi đúng một đường thật trên chính máy chủ đang chạy và quay lại:
+cuộn tới đâu thao tác tới đó, con trỏ bay tới chỗ sắp bấm trước khi bấm.
+
+```bash
+node guide-video.js http://localhost:5199
+node guide-video.js http://localhost:5199 --out D:/tmp --keep-webm
+```
+
+Mười cảnh, khoảng 53 giây: mở /Admin → cuộn khung xem thử tới khối "New" của trang chủ → bấm
+thẳng vào tiêu đề trong khung → ô nhập tự sáng lên bên trái → gõ, khung đổi theo từng phím → ô
+ảnh và hai dòng cỡ → Choose picture → chọn ảnh → Save → và trang công khai thật.
+
+Ba thứ nó tự kiểm trong lúc quay, nên một đoạn phim quay ra là một đoạn phim **đúng**: khung xem
+thử có đổi theo từng phím không, ô ảnh có nói được cỡ cần tải lên không, và bảng chọn ảnh có nhắc
+lại cỡ ấy không. Quay xong nó ghi `highlights.json` ở **cả hai cây** trở lại nguyên văn và kiểm
+từng byte — một công cụ để lại rác trong dữ liệu của khách là công cụ không ai dám chạy lần hai.
+Một dòng trong History thì vẫn còn, và đó là sự thật: đoạn phim đã bấm Save thật.
+
+> **Hai chỗ hỏng đoạn phim mà không báo lỗi gì:**
+>
+> `recordVideo.size` mặc định của Playwright ép khung hình lọt vào 800×800, nên một cửa sổ
+> 1440×900 được ghi ra ở 800×500 — chữ nhoè thành vệt, và không có thông báo nào. `newCtx` nay
+> luôn đặt size bằng đúng viewport.
+>
+> Máy quay chạy **ngay từ lúc ngữ cảnh được tạo**, nên đăng nhập trong đó là quay luôn cả biểu
+> mẫu đăng nhập và mấy khung hình trắng. Đăng nhập ở một ngữ cảnh khác rồi mang cookie sang.
+
+Phụ đề cháy thẳng vào hình, không xuất `.vtt` rời: đoạn phim sẽ được gửi qua Telegram, dán vào
+tài liệu, chép sang USB — một tệp phụ đề đi kèm sẽ lạc mất ngay lần chuyển thứ nhất. Không lồng
+tiếng. Con trỏ là một chấm tự vẽ, vì Chrome khi quay không vẽ con trỏ thật vào khung hình.
+
+Ra `tools/out/` (đã gitignore), mp4 h264 qua ffmpeg; không có ffmpeg thì giữ nguyên webm.
+
+---
+
 ## `fanout.py` — trải khuôn chi tiết ra bản tĩnh
 
 Máy chủ tự ghép `/news/press-line-2500/` từ khuôn `/news/detail/`. GitHub Pages không ghép gì cả,
