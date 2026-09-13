@@ -18,6 +18,12 @@
     <!-- site/ is what GitHub Pages publishes and build/ is the tooling that made it. Neither is
          part of the running app, but the Web SDK's default glob picks up every .json under the
          project, so a publish was copying site/_data/*.json into the deployment. -->
+    <!-- QlWeb2.Tests is a separate project nested in this folder. Without this the web
+         project compiles the test files too, and every xunit attribute comes back undefined. -->
+    <Compile Remove="QlWeb2.Tests/**" />
+    <Content Remove="QlWeb2.Tests/**" />
+    <None Remove="QlWeb2.Tests/**" />
+
     <Compile Remove="site/**;build/**;tools/**;docs/**" />
     <Content Remove="site/**;build/**;tools/**;docs/**" />
     <None Remove="site/**;build/**;tools/**;docs/**" />
