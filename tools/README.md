@@ -435,10 +435,14 @@ vừa cột không, đổi bề ngang 390 thì trang có thật sự nhảy sang
 node editor-shot.js http://localhost:5199 [thư-mục-ra]
 ```
 
-Tám phép thử, sáu ảnh: đăng nhập thật (không tắt `[Authorize]` cho dễ đo) · gõ vào ô nhập thì chữ
-trong khung xem thử đổi theo · bấm chữ trong khung thì ô nhập tương ứng được cuộn tới và làm nổi
-lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung báo về · ô ảnh trên một trang có
-ảnh · và bảng chọn ảnh mở ra được.
+Mười hai phép thử, sáu ảnh: đăng nhập thật (không tắt `[Authorize]` cho dễ đo) · gõ vào ô nhập
+thì chữ trong khung xem thử đổi theo · bấm chữ trong khung thì ô nhập tương ứng được cuộn tới và
+làm nổi lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung báo về · ô ảnh trên một
+trang có ảnh · mỗi ô ảnh nói được cỡ nên tải lên · bảng chọn ảnh mở ra được và nhắc lại cỡ ấy ·
+và chữ của chính một MỤC (không chỉ chữ của khung trang) sửa được, vá sống được.
+
+Phép đo cỡ ảnh đọc **số**, không đọc chữ: cái nhãn đổi cách viết lúc nào cũng được, còn quy tắc
+thì không — khuyến nghị không được nhỏ hơn ô thật, và không được vượt 2000 px cạnh dài.
 
 > **Đã bắt được:** nhãn ô nhập ghi `nav › 0 › label` — tức là đường dẫn trong JSON, đúng thứ yêu
 > cầu gốc nói khách không được nhìn thấy. Con số đo không thấy; mở ảnh ra thì thấy ngay. Nay là

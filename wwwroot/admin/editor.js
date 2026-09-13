@@ -20,12 +20,18 @@
   var shelfList = document.getElementById('ed-shelf-list');
   var shelfFile = document.getElementById('ed-shelf-file');
   var shelfNote = document.getElementById('ed-shelf-note');
+  var shelfFit = document.getElementById('ed-shelf-fit');
   var token = document.querySelector('input[name=__RequestVerificationToken]').value;
 
   var inputs = {};              // address -> the input showing it
+  var shapes = {};              // address -> the slot an image field fills, when the page said
   var dirty = {};               // address -> the value waiting to be written
   var width = 1440;
   var choosing = null;          // the image field the picture shelf is open for
+
+  // Said on the screen rather than only in the handover document, and said once: the file input
+  // enforces the same list, and two lists drift.
+  var FORMATS = 'JPG, PNG, WebP or GIF, up to 20 MB.';
 
   function send(msg) {
     if (frame.contentWindow) frame.contentWindow.postMessage(msg, location.origin);
@@ -99,6 +105,15 @@
     shelf.hidden = false;
     shelfNote.textContent = '';
     shelfList.innerHTML = '';
+
+    // The size advice, said again at the moment it is acted on.
+    //
+    // It is already under the field, but this panel covers the whole preview and the field with
+    // it - and this is where the file gets picked, or dragged out of a folder. Its own element
+    // rather than the note below: that one is a status line, and "Uploading photo.jpg…" would
+    // wipe the numbers just as somebody went looking for them.
+    var s = shapes[address];
+    shelfFit.textContent = s ? fits(s) + '. ' + upload(s) + '. ' + FORMATS : FORMATS;
     fetch('/Admin/Edit/Pictures', { cache: 'no-store' })
       .then(function (r) { return r.json(); })
       .then(fillShelf)
@@ -369,6 +384,65 @@
     return out;
   }
 
+  // What to upload, in pixels, rather than leaving somebody to work it out from the slot.
+  //
+  // Twice the slot: a phone or a laptop with a retina screen draws two device pixels for every
+  // one the layout counts, and a picture sent at slot size is visibly soft on all of them.
+  //
+  // Capped at 2000 on the long edge, because nothing here resizes. The server stores what it is
+  // given and the page serves it; a 6000px photograph on the hero would cost every visitor
+  // several megabytes to look at a 1240px band. 2000 is the number the handover document has
+  // always given, and now the screen gives it too.
+  //
+  // Never below the slot - a background band that measured 1240 wide already needs 1240.
+  var CAP = 2000;
+
+  function advise(s) {
+    var w = s.w * 2, h = s.h * 2;
+    var long = Math.max(w, h);
+    if (long > CAP) { w = w * CAP / long; h = h * CAP / long; }
+    return { w: Math.max(s.w, tidy(w)), h: Math.max(s.h, tidy(h)) };
+  }
+
+  // To the nearest ten. "680 × 600" is a size somebody types into a cropping tool; "679 × 599"
+  // reads as a measurement they have to match exactly, which is not what is being asked.
+  function tidy(v) { return Math.round(v / 10) * 10; }
+
+  function size(s) { return s.w + ' × ' + s.h + ' px'; }
+
+  /**
+   * The slot, in one line.
+   *
+   * "Fills" for a size the layout wrote down - it is the same at every screen width, and saying
+   * it flatly is correct. "About" for one the preview measured, which is only true of the width
+   * the preview happened to be showing; the same field reloaded at Phone 390 measures a third
+   * as wide. Two words apart, and they are the difference between a fact and a snapshot.
+   */
+  function fits(s) {
+    return (s.from === 'box' ? 'About ' : 'Fills ') + s.w + ' × ' + s.h + ' here · ' + ratio(s);
+  }
+
+  /**
+   * What to send, in one line.
+   *
+   * When the slot is already past the cap - the finish-samples panel is 2400 wide - twice it is
+   * not on offer and the advice comes back as the slot itself. Printing "Best upload 2400 x 1000"
+   * under "Fills 2400 x 1000" reads like a fault rather than an answer, so that case says the
+   * thing it actually means: this one, and no bigger.
+   */
+  function upload(s) {
+    var rec = advise(s);
+    return rec.w === s.w && rec.h === s.h
+      ? 'Upload at that size, no larger'
+      : 'Best upload ' + size(rec);
+  }
+
+  function line(text) {
+    var b = document.createElement('span');
+    b.textContent = text;
+    return b;
+  }
+
   // "4:3" rather than 1.333: the number somebody types into a cropping tool. Same rule as
   // Placeholder.Ratio on the server, so the box and the grey rectangle behind it never disagree
   // - a second rule written here would drift from that one within a month.
@@ -453,6 +527,7 @@
   function build(fields) {
     list.innerHTML = '';
     inputs = {};
+    shapes = {};
     closeShelf();
     if (!fields.length) {
       list.appendChild(note('This page has no editable text yet.'));
@@ -522,13 +597,17 @@
         pick.addEventListener('click', function () { openShelf(f.address); });
         field.appendChild(pick);
 
-        // The shape of the hole, so a choice is made knowing what will be cropped away. The
-        // page reports it rather than the editor guessing: the layout is the only thing that
-        // knows, and it differs between a lead article and the cards under it.
+        // The shape of the hole, so a choice is made knowing what will be cropped away, and
+        // under it the size to upload. The page reports the shape rather than the editor
+        // guessing: the layout is the only thing that knows, and it differs between a lead
+        // article and the cards under it - the same product family is 340 wide on the home
+        // page and larger on /products/. Hence "here".
         if (f.shape) {
+          shapes[f.address] = f.shape;
           var slot = document.createElement('span');
           slot.className = 'ed-slot';
-          slot.textContent = f.shape.w + ' × ' + f.shape.h + ' · ' + ratio(f.shape);
+          slot.appendChild(line(fits(f.shape)));
+          slot.appendChild(line(upload(f.shape)));
           field.appendChild(slot);
         }
 

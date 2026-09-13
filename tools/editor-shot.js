@@ -9,7 +9,7 @@
 //   2. go vao mot o nhap  -> chu trong khung xem thu doi theo ngay
 //   3. bam chu trong khung -> o nhap tuong ung duoc cuon toi va lam noi len
 //   4. ba bo ngang 1440 / 834 / 390
-//   5. o anh tren mot trang co anh, va bang chon anh mo ra
+//   5. o anh tren mot trang co anh, moi o noi duoc cai gi can tai len, va bang chon anh mo ra
 //
 //   node editor-shot.js [origin] [thu-muc-ra]
 const fs = require('fs');
@@ -116,11 +116,41 @@ async function open(page, path) {
   check('o anh tren /products/', imgFields > 0, imgFields + ' o anh');
   await shot('5-image-fields');
 
+  // 5b - moi o anh phai noi duoc cai ho khong nhin thay: tai len co bao nhieu?
+  //
+  // Khong doc chu, doc SO: cai nhan co the doi cach viet, con quy tac thi khong - co khuyen
+  // nghi khong duoc nho hon o that, va khong duoc vuot 2000 o canh dai (may chu khong thu nho
+  // anh, nen mot tam 6000px la vai megabyte tren lung moi khach).
+  const advice = await page.evaluate(() =>
+    [...document.querySelectorAll('.ed-field-img')].map(f => {
+      const slot = f.querySelector('.ed-slot');
+      const two = slot ? [...slot.querySelectorAll('span')].map(s => s.textContent) : [];
+      const nums = t => (t.match(/(\d+) × (\d+)/) || []).slice(1).map(Number);
+      return { address: f.querySelector('[data-address]').getAttribute('data-address'),
+               fit: nums(two[0] || ''), rec: nums(two[1] || ''), lines: two.length };
+    }));
+  const noAdvice = advice.filter(a => a.lines !== 2);
+  const tooSmall = advice.filter(a => a.rec.length === 2 && a.fit.length === 2
+                                   && (a.rec[0] < a.fit[0] || a.rec[1] < a.fit[1]));
+  const tooBig = advice.filter(a => a.rec.length === 2 && Math.max(a.rec[0], a.rec[1]) > 2000);
+  check('moi o anh noi co khuyen nghi kich co',
+        advice.length > 0 && noAdvice.length === 0 && tooSmall.length === 0 && tooBig.length === 0,
+        noAdvice.length ? noAdvice.length + ' o khong co hai dong'
+        : tooSmall.length ? tooSmall[0].address + ' khuyen nghi nho hon o that'
+        : tooBig.length ? tooBig[0].address + ' khuyen nghi qua 2000px'
+        : advice.length + ' o, vi du ' + advice[0].rec.join('×'));
+
   await page.locator('.ed-field-img').first().locator('.ed-choose').click();
   await page.waitForSelector('#ed-shelf:not([hidden])', { timeout: 15000 });
   await wait(600);
   const tiles = await page.locator('.ed-tile').count();
   check('bang chon anh', tiles > 0, tiles + ' o trong thu vien (ke ca o "khong anh")');
+
+  // Bang chon phu kin khung xem thu, va phu luon cai o vua doc kich co. Neu no khong nhac lai
+  // thi nguoi dang chon tep phai nho, hoac phai dong bang ra xem lai.
+  const fit = (await page.locator('#ed-shelf-fit').textContent()).trim();
+  check('bang chon anh nhac lai kich co', /\d+ × \d+/.test(fit) && /MB/.test(fit),
+        fit || 'khong co dong nao');
   await shot('6-picture-shelf');
   await page.click('#ed-shelf-close');
 

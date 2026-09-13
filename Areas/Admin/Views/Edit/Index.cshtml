@@ -72,6 +72,10 @@
         </label>
         <button type="button" class="ad-btn is-quiet" id="ed-shelf-close">Close</button>
     </div>
+    @* What this particular hole is shaped like, and what to upload into it. Filled by the
+       editor when the panel opens, because only the page knows the shape. Kept apart from
+       ed-shelf-note below, which is a status line and gets overwritten by "Uploading…". *@
+    <p class="ed-shelf-fit" id="ed-shelf-fit"></p>
     <p class="ed-shelf-note" id="ed-shelf-note"></p>
     <div class="ed-shelf-list" id="ed-shelf-list"></div>
 </div>

@@ -114,8 +114,13 @@
 }
 .ed-choose:hover { background: var(--ad-wash); }
 
-/* The shape of the slot the picture fills, so a choice is made knowing what gets cropped. */
-.ed-slot { grid-area: slot; align-self: start; font-size: 11px; color: var(--ad-mute); }
+/* The shape of the slot the picture fills, and the size to upload into it - two lines, because
+   they answer two different questions and one line of eleven-pixel text hides the second. */
+.ed-slot {
+  grid-area: slot; align-self: start; font-size: 11px; line-height: 1.45; color: var(--ad-mute);
+}
+.ed-slot span { display: block; }
+.ed-slot span + span { color: var(--ad-ink); }
 .ed-field-img.is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
 
 /* ---- saving ---- */
@@ -142,7 +147,9 @@
 .ed-shelf-head h2 { margin: 0 auto 0 0; font-size: 18px; }
 .ed-upload { position: relative; overflow: hidden; cursor: pointer; }
 .ed-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.ed-shelf-note { margin: 10px 0 0; font-size: 13px; color: var(--ad-mute); }
+.ed-shelf-fit { margin: 12px 0 0; font-size: 13px; color: var(--ad-ink); }
+.ed-shelf-note { margin: 6px 0 0; font-size: 13px; color: var(--ad-mute); }
+.ed-shelf-note:empty { margin: 0; }
 
 .ed-shelf-list {
   margin-top: 16px; flex: 1; overflow-y: auto;

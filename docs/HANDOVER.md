@@ -49,12 +49,26 @@ Nhận JPG, PNG, WebP, GIF, tối đa 20 MB. **Không nhận SVG** — một fil
 Ảnh tải lên được đặt tên kèm một đoạn mã băm nội dung, nên tải cùng một tấm hai lần là vô hại, và
 thay một tấm thì nó có tên mới — không trình duyệt nào còn hiện tấm cũ trong bộ nhớ đệm.
 
-**Nên cắt ảnh trước khi tải lên.** Máy chủ không thu nhỏ ảnh; một tấm 6 MB từ máy ảnh sẽ làm trang
-tải chậm cho mọi khách. Cỡ hợp lý: cạnh dài khoảng 2000 px.
+**Màn hình tự nói cỡ ảnh nên tải lên.** Dưới mỗi nút **Choose picture** có hai dòng, và bảng
+chọn ảnh nhắc lại cả hai khi nó mở ra:
 
-Dưới mỗi nút **Choose picture** có ghi cỡ ô mà tấm ảnh sẽ lấp vào — ví dụ `400 × 300 · 4:3`. Cắt
-theo tỉ lệ ấy thì không bị mất phần nào bạn muốn giữ; ảnh sai tỉ lệ sẽ bị cắt bớt hai bên hoặc
-trên dưới.
+```
+Fills 340 × 300 here · 17:15      ô ảnh trên trang này rộng 340 cao 300, tỉ lệ 17:15
+Best upload 680 × 600 px          cỡ nên tải lên
+```
+
+- **Dòng trên** là cái ô. Cắt ảnh theo đúng tỉ lệ ấy thì không mất phần nào bạn muốn giữ; sai tỉ
+  lệ thì ảnh bị cắt bớt hai bên hoặc trên dưới. Chữ "here" có nghĩa: cùng một tấm ảnh có thể lấp
+  vào ô to hơn ở một trang khác, và lúc đó con số sẽ khác.
+- **Dòng dưới** là gấp đôi ô, vì màn hình điện thoại và laptop đời mới vẽ hai điểm ảnh cho mỗi
+  một điểm mà bố cục đếm — gửi đúng bằng cỡ ô thì ảnh trông mờ.
+- Dòng trên ghi **"About"** thay vì "Fills" nghĩa là con số ấy do bản xem thử đo được chứ không
+  phải bố cục quy định, nên nó chỉ đúng ở bề ngang đang xem. Cứ lấy làm mốc, không cần khớp từng
+  pixel.
+
+**Đừng tải ảnh to hơn dòng dưới.** Máy chủ **không** thu nhỏ ảnh: nó giữ nguyên tệp bạn gửi và
+trả đúng tệp ấy cho khách. Một tấm 6 MB thẳng từ máy ảnh là 6 MB trên lưng mọi người vào trang.
+Trần là 2000 px cạnh dài — con số ấy đã nằm sẵn trong dòng gợi ý.
 
 ### Thêm, ẩn, đổi thứ tự
 

@@ -15,7 +15,8 @@
 
     page -> editor
       { type: 'ab:ready', url, fields: [{ address, kind, value, shape? }] }   on load
-                                          shape = { w, h } of an image field's slot
+                                          shape = { w, h, from } of an image field's slot,
+                                          from = 'attr' (the layout said so) | 'box' (measured)
       { type: 'ab:pick', address }                                    someone clicked it
 
   WHAT CAN BE PATCHED LIVE, AND WHAT CANNOT. An address written as data-ab-t, data-ab-lead or
@@ -127,13 +128,17 @@
   // The size of the hole a picture goes into, so somebody choosing one knows what will be
   // cropped away. Taken from the width/height the renderer wrote, which is the shape the layout
   // reserves; a background block carries none, so its drawn box answers instead.
+  //
+  // Which of the two it was matters to the editor, so it is reported. A written width is the
+  // layout's own promise and is the same at every screen size; a measured box is only what this
+  // frame happened to be showing - reload the preview at Phone 390 and the same field measures
+  // a third of the width. The editor says "about" for those rather than quoting them as fact.
   function shape(el) {
     var w = +el.getAttribute('width'), h = +el.getAttribute('height');
-    if (!w || !h) {
-      var r = el.getBoundingClientRect();
-      w = Math.round(r.width); h = Math.round(r.height);
-    }
-    return w && h ? { w: w, h: h } : null;
+    if (w && h) return { w: w, h: h, from: 'attr' };
+    var r = el.getBoundingClientRect();
+    w = Math.round(r.width); h = Math.round(r.height);
+    return w && h ? { w: w, h: h, from: 'box' } : null;
   }
 
   // Pages sit at three depths and each one is stamped with its own way back to the site root.

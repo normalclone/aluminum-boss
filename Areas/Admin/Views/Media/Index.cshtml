@@ -2,9 +2,19 @@
 @{ ViewData["Title"] = "Pictures"; }
 
 <h1>Pictures</h1>
+@* This screen is for looking at the library and clearing it out. Pictures are chosen - and
+   uploaded - in Edit pages, where the slot they go into is on the screen beside them; this used
+   to say "paste its file name into an image field under Content", and Content has no image
+   fields at all. *@
 <p class="ad-sub">
-    Upload a picture here, then paste its file name into an image field under Content. JPG, PNG,
-    WebP or GIF, up to 20 MB.
+    Every picture on the site. To put one <em>into</em> a page, go to
+    <a asp-area="Admin" asp-controller="Edit" asp-action="Index">Edit pages</a> and click the
+    picture you want to replace — the panel there tells you the size that fits it.
+</p>
+<p class="ad-sub">
+    JPG, PNG, WebP or GIF, up to 20 MB. Nothing here is resized, so keep the long edge at
+    2000 px or under: a photograph straight off a camera costs every visitor several megabytes
+    to look at a picture the page draws a few hundred pixels wide.
 </p>
 
 <form class="ad-drop" method="post" enctype="multipart/form-data"
