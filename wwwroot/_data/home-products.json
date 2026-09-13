@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "profile"
+    },
+    {
+      "id": "facade"
+    },
+    {
+      "id": "furniture"
+    },
+    {
+      "id": "door-accessory"
+    },
+    {
+      "id": "car-accessory"
+    },
+    {
+      "id": "honeycomb"
+    }
+  ]
+}
