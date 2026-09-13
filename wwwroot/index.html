@@ -273,14 +273,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     </div>
   </div>
 </header>
-<h1 data-ab-t="home.title" id="abhero-h1" class="ab-visually-hidden">Boss Group &mdash; aluminium extrusion, finishing and fabrication in Vietnam</h1>
+<h1 data-ab-t="site.home.title" id="abhero-h1" class="ab-visually-hidden">Boss Group &mdash; aluminium extrusion, finishing and fabrication in Vietnam</h1>
 <!--region:hero--><section class="abhero" id="abhero">
   <div class="abhero-bg" id="abhero-bg"></div>
   <div class="abhero-inner">
     <p class="abhero-claim">Vietnam&rsquo;s Leading<br>Aluminum Exporter</p>
-    <nav class="abhero-words" id="abhero-words" aria-label="Product families"></nav>
+    <nav class="abhero-words" id="abhero-words" aria-label="Product families" data-ab-section="home-hero-words"></nav>
   </div>
-  <p class="abhero-caption" id="abhero-caption"></p>
+  <p class="abhero-caption" id="abhero-caption" data-ab-section="home-hero-caption"></p>
   <a class="abhero-scroll" href="#abhero-next" aria-label="Scroll down"><span></span></a>
 </section>
 <span id="abhero-next"></span><!--/region:hero-->
@@ -2190,7 +2190,7 @@ function rafStop(){ rafOn = false; }
       </div>
     </div>
 
-    <h2 class="core-slider-novedades__title font-display-md" id="ab-nov-heading">New capacity, finishes and approvals</h2>
+    <h2 class="core-slider-novedades__title font-display-md" id="ab-nov-heading" data-ab-t="highlights.heading">New capacity, finishes and approvals</h2>
 
     <div class="slider-page">
       <p class="font-13" id="page-count-abnov">01/02</p>
@@ -2214,7 +2214,7 @@ function rafStop(){ rafOn = false; }
       </div>
     </div>
 
-    <div id="slider-abnov" class="keen-slider"></div>
+    <div id="slider-abnov" class="keen-slider" data-ab-section="home-highlights"></div>
   </section>
 </div>
 <!-- /ab-home-highlights -->
@@ -2224,10 +2224,10 @@ function rafStop(){ rafOn = false; }
 <section class="abhb-band">
     <div class="ab-wrap">
       <div class="abhb-head">
-        <h2 data-ab-t="home.products.heading">Six product families</h2>
-        <a data-ab-t="home.products.more" class="ab-more" href="products/">All products</a>
+        <h2 data-ab-t="site.home.products.heading">Six product families</h2>
+        <a data-ab-t="site.home.products.more" class="ab-more" href="products/">All products</a>
       </div>
-      <div class="ab-row" id="abhb-products"></div>
+      <div class="ab-row" id="abhb-products" data-ab-section="home-products"></div>
     </div>
   </section>
 </div>
@@ -2241,21 +2241,21 @@ function rafStop(){ rafOn = false; }
             <!-- row-1 is max-width:80% in the theme with no auto margins, which puts a centred
                  heading visibly left of the page centre; the inline margin puts it back. -->
             <div class="row-1" style="margin-left:auto;margin-right:auto">
-                <p class="font-16 font-family-diagramm font-normal text-center" id="abap-eyebrow">Boss Group applications</p>
-                <h2 class="font-40 font-family-diagramm font-light text-center" id="abap-heading">Where the extrusions end up</h2>
-                <p class="font-16 font-light text-center" id="abap-intro" style="max-width:60ch;margin:0 auto">The same billet becomes a curtain wall mullion, a desk leg or a battery tray, depending on the die it is pushed through, the finish it is given and the fabrication that follows.</p>
+                <p class="font-16 font-family-diagramm font-normal text-center" id="abap-eyebrow" data-ab-t="applications.eyebrow">Boss Group applications</p>
+                <h2 class="font-40 font-family-diagramm font-light text-center" id="abap-heading" data-ab-t="applications.heading">Where the extrusions end up</h2>
+                <p class="font-16 font-light text-center" id="abap-intro" data-ab-t="applications.intro" style="max-width:60ch;margin:0 auto">The same billet becomes a curtain wall mullion, a desk leg or a battery tray, depending on the die it is pushed through, the finish it is given and the fabrication that follows.</p>
             </div>
             <div class="row-2">
                 <div id="abap-tabs" class="core-tabs pb-40">
                     <div class="core-tabs__nav">
-                        <ul class="core-tabs__nav__tags" id="abap-tablist" role="tablist" aria-label="Application areas"></ul>
+                        <ul class="core-tabs__nav__tags" id="abap-tablist" role="tablist" aria-label="Application areas" data-ab-section="home-app-tabs"></ul>
                         <div id="abap-arrows" class="core-tabs__nav__arrows">
                             <span class="arrow-link arrow-link__left" role="button" tabindex="0" aria-label="Previous applications"></span>
                             <span class="arrow-link arrow-link__right" role="button" tabindex="0" aria-label="Next applications"></span>
                         </div>
                     </div>
                     <div class="core-tabs__content">
-                        <div id="abap-slider" class="core-slider keen-slider" role="tabpanel" tabindex="0"></div>
+                        <div id="abap-slider" class="core-slider keen-slider" role="tabpanel" tabindex="0" data-ab-section="home-app-slides"></div>
                     </div>
                 </div>
             </div>
@@ -2268,11 +2268,11 @@ function rafStop(){ rafOn = false; }
 <section class="abhb-band abhb-band--wash">
     <div class="ab-wrap">
       <div class="abhb-head">
-        <h2 data-ab-t="home.colors.heading">Colors</h2>
-        <a data-ab-t="home.colors.more" class="ab-more" href="colors/">All colors</a>
+        <h2 data-ab-t="site.home.colors.heading">Colors</h2>
+        <a data-ab-t="site.home.colors.more" class="ab-more" href="colors/">All colors</a>
       </div>
-      <p class="ab-band-sub" id="abhb-colors-intro"></p>
-      <div class="ab-swatches" id="abhb-colors"></div>
+      <p class="ab-band-sub" id="abhb-colors-intro" data-ab-t="colors.intro"></p>
+      <div class="ab-swatches" id="abhb-colors" data-ab-section="home-colors"></div>
     </div>
   </section>
 </div>
@@ -2358,7 +2358,7 @@ function rafStop(){ rafOn = false; }
 </style>
 <div class="ab abfc" id="abfc" data-depth="1">
   <section class="abfc-band" aria-labelledby="abfc-title">
-    <div class="core-cta-customizable abfc-cta" id="abfc-cta"></div>
+    <div class="core-cta-customizable abfc-cta" id="abfc-cta" data-ab-section="home-feature"></div>
   </section>
 </div>
 <!-- ============ /FINISH SAMPLES CTA ============ --><!--/region:feature-->
@@ -2367,10 +2367,10 @@ function rafStop(){ rafOn = false; }
 <section class="abhb-band">
     <div class="ab-wrap">
       <div class="abhb-head">
-        <h2 data-ab-t="home.projects.heading">Recent projects</h2>
-        <a data-ab-t="home.projects.more" class="ab-more" href="projects/">All projects</a>
+        <h2 data-ab-t="site.home.projects.heading">Recent projects</h2>
+        <a data-ab-t="site.home.projects.more" class="ab-more" href="projects/">All projects</a>
       </div>
-      <div class="ab-grid" id="abhb-projects"></div>
+      <div class="ab-grid" id="abhb-projects" data-ab-section="home-projects"></div>
     </div>
   </section>
 </div>
@@ -2431,13 +2431,13 @@ function rafStop(){ rafOn = false; }
     <div class="row-1">
       <div class="core-header p-80">
         <div class="core-header__col core-header__col__title">
-          <h2 class="font-display-md font-family-diagramm font-light" id="abgal-heading">Finished work</h2>
+          <h2 class="font-display-md font-family-diagramm font-light" id="abgal-heading" data-ab-t="gallery.heading">Finished work</h2>
         </div>
         <div class="core-header__col core-header__col__description">
-          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-1"></p>
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-1" data-ab-t="gallery.intro.0"></p>
         </div>
         <div class="core-header__col core-header__col__description">
-          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-2"></p>
+          <p class="font-16 font-family-diagramm font-normal" id="abgal-intro-2" data-ab-t="gallery.intro.1"></p>
         </div>
       </div>
     </div>
@@ -2451,11 +2451,11 @@ function rafStop(){ rafOn = false; }
             <span class="core-gallery__nav__selected-tag__text">All work</span>
             <span class="core-gallery__nav__selected-tag__arrow"></span>
           </div>
-          <ul class="core-gallery__nav__tags" id="abgal-tags"></ul>
+          <ul class="core-gallery__nav__tags" id="abgal-tags" data-ab-section="home-gallery-tags"></ul>
         </div>
         <div class="core-gallery__content">
           <div id="slider-bossgal" class="core-gallery__content__grid">
-            <div class="core-gallery__content__item grid-2x2" id="abgal-items"></div>
+            <div class="core-gallery__content__item grid-2x2" id="abgal-items" data-ab-section="home-gallery"></div>
           </div>
         </div>
       </div>
@@ -2467,7 +2467,7 @@ function rafStop(){ rafOn = false; }
 <div class="ab abhb" data-depth="1">
 <section class="abhb-cta">
     <div class="ab-wrap">
-      <h2 data-ab-t="home.cta.heading">Send us a drawing.</h2>
+      <h2 data-ab-t="site.home.cta.heading">Send us a drawing.</h2>
       <p>Tonnage, finish options, lead time and FOB pricing, back within one working day.</p>
       <a class="ab-submit" href="contact/detail/?id=quote">Request a quotation</a>
     </div>

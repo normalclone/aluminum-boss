@@ -13,7 +13,7 @@
   AB.load('products').then(function (d) {
     var t = el('abhb-products');
     if (!t) return;
-    t.innerHTML = d.categories.map(function (c) {
+    if (!t.firstElementChild) t.innerHTML = d.categories.map(function (c) {
       return '<a class="ab-tile" href="products/detail/?id=' + encodeURIComponent(c.id) + '">' +
                '<span class="ab-thumb"><img src="' +
                  (c.image ? AB.root() + '_media/' + c.image : AB.ph(340, 300, c.name)) +
@@ -34,7 +34,7 @@
       if (!seen[c.family]) { seen[c.family] = 1; pick.push(c); }
     });
     d.items.forEach(function (c) { if (pick.length < 10 && pick.indexOf(c) < 0) pick.push(c); });
-    t.innerHTML = pick.slice(0, 10).map(function (c) {
+    if (!t.firstElementChild) t.innerHTML = pick.slice(0, 10).map(function (c) {
       // A finish is a surface, not a flat colour. The hex stays as the fallback, but next to
       // photographed surfaces a plain chip reads as an empty box - so use the photograph
       // when there is one.
@@ -52,7 +52,7 @@
   AB.load('projects').then(function (d) {
     var t = el('abhb-projects');
     if (!t) return;
-    t.innerHTML = d.albums.slice()
+    if (!t.firstElementChild) t.innerHTML = d.albums.slice()
       .sort(function (a, b) { return b.year - a.year; }).slice(0, 3)
       .map(function (a) {
         return '<a class="ab-card" href="projects/detail/?id=' + encodeURIComponent(a.id) + '">' +

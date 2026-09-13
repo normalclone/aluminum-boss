@@ -51,6 +51,38 @@ async function form(page) {
   return record('bieu mau /contact/detail/', note.length > 0, note.slice(0, 46));
 }
 
+/** The home page's own three: gallery categories, application tabs, hero words. */
+async function home(page) {
+  await page.goto(BASE + '/', { waitUntil: 'load', timeout: 90000 });
+  await wait(4000);
+
+  const before = await page.evaluate(() =>
+    document.querySelectorAll('#abgal-items .core-gallery__content__item__image').length);
+  await page.click('#abgal-tags li[data-value="facades"]');
+  await wait(500);
+  const after = await page.evaluate(() =>
+    document.querySelectorAll('#abgal-items .core-gallery__content__item__image').length);
+  const okGallery = record('loc anh / (gallery)', after > 0 && after < before,
+    before + ' -> ' + after + ' anh');
+
+  const tab0 = await page.evaluate(() =>
+    (document.querySelector('#abap-slider .core-slider__slide__card-body__name') || {}).textContent);
+  await page.click('#abap-tablist li[data-index="2"]');
+  await wait(500);
+  const tab2 = await page.evaluate(() =>
+    (document.querySelector('#abap-slider .core-slider__slide__card-body__name') || {}).textContent);
+  const okTabs = record('doi tab / (applications)', !!tab2 && tab2 !== tab0,
+    (tab0 || '?') + ' -> ' + (tab2 || '?'));
+
+  await page.hover('#abhero-words a[data-i="3"]');
+  await wait(400);
+  const cap = await page.evaluate(() =>
+    (document.getElementById('abhero-caption') || {}).textContent.trim());
+  const okHero = record('di chuot len chu hero /', cap.length > 0, cap.slice(0, 44));
+
+  return okGallery && okTabs && okHero;
+}
+
 /** Clicking a photograph must open the viewer over the page. */
 async function gallery(page) {
   await page.goto(BASE + '/projects/detail/?id=marina-central-tower',
@@ -75,6 +107,7 @@ async function gallery(page) {
     '#ab-swatches .ab-swatch', '#ab-count') && ok;
   ok = await filter(page, '/documents/', '#ab-filters button[data-v="certificates"]',
     '#ab-cats .ab-doc', '#ab-count') && ok;
+  ok = await home(page) && ok;
   ok = await gallery(page) && ok;
   ok = await form(page) && ok;
 

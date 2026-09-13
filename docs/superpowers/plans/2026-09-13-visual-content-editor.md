@@ -307,7 +307,9 @@ cùng một thứ dưới bảy cái tên.
 - [x] **9d: projects** — danh sách xong (685 → 1.850, bot đọc 101%)
 - [x] **9e: documents** — xong (691 → 5.917, bot đọc 100%; trước đó là trang tệ nhất site, 12%)
 - [x] **9f: about, contact** — xong (682 → 1.984 và 689 → 1.724, cả hai bot đọc 101%)
-- [ ] **9g: khối trang chủ** — products, colors, projects, highlights, applications, gallery, feature
+- [x] **9g: khối trang chủ** — xong (1.864 → 5.272, bot đọc 92%). Dọc đường phát hiện trang chủ
+  chưa bao giờ được ghép: địa chỉ ghi `home.title` trong khi dữ liệu ở `site.home.title`, nên bộ
+  ghép vẫn trả về khuôn suốt. `tools/compose.js` giờ bắt được chuyện đó.
 - [ ] **9h: danh sách chữ cạnh hai canvas** — 4 tuyến, 5 nhà máy. Hình vẽ ở lại phía trình duyệt.
 - [x] **9i: mọi trang chi tiết** — xong. `PageComposer` nhận `?id=`, đệm khoá theo id đã quy
   chuẩn; cả bảy loại dùng chung. Script chỉ dựng khi khung còn rỗng, nên phép so pixel giờ

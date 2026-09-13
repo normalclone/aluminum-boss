@@ -24,7 +24,10 @@ const { table, heading } = require('./lib/report');
   const width = +(args[0] && /^\d+$/.test(args[0]) ? args.shift() : 1440) || 1440;
   const out = args.shift() || path.join(require('os').tmpdir(), 'nojs');
 
-  const pages = only ? PAGES.filter(p => p.includes(only)) : PAGES;
+  // "=" nghia la khop ca duong dan, vi trang chu la "/" ma moi duong dan deu chua "/".
+  const pages = !only ? PAGES
+    : only.startsWith('=') ? PAGES.filter(p => p === only.slice(1))
+    : PAGES.filter(p => p.includes(only));
   if (!pages.length) { console.log('  --only %s khong khop trang nao.', only); return; }
 
   fs.mkdirSync(out, { recursive: true });

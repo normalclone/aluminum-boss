@@ -77,9 +77,11 @@
       items[n].setAttribute('tabindex', on ? '0' : '-1');
     }
     if (i !== current) {
+      // Lan dau, may chu da dat san the cua tab dau tien - dung ve de len.
+      var firstPaint = current === -1;
       current = i;
       sliderEl.setAttribute('aria-labelledby', 'abap-tab-' + TABS[i].id);
-      sliderEl.innerHTML = TABS[i].items.map(function (item, n) {
+      if (!firstPaint || !sliderEl.firstElementChild) sliderEl.innerHTML = TABS[i].items.map(function (item, n) {
         return slide(item, n, TABS[i].label);
       }).join('');
       if (driver && driver.reset) driver.reset();
@@ -200,7 +202,7 @@
     TABS = d.tabs || [];
     if (!TABS.length) return;
 
-    tabsEl.innerHTML = TABS.map(function (t, i) {
+    if (!tabsEl.firstElementChild) tabsEl.innerHTML = TABS.map(function (t, i) {
       return '<li class="core-tabs__nav__tags-item font-15 font-light" role="tab"' +
                ' id="abap-tab-' + AB.esc(t.id) + '" data-index="' + i + '"' +
                ' aria-controls="abap-slider" aria-selected="false" tabindex="-1">' +

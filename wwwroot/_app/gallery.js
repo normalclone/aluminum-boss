@@ -66,9 +66,9 @@
     return data.items.filter(function (i) { return active === 'all' || i.cat === active; });
   }
 
-  function paint() {
+  function paint(first) {
     var list = visible();
-    itemsEl.innerHTML = list.length
+    if (!first || !itemsEl.firstElementChild) itemsEl.innerHTML = list.length
       ? list.map(tile).join('')
       : '<p class="abgal-empty">Nothing under this heading yet.</p>';
     lightbox();
@@ -99,8 +99,8 @@
     setTimeout(function () { waitForLg(tries - 1); }, 100);
   }
 
-  function paintTags() {
-    tagsEl.innerHTML = data.tags.map(function (t, i) {
+  function paintTags(first) {
+    if (!first || !tagsEl.firstElementChild) tagsEl.innerHTML = data.tags.map(function (t, i) {
       return '<li class="core-gallery__nav__tags-item font-body-base font-normal' +
                (t.id === active ? ' active' : '') + '"' +
              ' data-index="' + i + '" data-value="' + AB.esc(t.id) + '"' +
@@ -152,8 +152,8 @@
     if (p1) p1.textContent = intro[0] || '';
     if (p2) p2.textContent = intro[1] || '';
 
-    paintTags();
-    paint();
+    paintTags(true);
+    paint(true);
     wire();
     waitForLg(30);
   }).catch(function (e) {

@@ -168,7 +168,7 @@
     if (h && d.heading) h.textContent = d.heading;
 
     var items = (d.items || []).slice(0, 6);
-    t.innerHTML = items.map(slide).join('');
+    if (!t.firstElementChild) t.innerHTML = items.map(slide).join('');
 
     bleed();
     window.addEventListener('resize', bleed);

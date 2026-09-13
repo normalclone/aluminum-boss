@@ -30,7 +30,7 @@
     var src = d.image ? AB.root() + '_media/' + d.image
                       : AB.ph(PH_W, PH_H, '');
 
-    host.innerHTML =
+    if (!host.firstElementChild) host.innerHTML =
       '<div class="core-cta-customizable__text-col">' +
         '<div class="core-cta-customizable__text-col__top">' +
           '<p class="core-cta-customizable__text-col__bottom__text font-16 mb-32">' +

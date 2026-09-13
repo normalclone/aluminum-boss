@@ -25,14 +25,20 @@ public sealed class SectionRenderer
     private JsonNode? DocFor(string section) => section switch
     {
         "news-list" or "news-detail" => _store.Get("news"),
-        "products-list" or "products-detail" => _store.Get("products"),
-        "projects-list" or "projects-detail" => _store.Get("projects"),
-        "colors-filters" or "colors-count" or "colors-list" or "colors-detail" => _store.Get("colors"),
+        "products-list" or "products-detail" or "home-hero-words" or "home-hero-caption"
+            or "home-products" => _store.Get("products"),
+        "projects-list" or "projects-detail" or "home-projects" => _store.Get("projects"),
+        "colors-filters" or "colors-count" or "colors-list" or "colors-detail" or "home-colors"
+            => _store.Get("colors"),
         "documents-filters" or "documents-count" or "documents-list" or "documents-detail"
             => _store.Get("documents"),
         "about-nav" or "about-figures" or "about-chapters" or "about-detail" or "about-chapbar"
             => _store.Get("about"),
         "contact-offices" or "contact-routes" or "contact-detail" => _store.Get("contact"),
+        "home-feature" => _store.Get("feature"),
+        "home-highlights" => _store.Get("highlights"),
+        "home-gallery" or "home-gallery-tags" => _store.Get("gallery"),
+        "home-app-tabs" or "home-app-slides" => _store.Get("applications"),
         _ => null,
     };
 
@@ -104,6 +110,17 @@ public sealed class SectionRenderer
             "about-detail" => AboutDetail(doc, itemId),
             "about-chapbar" => AboutNav(doc, Str(Pick("about-detail", doc, itemId), "id")),
             "contact-detail" => ContactDetail(doc, Pick(section, doc, itemId)),
+            "home-hero-words" => HeroWords(doc, rootPrefix),
+            "home-hero-caption" => HeroCaption(doc),
+            "home-products" => HomeProducts(doc, rootPrefix),
+            "home-colors" => HomeColors(doc, rootPrefix),
+            "home-projects" => HomeProjects(doc, rootPrefix),
+            "home-feature" => HomeFeature(doc, rootPrefix),
+            "home-highlights" => HomeHighlights(doc, rootPrefix),
+            "home-gallery" => HomeGallery(doc, rootPrefix),
+            "home-gallery-tags" => HomeGalleryTags(doc),
+            "home-app-tabs" => AppTabs(doc),
+            "home-app-slides" => AppSlides(doc, rootPrefix),
             _ => null,
         };
     }
@@ -451,6 +468,298 @@ public sealed class SectionRenderer
 
         return sb.Append("</div><div class=\"ab-items\"><h2>More news</h2><div class=\"ab-grid\">")
                  .Append(cards).Append("</div></div></div>").ToString();
+    }
+
+    /// <summary>
+    /// The six words across the hero. They are the six product families read from the catalogue
+    /// rather than written into the page, so adding a family adds it to the hero.
+    ///
+    /// The first is marked on, which is the state the script settles into. A crawler reads this
+    /// before any script runs, and these six words are the shortest true answer to "what does
+    /// this company make".
+    /// </summary>
+    private static string HeroWords(JsonNode doc, string root)
+    {
+        var cats = Arr(doc, "categories");
+        var sb = new StringBuilder();
+        for (var i = 0; i < cats.Count; i++)
+        {
+            sb.Append("<a href=\"").Append(root).Append("products/detail/?id=")
+              .Append(Uri.EscapeDataString(Str(cats[i], "id")))
+              .Append("\" data-i=\"").Append(i).Append("\" class=\"").Append(i == 0 ? "is-on" : "")
+              .Append("\">").Append(Esc(Str(cats[i], "name").ToUpperInvariant())).Append("</a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The line under the hero, naming whichever family is selected. First one to start.</summary>
+    private static string HeroCaption(JsonNode doc)
+    {
+        var first = Arr(doc, "categories").FirstOrDefault();
+        if (first is null) return string.Empty;
+        return "<strong>" + Esc(Str(first, "name")) + "</strong> " + Esc(Str(first, "tagline"));
+    }
+
+    /// <summary>Every product family as a tile. Same data as the Products page, so they cannot drift.</summary>
+    private static string HomeProducts(JsonNode doc, string root)
+    {
+        var sb = new StringBuilder();
+        foreach (var c in Arr(doc, "categories"))
+        {
+            var name = Str(c, "name");
+            var image = Str(c, "image");
+            sb.Append("<a class=\"ab-tile\" href=\"products/detail/?id=")
+              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+              .Append("<span class=\"ab-thumb\"><img src=\"")
+              .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(340, 300, name))
+              .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
+              .Append("\" loading=\"lazy\"></span><h3>").Append(Esc(name)).Append("</h3><p>")
+              .Append(Esc(Str(c, "tagline"))).Append("</p></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Ten finishes, one from each family first so the strip reads as a range rather than as a
+    /// shade card of one colour.
+    /// </summary>
+    private static string HomeColors(JsonNode doc, string root)
+    {
+        var items = Arr(doc, "items");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var pick = new List<JsonNode>();
+        foreach (var c in items) if (seen.Add(Str(c, "family"))) pick.Add(c);
+        foreach (var c in items) { if (pick.Count >= 10) break; if (!pick.Contains(c)) pick.Add(c); }
+
+        var sb = new StringBuilder();
+        foreach (var c in pick.Take(10))
+        {
+            var image = Str(c, "image");
+            // A finish is a surface, not a flat colour: beside photographed surfaces a plain
+            // chip reads as an empty box, so the photograph wins where there is one.
+            var chip = image.Length > 0
+                ? "<span class=\"ab-chip\"><img src=\"" + root + "_media/" + Esc(image)
+                  + "\" alt=\"\" loading=\"lazy\"></span>"
+                : "<span class=\"ab-chip\" style=\"background:" + Esc(Str(c, "hex")) + "\"></span>";
+
+            sb.Append("<a class=\"ab-swatch\" href=\"colors/detail/?id=")
+              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">").Append(chip)
+              .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name")))
+              .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
+              .Append("</span></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The three most recent albums.</summary>
+    private static string HomeProjects(JsonNode doc, string root)
+    {
+        var sb = new StringBuilder();
+        foreach (var a in Arr(doc, "albums")
+                     .OrderByDescending(a => int.TryParse(Str(a, "year"), out var y) ? y : 0).Take(3))
+        {
+            var title = Str(a, "title");
+            var image = Str(a, "image");
+            sb.Append("<a class=\"ab-card\" href=\"projects/detail/?id=")
+              .Append(Uri.EscapeDataString(Str(a, "id"))).Append("\"><img src=\"")
+              .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(420, 300, title))
+              .Append("\" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
+              .Append("\" loading=\"lazy\"><h3>").Append(Esc(title))
+              .Append("</h3><p class=\"ab-card-spec\">")
+              .Append(Esc(Str(a, "year") + " · " + Str(a, "location"))).Append("</p><p>")
+              .Append(Esc(Str(a, "scope"))).Append("</p></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The sample-request panel. Its photograph carries no label: the headline and body sit over
+    /// the middle of it, and a labelled placeholder would draw its own words straight through them.
+    /// </summary>
+    private static string HomeFeature(JsonNode doc, string root)
+    {
+        var image = Str(doc, "image");
+        var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(2400, 1000, "");
+
+        return new StringBuilder("<div class=\"core-cta-customizable__text-col\">")
+            .Append("<div class=\"core-cta-customizable__text-col__top\">")
+            .Append("<p class=\"core-cta-customizable__text-col__bottom__text font-16 mb-32\">")
+            .Append(Esc(Str(doc, "eyebrow"))).Append("</p>")
+            .Append("<h2 class=\"font-light font-40\" id=\"abfc-title\">").Append(Esc(Str(doc, "heading")))
+            .Append("</h2><p class=\"abfc-text\">").Append(Esc(Str(doc, "text"))).Append("</p></div>")
+            .Append("<div class=\"core-cta-customizable__text-col__bottom\">")
+            .Append(FeatureLink(doc["cta"], "btn btn-blanco-negro font-14", true, root))
+            .Append(FeatureLink(doc["more"], "abfc-alt", false, root))
+            .Append("</div></div><div class=\"core-cta-customizable__image-col\">")
+            .Append("<img class=\"core-cta-customizable__image-col__image\" src=\"").Append(src)
+            .Append("\" width=\"2400\" height=\"1000\" alt=\"").Append(Esc(Str(doc, "alt")))
+            .Append("\" loading=\"lazy\"></div>").ToString();
+    }
+
+    /// <summary>A link only where both halves are there; a button with no destination is worse than none.</summary>
+    private static string FeatureLink(JsonNode? o, string cls, bool arrow, string root)
+    {
+        var href = Str(o, "href");
+        var label = Str(o, "label");
+        if (href.Length == 0 || label.Length == 0) return string.Empty;
+        return "<a class=\"" + cls + "\" href=\"" + Esc(root + href) + "\">" + Esc(label)
+               + (arrow ? "<span class=\"arrow-link\"></span>" : string.Empty) + "</a>";
+    }
+
+    private const string PlusIcon =
+        "<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" fill=\"none\" " +
+        "xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\">" +
+        "<rect width=\"44\" height=\"44\" rx=\"22\" fill=\"white\" fill-opacity=\"0.4\"></rect>" +
+        "<path d=\"M22 15L22 29\" stroke=\"white\" stroke-miterlimit=\"10\"></path>" +
+        "<path d=\"M29 22L15 22\" stroke=\"white\" stroke-miterlimit=\"10\"></path>" +
+        "</svg>";
+
+    /// <summary>
+    /// Six news cards in a row that scrolls. Placeholders go in unlabelled here too: the card
+    /// already prints the place and the headline in white over the image.
+    /// </summary>
+    private static string HomeHighlights(JsonNode doc, string root)
+    {
+        var sb = new StringBuilder();
+        var items = Arr(doc, "items").Take(6).ToList();
+        for (var i = 0; i < items.Count; i++)
+        {
+            var it = items[i];
+            var image = Str(it, "image");
+            var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(444, 370, "");
+            var title = Str(it, "title");
+
+            sb.Append("<div class=\"core-slider-novedades__slide keen-slider__slide number-slide-")
+              .Append(i).Append("\"><a class=\"core-slider-novedades__slide__container\" href=\"")
+              .Append(Esc(root + Str(it, "href"))).Append("\"><div class=\"shadow\"></div>")
+              .Append("<img class=\"core-slider-novedades__slide__image\" src=\"").Append(Esc(src))
+              .Append("\" width=\"444\" height=\"370\" alt=\"").Append(Esc(title))
+              .Append("\" loading=\"lazy\">")
+              .Append("<div class=\"core-slider-novedades__slide__filter\"></div>")
+              .Append("<div class=\"core-slider-novedades__slide__card-body\">")
+              .Append("<div class=\"core-slider-novedades__slide__card-body_top\">")
+              .Append("<div class=\"core-slider-novedades__slide__card-body__logo\">")
+              .Append("<p class=\"core-slider-novedades__logo\">").Append(Esc(Str(it, "label")))
+              .Append("</p></div><div class=\"cos-novedades__enlace\">")
+              .Append("<h3 class=\"core-slider-novedades__slide__card-body__name font-display-sm uppercase\">")
+              .Append(Esc(title)).Append("</h3></div></div>")
+              .Append("<div class=\"extra\">").Append(PlusIcon).Append("</div>")
+              .Append("</div></a></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The photograph wall. Every tile is in the HTML, unfiltered - a crawler wants the whole
+    /// wall, and the category buttons are a convenience for a person who is already looking.
+    /// </summary>
+    private static string HomeGallery(JsonNode doc, string root)
+    {
+        var sb = new StringBuilder();
+        foreach (var item in Arr(doc, "items"))
+        {
+            var caption = Str(item, "caption");
+            // lightGallery reads data-sub-html as markup, so the text is escaped once for the
+            // markup and the whole thing again for the attribute.
+            var sub = "<h4>" + Esc(caption) + "</h4><p>" + Esc(Str(item, "description")) + "</p>";
+
+            sb.Append("<div class=\"core-gallery__content__item__image\" data-src=\"")
+              .Append(GallerySrc(doc, item, root, 1800, 1200)).Append("\" data-thumb=\"")
+              .Append(GallerySrc(doc, item, root, 640, 640)).Append("\" data-sub-html=\"")
+              .Append(Esc(sub)).Append("\">")
+              .Append("<div class=\"core-gallery__content__item__filter\">")
+              .Append("<div class=\"core-gallery__content__item__filter__cruz\"></div>")
+              .Append("<span class=\"abgal-cap\">").Append(Esc(caption)).Append("</span></div>")
+              .Append("<img class=\"core-gallery__thumb skip-lazy\" src=\"")
+              .Append(GallerySrc(doc, item, root, 640, 640))
+              .Append("\" width=\"640\" height=\"640\" alt=\"").Append(Esc(caption))
+              .Append("\" draggable=\"false\" loading=\"lazy\"></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Labelled with the category, not the caption: the tile already carries the caption in white
+    /// along its bottom edge, and a placeholder repeating it says everything twice.
+    /// </summary>
+    private static string GallerySrc(JsonNode doc, JsonNode item, string root, int w, int h)
+    {
+        var image = Str(item, "image");
+        if (image.Length > 0) return root + "_media/" + image;
+
+        var cat = Str(item, "cat");
+        var tag = Arr(doc, "tags").FirstOrDefault(t => Str(t, "id") == cat);
+        return Placeholder.Uri(w, h, tag is null ? string.Empty : Str(tag, "label"));
+    }
+
+    /// <summary>
+    /// The five application areas as tabs, the first already selected - the state the script
+    /// settles into, so the first paint matches the last one.
+    /// </summary>
+    private static string AppTabs(JsonNode doc)
+    {
+        var tabs = Arr(doc, "tabs");
+        var sb = new StringBuilder();
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            var on = i == 0;
+            sb.Append("<li class=\"core-tabs__nav__tags-item font-15 font-light")
+              .Append(on ? " active" : "").Append("\" role=\"tab\" id=\"abap-tab-")
+              .Append(Esc(Str(tabs[i], "id"))).Append("\" data-index=\"").Append(i)
+              .Append("\" aria-controls=\"abap-slider\" aria-selected=\"").Append(on ? "true" : "false")
+              .Append("\" tabindex=\"").Append(on ? "0" : "-1").Append("\">")
+              .Append(Esc(Str(tabs[i], "label"))).Append("</li>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The cards of the first tab. Only one tab's worth is in the page, exactly as the script
+    /// has it - the other twenty cards arrive when someone asks for them, and a crawler that
+    /// reads five real applications has read the shape of the section.
+    /// </summary>
+    private static string AppSlides(JsonNode doc, string root)
+    {
+        var tab = Arr(doc, "tabs").FirstOrDefault();
+        if (tab is null) return string.Empty;
+
+        var label = Str(tab, "label");
+        var items = Arr(tab, "items");
+        var sb = new StringBuilder();
+        for (var i = 0; i < items.Count; i++)
+        {
+            var image = Str(items[i], "image");
+            var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(480, 640, label);
+
+            sb.Append("<div class=\"core-slider__slide keen-slider__slide number-slide-").Append(i)
+              .Append("\"><img class=\"core-slider__slide__image\" src=\"").Append(Esc(src))
+              .Append("\" alt=\"\" loading=\"lazy\"><div class=\"core-slider__slide__filter\"></div>")
+              .Append("<div class=\"core-slider__slide__card-body\">")
+              .Append("<div class=\"core-slider__slide__card-body__block\">")
+              .Append("<h3 class=\"core-slider__slide__card-body__name font-16\">")
+              .Append(Esc(Str(items[i], "title"))).Append("</h3></div>")
+              .Append("<div class=\"core-slider__slide__card-body__block\">")
+              .Append("<p class=\"core-slider__slide__card-body__description\">")
+              .Append(Esc(Str(items[i], "text"))).Append("</p></div></div></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The category list, with the first - "All work" - already chosen.</summary>
+    private static string HomeGalleryTags(JsonNode doc)
+    {
+        var sb = new StringBuilder();
+        var tags = Arr(doc, "tags");
+        for (var i = 0; i < tags.Count; i++)
+        {
+            var id = Str(tags[i], "id");
+            var label = Str(tags[i], "label");
+            sb.Append("<li class=\"core-gallery__nav__tags-item font-body-base font-normal")
+              .Append(id == "all" ? " active" : "").Append("\" data-index=\"").Append(i)
+              .Append("\" data-value=\"").Append(Esc(id)).Append("\" data-label=\"").Append(Esc(label))
+              .Append("\">").Append(Esc(label)).Append("</li>");
+        }
+        return sb.ToString();
     }
 
     /// <summary>
