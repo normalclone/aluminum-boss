@@ -256,21 +256,35 @@
   // inside a list gets its own word - a product family holds products, a document group holds
   // documents - and the label says both: "Product family #1, Product #3 spec".
   //
-  // The first ten are the same ten lists the Content screen offers, and the words here are the
-  // singular of the words there (CollectionController.Kinds). If those are ever renamed, rename
-  // these. Everything below the line is a list the Content screen does not show at all.
+  // The first ten are the same ten lists the Content screen offers, and each takes the word the
+  // site itself uses for one of them - the Content screen's label, in the singular, unless
+  // something else on the same screen already owns that word:
+  //
+  //   Products      -> Product family   the list inside it is where "Product" goes
+  //   Colors        -> Color
+  //   News          -> Article          "News" has no singular; the page calls them articles
+  //   Projects      -> Project
+  //   Documents     -> Document group   the list inside it is where "Document" goes
+  //   Gallery       -> Picture          a gallery holds pictures, not "galleries"
+  //   Highlights    -> Highlight
+  //   Applications  -> Tab              the list IS the tabs; "Application" is one inside a tab
+  //   Export routes -> Export route
+  //   Factories     -> Factory
+  //
+  // If the Content screen's labels are ever renamed (CollectionController.Kinds), rename these
+  // with them. Everything below the line is a list the Content screen does not show at all.
   //
   // A list with no entry here falls back to its key, which is what every list used to do - the
   // label stays readable, it just goes back to sounding like a database. tools/labels.js walks
   // every page and reports which lists have landed in that fallback.
   var WORDS = {
     'products.categories': 'Product family',
-    'colors.items': 'Finish',
+    'colors.items': 'Color',
     'news.items': 'Article',
     'projects.albums': 'Project',
     'documents.categories': 'Document group',
     'gallery.items': 'Picture',
-    'highlights.items': 'Story',
+    'highlights.items': 'Highlight',
     'applications.tabs': 'Tab',
     'globe.routes': 'Export route',
     'factories.sites': 'Factory',

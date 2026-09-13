@@ -718,6 +718,12 @@ nữa, và cả bốn cùng một dạng: **thứ hiện ra nói một đằng, 
       **Product family**, và `products.categories.N.items` bên trong nó là **Product**.
       Khoá là *hình dạng* địa chỉ (mọi số thứ tự viết thành `N`), nên danh sách lồng trong danh
       sách có tên riêng chứ không mượn tên của cái bọc ngoài.
+      Mười danh sách đầu lấy đúng tên màn hình **Content** gọi chúng, ở dạng số ít — vì nếu không
+      thì lại thành hai thứ tiếng trên cùng một màn hình, chỉ dời chỗ: tiêu đề nhóm ghi "Colors"
+      mà mọi ô bên dưới ghi "Finish #1". Bốn cái lệch khỏi quy tắc ấy đều có lý do viết ngay
+      cạnh: `Products` → **Product family** vì "Product" dành cho danh sách bên trong nó,
+      `Documents` → **Document group** cùng lẽ ấy, `Gallery` → **Picture** vì một gallery chứa
+      ảnh, `News` → **Article** vì "News" không có số ít.
 - [x] **Step 5: Verify** — `dotnet test` 69/69, `admin-shots` 30/30 (bốn màn hình cũ: 404),
       `editor-shot` 10/10, `collection` 13/13, `image-edit` 7/7, `labels` 33/33,
       `forwarded` hai chiều, `parity --against baseline/task15` 15/15 ở cả 1440 và 390.

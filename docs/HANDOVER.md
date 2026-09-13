@@ -90,8 +90,7 @@ khác đều quay về đó, và menu trên cùng biến mất cho tới khi b�
 cớ: mật khẩu `changeme` nằm trong mã nguồn của một kho công khai, nên trong lúc nó còn hiệu lực
 thì khu quản trị coi như chưa có khoá. Đổi xong là menu trở lại ngay, không cần đăng nhập lại.
 
-Mật khẩu mới phải dài ít nhất mười ký tự, và **không được lại là `changeme`** — máy chủ nhận ra
-và cổng sẽ đóng lại lần nữa.
+Mật khẩu mới phải dài ít nhất mười ký tự — quy tắc ấy đã loại sẵn `changeme`.
 
 Quên mật khẩu thì cần người có quyền vào máy chủ: xoá tệp `App_Data/qlweb2.db` rồi khởi động lại,
 tài khoản `admin` / `changeme` sẽ được tạo lại (và cổng đổi mật khẩu dựng lên lại). Làm vậy cũng
@@ -185,12 +184,15 @@ Những việc **không** làm được qua giao diện:
 - **Ba trường không sửa được qua giao diện**, vì sửa chúng ở đó sẽ làm hỏng thứ khác: đoạn mô tả
   dài của một dòng sản phẩm (in thành hai cột), tên **họ màu** trên một màu (nó là khoá tra
   bảng thông số), và danh sách sản phẩm trên một công trình (nhiều mục viết trên một dòng).
-- **Đưa site ra internet sau một proxy** (nginx, Cloudflare): mở `appsettings.json` và điền địa
+- **Đưa site ra internet sau một proxy** (nginx): mở `appsettings.json` và điền địa
   chỉ của proxy vào `Proxy.TrustedIps`, ví dụ `[ "127.0.0.1" ]` khi nginx chạy cùng máy. Bỏ
   trống thì máy chủ thấy mọi khách đều là `127.0.0.1`, và giới hạn 8 lần gửi biểu mẫu mỗi giờ sẽ
   khoá biểu mẫu cho TOÀN BỘ khách chứ không phải cho một người. Chỉ điền đúng địa chỉ proxy:
   danh sách này là lời khai "ai được phép nói hộ địa chỉ của khách", và điền bừa vào đó thì
   khách tự chọn được ô đếm của mình.
+  Máy chủ chỉ tin **một chặng**: địa chỉ nó đọc là địa chỉ nginx gửi sang. Có thêm CDN phía trước
+  (Cloudflare chẳng hạn) thì nginx phải được cấu hình `real_ip_header CF-Connecting-IP`, không thì
+  cái nó gửi sang là địa chỉ của CDN chứ không phải của khách.
 - **Bản xuất tĩnh đầy đủ** (bỏ máy chủ, quay lại hosting tĩnh): công cụ đã viết nhưng chưa chạy
   bao giờ, và thư mục `site/` hiện là khuôn của máy chủ chứ không phải bản in ra của nó.
 
