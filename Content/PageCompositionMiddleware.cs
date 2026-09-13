@@ -26,7 +26,9 @@ public sealed class PageCompositionMiddleware
             return;
         }
 
-        var html = composer.Compose(context.Request.Path.Value ?? "/");
+        // A detail page is addressed as /news/detail/?id=press-line-2500 today. Task 10 moves the
+        // id into the path; the composer takes it as a value either way, so nothing here changes.
+        var html = composer.Compose(context.Request.Path.Value ?? "/", context.Request.Query["id"]);
         if (html is null)
         {
             await _next(context);

@@ -21,20 +21,52 @@ public sealed class SectionRenderer
 
     public SectionRenderer(ContentStore store) => _store = store;
 
-    /// <summary>The markup for a named section, or null when the name is not one we render.</summary>
-    public string? Render(string section, string rootPrefix)
+    /// <summary>The JSON document a section reads from, or null when the name is not one we know.</summary>
+    private JsonNode? DocFor(string section) => section switch
     {
-        var doc = section switch
-        {
-            "news-list" => _store.Get("news"),
-            "products-list" => _store.Get("products"),
-            "projects-list" => _store.Get("projects"),
-            "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
-            "documents-filters" or "documents-count" or "documents-list" => _store.Get("documents"),
-            "about-nav" or "about-figures" or "about-chapters" => _store.Get("about"),
-            "contact-offices" or "contact-routes" => _store.Get("contact"),
-            _ => null,
-        };
+        "news-list" or "news-detail" => _store.Get("news"),
+        "products-list" => _store.Get("products"),
+        "projects-list" => _store.Get("projects"),
+        "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
+        "documents-filters" or "documents-count" or "documents-list" => _store.Get("documents"),
+        "about-nav" or "about-figures" or "about-chapters" => _store.Get("about"),
+        "contact-offices" or "contact-routes" => _store.Get("contact"),
+        _ => null,
+    };
+
+    /// <summary>
+    /// The items a detail page can show, in the order the listing shows them. The first is what an
+    /// unrecognised id falls back to, which is what the scripts have always done.
+    /// </summary>
+    private static List<JsonNode> DetailItems(string section, JsonNode doc) => section switch
+    {
+        "news-detail" => (doc["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [],
+        _ => [],
+    };
+
+    /// <summary>
+    /// The id this page will actually render, given whatever arrived in the query string.
+    ///
+    /// The composer needs this before it composes, because the composed page is cached and the
+    /// cache key has to be an id we recognise. Keying on the raw query instead would hand a
+    /// stranger an unbounded dictionary: every ?id=&lt;random&gt; would be one more entry.
+    /// </summary>
+    public string? CanonicalId(string section, string? wanted)
+    {
+        var doc = DocFor(section);
+        if (doc is null) return null;
+
+        var items = DetailItems(section, doc);
+        if (items.Count == 0) return null;
+
+        var hit = items.FirstOrDefault(i => Str(i, "id") == wanted);
+        return Str(hit ?? items[0], "id");
+    }
+
+    /// <summary>The markup for a named section, or null when the name is not one we render.</summary>
+    public string? Render(string section, string rootPrefix, string? itemId = null)
+    {
+        var doc = DocFor(section);
         if (doc is null) return null;
 
         return section switch
@@ -53,6 +85,7 @@ public sealed class SectionRenderer
             "about-chapters" => AboutChapters(doc),
             "contact-offices" => ContactOffices(doc),
             "contact-routes" => ContactRoutes(doc),
+            "news-detail" => NewsDetail(doc, Pick(section, doc, itemId), rootPrefix),
             _ => null,
         };
     }
@@ -338,6 +371,82 @@ public sealed class SectionRenderer
               .Append("</p></div><div class=\"ab-docs\">").Append(rows).Append("</div></section>");
         }
         return sb.ToString();
+    }
+
+    /// <summary>The item named by the id, or the first one. Null only when there are none.</summary>
+    private static JsonNode? Pick(string section, JsonNode doc, string? id)
+    {
+        var items = DetailItems(section, doc);
+        if (items.Count == 0) return null;
+        return items.FirstOrDefault(i => Str(i, "id") == id) ?? items[0];
+    }
+
+    /// <summary>
+    /// One article: crumb, headline, byline, hero, standfirst, body, and three more to read.
+    ///
+    /// This is the page the whole server-rendering effort was started for. Measured before it
+    /// existed, an article page carried 676 characters of HTML text - the nav and the footer, and
+    /// not one word of the article - because every paragraph was written in by a script after load.
+    /// </summary>
+    private static string? NewsDetail(JsonNode doc, JsonNode? a, string root)
+    {
+        if (a is null) return null;
+
+        var id = Str(a, "id");
+        var title = Str(a, "title");
+        var tags = (a["tags"] as JsonArray)?.OfType<JsonNode>().Select(t => Esc(t.ToString())) ?? [];
+
+        var more = (doc["items"] as JsonArray)?.OfType<JsonNode>()
+            .Where(x => Str(x, "id") != id)
+            .OrderByDescending(x => Str(x, "date"), StringComparer.Ordinal)
+            .Take(3) ?? [];
+
+        var cards = new StringBuilder();
+        foreach (var x in more)
+        {
+            var xTitle = Str(x, "title");
+            var xImage = Str(x, "image");
+            cards.Append("<a class=\"ab-card\" href=\"?id=").Append(Uri.EscapeDataString(Str(x, "id")))
+                 .Append("\"><img src=\"")
+                 .Append(xImage.Length > 0 ? root + "_media/" + xImage : Placeholder.Uri(400, 260, xTitle))
+                 .Append("\" width=\"400\" height=\"260\" alt=\"").Append(Esc(xTitle))
+                 .Append("\" loading=\"lazy\"><h3>").Append(Esc(xTitle))
+                 .Append("</h3><p class=\"ab-card-spec\">").Append(LongDate(Str(x, "date")))
+                 .Append("</p></a>");
+        }
+
+        var image = Str(a, "image");
+        var sb = new StringBuilder("<div class=\"ab-wrap\">");
+        sb.Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+          .Append("</a> &nbsp;/&nbsp; ").Append(string.Join(" &middot; ", tags)).Append("</p>")
+          .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(title)).Append("</h1>")
+          .Append("<p class=\"ab-post-meta\">").Append(LongDate(Str(a, "date")))
+          .Append(" &nbsp;|&nbsp; Written by: ").Append(Esc(Str(a, "author"))).Append("</p>")
+          .Append("<div class=\"ab-hero\"><img src=\"")
+          .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(1240, 560, title))
+          .Append("\" width=\"1240\" height=\"560\" alt=\"").Append(Esc(title)).Append("\"></div>")
+          .Append("<div class=\"ab-article\"><p class=\"ab-standfirst\">")
+          .Append(Esc(Str(a, "excerpt"))).Append("</p>");
+
+        foreach (var p in (a["body"] as JsonArray)?.OfType<JsonNode>() ?? [])
+            sb.Append("<p>").Append(Esc(p.ToString())).Append("</p>");
+
+        return sb.Append("</div><div class=\"ab-items\"><h2>More news</h2><div class=\"ab-grid\">")
+                 .Append(cards).Append("</div></div></div>").ToString();
+    }
+
+    private static readonly string[] Months =
+    [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
+    ];
+
+    /// <summary>"19 August 2026" - the day without a leading zero, matching the script.</summary>
+    private static string LongDate(string iso)
+    {
+        var p = iso.Split('-');
+        if (p.Length != 3 || !int.TryParse(p[1], out var m) || m < 1 || m > 12) return Esc(iso);
+        return int.Parse(p[2]) + " " + Months[m - 1] + " " + p[0];
     }
 
     /// <summary>
