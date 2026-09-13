@@ -25,12 +25,14 @@ public sealed class SectionRenderer
     private JsonNode? DocFor(string section) => section switch
     {
         "news-list" or "news-detail" => _store.Get("news"),
-        "products-list" => _store.Get("products"),
-        "projects-list" => _store.Get("projects"),
-        "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
-        "documents-filters" or "documents-count" or "documents-list" => _store.Get("documents"),
-        "about-nav" or "about-figures" or "about-chapters" => _store.Get("about"),
-        "contact-offices" or "contact-routes" => _store.Get("contact"),
+        "products-list" or "products-detail" => _store.Get("products"),
+        "projects-list" or "projects-detail" => _store.Get("projects"),
+        "colors-filters" or "colors-count" or "colors-list" or "colors-detail" => _store.Get("colors"),
+        "documents-filters" or "documents-count" or "documents-list" or "documents-detail"
+            => _store.Get("documents"),
+        "about-nav" or "about-figures" or "about-chapters" or "about-detail" or "about-chapbar"
+            => _store.Get("about"),
+        "contact-offices" or "contact-routes" or "contact-detail" => _store.Get("contact"),
         _ => null,
     };
 
@@ -40,9 +42,18 @@ public sealed class SectionRenderer
     /// </summary>
     private static List<JsonNode> DetailItems(string section, JsonNode doc) => section switch
     {
-        "news-detail" => (doc["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [],
+        "news-detail" or "colors-detail" => Arr(doc, "items"),
+        "products-detail" => Arr(doc, "categories"),
+        "projects-detail" => Arr(doc, "albums"),
+        // One document page per document, not per category, so the list is flattened.
+        "documents-detail" => Arr(doc, "categories").SelectMany(c => Arr(c, "items")).ToList(),
+        "about-detail" => Arr(doc, "chapters"),
+        "contact-detail" => Arr(doc, "routes"),
         _ => [],
     };
+
+    private static List<JsonNode> Arr(JsonNode? node, string key)
+        => (node?[key] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
 
     /// <summary>
     /// The id this page will actually render, given whatever arrived in the query string.
@@ -86,6 +97,13 @@ public sealed class SectionRenderer
             "contact-offices" => ContactOffices(doc),
             "contact-routes" => ContactRoutes(doc),
             "news-detail" => NewsDetail(doc, Pick(section, doc, itemId), rootPrefix),
+            "products-detail" => ProductDetail(doc, Pick(section, doc, itemId)),
+            "colors-detail" => ColorDetail(doc, Pick(section, doc, itemId)),
+            "projects-detail" => ProjectDetail(doc, Pick(section, doc, itemId), rootPrefix),
+            "documents-detail" => DocumentDetail(doc, Pick(section, doc, itemId), rootPrefix),
+            "about-detail" => AboutDetail(doc, itemId),
+            "about-chapbar" => AboutNav(doc, Str(Pick("about-detail", doc, itemId), "id")),
+            "contact-detail" => ContactDetail(doc, Pick(section, doc, itemId)),
             _ => null,
         };
     }
@@ -435,6 +453,383 @@ public sealed class SectionRenderer
                  .Append(cards).Append("</div></div></div>").ToString();
     }
 
+    /// <summary>
+    /// One product family: headline, hero, a two-column blurb, and every product in it.
+    /// </summary>
+    private static string? ProductDetail(JsonNode doc, JsonNode? c)
+    {
+        if (c is null) return null;
+
+        var id = Str(c, "id");
+        var name = Str(c, "name");
+        var items = Arr(c, "items");
+
+        var others = Arr(doc, "categories").Where(x => Str(x, "id") != id)
+            .Select(x => "<a href=\"?id=" + Uri.EscapeDataString(Str(x, "id")) + "\">"
+                         + Esc(Str(x, "name")) + "</a>");
+
+        var cards = new StringBuilder();
+        foreach (var it in items)
+        {
+            var n = Str(it, "name");
+            cards.Append("<article class=\"ab-card\" id=\"").Append(Esc(Str(it, "id"))).Append("\">")
+                 .Append("<img src=\"").Append(Placeholder.Uri(400, 300, n))
+                 .Append("\" width=\"400\" height=\"300\" alt=\"").Append(Esc(n))
+                 .Append("\" loading=\"lazy\"><h3>").Append(Esc(n)).Append("</h3>")
+                 .Append("<p class=\"ab-card-spec\">").Append(Esc(Str(it, "spec"))).Append("</p>")
+                 .Append("<p>").Append(Esc(Str(it, "text"))).Append("</p></article>");
+        }
+
+        var para = SplitInTwo(Str(c, "blurb"));
+
+        return new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
+            .Append("<h1 class=\"ab-title\">").Append(Esc(name)).Append("</h1>")
+            .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "tagline"))).Append("</p></div>")
+            .Append("<div class=\"ab-wrap\"><div class=\"ab-hero\"><img src=\"")
+            .Append(Placeholder.Uri(1280, 520, name))
+            .Append("\" width=\"1280\" height=\"520\" alt=\"").Append(Esc(name))
+            .Append("\"></div></div>")
+            .Append("<div class=\"ab-wrap\"><div class=\"ab-body\"><div><p>").Append(Esc(para[0]))
+            .Append("</p></div><div><p>").Append(Esc(para[1])).Append("</p></div></div></div>")
+            .Append("<div class=\"ab-wrap\"><div class=\"ab-items\"><h2>").Append(items.Count)
+            .Append(" products in this family</h2><div class=\"ab-grid\">").Append(cards)
+            .Append("</div><p class=\"ab-band-sub\" style=\"margin-top:44px\">Other families: ")
+            .Append(string.Join("<span aria-hidden=\"true\"> · </span>", others))
+            .Append("</p></div></div>").ToString();
+    }
+
+    /// <summary>
+    /// Splits a blurb into two columns on a sentence boundary.
+    ///
+    /// Halving by character count reads as a fault: the left column ends mid-clause and the right
+    /// one opens with a lower-case word. Same rule as the script it replaces, so the break lands
+    /// in the same place.
+    /// </summary>
+    private static string[] SplitInTwo(string blurb)
+    {
+        var sentences = System.Text.RegularExpressions.Regex
+            .Matches(blurb, @"[^.!?]+[.!?]+(\s|$)")
+            .Select(m => m.Value).ToList();
+        if (sentences.Count == 0) sentences.Add(blurb);
+
+        var half = blurb.Length / 2.0;
+        var run = 0;
+        var at = sentences.Count;
+        for (var s = 0; s < sentences.Count; s++)
+        {
+            run += sentences[s].Length;
+            if (run >= half) { at = s + 1; break; }
+        }
+        if (at >= sentences.Count && sentences.Count > 1) at = sentences.Count - 1;
+
+        return
+        [
+            string.Concat(sentences.Take(at)).Trim(),
+            string.Concat(sentences.Skip(at)).Trim(),
+        ];
+    }
+
+    /// <summary>
+    /// One finish: the colour itself at size, the specification table, and its siblings.
+    ///
+    /// Coating thickness, standard and warranty follow from the family rather than being repeated
+    /// on all 35 entries. That table lives in colors.json, which the browser script reads too -
+    /// one table rather than two that drift apart.
+    /// </summary>
+    private static string? ColorDetail(JsonNode doc, JsonNode? c)
+    {
+        if (c is null) return null;
+
+        var id = Str(c, "id");
+        var family = Str(c, "family");
+        var spec = doc["familySpecs"]?[family];
+
+        (string K, string V)[] rows =
+        [
+            ("Code", Str(c, "code")), ("Finish", family), ("Gloss", Str(c, "gloss")),
+            ("Exposure", Str(c, "use")),
+            ("Coating", Spec(spec, "layer")), ("Standard", Spec(spec, "std")),
+            ("Colour warranty", Spec(spec, "warranty")),
+        ];
+
+        var dl = new StringBuilder();
+        foreach (var (k, v) in rows)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
+              .Append(Esc(v)).Append("</dd></div>");
+
+        var siblings = new StringBuilder();
+        foreach (var x in Arr(doc, "items").Where(x => Str(x, "family") == family && Str(x, "id") != id).Take(8))
+        {
+            siblings.Append("<a class=\"ab-swatch\" href=\"?id=")
+                    .Append(Uri.EscapeDataString(Str(x, "id"))).Append("\">")
+                    .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(x, "hex")))
+                    .Append("\"></span><span class=\"ab-swatch-name\">").Append(Esc(Str(x, "name")))
+                    .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(x, "code")))
+                    .Append("</span></a>");
+        }
+
+        return new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(family)).Append("</p>")
+            .Append("<div class=\"ab-colour-head\"><div class=\"ab-colour-block\" style=\"background:")
+            .Append(Esc(Str(c, "hex"))).Append("\"></div><div>")
+            .Append("<h1 class=\"ab-title\">").Append(Esc(Str(c, "name"))).Append("</h1>")
+            .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "code"))).Append(" &middot; ")
+            .Append(Esc(family)).Append("</p>")
+            .Append("<p class=\"ab-note\">").Append(Esc(Str(c, "note"))).Append("</p></div></div>")
+            .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
+            .Append("<div class=\"ab-items\"><h2>Other ").Append(Esc(family.ToLowerInvariant()))
+            .Append(" finishes</h2><div class=\"ab-swatches\">").Append(siblings)
+            .Append("</div></div></div>").ToString();
+    }
+
+    /// <summary>An em dash where the family has no entry, matching the script's fallback.</summary>
+    private static string Spec(JsonNode? spec, string key) => spec?[key]?.ToString() ?? "—";
+
+    /// <summary>
+    /// One album: the facts, the contact sheet, and three other albums.
+    /// </summary>
+    private static string? ProjectDetail(JsonNode doc, JsonNode? a, string root)
+    {
+        if (a is null) return null;
+
+        var id = Str(a, "id");
+        var photos = Arr(a, "photos");
+        var products = Arr(a, "products").Select(p => p.ToString());
+
+        (string K, string V)[] facts =
+        [
+            ("Year", Str(a, "year")), ("Location", Str(a, "location")),
+            ("Client", Str(a, "client")), ("Scope", Str(a, "scope")),
+            ("Products", string.Join(", ", products)),
+        ];
+
+        var dl = new StringBuilder();
+        foreach (var (k, v) in facts)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
+              .Append(Esc(v)).Append("</dd></div>");
+
+        // The opening frame runs the full width and the rest sit in an even three-column sheet.
+        var tiles = new StringBuilder();
+        for (var i = 0; i < photos.Count; i++)
+        {
+            var cap = Str(photos[i], "c");
+            var image = Str(photos[i], "image");
+            var w = i == 0 ? 1260 : 620;
+            var h = i == 0 ? 540 : 414;
+
+            tiles.Append("<button type=\"button\" class=\"ab-shot\" data-i=\"").Append(i)
+                 .Append("\"><img src=\"")
+                 .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(w, h, cap))
+                 .Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
+                 .Append("\" alt=\"").Append(Esc(cap)).Append("\" loading=\"lazy\">")
+                 .Append("<span class=\"ab-shot-cap\">").Append(Esc(cap)).Append("</span></button>");
+        }
+
+        var others = new StringBuilder();
+        foreach (var x in Arr(doc, "albums").Where(x => Str(x, "id") != id)
+                     .OrderByDescending(x => int.TryParse(Str(x, "year"), out var y) ? y : 0).Take(3))
+        {
+            var t = Str(x, "title");
+            var image = Str(x, "image");
+            others.Append("<a class=\"ab-card\" href=\"?id=").Append(Uri.EscapeDataString(Str(x, "id")))
+                  .Append("\"><img src=\"")
+                  .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(400, 280, t))
+                  .Append("\" width=\"400\" height=\"280\" alt=\"").Append(Esc(t))
+                  .Append("\" loading=\"lazy\"><h3>").Append(Esc(t))
+                  .Append("</h3><p class=\"ab-card-spec\">")
+                  .Append(Esc(Str(x, "year") + " · " + Str(x, "location"))).Append("</p></a>");
+        }
+
+        return new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(Str(a, "year"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(a, "title")))
+            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(a, "note"))).Append("</p>")
+            .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
+            .Append("<p class=\"ab-count\">").Append(photos.Count)
+            .Append(" photographs — select one to open the viewer</p>")
+            .Append("<div class=\"ab-sheet\">").Append(tiles).Append("</div>")
+            .Append("<div class=\"ab-items\"><h2>Other albums</h2><div class=\"ab-grid\">")
+            .Append(others).Append("</div></div></div>").ToString();
+    }
+
+    /// <summary>
+    /// One document: what it is, how to get it, and an inline preview of the PDF itself.
+    /// </summary>
+    private static string? DocumentDetail(JsonNode doc, JsonNode? d, string root)
+    {
+        if (d is null) return null;
+
+        var id = Str(d, "id");
+        var cat = Arr(doc, "categories").FirstOrDefault(c => Arr(c, "items").Any(x => Str(x, "id") == id));
+        if (cat is null) return null;
+
+        var catName = Str(cat, "name");
+        var file = root + "_docs/" + Esc(id) + ".pdf";
+
+        (string K, string V)[] rows =
+        [
+            ("Reference", id.ToUpperInvariant()), ("Type", catName), ("Edition", Str(d, "edition")),
+            ("Language", Str(d, "lang")), ("Pages", Str(d, "pages")), ("Format", "PDF"),
+        ];
+
+        var dl = new StringBuilder();
+        foreach (var (k, v) in rows)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
+              .Append(Esc(v)).Append("</dd></div>");
+
+        var siblings = new StringBuilder();
+        foreach (var x in Arr(cat, "items").Where(x => Str(x, "id") != id))
+        {
+            siblings.Append("<a class=\"ab-doc-mini\" href=\"?id=")
+                    .Append(Uri.EscapeDataString(Str(x, "id"))).Append("\">")
+                    .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
+                    .Append("<span><span class=\"ab-doc-title\">").Append(Esc(Str(x, "title")))
+                    .Append("</span><span class=\"ab-doc-meta\">").Append(Esc(Str(x, "edition")))
+                    .Append(" &middot; ").Append(Esc(Str(x, "pages")))
+                    .Append(" pages</span></span></a>");
+        }
+
+        var sb = new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(catName)).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(d, "title")))
+            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(d, "blurb"))).Append("</p>")
+            .Append("<div class=\"ab-docactions\"><a class=\"ab-submit\" href=\"").Append(file)
+            .Append("\" download>Download PDF</a><a class=\"ab-plain\" href=\"").Append(file)
+            .Append("\" target=\"_blank\" rel=\"noopener\">Open in a new tab</a></div>")
+            .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
+            .Append("<div class=\"ab-preview\"><object data=\"").Append(file)
+            .Append("\" type=\"application/pdf\">")
+            .Append("<p class=\"ab-preview-fallback\">Your browser will not display a PDF inline. ")
+            .Append("<a href=\"").Append(file).Append("\" download>Download the file</a> instead.")
+            .Append("</p></object></div>");
+
+        if (siblings.Length > 0)
+            sb.Append("<div class=\"ab-items\"><h2>Also in ").Append(Esc(catName.ToLowerInvariant()))
+              .Append("</h2><div class=\"ab-docminis\">").Append(siblings).Append("</div></div>");
+
+        return sb.Append("</div>").ToString();
+    }
+
+    /// <summary>
+    /// One chapter of the About section, with the previous and next chapter at the foot. The pair
+    /// of steps is how someone reads the section through rather than bouncing back to the index.
+    /// </summary>
+    private static string? AboutDetail(JsonNode doc, string? itemId)
+    {
+        var chapters = Arr(doc, "chapters");
+        if (chapters.Count == 0) return null;
+
+        var at = chapters.FindIndex(x => Str(x, "id") == itemId);
+        if (at < 0) at = 0;
+        var c = chapters[at];
+        var name = Str(c, "name");
+
+        var body = new StringBuilder();
+        foreach (var p in Arr(c, "body")) body.Append("<p>").Append(Esc(p.ToString())).Append("</p>");
+
+        return new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(c, "title")))
+            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(c, "lede"))).Append("</p>")
+            .Append("<div class=\"ab-hero\"><img src=\"").Append(Placeholder.Uri(1240, 520, name))
+            .Append("\" width=\"1240\" height=\"520\" alt=\"").Append(Esc(name)).Append("\"></div>")
+            .Append("<div class=\"ab-article\">").Append(body).Append("</div>")
+            .Append("<nav class=\"ab-steps\">")
+            .Append(Step(at > 0 ? chapters[at - 1] : null, "Previous", "is-prev"))
+            .Append(Step(at < chapters.Count - 1 ? chapters[at + 1] : null, "Next", "is-next"))
+            .Append("</nav></div>").ToString();
+    }
+
+    /// <summary>An empty span where there is no neighbour, so the pair keeps its grid columns.</summary>
+    private static string Step(JsonNode? x, string label, string cls)
+        => x is null
+            ? "<span></span>"
+            : "<a class=\"ab-step " + cls + "\" href=\"?id=" + Uri.EscapeDataString(Str(x, "id"))
+              + "\"><span>" + label + "</span>" + Esc(Str(x, "title")) + "</a>";
+
+    /// <summary>
+    /// One enquiry form. The fields are data, so a new question is a content edit rather than a
+    /// code change - and the labels reach the crawler, which is how an answer engine learns what
+    /// this company can be asked for.
+    /// </summary>
+    private static string? ContactDetail(JsonNode doc, JsonNode? r)
+    {
+        if (r is null) return null;
+
+        var id = Str(r, "id");
+        var fields = new StringBuilder();
+        foreach (var f in Arr(r, "fields")) fields.Append(Field(f));
+
+        var consent = new StringBuilder();
+        var consents = Arr(doc, "consent");
+        for (var i = 0; i < consents.Count; i++)
+            consent.Append("<label><input type=\"checkbox\" name=\"consent").Append(i)
+                   .Append("\"> ").Append(Esc(consents[i].ToString())).Append("</label>");
+
+        var others = Arr(doc, "routes").Where(x => Str(x, "id") != id)
+            .Select(x => "<a href=\"?id=" + Uri.EscapeDataString(Str(x, "id")) + "\">"
+                         + Esc(Str(x, "name")) + "</a>");
+
+        return new StringBuilder("<div class=\"ab-wrap\">")
+            .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
+            .Append("</a> &nbsp;/&nbsp; ").Append(Esc(Str(r, "name"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(r, "name")))
+            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(r, "intro"))).Append("</p>")
+            .Append("<form class=\"ab-form\" novalidate><div class=\"ab-fields\">").Append(fields)
+            .Append("</div><div class=\"ab-consent\">").Append(consent).Append("</div>")
+            .Append("<button type=\"submit\" class=\"ab-submit\">").Append(Esc(Str(r, "cta")))
+            .Append("</button><p class=\"ab-form-note\" hidden></p></form>")
+            .Append("<p class=\"ab-band-sub\" style=\"margin:44px 0 88px\">Other enquiries: ")
+            .Append(string.Join("<span aria-hidden=\"true\"> · </span>", others))
+            .Append("</p></div>").ToString();
+    }
+
+    /// <summary>One labelled control, built from its declaration in contact.json.</summary>
+    private static string Field(JsonNode f)
+    {
+        var label = Str(f, "n");
+        var type = Str(f, "t");
+        var hint = Str(f, "hint");
+        var required = f["req"]?.GetValue<bool>() ?? false;
+
+        var id = "f-" + Slug(label);
+        var req = required ? " required" : string.Empty;
+
+        var input = type switch
+        {
+            "textarea" => $"<textarea id=\"{id}\" name=\"{id}\" rows=\"5\"{req}></textarea>",
+            "select" => "<select id=\"" + id + "\" name=\"" + id + "\"" + req + ">"
+                        + "<option value=\"\">Select…</option>"
+                        + string.Concat(Arr(f, "opts").Select(o => "<option>" + Esc(o.ToString()) + "</option>"))
+                        + "</select>",
+            _ => $"<input type=\"{Esc(type)}\" id=\"{id}\" name=\"{id}\"{req}>",
+        };
+
+        var wide = type is "textarea" or "file" ? " is-wide" : string.Empty;
+        return "<div class=\"ab-field" + wide + "\"><label for=\"" + id + "\">" + Esc(label)
+               + (required ? "<abbr title=\"required\">*</abbr>" : string.Empty) + "</label>" + input
+               + (hint.Length > 0 ? "<span class=\"ab-hint\">" + Esc(hint) + "</span>" : string.Empty)
+               + "</div>";
+    }
+
+    /// <summary>Matches the script: lower case, runs of anything else become one hyphen.</summary>
+    private static string Slug(string s)
+    {
+        var sb = new StringBuilder();
+        foreach (var ch in s.ToLowerInvariant())
+        {
+            if (ch is >= 'a' and <= 'z' or >= '0' and <= '9') sb.Append(ch);
+            else if (sb.Length > 0 && sb[^1] != '-') sb.Append('-');
+        }
+        return sb.ToString().Trim('-');
+    }
+
     private static readonly string[] Months =
     [
         "January", "February", "March", "April", "May", "June",
@@ -454,14 +849,18 @@ public sealed class SectionRenderer
     /// page this section is modelled on: it says how many chapters there are and where you are in
     /// them, which a plain menu does not. Numbers come from position, so reordering renumbers.
     /// </summary>
-    private static string AboutNav(JsonNode doc)
+    private static string AboutNav(JsonNode doc, string? activeId = null)
     {
+        // The overview links down into the chapters; a chapter links sideways to its siblings.
+        var href = activeId is null ? "detail/?id=" : "?id=";
+
         var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
         var sb = new StringBuilder("<div class=\"ab-wrap ab-chapbar\">");
         for (var i = 0; i < chapters.Count; i++)
         {
-            sb.Append("<a class=\"ab-chap\" href=\"detail/?id=")
-              .Append(Uri.EscapeDataString(Str(chapters[i], "id")))
+            var id = Str(chapters[i], "id");
+            sb.Append("<a class=\"ab-chap").Append(id == activeId ? " is-on" : "").Append("\" href=\"")
+              .Append(href).Append(Uri.EscapeDataString(id))
               .Append("\"><span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
               .Append(Esc(Str(chapters[i], "name"))).Append("</a>");
         }

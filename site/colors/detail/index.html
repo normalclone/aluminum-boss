@@ -242,24 +242,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   </div>
 </header>
 <main class="ab" data-depth="3">
-<div id="ab-detail"></div>
+<div id="ab-detail" data-ab-section="colors-detail"></div>
 
 </main>
 <script>
 (function () {
   var el = document.getElementById('ab-detail');
 
-  // Coating thickness and warranty follow from the finish family, so they are derived rather
-  // than repeated on all 35 entries - one place to correct when a spec changes.
-  var SPEC = {
-    'Anodised':      {layer: '15 µm (10 µm interior, 25 µm marine)', std: 'AS 1231 / QUALANOD', warranty: '10 years'},
-    'Powder coated': {layer: '60–80 µm', std: 'AAMA 2604 / QUALICOAT Class 1', warranty: '10 years'},
-    'Wood grain':    {layer: '60–80 µm powder base, sublimated film', std: 'AAMA 2604', warranty: '10 years'},
-    'PVDF':          {layer: '35–45 µm, two coat', std: 'AAMA 2605 / QUALICOAT Class 2', warranty: '20 years'},
-    'Mechanical':    {layer: 'Clear anodic seal, 10 µm', std: 'QUALANOD', warranty: '5 years, interior'}
-  };
 
   AB.load('colors').then(function (d) {
+    // Coating thickness and warranty follow from the finish family, so they are derived rather
+    // than repeated on all 35 entries. That one place is colors.json, which the server reads as
+    // well - one table rather than two that drift apart.
+    var SPEC = d.familySpecs || {};
     var want = AB.qs('id'), c = null;
     for (var i = 0; i < d.items.length; i++) {
       if (d.items[i].id === want) { c = d.items[i]; break; }
@@ -284,7 +279,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
                '<span class="ab-swatch-meta">' + AB.esc(x.code) + '</span></a>';
     }).join('');
 
-    el.innerHTML =
+    if (!el.firstElementChild) el.innerHTML =
       '<div class="ab-wrap">' +
         '<p class="ab-crumb"><a href="../">Colors</a> &nbsp;/&nbsp; ' + AB.esc(c.family) + '</p>' +
         '<div class="ab-colour-head">' +

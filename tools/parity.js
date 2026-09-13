@@ -75,10 +75,26 @@ async function shoot(ctx, base, p, out) {
   }
 }
 
-/** Compares two PNGs without a decoding library: byte-identical, or hand off to compare.py. */
+/** Byte-identical is the cheap answer and needs no image library. */
 function sameBytes(a, b) {
   try { return Buffer.compare(fs.readFileSync(a), fs.readFileSync(b)) === 0; }
   catch (e) { return false; }
+}
+
+// Different bytes is NOT the question. Anti-aliasing and JPEG decoding leave a few units of noise
+// on a handful of pixels between two loads of the same page, so a page can differ by thousands of
+// bytes and be pixel-identical by the only threshold that matters. Reporting the byte answer and
+// asking for compare.py by hand has raised a false alarm three times in one afternoon, so the
+// count is fetched here instead.
+function overThreshold(a, b) {
+  const r = require('child_process').spawnSync(
+    'python', [path.join(__dirname, 'locate-diff.py'), a, b,
+               path.join(require('os').tmpdir(), 'parity-diff')],
+    { encoding: 'utf8' });
+  const out = (r.stdout || '') + (r.stderr || '');
+  if (/Khong co pixel nao lech qua 32/.test(out)) return 0;
+  const m = out.match(/(\d+) pixel lech qua 32/);
+  return m ? +m[1] : NaN;   // NaN: khong chay duoc python, khong dam ket luan
 }
 
 (async () => {
@@ -127,17 +143,21 @@ function sameBytes(a, b) {
     if (dir) { shotB = path.join(dir, name); }
     else { shotB = path.join(tmp, 'b_' + name); await shoot(ctx, B.replace(/\/$/, ''), p, shotB); }
 
-    const same = sameBytes(shotA, shotB);
-    if (!same) differing++;
-    rows.push([p, same ? 'giong het' : 'KHAC — chay compare.py']);
+    if (sameBytes(shotA, shotB)) {
+      rows.push([p, 'giong het']);
+      continue;
+    }
+
+    const n = overThreshold(shotA, shotB);
+    if (n === 0) { rows.push([p, 'giong het (chi nhieu khu rang cua)']); }
+    else if (Number.isNaN(n)) { differing++; rows.push([p, 'KHAC byte — khong chay duoc python']); }
+    else { differing++; rows.push([p, 'LECH ' + n + ' pixel qua 32/255']); }
   }
 
   heading('Doi chieu pixel (rong ' + width + ')');
   table(['trang', 'ket qua'], rows);
-  console.log('\n  %d/%d trang giong het tung byte.', pages.length - differing, pages.length);
-  if (differing) {
-    console.log('  Anh nam trong %s — chay tools/compare.py de biet lech bao nhieu.', tmp);
-  }
+  console.log('\n  %d/%d trang khong lech pixel nao qua 32/255.', pages.length - differing, pages.length);
+  if (differing) console.log('  Anh nam trong %s', tmp);
   await b.close();
-  verdict(differing === 0, differing + ' trang khac byte (co the chi la nhieu khu rang cua)');
+  verdict(differing === 0, differing + ' trang lech that su');
 })();

@@ -419,5 +419,32 @@
       "note": "Fine unidirectional grain, standard on handles and trims.",
       "image": ""
     }
-  ]
+  ],
+  "familySpecs": {
+    "Anodised": {
+      "layer": "15 µm (10 µm interior, 25 µm marine)",
+      "std": "AS 1231 / QUALANOD",
+      "warranty": "10 years"
+    },
+    "Powder coated": {
+      "layer": "60–80 µm",
+      "std": "AAMA 2604 / QUALICOAT Class 1",
+      "warranty": "10 years"
+    },
+    "Wood grain": {
+      "layer": "60–80 µm powder base, sublimated film",
+      "std": "AAMA 2604",
+      "warranty": "10 years"
+    },
+    "PVDF": {
+      "layer": "35–45 µm, two coat",
+      "std": "AAMA 2605 / QUALICOAT Class 2",
+      "warranty": "20 years"
+    },
+    "Mechanical": {
+      "layer": "Clear anodic seal, 10 µm",
+      "std": "QUALANOD",
+      "warranty": "5 years, interior"
+    }
+  }
 }

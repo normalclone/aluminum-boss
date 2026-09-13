@@ -242,7 +242,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   </div>
 </header>
 <main class="ab" data-depth="3">
-<div id="ab-detail"></div>
+<div id="ab-detail" data-ab-section="contact-detail"></div>
 
 </main>
 <script>
@@ -287,7 +287,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       return '<a href="?id=' + encodeURIComponent(x.id) + '">' + AB.esc(x.name) + '</a>';
     }).join('<span aria-hidden="true"> · </span>');
 
-    el.innerHTML =
+    if (!el.firstElementChild) el.innerHTML =
       '<div class="ab-wrap">' +
         '<p class="ab-crumb"><a href="../">Contact</a> &nbsp;/&nbsp; ' + AB.esc(r.name) + '</p>' +
         '<h1 class="ab-title ab-article-title">' + AB.esc(r.name) + '</h1>' +

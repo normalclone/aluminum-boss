@@ -242,7 +242,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   </div>
 </header>
 <main class="ab" data-depth="3">
-<div id="ab-detail"></div>
+<div id="ab-detail" data-ab-section="products-detail"></div>
 
 </main>
 <script>
@@ -284,7 +284,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
              '</article>';
     }).join('');
 
-    el.innerHTML =
+    if (!el.firstElementChild) el.innerHTML =
       '<div class="ab-wrap">' +
         '<p class="ab-crumb"><a href="../">Products</a> &nbsp;/&nbsp; ' + AB.esc(c.name) + '</p>' +
         '<h1 class="ab-title">' + AB.esc(c.name) + '</h1>' +

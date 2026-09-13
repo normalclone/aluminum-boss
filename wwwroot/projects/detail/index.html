@@ -242,7 +242,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   </div>
 </header>
 <main class="ab" data-depth="3">
-<div id="ab-detail"></div>
+<div id="ab-detail" data-ab-section="projects-detail"></div>
 <div class="ab-viewer" id="ab-viewer" hidden role="dialog" aria-modal="true" aria-label="Gallery viewer">
   <button class="ab-v-close" type="button" aria-label="Close gallery">&times;</button>
   <button class="ab-v-prev" type="button" aria-label="Previous photograph">&#8592;</button>
@@ -348,7 +348,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
                  '<p class="ab-card-spec">' + AB.esc(x.year + ' · ' + x.location) + '</p></a>';
       }).join('');
 
-    el.innerHTML =
+    if (!el.firstElementChild) el.innerHTML =
       '<div class="ab-wrap">' +
         '<p class="ab-crumb"><a href="../">Projects</a> &nbsp;/&nbsp; ' + AB.esc(a.year) + '</p>' +
         '<h1 class="ab-title ab-article-title">' + AB.esc(a.title) + '</h1>' +

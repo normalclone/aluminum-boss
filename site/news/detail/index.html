@@ -275,7 +275,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
                  '<p class="ab-card-spec">' + longDate(x.date) + '</p></a>';
       }).join('');
 
-    el.innerHTML =
+    if (!el.firstElementChild) el.innerHTML =
       '<div class="ab-wrap">' +
         '<p class="ab-crumb"><a href="../">News</a> &nbsp;/&nbsp; ' +
           a.tags.map(AB.esc).join(' &middot; ') + '</p>' +

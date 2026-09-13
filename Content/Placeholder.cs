@@ -31,30 +31,41 @@ public static class Placeholder
         int rw = w / a, rh = h / a;
         if (rw <= 32 && rh <= 32) return $"{rw}:{rh}";
         return w >= h
-            ? $"{Math.Round((double)w / h, 2)}:1"
-            : $"1:{Math.Round((double)h / w, 2)}";
+            ? $"{JsRound2((double)w / h)}:1"
+            : $"1:{JsRound2((double)h / w)}";
     }
+
+    /// <summary>
+    /// JavaScript's Math.round, which is not .NET's.
+    ///
+    /// .NET rounds a half to the nearest EVEN number; JavaScript rounds it up. Measured, that one
+    /// difference put the spec line of a placeholder one pixel high across 450 pixels of a page -
+    /// specY came out 160.5, which is 161 in the browser and 160 here. Every value rounded in this
+    /// class is positive, so adding a half and taking the floor matches the browser exactly.
+    /// </summary>
+    private static int JsRound(double v) => (int)Math.Floor(v + 0.5);
+
+    /// <summary>The same rule at two decimal places, for the aspect ratio.</summary>
+    private static double JsRound2(double v) => Math.Floor(v * 100 + 0.5) / 100;
 
     public static string Uri(int width, int height, string? label)
     {
-        var fs = Math.Max(10, (int)Math.Round(Math.Min(width, height) / 10.0));
-        var sfs = Math.Max(10, (int)Math.Round(fs * 0.72));
+        var fs = Math.Max(10, JsRound(Math.Min(width, height) / 10.0));
+        var sfs = Math.Max(10, JsRound(fs * 0.72));
 
-        var words = (label ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var words = (label ?? string.Empty).Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
         var perLine = Math.Max(8, (int)(width / (fs * 0.58)));
         var lines = new List<string>();
-        var line = new StringBuilder();
+        var line = string.Empty;
         foreach (var w in words)
         {
-            if (line.Length > 0 && line.Length + 1 + w.Length > perLine)
-            {
-                lines.Add(line.ToString());
-                line.Clear();
-            }
-            if (line.Length > 0) line.Append(' ');
-            line.Append(w);
+            // Deliberately the script's own shape, empty first line included: a word longer than
+            // the line budget makes the browser emit a blank line above it, and a port that
+            // quietly tidies that up draws a different picture from the one beside it.
+            if ((line + " " + w).Trim().Length > perLine) { lines.Add(line.Trim()); line = w; }
+            else { line += " " + w; }
         }
-        if (line.Length > 0) lines.Add(line.ToString());
+        if (line.Trim().Length > 0) lines.Add(line.Trim());
         if (lines.Count > 2) lines = lines.Take(2).ToList();
 
         var spec = $"{width}×{height}  ·  {Ratio(width, height)}";
@@ -69,15 +80,15 @@ public static class Placeholder
         var text = new StringBuilder();
         for (var i = 0; i < lines.Count; i++)
         {
-            var y = (int)Math.Round(top + i * lineH + fs * 0.82);
+            var y = JsRound(top + i * lineH + fs * 0.82);
             text.Append($"<tspan x=\"50%\" y=\"{y}\">{Esc(lines[i])}</tspan>");
         }
-        var specY = (int)Math.Round(top + lines.Count * lineH + sfs * 1.0);
+        var specY = JsRound(top + lines.Count * lineH + sfs * 1.0);
 
         // Corner ticks: at small sizes the one-pixel frame disappears into whatever is behind it,
         // and the point of a placeholder is that the shape of the hole is obvious.
-        var t = Math.Max(6, (int)Math.Round(Math.Min(width, height) * 0.07));
-        var tw = Math.Max(1, (int)Math.Round(Math.Min(width, height) / 160.0));
+        var t = Math.Max(6, JsRound(Math.Min(width, height) * 0.07));
+        var tw = Math.Max(1, JsRound(Math.Min(width, height) / 160.0));
         var ticks = new StringBuilder();
         foreach (var (x, y, dx, dy) in new[]
                  {

@@ -299,7 +299,9 @@ cùng một thứ dưới bảy cái tên.
 - [x] **9f: about, contact** — xong (682 → 1.984 và 689 → 1.724, cả hai bot đọc 101%)
 - [ ] **9g: khối trang chủ** — products, colors, projects, highlights, applications, gallery, feature
 - [ ] **9h: danh sách chữ cạnh hai canvas** — 4 tuyến, 5 nhà máy. Hình vẽ ở lại phía trình duyệt.
-- [ ] **9i: mọi trang chi tiết** — `PageComposer` nhận `?id=`, rồi bảy loại dùng chung
+- [x] **9i: mọi trang chi tiết** — xong. `PageComposer` nhận `?id=`, đệm khoá theo id đã quy
+  chuẩn; cả bảy loại dùng chung. Script chỉ dựng khi khung còn rỗng, nên phép so pixel giờ
+  kiểm THẬT bộ dựng phía máy chủ chứ không kiểm lại script.
 
 Sau mỗi mục: `textmass.js` phải cho thấy chữ trong HTML thô **tăng**, `parity.js` phải cho thấy
 hình thức **không đổi**, `nojs.js` phải cho thấy trang **đọc được khi tắt JavaScript** (mở ảnh ra
