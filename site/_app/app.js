@@ -88,6 +88,29 @@
     return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
   }
 
+  // Where an item's page sits, seen from a listing page: 'press-line-2500/'.
+  //
+  // A written slug wins, and without one the id is the slug - the same rule the server follows,
+  // because the two build the same markup and the pixel comparison does not forgive a difference
+  // of one character in an href.
+  function href(item) {
+    return encodeURIComponent(item && item.slug ? item.slug : item.id) + '/';
+  }
+
+  // Which item this page is showing. It used to arrive as ?id=press-line-2500 and now arrives as
+  // the last part of the path, /news/press-line-2500/. Both still reach here: every published
+  // query URL is answered with a redirect, but a redirect only helps a visitor who follows it,
+  // and this file is also what the static copy of the site runs on.
+  //
+  // The path is read first. On /news/press-line-2500/?id=other the path is what the server
+  // composed the page from, and a title taken from the query would name a different article.
+  function itemId() {
+    var parts = w.location.pathname.replace(/\/(index\.html)?$/, '').split('/');
+    var last = parts[parts.length - 1] || '';
+    if (last && last !== 'detail') return decodeURIComponent(last);
+    return qs('id');
+  }
+
   // Every page is stamped with its own way back to the site root by the build, because pages
   // sit at three different depths and this file is shared by all of them.
   //
@@ -122,5 +145,6 @@
     document.title = t + ' | AluminumBoss';
   }
 
-  w.AB = { ph: ph, esc: esc, qs: qs, load: load, root: root, fail: fail, title: title };
+  w.AB = { ph: ph, esc: esc, qs: qs, href: href, itemId: itemId,
+         load: load, root: root, fail: fail, title: title };
 }(window));

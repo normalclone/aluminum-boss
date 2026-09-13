@@ -19,7 +19,7 @@ const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
   const b = await launch();
   const ctx = await newCtx(b, { width: 1440, height: 1000 });
 
-  let badReq = 0, badLink = 0, errs = 0;
+  let badReq = 0, badLink = 0, badRedir = 0, errs = 0;
   const seen = new Map();            // url -> status, so each target is fetched once
   const rows = [];
   const detail = [];
@@ -49,11 +49,20 @@ const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
 
     const fresh = [...new Set(links)].filter(u => !seen.has(u));
     for (const u of fresh) {
+      // Khong di theo chuyen huong. Mot lien ket noi bo tra 301 khong lam hong trang nao, nen
+      // khong phep do nao khac nhin thay no - nhung no la dau vet cua mot lop lien ket bi bo quen
+      // khi doi duong dan, va moi lan bam la mot vong di thua.
       const s = await p.evaluate(async u => {
-        try { return (await fetch(u, { cache: 'no-store' })).status; } catch (e) { return 0; }
+        try {
+          const r = await fetch(u, { cache: 'no-store', redirect: 'manual' });
+          return r.type === 'opaqueredirect' ? 301 : r.status;
+        } catch (e) { return 0; }
       }, u);
       seen.set(u, s);
-      if (s >= 400 || s === 0) {
+      if (s === 301) {
+        badRedir++;
+        detail.push('CHUYEN HUONG  ' + u.slice(BASE.length));
+      } else if (s >= 400 || s === 0) {
         badLink++;
         detail.push('LIEN KET ' + s + '  ' + u.slice(BASE.length));
       }
@@ -74,8 +83,9 @@ const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
     detail.forEach(d => console.log('    ' + d));
   }
 
-  console.log('\n  %d trang · %d request hong · %d lien ket chet tren %d · %d loi script',
-    PAGES.length, badReq, badLink, seen.size, errs);
+  console.log('\n  %d trang · %d request hong · %d lien ket chet tren %d · %d lien ket phai chuyen huong · %d loi script',
+    PAGES.length, badReq, badLink, seen.size, badRedir, errs);
   await b.close();
-  verdict(badReq + badLink + errs === 0, 'moi trang tai day du, moi lien ket song');
+  verdict(badReq + badLink + badRedir + errs === 0,
+    'moi trang tai day du, moi lien ket song va tro thang toi dich');
 })();

@@ -35,7 +35,7 @@
     if (!words.firstElementChild) words.innerHTML = items.map(function (c, i) {
       // Addressed from the site root like every other link this file writes. It used to be
       // written relative to the page, which resolved a level too deep and 404'd on click.
-      return '<a href="' + AB.root() + 'products/detail/?id=' + encodeURIComponent(c.id) + '" data-i="' + i +
+      return '<a href="' + AB.root() + 'products/' + AB.href(c) + '" data-i="' + i +
              '">' + AB.esc(c.name.toUpperCase()) + '</a>';
     }).join('');
 

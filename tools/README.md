@@ -27,6 +27,12 @@ trang để biết nó thật sự trả về gì.
 Đọc diff không bắt được loại lỗi này: một liên kết sai trông hoàn toàn bình thường trong mã, chỉ
 hỏng khi có thứ gì đó resolve nó.
 
+Từ Task 10 nó còn đếm riêng **liên kết nội bộ trả 301**. Một liên kết như vậy không làm hỏng trang
+nào — người bấm vẫn tới đúng chỗ — nên không phép đo nào khác nhìn thấy nó; nhưng nó là dấu vết
+của một lớp liên kết bị bỏ quên lúc đổi đường dẫn. Liên kết nằm ở bốn lớp (renderer, bản dự phòng
+JS, `href` viết cứng trong chân trang, và `href` nằm trong chính dữ liệu) và bỏ quên một lớp
+không gây 404.
+
 ---
 
 ## `textmass.js` — bot đọc được bao nhiêu
@@ -293,3 +299,58 @@ markup. Giống hệt khuôn nghĩa là đã rơi về khuôn.
 
 Gọi 15 trang trên máy chủ đang chạy, ghi HTML đã ghép ra `site/`. Giữ GitHub Pages sống trong
 lúc chuyển sang dựng phía máy chủ, và cho một bản sao tĩnh dùng làm sao lưu.
+
+> **Chưa dùng.** Từ Task 10 mỗi mục có thư mục riêng trong `site/`, do `fanout.py` trải khuôn ra —
+> **khuôn**, không phải đầu ra đã ghép. Chạy `publish-static.js` bây giờ sẽ ghi đầu ra đã ghép đè
+> lên những khuôn đó và đóng cứng một mục vào mỗi file. Nó để dành cho Task 14: một bản xuất tĩnh
+> đầy đủ để bàn giao, lúc đó `site/` thôi làm nguồn song song và `trees.py` nghỉ.
+
+---
+
+## `slugs.py` — mỗi mục có đường dẫn riêng dùng được không
+
+Từ Task 10, `id` của một mục trở thành một đoạn URL công khai: `/news/press-line-2500/`. Hai điều
+phải đúng và không có gì trong JSON ép chúng phải đúng — id viết được thành đoạn đường dẫn, và
+trong cùng một mục không có hai id trùng nhau.
+
+```bash
+python slugs.py            # in bảng, thoát 1 nếu có chỗ sai
+python slugs.py --urls     # in danh sách URL, mỗi dòng một cái
+```
+
+> **Vì sao chạy trước khi viết bộ định tuyến:** `documents` gộp các danh mục thành một danh sách
+> phẳng, nên hai tài liệu ở hai danh mục khác nhau vẫn có thể trùng id — và khi trùng thì một
+> trong hai mất URL, im lặng.
+
+---
+
+## `redirects.js` — đường dẫn cũ còn sống không
+
+Với từng mục trong bảy mục, gọi địa chỉ cũ `?id=` và đối chiếu ba điều: trả **301** (không phải
+302), trỏ tới đúng đường dẫn mới **của chính mục đó**, và đường dẫn mới trả 200. Kèm tám trường
+hợp biên: thiếu id, gọi tên `index.html`, thiếu dấu gạch cuối, tiền tố `/usa/` nơi cả site từng
+nằm, và một slug không ai có (phải 404, không được rơi về mục đầu).
+
+```bash
+node redirects.js http://localhost:5199
+```
+
+> **Vì sao cần:** một chuyển hướng sai không làm hỏng gì cả. Nó trả về một trang, có nội dung,
+> trông đẹp — chỉ là không phải trang người ta bấm vào. Không phép đo nào khác trong bộ này nhìn
+> thấy điều đó.
+
+---
+
+## `fanout.py` — trải khuôn chi tiết ra bản tĩnh
+
+Máy chủ tự ghép `/news/press-line-2500/` từ khuôn `/news/detail/`. GitHub Pages không ghép gì cả,
+nên bản tĩnh phải có sẵn một thư mục cho mỗi mục — 94 thư mục.
+
+```bash
+python fanout.py            # trải ra, và xoá thư mục của mục đã bị xoá khỏi JSON
+python fanout.py --check    # chỉ báo có lệch không, thoát 1 nếu lệch
+```
+
+Bản sao là **bản sao từng byte của khuôn**, không phải đầu ra đã ghép: khuôn dựng trang bằng JS và
+`AB.itemId()` đọc đoạn cuối đường dẫn, nên một file giống hệt nhau dựng ra 94 trang khác nhau.
+Nhờ vậy `trees.py` vẫn so được HTML hai cây, và git chỉ lưu một blob cho cả 94 file.

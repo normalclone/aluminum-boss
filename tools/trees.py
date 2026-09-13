@@ -46,6 +46,22 @@ def norm_html(path):
     return s.strip()
 
 
+def fanned_out(rel, b):
+    """File chi co ben site/ vi da trai khuon chi tiet ra mot thu muc cho moi muc.
+
+    /news/press-line-2500/index.html khong co ben wwwroot va khong duoc co: may chu ghep duong
+    dan ay tu khuon /news/detail/. Ban tinh thi phai co san file, va file do la ban sao tung byte
+    cua chinh khuon - trang tu dung lay noi dung theo doan cuoi duong dan. Chi nhan ngoai le khi
+    dung la ban sao; khac mot byte la lech that.
+    """
+    parts = rel.split('/')
+    if len(parts) != 3 or parts[2] != 'index.html' or parts[1] == 'detail':
+        return False
+    template = '%s/detail/index.html' % parts[0]
+    if template not in b:
+        return False
+    return open(b[rel], 'rb').read() == open(b[template], 'rb').read()
+
 def main():
     a, b = walk(A), walk(B)
     problems = []
@@ -53,6 +69,8 @@ def main():
     for rel in sorted(set(a) - set(b)):
         problems.append(('chi co trong wwwroot', rel))
     for rel in sorted(set(b) - set(a)):
+        if fanned_out(rel, b):
+            continue
         problems.append(('chi co trong site', rel))
 
     for rel in sorted(set(a) & set(b)):

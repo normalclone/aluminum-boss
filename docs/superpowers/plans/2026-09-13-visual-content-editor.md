@@ -30,12 +30,13 @@ là một `<iframe>` mở chính trang thật, nhận bản nháp qua `postMessa
   `wwwroot/_data/colors.json` mà quên chép sang `site/`, nên trang chi tiết màu trên Pages hiện
   "—" ở ba dòng thông số, và không phép đo nào bắt được vì tất cả đều chỉ chạm vào máy chủ.
 
-  **HOÃN việc dùng `publish-static.js` sinh lại `site/` cho tới sau Task 10.** Bản tĩnh chỉ có
-  MỘT file cho mỗi khuôn chi tiết, còn bộ ghép dựng bài theo `?id=`; ghi bản đã ghép ra
-  `site/news/detail/index.html` là đóng cứng bài đầu tiên vào đó, rồi guard "chỉ dựng khi khung
-  còn rỗng" sẽ thấy khung có sẵn và không dựng lại — mọi `?id=` trên Pages đều ra một bài. Task 10
-  cho mỗi mục một đường dẫn riêng, lúc đó một file tĩnh cho một mục mới là đúng. Từ giờ tới đó,
-  `site/` giữ nguyên vai trò khuôn và chỉ sửa song song với `wwwroot/`.
+  **`site/` giữ vai trò khuôn, không phải đầu ra đã ghép.** Ghi bản đã ghép ra
+  `site/news/detail/index.html` là đóng cứng một bài vào đó: guard "chỉ dựng khi khung còn rỗng"
+  sẽ thấy khung có sẵn và không dựng lại, nên mọi mục trên Pages đều ra cùng một bài. Task 10 cho
+  mỗi mục một đường dẫn riêng, và bản tĩnh theo kịp bằng `python tools/fanout.py` — trải **khuôn**
+  ra 94 thư mục, mỗi thư mục một bản sao từng byte; `AB.itemId()` đọc đoạn cuối đường dẫn nên
+  cùng một file dựng ra 94 trang khác nhau. `publish-static.js` vẫn hoãn, tới Task 14, khi cần một
+  bản xuất tĩnh đầy đủ để bàn giao và `site/` thôi làm nguồn song song.
 - **Mọi đường dẫn cũ phải sống.** Không được để bất kỳ URL nào từng công bố trả 404.
 - **Không tự sửa toạ độ.** `lat`, `lon`, waypoint tuyến, tỉ lệ % của tuyến là trường khoá.
 - **Placeholder ảnh ghi rõ tỉ lệ** và không bao giờ lặp lại chữ đã hiện trên thẻ.
@@ -332,20 +333,61 @@ là mốc đó biến mất.
 
 ---
 
-## Task 10: Đường dẫn mới và chuyển hướng 301
+## Task 10: Đường dẫn mới và chuyển hướng 301 — XONG
 
 **Files:**
-- Create: `Content/SlugRouter.cs`
-- Modify: `Data/AppDbContext.cs` (bảng `Redirects`)
-- Modify: 14 trang (link nội bộ)
+- Create: `Content/SlugRouter.cs`, `wwwroot/_data/redirects.json`, `tools/slugs.py`,
+  `tools/redirects.js`, `tools/fanout.py`
+- Modify: `Content/SectionRenderer.cs` (22 chỗ dựng liên kết), `Content/PageComposer.cs`
+  (`HasTemplate`, `DetailSectionFor`, hàm dựng nhận thư mục để test được),
+  `Content/PageCompositionMiddleware.cs`, `Program.cs`, 15 trang × 2 cây, `_app/app.js`,
+  `_app/home.js`, `_app/home-blocks.js`, `site.json`, `highlights.json`, `feature.json`,
+  `tools/crawl.js`, `tools/trees.py`, `tools/lib/pages.js`
 
-- [ ] **Step 1: Test — `/news/press-line-2500/` trả đúng bài; `/news/detail/?id=press-line-2500` trả 301**
-- [ ] **Step 2: Chạy test, khẳng định fail**
-- [ ] **Step 3: Thêm `slug` cho mọi mục có trang riêng**, sinh từ `id` hiện có để không đổi URL
-- [ ] **Step 4: Cài đặt định tuyến và bảng 301**
-- [ ] **Step 5: Cập nhật mọi link nội bộ sang dạng mới**
-- [ ] **Step 6: Verify** — `crawl.js` 0 liên kết chết; mọi URL dạng cũ trả 301, không 404
-- [ ] **Step 7: Commit**
+- [x] **Step 1: Test — `/news/press-line-2500/` trả đúng bài; `/news/detail/?id=press-line-2500` trả 301**
+      → `QlWeb2.Tests/SlugRouterTests.cs`, 12 phép thử
+- [x] **Step 2: Chạy test, khẳng định fail** — `error CS0246: SlugRouter could not be found`
+- [x] **Step 3: `slug` cho mọi mục có trang riêng**, sinh từ `id` hiện có
+- [x] **Step 4: Cài đặt định tuyến và bảng 301**
+- [x] **Step 5: Cập nhật mọi link nội bộ sang dạng mới** (bốn lớp, xem dưới)
+- [x] **Step 6: Verify** — số thật trong thông điệp commit
+- [x] **Step 7: Commit**
+
+### Ba chỗ làm khác kế hoạch, và vì sao
+
+**`slug` suy ra thay vì ghi ra.** Kế hoạch viết "thêm `slug` cho mọi mục". Thực tế
+`Slug(item) = item.slug ?? item.id`, và không mục nào có `slug` cho tới khi ai đó đổi. Ghi ra là
+94 dòng lặp lại đúng cái giá trị đã nằm ngay bên cạnh, trong khi tới Task 12 mới có người sửa
+được nó. Ngày khách đổi tên một đường dẫn, trình sửa ghi `slug` cho đúng mục đó và thêm một dòng
+vào `redirects.json`. `tools/slugs.py` kiểm mọi `id` viết được thành đoạn đường dẫn và không trùng
+nhau trong cùng một mục — chạy trước khi viết bộ định tuyến, 94/94 đạt.
+
+**`wwwroot/_data/redirects.json` thay vì bảng `Redirects` trong cơ sở dữ liệu.** Với
+`Admin:Enabled=false`, `EnsureCreated` không chạy và file SQLite không có bảng nào — một bảng ở
+đó sẽ không tồn tại trên đĩa, không có ai ghi vào, và không đọc được. Đường chuyển hướng cũng là
+nội dung như mọi thứ khác trong dự án này, nên nó nằm cùng chỗ với nội dung. Bảng nhận cả đường
+dẫn đầy đủ lẫn **tiền tố thư mục**, và hôm nay đã có một dòng thật: cả site từng nằm dưới `/usa/`
+trong 44 commit, và mọi URL đó đang 404 từ hồi dời lên gốc — vi phạm chính ràng buộc "mọi đường
+dẫn cũ phải sống" mà không ai để ý. Một dòng chữa cả 45 trang.
+
+**`tools/fanout.py` thay vì chạy `publish-static.js`.** Ràng buộc chung nói hoãn `publish-static`
+tới sau Task 10. Nhưng bản tĩnh không cần đầu ra đã ghép — nó cần **một thư mục cho mỗi mục**, và
+mỗi thư mục chứa đúng bản sao từng byte của khuôn chi tiết: khuôn dựng trang bằng JS, còn
+`AB.itemId()` đọc đoạn cuối đường dẫn, nên một file giống hệt nhau dựng ra 94 trang khác nhau.
+Đổi lại: `trees.py` giữ nguyên phép so HTML hai cây (chỉ thêm một ngoại lệ, và ngoại lệ đó tự kiểm
+bằng cách so byte với khuôn), git lưu một blob cho 94 file, và Pages không gãy giữa chừng.
+`publish-static.js` để dành cho Task 14 — bản xuất tĩnh đầy đủ lúc bàn giao, khi `site/` thôi làm
+nguồn song song.
+
+### Liên kết nằm ở bốn lớp
+
+Bỏ quên một lớp **không** gây 404 — nó gây 301, trang vẫn hiện ra, không ai thấy. Nên `crawl.js`
+từ nay đếm riêng liên kết nội bộ trả 301, và đó là cách duy nhất biết đã sửa đủ chưa:
+
+1. `SectionRenderer` — 22 chỗ dựng `href`
+2. bản dự phòng JS trong 14 trang và `_app/*.js`, cả hai cây
+3. `href` viết cứng trong chân trang 15 trang × 2 cây — nhãn là tham số, địa chỉ thì không
+4. `href` nằm trong chính dữ liệu: `site.json`, `highlights.json`, `feature.json`
 
 ---
 
@@ -380,7 +422,12 @@ Highlights · Applications · Export routes · Factories.
 
 - [ ] **Step 1: Màn hình danh sách** — ảnh thu nhỏ, tìm, lọc, kéo đổi thứ tự, `Shown`/`Hidden`
 - [ ] **Step 2: Màn hình đăng** — ô nhập theo loại; ảnh là thẻ ảnh có nút `Choose image` kèm tỉ lệ
-- [ ] **Step 3: Sinh slug từ tiêu đề; khoá sau lần lưu đầu**
+- [ ] **Step 3: Sinh slug từ tiêu đề; khoá sau lần lưu đầu.** Kiểm ngay lúc lưu, phía C#:
+      đúng dạng `^[a-z0-9]+(-[a-z0-9]+)*$`, không được là từ `detail`, và không trùng một slug
+      khác **trong cùng mục** (`documents` gộp các danh mục thành danh sách phẳng nên hai tài liệu
+      khác danh mục vẫn trùng được). Hôm nay `tools/slugs.py` là thứ duy nhất kiểm việc này và nó
+      chạy bằng tay; ngày trình sửa ghi được `slug` thì một slug sai đi thẳng vào URL. Đổi slug thì
+      ghi luôn một dòng vào `redirects.json` — đó là lý do bảng ấy tồn tại.
 - [ ] **Step 4: Dò tham chiếu trước khi xoá** — báo "3 chỗ đang trỏ tới mục này"
 - [ ] **Step 5: Xem trước đi theo mục đang sửa**
 - [ ] **Step 6: Verify** — đăng thật một mục mỗi loại, khẳng định trang thật đổi theo

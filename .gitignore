@@ -40,3 +40,10 @@ tools/baseline/pages-js/
 
 # Moc nen sau Task 9, chup tu chinh may chu. Dung cai nay tu day tro di.
 tools/baseline/task9/
+
+# Moc nen sau Task 10, chup tu may chu o dia chi moi (/news/press-line-2500/). Ten file sinh tu
+# duong dan, nen moc task9 khong dung lai duoc cho bay trang chi tiet. Dung cai nay tu day.
+tools/baseline/task10/
+
+# fanout.py nap slugs.py nhu mot module nen Python sinh bytecode canh no.
+__pycache__/

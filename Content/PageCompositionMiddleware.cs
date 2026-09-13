@@ -18,7 +18,7 @@ public sealed class PageCompositionMiddleware
 
     public PageCompositionMiddleware(RequestDelegate next) => _next = next;
 
-    public async Task Invoke(HttpContext context, PageComposer composer)
+    public async Task Invoke(HttpContext context, PageComposer composer, SlugRouter router)
     {
         if (!IsPageRequest(context.Request))
         {
@@ -26,9 +26,28 @@ public sealed class PageCompositionMiddleware
             return;
         }
 
-        // A detail page is addressed as /news/detail/?id=press-line-2500 today. Task 10 moves the
-        // id into the path; the composer takes it as a value either way, so nothing here changes.
-        var html = composer.Compose(context.Request.Path.Value ?? "/", context.Request.Query["id"]);
+        var path = context.Request.Path.Value ?? "/";
+        var wanted = context.Request.Query["id"].ToString();
+        var itemId = wanted.Length == 0 ? null : wanted;
+
+        // Before composing, not after: /news/detail/ still has a template behind it, so composing
+        // first would answer the old address with a page instead of moving it to the new one.
+        var moved = router.RedirectFor(path, itemId);
+        if (moved is not null)
+        {
+            context.Response.Redirect(moved, permanent: true);
+            return;
+        }
+
+        var html = composer.Compose(path, itemId);
+        if (html is null)
+        {
+            // No template answers this path. It may still be an item: /news/press-line-2500/ is
+            // composed from /news/detail/, which sits at the same depth, so the page it produces
+            // is the page the old address produced, byte for byte.
+            if (router.Resolve(path) is { } item)
+                html = composer.Compose(item.TemplatePath, item.ItemId);
+        }
         if (html is null)
         {
             await _next(context);
@@ -49,10 +68,14 @@ public sealed class PageCompositionMiddleware
         var path = request.Path.Value ?? "/";
         if (path.Contains("..", StringComparison.Ordinal)) return false;
 
-        // Directory-style URLs - "/", "/news/", "/news/detail/" - and explicit .html files.
-        // Everything with another extension is an asset.
+        // Directory-style URLs - "/", "/news/", "/news/press-line-2500/" - and explicit .html
+        // files. Everything with another extension is an asset.
         if (path.EndsWith('/')) return true;
         if (path.EndsWith(".html", StringComparison.OrdinalIgnoreCase)) return true;
-        return false;
+
+        // An item path with the last slash left off. It is not a page, but the router knows
+        // where it was meant to go, and a person typing a link by hand should not meet a 404
+        // over a slash. Anything carrying an extension is an asset and is left alone.
+        return !Path.HasExtension(path);
     }
 }

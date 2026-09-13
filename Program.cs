@@ -26,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddSingleton<ContentStore>();
 builder.Services.AddSingleton<SectionRenderer>();
 builder.Services.AddSingleton<PageComposer>();
+builder.Services.AddSingleton<SlugRouter>();
 
 if (adminEnabled)
 {

@@ -86,27 +86,27 @@
         "links": [
           {
             "label": "Profile",
-            "href": "products/detail/?id=profile"
+            "href": "products/profile/"
           },
           {
             "label": "Facade",
-            "href": "products/detail/?id=facade"
+            "href": "products/facade/"
           },
           {
             "label": "Furniture",
-            "href": "products/detail/?id=furniture"
+            "href": "products/furniture/"
           },
           {
             "label": "Door’s accessory",
-            "href": "products/detail/?id=door-accessory"
+            "href": "products/door-accessory/"
           },
           {
             "label": "Car’s accessory",
-            "href": "products/detail/?id=car-accessory"
+            "href": "products/car-accessory/"
           },
           {
             "label": "Honeycomb",
-            "href": "products/detail/?id=honeycomb"
+            "href": "products/honeycomb/"
           }
         ],
         "lines": []
@@ -116,19 +116,19 @@
         "links": [
           {
             "label": "Request a quotation",
-            "href": "contact/detail/?id=quote"
+            "href": "contact/quote/"
           },
           {
             "label": "Order finish samples",
-            "href": "contact/detail/?id=sample"
+            "href": "contact/sample/"
           },
           {
             "label": "Technical assistance",
-            "href": "contact/detail/?id=technical"
+            "href": "contact/technical/"
           },
           {
             "label": "Become a distributor",
-            "href": "contact/detail/?id=become-distributor"
+            "href": "contact/become-distributor/"
           },
           {
             "label": "Catalogues & data sheets",

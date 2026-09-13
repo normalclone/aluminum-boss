@@ -255,7 +255,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     // than repeated on all 35 entries. That one place is colors.json, which the server reads as
     // well - one table rather than two that drift apart.
     var SPEC = d.familySpecs || {};
-    var want = AB.qs('id'), c = null;
+    var want = AB.itemId(), c = null;
     for (var i = 0; i < d.items.length; i++) {
       if (d.items[i].id === want) { c = d.items[i]; break; }
     }
@@ -273,7 +273,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     var siblings = d.items.filter(function (x) {
       return x.family === c.family && x.id !== c.id;
     }).slice(0, 8).map(function (x) {
-      return '<a class="ab-swatch" href="?id=' + encodeURIComponent(x.id) + '">' +
+      return '<a class="ab-swatch" href="../' + AB.href(x) + '">' +
                '<span class="ab-chip" style="background:' + AB.esc(x.hex) + '"></span>' +
                '<span class="ab-swatch-name">' + AB.esc(x.name) + '</span>' +
                '<span class="ab-swatch-meta">' + AB.esc(x.code) + '</span></a>';
@@ -322,20 +322,20 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
       <nav class="abf-col" aria-label="Product families">
         <h2 data-ab-t="site.footer.columns.1.heading">Products</h2>
-        <a data-ab-t="site.footer.columns.1.links.0.label" href="../../products/detail/?id=profile">Profile</a>
-        <a data-ab-t="site.footer.columns.1.links.1.label" href="../../products/detail/?id=facade">Facade</a>
-        <a data-ab-t="site.footer.columns.1.links.2.label" href="../../products/detail/?id=furniture">Furniture</a>
-        <a data-ab-t="site.footer.columns.1.links.3.label" href="../../products/detail/?id=door-accessory">Door&rsquo;s accessory</a>
-        <a data-ab-t="site.footer.columns.1.links.4.label" href="../../products/detail/?id=car-accessory">Car&rsquo;s accessory</a>
-        <a data-ab-t="site.footer.columns.1.links.5.label" href="../../products/detail/?id=honeycomb">Honeycomb</a>
+        <a data-ab-t="site.footer.columns.1.links.0.label" href="../../products/profile/">Profile</a>
+        <a data-ab-t="site.footer.columns.1.links.1.label" href="../../products/facade/">Facade</a>
+        <a data-ab-t="site.footer.columns.1.links.2.label" href="../../products/furniture/">Furniture</a>
+        <a data-ab-t="site.footer.columns.1.links.3.label" href="../../products/door-accessory/">Door&rsquo;s accessory</a>
+        <a data-ab-t="site.footer.columns.1.links.4.label" href="../../products/car-accessory/">Car&rsquo;s accessory</a>
+        <a data-ab-t="site.footer.columns.1.links.5.label" href="../../products/honeycomb/">Honeycomb</a>
       </nav>
 
       <nav class="abf-col" aria-label="Enquiries">
         <h2 data-ab-t="site.footer.columns.2.heading">Enquiries</h2>
-        <a data-ab-t="site.footer.columns.2.links.0.label" href="../../contact/detail/?id=quote">Request a quotation</a>
-        <a data-ab-t="site.footer.columns.2.links.1.label" href="../../contact/detail/?id=sample">Order finish samples</a>
-        <a data-ab-t="site.footer.columns.2.links.2.label" href="../../contact/detail/?id=technical">Technical assistance</a>
-        <a data-ab-t="site.footer.columns.2.links.3.label" href="../../contact/detail/?id=become-distributor">Become a distributor</a>
+        <a data-ab-t="site.footer.columns.2.links.0.label" href="../../contact/quote/">Request a quotation</a>
+        <a data-ab-t="site.footer.columns.2.links.1.label" href="../../contact/sample/">Order finish samples</a>
+        <a data-ab-t="site.footer.columns.2.links.2.label" href="../../contact/technical/">Technical assistance</a>
+        <a data-ab-t="site.footer.columns.2.links.3.label" href="../../contact/become-distributor/">Become a distributor</a>
         <a data-ab-t="site.footer.columns.2.links.4.label" href="../../documents/">Catalogues &amp; data sheets</a>
       </nav>
 

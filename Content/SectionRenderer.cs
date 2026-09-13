@@ -82,6 +82,58 @@ public sealed class SectionRenderer
         return Str(hit ?? items[0], "id");
     }
 
+    /// <summary>
+    /// The path segment an item lives under: <c>/news/press-line-2500/</c>.
+    ///
+    /// A written <c>slug</c> wins; otherwise the id is the slug. The ids were already
+    /// url-shaped - lower case, digits and hyphens - so deriving the slug from them is what kept
+    /// every address the same on the day the paths changed, and it leaves the data free of
+    /// ninety-four fields repeating a value that is already there. The day a client renames one,
+    /// the editor writes a <c>slug</c> on that one item and a line in <c>redirects.json</c>.
+    /// </summary>
+    private static string Slug(JsonNode? item)
+    {
+        var written = Str(item, "slug");
+        return written.Length > 0 ? written : Str(item, "id");
+    }
+
+    /// <summary>
+    /// The id behind a slug, or null when no item claims it.
+    ///
+    /// Strict, unlike <see cref="CanonicalId"/>: a slug nobody has must become a 404 rather than
+    /// quietly serve the first item, or the same article answers at every URL a crawler invents.
+    /// </summary>
+    public string? IdForSlug(string section, string slug)
+    {
+        var doc = DocFor(section);
+        if (doc is null || slug.Length == 0) return null;
+
+        var hit = DetailItems(section, doc).FirstOrDefault(i => Slug(i) == slug);
+        return hit is null ? null : Str(hit, "id");
+    }
+
+    /// <summary>
+    /// The slug of the item an old <c>?id=</c> URL was showing, so it can be redirected there.
+    /// Falls back the way the old page did - to the first item - rather than to a 404.
+    /// </summary>
+    public string? SlugForId(string section, string? wantedId)
+    {
+        var doc = DocFor(section);
+        if (doc is null) return null;
+
+        var items = DetailItems(section, doc);
+        if (items.Count == 0) return null;
+
+        var hit = items.FirstOrDefault(i => Str(i, "id") == wantedId);
+        return Slug(hit ?? items[0]);
+    }
+
+    /// <summary>Where an item's page sits, seen from a listing page: <c>press-line-2500/</c>.</summary>
+    private static string Href(JsonNode? item) => Uri.EscapeDataString(Slug(item)) + "/";
+
+    /// <summary>The same, seen from another item's page one directory along.</summary>
+    private static string SiblingHref(JsonNode? item) => "../" + Href(item);
+
     /// <summary>The markup for a named section, or null when the name is not one we render.</summary>
     public string? Render(string section, string rootPrefix, string? itemId = null)
     {
@@ -156,8 +208,8 @@ public sealed class SectionRenderer
 
             var tags = (a["tags"] as JsonArray)?.Select(t => Esc(t?.ToString() ?? "")) ?? [];
 
-            sb.Append($"<a class=\"ab-post{(lead ? " is-lead" : "")}\" href=\"detail/?id=")
-              .Append(Uri.EscapeDataString(Str(a, "id"))).Append("\">")
+            sb.Append($"<a class=\"ab-post{(lead ? " is-lead" : "")}\" href=\"")
+              .Append(Href(a)).Append("\">")
               .Append("<span class=\"ab-post-img\"><img src=\"").Append(src)
               .Append($"\" width=\"{w}\" height=\"{h}\" alt=\"").Append(Esc(Str(a, "title")))
               .Append("\" loading=\"lazy\"></span>")
@@ -185,7 +237,7 @@ public sealed class SectionRenderer
         var sb = new StringBuilder();
         foreach (var c in cats.OfType<JsonNode>())
         {
-            var id = Uri.EscapeDataString(Str(c, "id"));
+            var href = Href(c);
             var items = (c["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
 
             var tiles = new StringBuilder();
@@ -196,7 +248,7 @@ public sealed class SectionRenderer
                     ? Placeholder.Uri(340, 300, Str(it, "name"))
                     : root + "_media/" + image;
 
-                tiles.Append("<a class=\"ab-tile\" href=\"detail/?id=").Append(id)
+                tiles.Append("<a class=\"ab-tile\" href=\"").Append(href)
                      .Append('#').Append(Uri.EscapeDataString(Str(it, "id"))).Append("\">")
                      .Append("<span class=\"ab-thumb\"><img src=\"").Append(src)
                      .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(Str(it, "name")))
@@ -207,7 +259,7 @@ public sealed class SectionRenderer
 
             sb.Append("<section class=\"ab-band\"><div class=\"ab-band-head\">")
               .Append("<h2>").Append(Esc(Str(c, "name"))).Append("</h2>")
-              .Append("<a class=\"ab-more\" href=\"detail/?id=").Append(id).Append("\">")
+              .Append("<a class=\"ab-more\" href=\"").Append(href).Append("\">")
               .Append(items.Count).Append(" products</a></div>")
               .Append("<p class=\"ab-band-sub\">").Append(Esc(Str(c, "tagline"))).Append("</p>")
               .Append("<div class=\"ab-row\">").Append(tiles).Append("</div></section>");
@@ -241,8 +293,8 @@ public sealed class SectionRenderer
                     : root + "_media/" + image;
                 var photos = (a["photos"] as JsonArray)?.Count ?? 0;
 
-                cards.Append("<a class=\"ab-album\" href=\"detail/?id=")
-                     .Append(Uri.EscapeDataString(Str(a, "id"))).Append("\">")
+                cards.Append("<a class=\"ab-album\" href=\"")
+                     .Append(Href(a)).Append("\">")
                      .Append("<span class=\"ab-album-cover\"><img src=\"").Append(src)
                      .Append("\" width=\"760\" height=\"520\" alt=\"").Append(Esc(Str(a, "title")))
                      .Append("\" loading=\"lazy\">")
@@ -312,8 +364,8 @@ public sealed class SectionRenderer
         var sb = new StringBuilder();
         foreach (var c in items.OfType<JsonNode>())
         {
-            sb.Append("<a class=\"ab-swatch\" href=\"detail/?id=")
-              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+            sb.Append("<a class=\"ab-swatch\" href=\"")
+              .Append(Href(c)).Append("\">")
               .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(c, "hex")))
               .Append("\"></span>")
               .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name"))).Append("</span>")
@@ -390,8 +442,8 @@ public sealed class SectionRenderer
             {
                 var id = Str(d, "id");
                 rows.Append("<div class=\"ab-doc\">")
-                    .Append("<a class=\"ab-doc-main\" href=\"detail/?id=")
-                    .Append(Uri.EscapeDataString(id)).Append("\">")
+                    .Append("<a class=\"ab-doc-main\" href=\"")
+                    .Append(Href(d)).Append("\">")
                     .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
                     .Append("<span class=\"ab-doc-text\">")
                     .Append("<span class=\"ab-doc-title\">").Append(Esc(Str(d, "title"))).Append("</span>")
@@ -445,7 +497,7 @@ public sealed class SectionRenderer
         {
             var xTitle = Str(x, "title");
             var xImage = Str(x, "image");
-            cards.Append("<a class=\"ab-card\" href=\"?id=").Append(Uri.EscapeDataString(Str(x, "id")))
+            cards.Append("<a class=\"ab-card\" href=\"").Append(SiblingHref(x))
                  .Append("\"><img src=\"")
                  .Append(xImage.Length > 0 ? root + "_media/" + xImage : Placeholder.Uri(400, 260, xTitle))
                  .Append("\" width=\"400\" height=\"260\" alt=\"").Append(Esc(xTitle))
@@ -488,8 +540,7 @@ public sealed class SectionRenderer
         var sb = new StringBuilder();
         for (var i = 0; i < cats.Count; i++)
         {
-            sb.Append("<a href=\"").Append(root).Append("products/detail/?id=")
-              .Append(Uri.EscapeDataString(Str(cats[i], "id")))
+            sb.Append("<a href=\"").Append(root).Append("products/").Append(Href(cats[i]))
               .Append("\" data-i=\"").Append(i).Append("\" class=\"").Append(i == 0 ? "is-on" : "")
               .Append("\">").Append(Esc(Str(cats[i], "name").ToUpperInvariant())).Append("</a>");
         }
@@ -512,8 +563,7 @@ public sealed class SectionRenderer
         {
             var name = Str(c, "name");
             var image = Str(c, "image");
-            sb.Append("<a class=\"ab-tile\" href=\"products/detail/?id=")
-              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+            sb.Append("<a class=\"ab-tile\" href=\"products/").Append(Href(c)).Append("\">")
               .Append("<span class=\"ab-thumb\"><img src=\"")
               .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(340, 300, name))
               .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
@@ -546,8 +596,8 @@ public sealed class SectionRenderer
                   + "\" alt=\"\" loading=\"lazy\"></span>"
                 : "<span class=\"ab-chip\" style=\"background:" + Esc(Str(c, "hex")) + "\"></span>";
 
-            sb.Append("<a class=\"ab-swatch\" href=\"colors/detail/?id=")
-              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">").Append(chip)
+            sb.Append("<a class=\"ab-swatch\" href=\"colors/").Append(Href(c))
+              .Append("\">").Append(chip)
               .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name")))
               .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
               .Append("</span></a>");
@@ -564,8 +614,8 @@ public sealed class SectionRenderer
         {
             var title = Str(a, "title");
             var image = Str(a, "image");
-            sb.Append("<a class=\"ab-card\" href=\"projects/detail/?id=")
-              .Append(Uri.EscapeDataString(Str(a, "id"))).Append("\"><img src=\"")
+            sb.Append("<a class=\"ab-card\" href=\"projects/").Append(Href(a))
+              .Append("\"><img src=\"")
               .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(420, 300, title))
               .Append("\" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
               .Append("\" loading=\"lazy\"><h3>").Append(Esc(title))
@@ -822,7 +872,7 @@ public sealed class SectionRenderer
         var items = Arr(c, "items");
 
         var others = Arr(doc, "categories").Where(x => Str(x, "id") != id)
-            .Select(x => "<a href=\"?id=" + Uri.EscapeDataString(Str(x, "id")) + "\">"
+            .Select(x => "<a href=\"" + SiblingHref(x) + "\">"
                          + Esc(Str(x, "name")) + "</a>");
 
         var cards = new StringBuilder();
@@ -919,8 +969,8 @@ public sealed class SectionRenderer
         var siblings = new StringBuilder();
         foreach (var x in Arr(doc, "items").Where(x => Str(x, "family") == family && Str(x, "id") != id).Take(8))
         {
-            siblings.Append("<a class=\"ab-swatch\" href=\"?id=")
-                    .Append(Uri.EscapeDataString(Str(x, "id"))).Append("\">")
+            siblings.Append("<a class=\"ab-swatch\" href=\"").Append(SiblingHref(x))
+                    .Append("\">")
                     .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(x, "hex")))
                     .Append("\"></span><span class=\"ab-swatch-name\">").Append(Esc(Str(x, "name")))
                     .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(x, "code")))
@@ -991,7 +1041,7 @@ public sealed class SectionRenderer
         {
             var t = Str(x, "title");
             var image = Str(x, "image");
-            others.Append("<a class=\"ab-card\" href=\"?id=").Append(Uri.EscapeDataString(Str(x, "id")))
+            others.Append("<a class=\"ab-card\" href=\"").Append(SiblingHref(x))
                   .Append("\"><img src=\"")
                   .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(400, 280, t))
                   .Append("\" width=\"400\" height=\"280\" alt=\"").Append(Esc(t))
@@ -1041,8 +1091,8 @@ public sealed class SectionRenderer
         var siblings = new StringBuilder();
         foreach (var x in Arr(cat, "items").Where(x => Str(x, "id") != id))
         {
-            siblings.Append("<a class=\"ab-doc-mini\" href=\"?id=")
-                    .Append(Uri.EscapeDataString(Str(x, "id"))).Append("\">")
+            siblings.Append("<a class=\"ab-doc-mini\" href=\"").Append(SiblingHref(x))
+                    .Append("\">")
                     .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
                     .Append("<span><span class=\"ab-doc-title\">").Append(Esc(Str(x, "title")))
                     .Append("</span><span class=\"ab-doc-meta\">").Append(Esc(Str(x, "edition")))
@@ -1107,7 +1157,7 @@ public sealed class SectionRenderer
     private static string Step(JsonNode? x, string label, string cls)
         => x is null
             ? "<span></span>"
-            : "<a class=\"ab-step " + cls + "\" href=\"?id=" + Uri.EscapeDataString(Str(x, "id"))
+            : "<a class=\"ab-step " + cls + "\" href=\"" + SiblingHref(x)
               + "\"><span>" + label + "</span>" + Esc(Str(x, "title")) + "</a>";
 
     /// <summary>
@@ -1130,7 +1180,7 @@ public sealed class SectionRenderer
                    .Append("\"> ").Append(Esc(consents[i].ToString())).Append("</label>");
 
         var others = Arr(doc, "routes").Where(x => Str(x, "id") != id)
-            .Select(x => "<a href=\"?id=" + Uri.EscapeDataString(Str(x, "id")) + "\">"
+            .Select(x => "<a href=\"" + SiblingHref(x) + "\">"
                          + Esc(Str(x, "name")) + "</a>");
 
         return new StringBuilder("<div class=\"ab-wrap\">")
@@ -1209,7 +1259,7 @@ public sealed class SectionRenderer
     private static string AboutNav(JsonNode doc, string? activeId = null)
     {
         // The overview links down into the chapters; a chapter links sideways to its siblings.
-        var href = activeId is null ? "detail/?id=" : "?id=";
+        var up = activeId is null ? "" : "../";
 
         var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
         var sb = new StringBuilder("<div class=\"ab-wrap ab-chapbar\">");
@@ -1217,7 +1267,7 @@ public sealed class SectionRenderer
         {
             var id = Str(chapters[i], "id");
             sb.Append("<a class=\"ab-chap").Append(id == activeId ? " is-on" : "").Append("\" href=\"")
-              .Append(href).Append(Uri.EscapeDataString(id))
+              .Append(up).Append(Href(chapters[i]))
               .Append("\"><span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
               .Append(Esc(Str(chapters[i], "name"))).Append("</a>");
         }
@@ -1264,8 +1314,7 @@ public sealed class SectionRenderer
         {
             var c = chapters[i];
             var name = Str(c, "name");
-            sb.Append("<a class=\"ab-chapcard\" href=\"detail/?id=")
-              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+            sb.Append("<a class=\"ab-chapcard\" href=\"").Append(Href(c)).Append("\">")
               .Append("<img src=\"").Append(Placeholder.Uri(560, 340, name))
               .Append("\" width=\"560\" height=\"340\" alt=\"").Append(Esc(name))
               .Append("\" loading=\"lazy\">")
@@ -1314,8 +1363,7 @@ public sealed class SectionRenderer
         var sb = new StringBuilder();
         foreach (var r in routes.OfType<JsonNode>())
         {
-            sb.Append("<a class=\"ab-route\" href=\"detail/?id=")
-              .Append(Uri.EscapeDataString(Str(r, "id"))).Append("\">")
+            sb.Append("<a class=\"ab-route\" href=\"").Append(Href(r)).Append("\">")
               .Append("<h3>").Append(Esc(Str(r, "name"))).Append("</h3>")
               .Append("<p>").Append(Esc(Str(r, "blurb"))).Append("</p>")
               .Append("<span class=\"ab-route-cta\">").Append(Esc(Str(r, "cta")))

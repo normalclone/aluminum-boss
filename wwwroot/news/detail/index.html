@@ -257,7 +257,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   }
 
   AB.load('news').then(function (d) {
-    var want = AB.qs('id'), a = null;
+    var want = AB.itemId(), a = null;
     for (var i = 0; i < d.items.length; i++) {
       if (d.items[i].id === want) { a = d.items[i]; break; }
     }
@@ -267,7 +267,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     var more = d.items.filter(function (x) { return x.id !== a.id; })
       .sort(function (x, y) { return x.date < y.date ? 1 : -1; }).slice(0, 3)
       .map(function (x) {
-        return '<a class="ab-card" href="?id=' + encodeURIComponent(x.id) + '">' +
+        return '<a class="ab-card" href="../' + AB.href(x) + '">' +
                  '<img src="' + (x.image ? AB.root() + '_media/' + x.image
                                          : AB.ph(400, 260, x.title)) + '" width="400" height="260" alt="' +
                    AB.esc(x.title) + '" loading="lazy">' +
@@ -317,20 +317,20 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 
       <nav class="abf-col" aria-label="Product families">
         <h2 data-ab-t="site.footer.columns.1.heading">Products</h2>
-        <a data-ab-t="site.footer.columns.1.links.0.label" href="../../products/detail/?id=profile">Profile</a>
-        <a data-ab-t="site.footer.columns.1.links.1.label" href="../../products/detail/?id=facade">Facade</a>
-        <a data-ab-t="site.footer.columns.1.links.2.label" href="../../products/detail/?id=furniture">Furniture</a>
-        <a data-ab-t="site.footer.columns.1.links.3.label" href="../../products/detail/?id=door-accessory">Door&rsquo;s accessory</a>
-        <a data-ab-t="site.footer.columns.1.links.4.label" href="../../products/detail/?id=car-accessory">Car&rsquo;s accessory</a>
-        <a data-ab-t="site.footer.columns.1.links.5.label" href="../../products/detail/?id=honeycomb">Honeycomb</a>
+        <a data-ab-t="site.footer.columns.1.links.0.label" href="../../products/profile/">Profile</a>
+        <a data-ab-t="site.footer.columns.1.links.1.label" href="../../products/facade/">Facade</a>
+        <a data-ab-t="site.footer.columns.1.links.2.label" href="../../products/furniture/">Furniture</a>
+        <a data-ab-t="site.footer.columns.1.links.3.label" href="../../products/door-accessory/">Door&rsquo;s accessory</a>
+        <a data-ab-t="site.footer.columns.1.links.4.label" href="../../products/car-accessory/">Car&rsquo;s accessory</a>
+        <a data-ab-t="site.footer.columns.1.links.5.label" href="../../products/honeycomb/">Honeycomb</a>
       </nav>
 
       <nav class="abf-col" aria-label="Enquiries">
         <h2 data-ab-t="site.footer.columns.2.heading">Enquiries</h2>
-        <a data-ab-t="site.footer.columns.2.links.0.label" href="../../contact/detail/?id=quote">Request a quotation</a>
-        <a data-ab-t="site.footer.columns.2.links.1.label" href="../../contact/detail/?id=sample">Order finish samples</a>
-        <a data-ab-t="site.footer.columns.2.links.2.label" href="../../contact/detail/?id=technical">Technical assistance</a>
-        <a data-ab-t="site.footer.columns.2.links.3.label" href="../../contact/detail/?id=become-distributor">Become a distributor</a>
+        <a data-ab-t="site.footer.columns.2.links.0.label" href="../../contact/quote/">Request a quotation</a>
+        <a data-ab-t="site.footer.columns.2.links.1.label" href="../../contact/sample/">Order finish samples</a>
+        <a data-ab-t="site.footer.columns.2.links.2.label" href="../../contact/technical/">Technical assistance</a>
+        <a data-ab-t="site.footer.columns.2.links.3.label" href="../../contact/become-distributor/">Become a distributor</a>
         <a data-ab-t="site.footer.columns.2.links.4.label" href="../../documents/">Catalogues &amp; data sheets</a>
       </nav>
 

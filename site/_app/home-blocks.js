@@ -14,7 +14,7 @@
     var t = el('abhb-products');
     if (!t) return;
     if (!t.firstElementChild) t.innerHTML = d.categories.map(function (c) {
-      return '<a class="ab-tile" href="products/detail/?id=' + encodeURIComponent(c.id) + '">' +
+      return '<a class="ab-tile" href="products/' + AB.href(c) + '">' +
                '<span class="ab-thumb"><img src="' +
                  (c.image ? AB.root() + '_media/' + c.image : AB.ph(340, 300, c.name)) +
                  '" width="340" height="300" alt="' + AB.esc(c.name) + '" loading="lazy"></span>' +
@@ -42,7 +42,7 @@
         ? '<span class="ab-chip"><img src="' + AB.root() + '_media/' + AB.esc(c.image) +
           '" alt="" loading="lazy"></span>'
         : '<span class="ab-chip" style="background:' + AB.esc(c.hex) + '"></span>';
-      return '<a class="ab-swatch" href="colors/detail/?id=' + encodeURIComponent(c.id) + '">' +
+      return '<a class="ab-swatch" href="colors/' + AB.href(c) + '">' +
                chip +
                '<span class="ab-swatch-name">' + AB.esc(c.name) + '</span>' +
                '<span class="ab-swatch-meta">' + AB.esc(c.code) + '</span></a>';
@@ -55,7 +55,7 @@
     if (!t.firstElementChild) t.innerHTML = d.albums.slice()
       .sort(function (a, b) { return b.year - a.year; }).slice(0, 3)
       .map(function (a) {
-        return '<a class="ab-card" href="projects/detail/?id=' + encodeURIComponent(a.id) + '">' +
+        return '<a class="ab-card" href="projects/' + AB.href(a) + '">' +
                  '<img src="' + (a.image ? AB.root() + '_media/' + a.image
                                           : AB.ph(420, 300, a.title)) + '" width="420" height="300" alt="' +
                    AB.esc(a.title) + '" loading="lazy">' +

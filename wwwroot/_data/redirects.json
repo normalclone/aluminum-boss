@@ -1,0 +1,7 @@
+{
+  "section": "Redirects",
+  "note": "Paths that moved. A key is a path or a folder prefix; every request under it is answered with a permanent redirect to the value. Old links are the only reason this file exists, so a line is added here and never removed.",
+  "paths": {
+    "/usa/": "/"
+  }
+}
