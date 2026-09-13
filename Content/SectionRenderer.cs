@@ -29,6 +29,7 @@ public sealed class SectionRenderer
             "news-list" => _store.Get("news"),
             "products-list" => _store.Get("products"),
             "projects-list" => _store.Get("projects"),
+            "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
             _ => null,
         };
         if (doc is null) return null;
@@ -38,6 +39,9 @@ public sealed class SectionRenderer
             "news-list" => NewsList(doc, rootPrefix),
             "products-list" => ProductsList(doc, rootPrefix),
             "projects-list" => ProjectsList(doc, rootPrefix),
+            "colors-filters" => ColorFilters(doc),
+            "colors-count" => ColorCount(doc),
+            "colors-list" => ColorList(doc),
             _ => null,
         };
     }
@@ -176,6 +180,67 @@ public sealed class SectionRenderer
     }
 
     /// <summary>
+    /// The three filter rows. Rendered with "All" already selected, which is the state the page
+    /// settles into anyway - so the first paint matches the last one instead of flashing through
+    /// a row of unselected buttons. Filtering itself stays in the browser: it is instant there,
+    /// and a crawler wants the whole list rather than a filtered view of it.
+    /// </summary>
+    private static string ColorFilters(JsonNode doc)
+    {
+        var filters = doc["filters"] as JsonArray;
+        if (filters is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var f in filters.OfType<JsonNode>())
+        {
+            var key = Esc(Str(f, "id"));
+            var opts = new StringBuilder();
+            opts.Append("<button type=\"button\" data-k=\"").Append(key)
+                .Append("\" data-v=\"\" class=\"is-on\">All</button>");
+
+            foreach (var o in (f["options"] as JsonArray)?.OfType<JsonNode>() ?? [])
+            {
+                var v = Esc(o.ToString());
+                opts.Append("<button type=\"button\" data-k=\"").Append(key)
+                    .Append("\" data-v=\"").Append(v).Append("\">").Append(v).Append("</button>");
+            }
+
+            sb.Append("<div class=\"ab-filter\"><span class=\"ab-filter-label\">")
+              .Append(Esc(Str(f, "label"))).Append("</span><div class=\"ab-filter-opts\">")
+              .Append(opts).Append("</div></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The unfiltered tally. Counted, never written into the prose.</summary>
+    private static string ColorCount(JsonNode doc)
+        => ((doc["items"] as JsonArray)?.Count ?? 0) + " finishes";
+
+    /// <summary>
+    /// The swatch grid. This is the one listing that shows a real colour instead of the grey
+    /// stand-in used everywhere else - the colour IS the product, and a page of grey rectangles
+    /// would tell a client nothing.
+    /// </summary>
+    private static string ColorList(JsonNode doc)
+    {
+        var items = doc["items"] as JsonArray;
+        if (items is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var c in items.OfType<JsonNode>())
+        {
+            sb.Append("<a class=\"ab-swatch\" href=\"detail/?id=")
+              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+              .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(c, "hex")))
+              .Append("\"></span>")
+              .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name"))).Append("</span>")
+              .Append("<span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
+              .Append(" · ").Append(Esc(Str(c, "family"))).Append("</span></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
     /// "3 months ago" rather than a date. It answers "is this current" without arithmetic, which
     /// is what a listing is for; the exact date is on the article itself.
     /// </summary>
@@ -193,6 +258,12 @@ public sealed class SectionRenderer
 
     private static string Str(JsonNode? node, string key) => node?[key]?.ToString() ?? string.Empty;
 
+    /// <summary>
+    /// Matches <c>AB.esc</c> in app.js character for character, the double quote included. No
+    /// content carries a quote today, but the whole point of this project is that a client will
+    /// soon be typing this text - and a quote inside an attribute would end the attribute.
+    /// </summary>
     private static string Esc(string s) => s
-        .Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+        .Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;")
+        .Replace("\"", "&quot;");
 }

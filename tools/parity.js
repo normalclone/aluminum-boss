@@ -11,6 +11,8 @@
 //   node parity.js <origin-A> <origin-B> [width]
 //   node parity.js --save <origin> <dir> [width]     chup lam moc nen
 //   node parity.js --against <origin> <dir> [width]  so voi moc nen da luu
+//
+// Them --only <chuoi> vao bat ky lenh nao de chi chup nhung trang co chuoi do trong duong dan.
 const fs = require('fs');
 const path = require('path');
 const { launch, newCtx, wait } = require('./lib/browser');
@@ -81,6 +83,15 @@ function sameBytes(a, b) {
 
 (async () => {
   const args = process.argv.slice(2);
+
+  // Task 9 changes one listing at a time, and photographing the other fourteen pages to prove
+  // that one of them moved wastes four minutes per round. --only narrows the run to the paths
+  // containing a substring; without it every page is shot, as before.
+  const onlyAt = args.indexOf('--only');
+  const only = onlyAt === -1 ? null : args.splice(onlyAt, 2)[1];
+  const pages = only ? PAGES.filter(p => p.includes(only)) : PAGES;
+  if (!pages.length) { console.log('  --only %s khong khop trang nao.', only); return; }
+
   const mode = args[0] && args[0].startsWith('--') ? args.shift() : '--compare';
   const width = +(args[2] || args[1] && /^\d+$/.test(args[1]) ? args.pop() : 1440) || 1440;
 
@@ -90,10 +101,10 @@ function sameBytes(a, b) {
   if (mode === '--save') {
     const [origin, dir] = args;
     fs.mkdirSync(dir, { recursive: true });
-    for (const p of PAGES) {
+    for (const p of pages) {
       await shoot(ctx, origin.replace(/\/$/, ''), p, path.join(dir, slug(p) + '_' + width + '.png'));
     }
-    console.log('  Da luu %d anh moc nen vao %s (rong %d)', PAGES.length, dir, width);
+    console.log('  Da luu %d anh moc nen vao %s (rong %d)', pages.length, dir, width);
     await b.close();
     return;
   }
@@ -104,7 +115,7 @@ function sameBytes(a, b) {
 
   const rows = [];
   let differing = 0;
-  for (const p of PAGES) {
+  for (const p of pages) {
     const name = slug(p) + '_' + width + '.png';
     const shotA = path.join(tmp, 'a_' + name);
     await shoot(ctx, A.replace(/\/$/, ''), p, shotA);
@@ -120,7 +131,7 @@ function sameBytes(a, b) {
 
   heading('Doi chieu pixel (rong ' + width + ')');
   table(['trang', 'ket qua'], rows);
-  console.log('\n  %d/%d trang giong het tung byte.', PAGES.length - differing, PAGES.length);
+  console.log('\n  %d/%d trang giong het tung byte.', pages.length - differing, pages.length);
   if (differing) {
     console.log('  Anh nam trong %s — chay tools/compare.py de biet lech bao nhieu.', tmp);
   }

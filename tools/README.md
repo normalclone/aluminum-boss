@@ -43,6 +43,24 @@ GPTBot, ClaudeBot, PerplexityBot, CCBot tải HTML rồi đọc thẳng — chú
 
 ---
 
+## `nojs.js` — trang trông thế nào khi tắt JavaScript
+
+`textmass.js` đếm chữ còn lại; cái này **chụp ảnh** phần còn lại. Đó là đúng thứ một trình thu
+thập nhận được.
+
+```bash
+node nojs.js http://localhost:5199 --only colors 1440 out/
+```
+
+Đây là chỗ `parity.js` không với tới được: nó chờ script chạy xong rồi mới chụp, nên nó so trang
+mà **người** nhìn thấy. Một trang có HTML máy chủ dựng sai vẫn giống hệt trong phép so đó, vì
+script thay nó đi ngay sau. Bot không có khoảnh khắc ấy.
+
+> **Dùng để làm gì:** sau mỗi loại nội dung chuyển sang dựng phía máy chủ, mở ảnh ra **nhìn bằng
+> mắt**. Con số "2.208 ký tự" không phải là lời khẳng định "trang đọc được".
+
+---
+
 ## `parity.js` + `compare.py` — refactor có đổi hình thức không
 
 Chụp 15 trang từ hai nguồn rồi trừ pixel.
@@ -51,7 +69,12 @@ Chụp 15 trang từ hai nguồn rồi trừ pixel.
 node parity.js --save http://127.0.0.1:5117 baseline 1440     # chụp mốc nền
 node parity.js --against http://127.0.0.1:5117 baseline 1440  # so lại sau khi sửa
 python compare.py baseline after                              # lệch bao nhiêu
+node parity.js --only colors http://127.0.0.1:5117 <nguồn-B>  # chỉ trang có "colors"
 ```
+
+`--only <chuỗi>` lọc theo đường dẫn. Khi đang sửa một danh sách, chụp mười bốn trang không đụng
+tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--only /colors/`** — nó tưởng đó là
+đường dẫn Unix và đổi thành `C:/Program Files/colors/`; viết `--only colors`.
 
 > **Đã ký duyệt:** port từ bản clone tĩnh vào app .NET · dời cả cây lên một cấp · mọi lần đổi
 > nội dung kể từ đó.
