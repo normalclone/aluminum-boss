@@ -32,3 +32,4 @@ build/shell-*.html
 tools/baseline/*.png
 tools/node_modules/
 tools/after/
+tools/after*/

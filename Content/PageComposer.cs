@@ -32,6 +32,7 @@ namespace QlWeb2.Content;
 public sealed class PageComposer
 {
     private readonly ContentStore _store;
+    private readonly SectionRenderer _sections;
     private readonly string _webRoot;
     private readonly ILogger<PageComposer>? _log;
     private readonly ConcurrentDictionary<string, string> _cache = new(StringComparer.OrdinalIgnoreCase);
@@ -46,13 +47,21 @@ public sealed class PageComposer
         @"(<(?<tag>[a-z][a-z0-9]*)(?<attrs>[^>]*\bdata-ab-lead=""(?<addr>[^""]+)""[^>]*)>)(?<lead>[^<]*)",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    // <div data-ab-section="news-list"></div> - the element's contents are replaced with the
+    // markup the browser used to build after load.
+    private static readonly Regex SectionTag = new(
+        @"<(?<tag>[a-z][a-z0-9]*)(?<attrs>[^>]*\bdata-ab-section=""(?<name>[^""]+)""[^>]*)>(?<inner>.*?)</\k<tag>>",
+        RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
     private static readonly Regex LinesTag = new(
         @"<(?<tag>[a-z][a-z0-9]*)(?<attrs>[^>]*\bdata-ab-lines=""(?<addr>[^""]+)""[^>]*)>(?<inner>.*?)</\k<tag>>",
         RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
-    public PageComposer(ContentStore store, IWebHostEnvironment env, ILogger<PageComposer>? log = null)
+    public PageComposer(ContentStore store, SectionRenderer sections,
+                        IWebHostEnvironment env, ILogger<PageComposer>? log = null)
     {
         _store = store;
+        _sections = sections;
         _webRoot = env.WebRootPath ?? "wwwroot";
         _log = log;
         _store.Changed += _ => _cache.Clear();
@@ -72,7 +81,7 @@ public sealed class PageComposer
         return _cache.GetOrAdd(file, path =>
         {
             var html = File.ReadAllText(path, Encoding.UTF8);
-            var filled = Fill(html);
+            var filled = Fill(html, RootPrefix(urlPath));
 
             // A composition that loses text is worse than one that never ran: the page would go
             // out with blanks where the words were, and nothing would say so. Check before
@@ -92,9 +101,17 @@ public sealed class PageComposer
 
     // ---------------------------------------------------------------------------------------
 
-    private string Fill(string html)
+    private string Fill(string html, string rootPrefix)
     {
         var count = 0;
+
+        html = SectionTag.Replace(html, m =>
+        {
+            var markup = _sections.Render(m.Groups["name"].Value, rootPrefix);
+            if (markup is null) return m.Value;
+            count++;
+            return $"<{m.Groups["tag"].Value}{m.Groups["attrs"].Value}>{markup}</{m.Groups["tag"].Value}>";
+        });
 
         html = LinesTag.Replace(html, m =>
         {
@@ -182,6 +199,17 @@ public sealed class PageComposer
             if (doc is null || !ContentPath.Exists(doc, address[(cut + 1)..])) missing.Add(address);
         }
         return missing.Count == 0;
+    }
+
+    /// <summary>
+    /// How many "../" a page at this path needs to reach the site root. The imported site
+    /// addresses assets relatively, so a card built for /news/ and one built for /news/detail/
+    /// need different prefixes for the same picture.
+    /// </summary>
+    private static string RootPrefix(string urlPath)
+    {
+        var depth = urlPath.Trim('/').Split('/', StringSplitOptions.RemoveEmptyEntries).Length;
+        return string.Concat(Enumerable.Repeat("../", depth));
     }
 
     /// <summary>

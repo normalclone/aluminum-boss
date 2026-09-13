@@ -24,6 +24,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // The site's content. Files on disk are the single source of truth; the database keeps revision
 // history and the admin account, and nothing else.
 builder.Services.AddSingleton<ContentStore>();
+builder.Services.AddSingleton<SectionRenderer>();
 builder.Services.AddSingleton<PageComposer>();
 
 if (adminEnabled)

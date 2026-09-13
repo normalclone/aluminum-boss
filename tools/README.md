@@ -56,6 +56,12 @@ python compare.py baseline after                              # lệch bao nhiê
 > **Đã ký duyệt:** port từ bản clone tĩnh vào app .NET · dời cả cây lên một cấp · mọi lần đổi
 > nội dung kể từ đó.
 
+**Một trang lệch đơn lẻ thì chụp lại trước khi coi là hồi quy.** Ảnh chụp thỉnh thoảng hỏng —
+font về muộn, ảnh chưa giải mã xong. Đã gặp thật: một trang báo lệch 175 pixel ở lần chụp đầu,
+chụp lại thì giống hệt, và trang đó không hề bị đụng tới trong đợt sửa. Cách phân biệt: chụp
+cùng một trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là
+phép chụp không ổn định; giống nhau mà vẫn lệch với mốc nền thì mới là hồi quy thật.
+
 **Con số quyết định là "bao nhiêu pixel lệch quá 32/255", không phải "có giống hệt không".** Khử
 răng cưa và giải mã JPEG luôn để lại vài đơn vị nhiễu trên một nhúm pixel, kể cả giữa hai lần
 tải **cùng một trang**. Ngưỡng 32 luôn bằng 0 qua mọi thay đổi trên site này; ngưỡng "khác chút
