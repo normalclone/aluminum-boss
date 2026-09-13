@@ -7,9 +7,9 @@
 //
 //   node guide-video.js [origin] [--out <thư-mục>] [--keep-webm]
 //
-// Để lại: mp4 trong tools/out/. KHÔNG để lại thay đổi nội dung - highlights.json ở cả hai cây
-// được chụp lại trước khi quay và ghi đè lại sau khi quay xong. Một dòng trong History thì vẫn
-// còn, và đó là sự thật: đoạn phim đã bấm Save thật.
+// Để lại: mp4 trong tools/out/. KHÔNG để lại thay đổi nội dung - highlights.json và news.json ở
+// cả hai cây được chụp lại trước khi quay và ghi đè lại sau khi quay xong. Một dòng trong History
+// thì vẫn còn, và đó là sự thật: đoạn phim đã bấm Save thật.
 
 const fs = require('fs');
 const os = require('os');
@@ -31,11 +31,13 @@ const OUT = opt('out', path.join(__dirname, 'out'));
 const KEEP = argv.includes('--keep-webm');
 
 const W = 1440, H = 900;
-const DOC = 'highlights';
+// Đoạn phim sửa tiêu đề thẻ (highlights) và ảnh của bài (news), nên phải trả lại cả hai.
+const DOCS = ['highlights', 'news'];
 const TITLE = 'Dây chuyền sơn tĩnh điện thứ hai đã chạy';
 
 // Hai cây phải luôn khớp nhau (xem trees.py), nên chụp lại và trả lại cả hai.
-const TREES = ['wwwroot', 'site'].map(t => path.join(ROOT, t, '_data', DOC + '.json'));
+const TREES = ['wwwroot', 'site']
+  .flatMap(t => DOCS.map(d => path.join(ROOT, t, '_data', d + '.json')));
 
 /* ---- phụ đề và con trỏ, vẽ đè lên trang -------------------------------------------------- */
 //
@@ -207,15 +209,34 @@ async function bringInFrame(page, selector) {
   check('khung xem thu doi theo tung phim', (live || '').trim() === TITLE, '"' + (live || '').trim() + '"');
   await wait(1200);
 
-  /* 6 - ô ảnh của chính thẻ ấy, và cỡ nên tải lên */
+  /* 6 - bấm vào ẢNH của thẻ, và thấy nó thuộc về bài viết
+   *
+   * Đây là chỗ đáng quay nhất sau Task 18. Thẻ trên trang chủ không còn ô ảnh riêng: nó trỏ vào
+   * một bài, và ảnh là ảnh của bài ấy. Bấm vào ảnh thẻ thì ô nhập hiện ra mang tên "Article #1
+   * image" - một ô, một chỗ, không phải hai chỗ phải nhớ điền cả hai. */
+  const picAt = await inFrame(page, band + ' .core-slider-novedades__slide__image');
+  check('tim thay anh the trong khung xem thu', !!picAt, picAt ? 'o ' + Math.round(picAt.x) + ',' + Math.round(picAt.y) : band);
+  if (!picAt) { await ctx.close(); await b.close(); process.exit(1); }
+
+  await say(page, 'Ảnh thì bấm thẳng vào ảnh. Thẻ này không có ảnh riêng — nó là ảnh của bài.');
+  await point(page, picAt.x, picAt.y);
+  await wait(1500);
+  await tap(page);
+  await page.mouse.click(picAt.x, picAt.y);
+  await wait(1600);
+
   const imgField = page.locator('.ed-field-img').filter({
-    has: page.locator('[data-address="highlights.items.0.image"]'),
-  });
-  await say(page, 'Ảnh của thẻ ấy nằm ngay bên dưới. Hai dòng nhỏ là cỡ ô và cỡ nên tải lên.');
+    has: page.locator('[data-address^="news.items."]'),
+  }).first();
+  await imgField.waitFor({ state: 'visible', timeout: 15000 });
+  const picked = await imgField.locator('[data-address]').getAttribute('data-address');
+  check('anh the tro sang bai viet', /^news[.]items[.]\d+[.]image$/.test(picked || ''), picked || '-');
+
+  await say(page, 'Ô nhập ghi "Article #1 image". Hai dòng nhỏ là cỡ ô và cỡ nên tải lên.');
   await bring(imgField);
   const fieldAt = await at(imgField);
   await point(page, fieldAt.x, fieldAt.y);
-  await wait(3600);
+  await wait(3800);
 
   const slot = (await imgField.locator('.ed-slot').innerText()).replace(/\n/g, ' · ');
   check('o anh noi duoc co can tai len', /\d+ × \d+/.test(slot), slot);
@@ -282,7 +303,7 @@ async function bringInFrame(page, selector) {
   /* ---- trả lại nội dung như cũ --------------------------------------------------------- */
   TREES.forEach((f, i) => fs.writeFileSync(f, before[i]));
   const same = TREES.every((f, i) => fs.readFileSync(f).equals(before[i]));
-  check('noi dung tro lai nguyen van', same, DOC + '.json o ca hai cay');
+  check('noi dung tro lai nguyen van', same, DOCS.join('.json, ') + '.json o ca hai cay');
 
   /* ---- webm -> mp4 --------------------------------------------------------------------- */
   let out = webm;

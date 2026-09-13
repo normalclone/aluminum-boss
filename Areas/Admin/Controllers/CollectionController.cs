@@ -49,8 +49,17 @@ public class CollectionController : Controller
     /// would be a blank line in the legend that nobody can ever complete. Hiding, reordering and
     /// removing still work: those need no new coordinates.
     /// </param>
+    /// <param name="PickFrom">
+    /// The document whose items this kind POINTS AT, when its items are pointers rather than
+    /// things.
+    ///
+    /// A home-page highlight is a card for a news article: the picture and the link come from the
+    /// article, and all the card adds is a shorter headline. Which article it is cannot be a text
+    /// field on the page - it is an id, and ids are not words anybody reads - so it is chosen
+    /// here, on the screen that is already about which items exist.
+    /// </param>
     public record Kind(string Key, string Label, string Document, string Array, string Page,
-                       bool CanAdd = true)
+                       bool CanAdd = true, string? PickFrom = null)
     {
         public bool HasOwnPage => Page != "/";
     }
@@ -63,7 +72,7 @@ public class CollectionController : Controller
         new("projects",     "Projects",      "projects",     "albums",     "/projects/"),
         new("documents",    "Documents",     "documents",    "categories", "/documents/"),
         new("gallery",      "Gallery",       "gallery",      "items",      "/"),
-        new("highlights",   "Highlights",    "highlights",   "items",      "/"),
+        new("highlights",   "Highlights",    "highlights",   "items",      "/", PickFrom: "news"),
         new("applications", "Applications",  "applications", "tabs",       "/"),
         new("routes",       "Export routes", "globe",        "routes",     "/", CanAdd: false),
         new("factories",    "Factories",     "factories",    "sites",      "/", CanAdd: false),
@@ -88,6 +97,7 @@ public class CollectionController : Controller
 
         ViewData["Title"] = kind.Label;
         ViewData["Kind"] = kind;
+        ViewData["Choices"] = Choices(kind);
         return View(Rows(kind));
     }
 
@@ -112,6 +122,43 @@ public class CollectionController : Controller
 
         if (what == ContentEditor.Op.Add) TempData["Flash"] = "Added. It is at the top of the list.";
         return RedirectToAction(nameof(Items), new { id });
+    }
+
+    /// <summary>
+    /// Points one item at a different article.
+    ///
+    /// The id is the whole of the link: the picture, the path and the fallback headline all come
+    /// from whatever article carries it. Checked against the real list rather than trusted -
+    /// a card pointing at an article that does not exist draws nothing at all, and a silently
+    /// blank home page is the worst kind of wrong.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Link(string id, int index, string to)
+    {
+        var kind = Kinds.FirstOrDefault(k => k.Key == id);
+        if (kind?.PickFrom is null) return NotFound();
+        if (!Choices(kind).Any(c => c.Id == to)) return BadRequest();
+
+        var change = new ContentEditor.Change($"{kind.Document}.{kind.Array}.{index}.id", to);
+        var result = _editor.Apply([change]);
+        if (result.Rejected.Count > 0) TempData["Error"] = "That item could not be changed.";
+        else await Record(result);
+
+        return RedirectToAction(nameof(Items), new { id });
+    }
+
+    /// <summary>The items a pointer kind may point at, newest first the way the source holds them.</summary>
+    public record Choice(string Id, string Title);
+
+    public List<Choice> Choices(Kind kind)
+    {
+        if (kind.PickFrom is null) return [];
+        var list = _store.Get(kind.PickFrom)?["items"] as JsonArray;
+        return list?.OfType<JsonNode>()
+            .Select(a => new Choice(Text(a, "id"), First(a, "title", "name") is { Length: > 0 } t
+                                                   ? t : Text(a, "id")))
+            .Where(c => c.Id.Length > 0).ToList() ?? [];
     }
 
     /// <summary>
@@ -163,11 +210,17 @@ public class CollectionController : Controller
         var list = _store.Get(kind.Document)?[kind.Array] as JsonArray;
         if (list is null) return [];
 
+        // A pointer kind has no picture of its own - that is the point of it - so the thumbnail
+        // comes from whatever it points at, the same place the card on the site takes it from.
+        var source = kind.PickFrom is null ? null
+                   : (_store.Get(kind.PickFrom)?["items"] as JsonArray)?.OfType<JsonNode>().ToList();
+
         var rows = new List<Row>();
         for (var i = 0; i < list.Count; i++)
         {
             var item = list[i];
-            var image = Text(item, "image");
+            var linked = source?.FirstOrDefault(a => Text(a, "id") == Text(item, "id"));
+            var image = Text(linked ?? item, "image");
             rows.Add(new Row(
                 Index: i,
                 Id: Text(item, "id"),

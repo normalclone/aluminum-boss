@@ -74,6 +74,18 @@ Best upload 680 × 600 px          cỡ nên tải lên
 trả đúng tệp ấy cho khách. Một tấm 6 MB thẳng từ máy ảnh là 6 MB trên lưng mọi người vào trang.
 Trần là 2000 px cạnh dài — con số ấy đã nằm sẵn trong dòng gợi ý.
 
+### Thẻ "New" trên trang chủ là bài viết, không phải bản sao
+
+Sáu thẻ ở khối **New** trên trang chủ **không có ảnh riêng**. Mỗi thẻ trỏ vào một bài trong mục
+Tin — ảnh và đường dẫn đều lấy từ bài ấy, nên **ảnh chỉ phải chọn một lần**, trên bài.
+
+- Bấm vào ảnh của thẻ ngay trên trang chủ cũng được: ô nhập hiện ra sẽ ghi *"Article #1 image"*,
+  tức là anh đang sửa ảnh của **bài**.
+- Đổi thẻ sang bài khác: vào **Content → Highlights**, cột **Article**, chọn bài rồi bấm **Set**.
+- Tiêu đề trên thẻ là **tuỳ chọn**: để trống thì thẻ lấy tiêu đề của bài. Hiện cả sáu thẻ đều
+  đang dùng một tiêu đề ngắn hơn tiêu đề bài — đó là cố ý.
+- **Ẩn một bài là thẻ của nó cũng biến mất.** Xoá bài cũng vậy. Không có thẻ trắng nào ở lại.
+
 ### Thêm, ẩn, đổi thứ tự
 
 Vào **Content**, chọn loại, rồi:

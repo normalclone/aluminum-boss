@@ -5,44 +5,32 @@
     {
       "id": "press-line-2500",
       "label": "Binh Duong",
-      "title": "Second 2,500-tonne press now running",
-      "href": "news/press-line-2500/",
-      "image": ""
+      "title": "Second 2,500-tonne press now running"
     },
     {
       "id": "qualicoat-class-2",
       "label": "Finishing",
-      "title": "Powder line certified to QUALICOAT Class 2",
-      "href": "news/qualicoat-class-2/",
-      "image": ""
+      "title": "Powder line certified to QUALICOAT Class 2"
     },
     {
       "id": "ev-battery-tray",
       "label": "Car's Accessory",
-      "title": "6082 battery tray cleared for production",
-      "href": "news/ev-battery-tray/",
-      "image": ""
+      "title": "6082 battery tray cleared for production"
     },
     {
       "id": "honeycomb-line",
       "label": "Honeycomb",
-      "title": "Bonded panels now go to four metres",
-      "href": "news/honeycomb-line/",
-      "image": ""
+      "title": "Bonded panels now go to four metres"
     },
     {
       "id": "eclos-sable-range",
       "label": "Finishes",
-      "title": "Five sablé textures added to stock",
-      "href": "colors/",
-      "image": ""
+      "title": "Five sablé textures added to stock"
     },
     {
       "id": "solar-rail-supply",
       "label": "Profile",
-      "title": "6061-T6 solar rail on a three-year agreement",
-      "href": "news/solar-rail-supply/",
-      "image": ""
+      "title": "6061-T6 solar rail on a three-year agreement"
     }
   ]
 }

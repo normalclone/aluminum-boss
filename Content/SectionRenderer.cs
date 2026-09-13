@@ -217,6 +217,21 @@ public sealed class SectionRenderer
         => " data-ab-img=\"." + Esc(Where(item, field)) + "\"";
 
     /// <summary>
+    /// An address into a DIFFERENT document from the one this section is drawing.
+    ///
+    /// Every other address here is relative - a leading dot, resolved against the data-ab-doc
+    /// stamp the composer puts around the section. A card on the home page that points at a news
+    /// article needs to reach past that stamp, so it names its document outright. The editor has
+    /// understood both forms since Task 15; the dot is the whole difference between them.
+    /// </summary>
+    private static string Elsewhere(string document, JsonNode? item, string field, string kind)
+        => item is null ? string.Empty
+         : " data-ab-" + kind + "=\"" + Esc(document + "." + Where(item, field)) + "\"";
+
+    /// <summary>The first of two that has anything in it. An empty override means "use theirs".</summary>
+    private static string Or(string mine, string theirs) => mine.Length > 0 ? mine : theirs;
+
+    /// <summary>
     /// The attribute that lets the editor point at a word.
     ///
     /// The same idea as <see cref="ImgAddress"/> and, until now, the one this renderer did not
@@ -873,23 +888,47 @@ public sealed class SectionRenderer
     /// <summary>
     /// Six news cards in a row that scrolls. Placeholders go in unlabelled here too: the card
     /// already prints the place and the headline in white over the image.
+    ///
+    /// A card is a POINTER at an article, not a copy of one. It used to carry its own picture and
+    /// its own copy of the article's path, which meant an article had two picture slots in two
+    /// places and somebody had to remember to fill both. Now the picture comes from the article
+    /// and the path is derived by the same <see cref="Href"/> every other list uses, so the two
+    /// cannot drift.
+    ///
+    /// What stays on the card is the short headline and the place: all six differ from their
+    /// article's headline, consistently shorter, which is an editorial decision rather than rot.
+    /// Empty means "use the article's".
+    ///
+    /// An article that is hidden or gone takes its card with it. <see cref="Arr"/> filters
+    /// visible:false, so hiding one article hides it everywhere it appears - which is the promise
+    /// the Content screen's Hidden button already makes.
     /// </summary>
-    private static string HomeHighlights(JsonNode doc, string root)
+    private string HomeHighlights(JsonNode doc, string root)
     {
         var sb = new StringBuilder();
-        var items = Arr(doc, "items").Take(6).ToList();
+        var articles = Arr(_store.Get("news"), "items");
+        var items = Arr(doc, "items")
+            .Select(it => (Card: it, Article: articles.FirstOrDefault(a => Str(a, "id") == Str(it, "id"))))
+            .Where(x => x.Article is not null)
+            .Take(6).ToList();
+
         for (var i = 0; i < items.Count; i++)
         {
-            var it = items[i];
-            var image = Str(it, "image");
+            var (it, article) = items[i];
+            var image = Str(article, "image");
             var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(444, 370, "");
-            var title = Str(it, "title");
+            var title = Or(Str(it, "title"), Str(article, "title"));
+            var label = Or(Str(it, "label"), Str(article, "author"));
 
             sb.Append("<div class=\"core-slider-novedades__slide keen-slider__slide number-slide-")
               .Append(i).Append("\"><a class=\"core-slider-novedades__slide__container\" href=\"")
-              .Append(Esc(root + Str(it, "href"))).Append("\"><div class=\"shadow\"></div>")
+              .Append(Esc(root + "news/" + Href(article))).Append("\"><div class=\"shadow\"></div>")
+              // The picture's address names the NEWS file, not this one - an absolute address
+              // rather than the leading-dot kind, so it resolves past the data-ab-doc="highlights"
+              // stamp around this band. Clicking the card's picture on the home page therefore
+              // edits the article's picture, which is the only picture there now is.
               .Append("<img class=\"core-slider-novedades__slide__image\" src=\"").Append(Esc(src))
-              .Append('"').Append(ImgAddress(it))
+              .Append('"').Append(Elsewhere("news", article, "image", "img"))
               .Append(" width=\"444\" height=\"370\" alt=\"").Append(Esc(title))
               .Append("\" loading=\"lazy\">")
               .Append("<div class=\"core-slider-novedades__slide__filter\"></div>")
@@ -897,7 +936,7 @@ public sealed class SectionRenderer
               .Append("<div class=\"core-slider-novedades__slide__card-body_top\">")
               .Append("<div class=\"core-slider-novedades__slide__card-body__logo\">")
               .Append("<p class=\"core-slider-novedades__logo\"").Append(TextAddress(it, "label"))
-              .Append('>').Append(Esc(Str(it, "label")))
+              .Append('>').Append(Esc(label))
               .Append("</p></div><div class=\"cos-novedades__enlace\">")
               .Append("<h3 class=\"core-slider-novedades__slide__card-body__name font-display-sm uppercase\"")
               .Append(TextAddress(it, "title")).Append('>')

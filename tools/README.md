@@ -538,7 +538,7 @@ node guide-video.js http://localhost:5199
 node guide-video.js http://localhost:5199 --out D:/tmp --keep-webm
 ```
 
-Mười cảnh, khoảng 53 giây: mở /Admin → cuộn khung xem thử tới khối "New" của trang chủ → bấm
+Mười cảnh, khoảng 57 giây: mở /Admin → cuộn khung xem thử tới khối "New" của trang chủ → bấm
 thẳng vào tiêu đề trong khung → ô nhập tự sáng lên bên trái → gõ, khung đổi theo từng phím → ô
 ảnh và hai dòng cỡ → Choose picture → chọn ảnh → Save → và trang công khai thật.
 

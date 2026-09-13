@@ -148,6 +148,11 @@ tr.is-off .ad-state { border-style: dashed; }
 .ad-order { width: 1%; white-space: nowrap; }
 .ad-order form { display: inline-block; }
 .ad-order form + form { margin-left: 5px; }
+/* The article a pointer card stands for. Narrow enough not to crowd the title beside it, wide
+   enough that two headlines beginning the same way can still be told apart. */
+.ad-pick select { max-width: 230px; font: inherit; font-size: 13px; padding: 5px 6px;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; }
+.ad-pick form { display: flex; gap: 6px; align-items: center; }
 .ad-right-cell { width: 1%; white-space: nowrap; text-align: right; }
 .ad-right-cell form { display: inline; margin-left: 12px; }
 

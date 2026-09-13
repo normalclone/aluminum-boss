@@ -193,6 +193,48 @@ async function press(page, i, selector) {
     page.locator('.ad-confirm button[type=submit]').click(),
   ]);
 
+  /* ---- mot the tren trang chu la mot con tro, khong phai mot ban sao ------------------- */
+  //
+  // Sau Task 18, the "New" khong mang anh rieng nua: anh, duong dan va tieu de du phong deu lay
+  // tu bai. Nen phep thu la doi CON TRO va xem trang chu co di theo khong - mot phep thu chi doc
+  // JSON se qua duoc ca khi trang chu van ve bang du lieu cu.
+  await page.goto(BASE + '/Admin/Collection/Items/highlights', { waitUntil: 'load', timeout: 60000 });
+  const pickRow = page.locator('table tbody tr').first();
+  const was = await pickRow.locator('select').inputValue();
+  const others = await page.evaluate(() =>
+    [...document.querySelectorAll('table tbody tr')].slice(1)
+      .map(r => r.querySelector('select').value));
+  // Mot bai chua the nao dang tro toi, de khong trung voi the khac.
+  const all = await page.evaluate(() =>
+    [...document.querySelectorAll('table tbody tr select')[0].options]
+      .map(o => o.value).filter(Boolean));
+  const free = all.find(v => v !== was && !others.includes(v));
+
+  await pickRow.locator('select').selectOption(free);
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+    pickRow.locator('.ad-pick button').click(),
+  ]);
+  const pointed = JSON.parse(read('highlights')).items[0].id;
+
+  const home = await ctx.newPage();
+  await home.goto(BASE + '/', { waitUntil: 'load', timeout: 60000 });
+  const firstHref = await home.locator('.core-slider-novedades__slide__container').first()
+    .getAttribute('href');
+  await home.close();
+
+  check('the trang chu tro sang bai khac',
+        pointed === free && (firstHref || '').includes(free),
+        `${was} -> ${pointed} · the tren trang chu: ${firstHref}`);
+
+  // Tra lai bai cu.
+  await page.goto(BASE + '/Admin/Collection/Items/highlights', { waitUntil: 'load', timeout: 60000 });
+  await page.locator('table tbody tr').first().locator('select').selectOption(was);
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+    page.locator('table tbody tr').first().locator('.ad-pick button').click(),
+  ]);
+
   // Va cau hoi nghiem khac nhat.
   const same = KINDS.filter(([, doc]) => read(doc) !== before[doc]).map(([, doc]) => doc);
   check('file noi dung tro lai nguyen van', same.length === 0,
