@@ -29,6 +29,11 @@ Năm màn hình, mỗi cái làm một việc:
 
 > Chưa bấm Save thì chưa có gì được ghi. Đóng tab lúc đang sửa dở, trình duyệt sẽ hỏi lại.
 
+**Lần đặt tên đầu tiên cũng đặt luôn địa chỉ.** Một mục vừa thêm mang một cái tên máy sinh
+(`new-3f9a2c`). Ngay khi bạn gõ tiêu đề cho nó và bấm Save, địa chỉ của nó thành tiêu đề ấy:
+"Phụ kiện nhôm định hình" → `/news/phu-kien-nhom-dinh-hinh/`. Chỉ một lần duy nhất — sau đó sửa
+tiêu đề bao nhiêu lần cũng không làm trang đổi địa chỉ, vì lúc ấy đã có người giữ đường link.
+
 ### Đổi ảnh
 
 Ảnh nào cũng bấm được, kể cả những chỗ đang là **hình vẽ thay thế** — chính chỗ trống đó mới là
@@ -52,6 +57,9 @@ tải chậm cho mọi khách. Cỡ hợp lý: cạnh dài khoảng 2000 px.
 Vào **Content**, chọn loại, rồi:
 
 - **Add an item** — mục mới xuất hiện ở đầu danh sách, các ô đều trống. Bấm **Edit** để điền.
+  **Nó lên trang công khai ngay lập tức**, dưới dạng một thẻ trống. Điền luôn, hoặc bấm
+  **Shown** cho nó ẩn đi trong lúc bạn viết.
+  Riêng **Export routes** và **Factories** không có nút này — xem mục 6.
 - **↑ ↓** — đổi thứ tự. Thứ tự trong bảng này chính là thứ tự trang hiển thị.
 - **Shown / Hidden** — bấm để tạm ẩn. Mục bị ẩn biến khỏi mọi danh sách, khỏi mọi con số đếm, và
   trang riêng của nó trả về "không tìm thấy". **Nó vẫn còn nguyên** — bấm lại là hiện lại.
@@ -135,9 +143,11 @@ diện tự ghi cả hai. Nếu sửa tay thì phải sửa cả hai, rồi ch�
 
 Mỗi mục có đường dẫn riêng: `/news/press-line-2500/`, `/colors/an-dark-bronze/`.
 
-Đường dẫn sinh từ `id` của mục. Đổi `slug` là đổi địa chỉ công khai — hệ thống sẽ tự ghi một dòng
-vào `redirects.json` để link cũ còn sống, nhưng **hãy hạn chế đổi**: mỗi lần đổi là một lần các
-liên kết người khác đã chia sẻ phải đi vòng.
+Đường dẫn sinh từ `id` của mục, và `id` sinh từ **tiêu đề bạn đặt lần đầu** (xem mục 1). Sau
+lần ấy nó được khoá: sửa tiêu đề không làm trang đổi chỗ. Đó là chủ ý — một địa chỉ đã công bố
+là thứ người khác đã chia sẻ, và dời nó phải là một quyết định chứ không phải hệ quả của việc
+sửa một lỗi chính tả. Cần đổi địa chỉ một trang đã có thì gọi người viết mã: họ đổi `id` trong
+tệp JSON và thêm một dòng vào `redirects.json` để link cũ còn sống.
 
 Mọi địa chỉ từng công bố đều vẫn trả lời, kể cả dạng cũ `/news/detail/?id=...` và cả những trang
 từng nằm dưới `/usa/`.
@@ -156,6 +166,20 @@ Những việc **không** làm được qua giao diện:
   `llms.txt` và các thẻ `canonical`
 - Nối biểu mẫu liên hệ vào email hoặc CRM (hiện ghi vào `App_Data/enquiries.jsonl` và hiện trong
   màn hình Enquiries)
+- **Thêm một nhà máy hoặc một tuyến xuất khẩu.** Cái làm nên một tuyến là bốn mươi cặp toạ độ
+  trên quả địa cầu, và toạ độ không phải chữ trên trang nên không có ô nào để gõ vào. Ẩn, đổi
+  thứ tự, xoá và sửa chữ của chúng thì làm được bình thường.
+- **Đổi con số trong hai tiêu đề ở trang chủ.** "One origin, four markets" và "Five factories,
+  one coastline" là chữ bạn sửa được, nhưng chúng không tự đếm. Ẩn một tuyến thì nhớ sửa chữ
+  "four" theo. (Con số trong ô **Factories** bên phải thì tự đếm.)
+- **Ba trường không sửa được qua giao diện**, vì sửa chúng ở đó sẽ làm hỏng thứ khác: đoạn mô tả
+  dài của một dòng sản phẩm (in thành hai cột), tên **họ màu** trên một màu (nó là khoá tra
+  bảng thông số), và danh sách sản phẩm trên một công trình (nhiều mục viết trên một dòng).
+- **Đưa site ra internet sau một proxy** (nginx, Cloudflare): phải bật `UseForwardedHeaders`.
+  Không bật thì máy chủ thấy mọi khách đều là `127.0.0.1`, và giới hạn 8 lần gửi biểu mẫu mỗi
+  giờ sẽ khoá biểu mẫu cho TOÀN BỘ khách chứ không phải cho một người.
+- **Bản xuất tĩnh đầy đủ** (bỏ máy chủ, quay lại hosting tĩnh): công cụ đã viết nhưng chưa chạy
+  bao giờ, và thư mục `site/` hiện là khuôn của máy chủ chứ không phải bản in ra của nó.
 
 ## 7. Kiểm tra sau khi sửa nhiều
 

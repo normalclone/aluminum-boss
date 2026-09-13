@@ -437,13 +437,35 @@ public sealed class PageComposer
         .Replace("<", "&lt;")
         .Replace(">", "&gt;");
 
-    /// <summary>Every address in the page must have resolved to something.</summary>
+    /// <summary>
+    /// Every address in the page must have resolved to something.
+    ///
+    /// Both kinds are checked. An address the template wrote names its document and this class
+    /// filled it in; one the renderer wrote begins with a dot and is relative to the section it
+    /// sits in, which this class only stamped - but a dangling address is a field the client
+    /// will click on and not be able to save, whichever half of the system wrote it.
+    /// </summary>
     private bool Verify(string html, out List<string> missing)
     {
         missing = new List<string>();
+
+        // Where each section's document stamp sits, so a relative address can be given the name
+        // of the nearest one before it. Sections do not nest, so "nearest before" is "inside".
+        var stamps = Regex.Matches(html, @"data-ab-doc=""([^""]+)""")
+                          .Select(m => (At: m.Index, Name: m.Groups[1].Value))
+                          .ToList();
+
         foreach (Match m in Regex.Matches(html, @"data-ab-(?:t|lead|lines)=""([^""]+)"""))
         {
             var address = m.Groups[1].Value;
+
+            if (address.StartsWith('.'))
+            {
+                var stamp = stamps.LastOrDefault(s => s.At < m.Index);
+                if (stamp.Name is null) { missing.Add(address); continue; }
+                address = stamp.Name + address;
+            }
+
             var cut = address.IndexOf('.');
             if (cut <= 0) { missing.Add(address); continue; }
             var doc = _store.Get(address[..cut]);

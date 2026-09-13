@@ -166,18 +166,43 @@ public sealed class SectionRenderer
     /// The document's own name is not here. The composer stamps that onto the section element as
     /// data-ab-doc, once per section, and the editor joins the two: a renderer that had to know
     /// its document's name would need it threaded through a dozen signatures for one attribute.
+    ///
+    /// The callers write a leading dot in front of what comes back. That dot is the whole of how
+    /// the editor tells the two kinds of address apart: ".items.3.title" is relative to the
+    /// section it sits in, "site.nav.1.label" names its document already. The home page puts
+    /// template text inside rendered sections, so "is it inside a section" is not the test - and
+    /// guessing from the first segment would be a rule that holds until somebody names a
+    /// document after a field.
     /// </summary>
     private static string Where(JsonNode? node, string field)
     {
         if (node is null) return string.Empty;
+        var path = PathOf(node);
+        return path.Length == 0 ? field : path + "." + field;
+    }
 
+    /// <summary>
+    /// One node's own path, taken from the node rather than from the loop that reached it.
+    ///
+    /// Every list here is sorted, grouped or filtered before it is drawn - news by date, albums
+    /// by year - so the index a loop counts is not the index the file holds, and an address built
+    /// from it would save the third article's headline onto the fifth.
+    /// </summary>
+    private static string PathOf(JsonNode node)
+    {
         // GetPath gives JSON Path - "$.categories[0].items[2]". Ours is the same walk written the
         // way the rest of this project writes it, which is the way ContentPath reads it.
-        var path = node.GetPath().Replace("[", ".").Replace("]", "");
-        path = path.StartsWith("$.", StringComparison.Ordinal) ? path[2..]
+        //
+        // A key with a space in it comes back quoted - $.familySpecs['Wood grain'].layer - and
+        // the quotes have to come off or the address names a family nobody has. Found by the
+        // composer's own check, which refused to serve four colour families rather than serve
+        // them with an address that could not be saved.
+        var path = node.GetPath()
+            .Replace("['", ".").Replace("']", "")
+            .Replace("[", ".").Replace("]", "");
+        return path.StartsWith("$.", StringComparison.Ordinal) ? path[2..]
              : path == "$" ? string.Empty
              : path;
-        return path.Length == 0 ? field : path + "." + field;
     }
 
     /// <summary>
@@ -189,7 +214,29 @@ public sealed class SectionRenderer
     /// picture in it.
     /// </summary>
     private static string ImgAddress(JsonNode? item, string field = "image")
-        => " data-ab-img=\"" + Esc(Where(item, field)) + "\"";
+        => " data-ab-img=\"." + Esc(Where(item, field)) + "\"";
+
+    /// <summary>
+    /// The attribute that lets the editor point at a word.
+    ///
+    /// The same idea as <see cref="ImgAddress"/> and, until now, the one this renderer did not
+    /// write - which meant a client could change the picture on an article and not its headline.
+    /// Every list and every detail page on this site is drawn here, so this is where the words in
+    /// them become editable at all.
+    ///
+    /// Nothing is written for a field that is not a string. A number in the data is a number for
+    /// a reason - a factory's latitude, a route's share of the tonnage - and the editor writes
+    /// what was typed, as text; a typed "22" would turn 22 into "22" and the canvas would be
+    /// drawing with a string. Those fields stay for a screen that knows they are numbers.
+    /// </summary>
+    private static string TextAddress(JsonNode? item, string field)
+        => TextAt(item is JsonObject o && o.TryGetPropertyValue(field, out var n) ? n : null);
+
+    /// <summary>The same for a value reached directly - one line of an array of strings.</summary>
+    private static string TextAt(JsonNode? node)
+        => node is JsonValue v && v.TryGetValue<string>(out _)
+           ? " data-ab-t=\"." + Esc(PathOf(node)) + "\""
+           : string.Empty;
 
     /// <summary>
     /// One swatch: the photograph if the finish has one, the flat colour if it does not.
@@ -316,7 +363,10 @@ public sealed class SectionRenderer
                 ? Placeholder.Uri(w, h, Str(a, "title"))
                 : root + "_media/" + image;
 
-            var tags = (a["tags"] as JsonArray)?.Select(t => Esc(t?.ToString() ?? "")) ?? [];
+            // Each tag is a line of its own in the file, so each gets its own address. The
+            // span carries no style; it is there to be somewhere for the address to live.
+            var tags = (a["tags"] as JsonArray)?.OfType<JsonNode>()
+                .Select(t => "<span" + TextAt(t) + ">" + Esc(t.ToString()) + "</span>") ?? [];
 
             sb.Append($"<a class=\"ab-post{(lead ? " is-lead" : "")}\" href=\"")
               .Append(Href(a)).Append("\">")
@@ -326,10 +376,14 @@ public sealed class SectionRenderer
               .Append("\" loading=\"lazy\"></span>")
               .Append("<span class=\"ab-post-tags\">").Append(string.Join(" &middot; ", tags))
               .Append("</span>")
-              .Append("<h2>").Append(Esc(Str(a, "title"))).Append("</h2>")
-              .Append("<p class=\"ab-post-excerpt\">").Append(Esc(Str(a, "excerpt"))).Append("</p>")
+              .Append("<h2").Append(TextAddress(a, "title")).Append('>')
+              .Append(Esc(Str(a, "title"))).Append("</h2>")
+              .Append("<p class=\"ab-post-excerpt\"").Append(TextAddress(a, "excerpt")).Append('>')
+              .Append(Esc(Str(a, "excerpt"))).Append("</p>")
               .Append("<p class=\"ab-post-meta\">").Append(Ago(Str(a, "date")))
-              .Append(" &nbsp;|&nbsp; Written by: ").Append(Esc(Str(a, "author")))
+              .Append(" &nbsp;|&nbsp; Written by: ")
+              .Append("<span").Append(TextAddress(a, "author")).Append('>')
+              .Append(Esc(Str(a, "author"))).Append("</span>")
               .Append("</p></a>");
         }
         return sb.ToString();
@@ -362,15 +416,19 @@ public sealed class SectionRenderer
                      .Append(ImgAddress(it))
                      .Append(" width=\"340\" height=\"300\" alt=\"").Append(Esc(Str(it, "name")))
                      .Append("\" loading=\"lazy\"></span>")
-                     .Append("<h3>").Append(Esc(Str(it, "name"))).Append("</h3>")
-                     .Append("<p>").Append(Esc(Str(it, "spec"))).Append("</p></a>");
+                     .Append("<h3").Append(TextAddress(it, "name")).Append('>')
+                     .Append(Esc(Str(it, "name"))).Append("</h3>")
+                     .Append("<p").Append(TextAddress(it, "spec")).Append('>')
+                     .Append(Esc(Str(it, "spec"))).Append("</p></a>");
             }
 
             sb.Append("<section class=\"ab-band\"><div class=\"ab-band-head\">")
-              .Append("<h2>").Append(Esc(Str(c, "name"))).Append("</h2>")
+              .Append("<h2").Append(TextAddress(c, "name")).Append('>')
+              .Append(Esc(Str(c, "name"))).Append("</h2>")
               .Append("<a class=\"ab-more\" href=\"").Append(href).Append("\">")
               .Append(items.Count).Append(" products</a></div>")
-              .Append("<p class=\"ab-band-sub\">").Append(Esc(Str(c, "tagline"))).Append("</p>")
+              .Append("<p class=\"ab-band-sub\"").Append(TextAddress(c, "tagline")).Append('>')
+              .Append(Esc(Str(c, "tagline"))).Append("</p>")
               .Append("<div class=\"ab-row\">").Append(tiles).Append("</div></section>");
         }
         return sb.ToString();
@@ -407,9 +465,12 @@ public sealed class SectionRenderer
                      .Append("\" loading=\"lazy\">")
                      .Append("<span class=\"ab-album-count\">").Append(photos)
                      .Append(" photographs</span></span>")
-                     .Append("<h3>").Append(Esc(Str(a, "title"))).Append("</h3>")
-                     .Append("<p class=\"ab-album-where\">").Append(Esc(Str(a, "location"))).Append("</p>")
-                     .Append("<p class=\"ab-album-scope\">").Append(Esc(Str(a, "scope"))).Append("</p></a>");
+                     .Append("<h3").Append(TextAddress(a, "title")).Append('>')
+                     .Append(Esc(Str(a, "title"))).Append("</h3>")
+                     .Append("<p class=\"ab-album-where\"").Append(TextAddress(a, "location")).Append('>')
+                     .Append(Esc(Str(a, "location"))).Append("</p>")
+                     .Append("<p class=\"ab-album-scope\"").Append(TextAddress(a, "scope")).Append('>')
+                     .Append(Esc(Str(a, "scope"))).Append("</p></a>");
             }
 
             sb.Append("<section class=\"ab-year\"><div class=\"ab-year-head\">")
@@ -443,11 +504,15 @@ public sealed class SectionRenderer
             foreach (var o in (f["options"] as JsonArray)?.OfType<JsonNode>() ?? [])
             {
                 var v = Esc(o.ToString());
+                // data-v is what the filter matches on and has to keep matching the swatches;
+                // the address is on the button's words, which are the same string written twice.
                 opts.Append("<button type=\"button\" data-k=\"").Append(key)
-                    .Append("\" data-v=\"").Append(v).Append("\">").Append(v).Append("</button>");
+                    .Append("\" data-v=\"").Append(v).Append('"').Append(TextAt(o))
+                    .Append('>').Append(v).Append("</button>");
             }
 
-            sb.Append("<div class=\"ab-filter\"><span class=\"ab-filter-label\">")
+            sb.Append("<div class=\"ab-filter\"><span class=\"ab-filter-label\"")
+              .Append(TextAddress(f, "label")).Append('>')
               .Append(Esc(Str(f, "label"))).Append("</span><div class=\"ab-filter-opts\">")
               .Append(opts).Append("</div></div>");
         }
@@ -470,8 +535,13 @@ public sealed class SectionRenderer
         {
             sb.Append("<a class=\"ab-swatch\" href=\"")
               .Append(Href(c)).Append("\">").Append(Chip(c, root))
-              .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name"))).Append("</span>")
-              .Append("<span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
+              .Append("<span class=\"ab-swatch-name\"").Append(TextAddress(c, "name")).Append('>')
+              .Append(Esc(Str(c, "name"))).Append("</span>")
+              // The code is a label and is edited here; the family is a key into familySpecs
+              // and is left alone, so it stays plain text with no span around it.
+              .Append("<span class=\"ab-swatch-meta\">")
+              .Append("<span").Append(TextAddress(c, "code")).Append('>')
+              .Append(Esc(Str(c, "code"))).Append("</span>")
               .Append(" · ").Append(Esc(Str(c, "family"))).Append("</span></a>");
         }
         return sb.ToString();
@@ -544,19 +614,31 @@ public sealed class SectionRenderer
                     .Append(Href(d)).Append("\">")
                     .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
                     .Append("<span class=\"ab-doc-text\">")
-                    .Append("<span class=\"ab-doc-title\">").Append(Esc(Str(d, "title"))).Append("</span>")
-                    .Append("<span class=\"ab-doc-blurb\">").Append(Esc(Str(d, "blurb"))).Append("</span>")
+                    .Append("<span class=\"ab-doc-title\"").Append(TextAddress(d, "title")).Append('>')
+                    .Append(Esc(Str(d, "title"))).Append("</span>")
+                    .Append("<span class=\"ab-doc-blurb\"").Append(TextAddress(d, "blurb")).Append('>')
+                    .Append(Esc(Str(d, "blurb"))).Append("</span>")
+                    // Four fields on one line, so four spans. The category's name is edited at
+                    // the head of its own section - once, not once per row.
                     .Append("<span class=\"ab-doc-meta\">").Append(Esc(Str(c, "name")))
-                    .Append(" &middot; ").Append(Esc(Str(d, "edition")))
-                    .Append(" &middot; ").Append(Esc(Str(d, "lang")))
-                    .Append(" &middot; ").Append(Esc(Str(d, "pages"))).Append(" pages</span>")
+                    .Append(" &middot; ")
+                    .Append("<span").Append(TextAddress(d, "edition")).Append('>')
+                    .Append(Esc(Str(d, "edition"))).Append("</span>")
+                    .Append(" &middot; ")
+                    .Append("<span").Append(TextAddress(d, "lang")).Append('>')
+                    .Append(Esc(Str(d, "lang"))).Append("</span>")
+                    .Append(" &middot; ")
+                    .Append("<span").Append(TextAddress(d, "pages")).Append('>')
+                    .Append(Esc(Str(d, "pages"))).Append("</span>").Append(" pages</span>")
                     .Append("</span></a>")
                     .Append("<a class=\"ab-doc-dl\" href=\"").Append(root).Append("_docs/")
                     .Append(Esc(id)).Append(".pdf\" download>Download</a></div>");
             }
 
-            sb.Append("<section class=\"ab-doccat\"><div class=\"ab-doccat-head\"><h2>")
-              .Append(Esc(Str(c, "name"))).Append("</h2><p>").Append(Esc(Str(c, "blurb")))
+            sb.Append("<section class=\"ab-doccat\"><div class=\"ab-doccat-head\"><h2")
+              .Append(TextAddress(c, "name")).Append('>')
+              .Append(Esc(Str(c, "name"))).Append("</h2><p")
+              .Append(TextAddress(c, "blurb")).Append('>').Append(Esc(Str(c, "blurb")))
               .Append("</p></div><div class=\"ab-docs\">").Append(rows).Append("</div></section>");
         }
         return sb.ToString();
@@ -583,7 +665,8 @@ public sealed class SectionRenderer
 
         var id = Str(a, "id");
         var title = Str(a, "title");
-        var tags = (a["tags"] as JsonArray)?.OfType<JsonNode>().Select(t => Esc(t.ToString())) ?? [];
+        var tags = (a["tags"] as JsonArray)?.OfType<JsonNode>()
+            .Select(t => "<span" + TextAt(t) + ">" + Esc(t.ToString()) + "</span>") ?? [];
 
         var more = Arr(doc, "items")
             .Where(x => Str(x, "id") != id)
@@ -599,7 +682,10 @@ public sealed class SectionRenderer
                  .Append(Src(x, root, Placeholder.Uri(400, 260, xTitle))).Append('"')
                  .Append(ImgAddress(x))
                  .Append(" width=\"400\" height=\"260\" alt=\"").Append(Esc(xTitle))
-                 .Append("\" loading=\"lazy\"><h3>").Append(Esc(xTitle))
+                 .Append("\" loading=\"lazy\"><h3").Append(TextAddress(x, "title")).Append('>')
+                 .Append(Esc(xTitle))
+                 // The date is shown as "12 March 2026" and held as "2026-03-12"; an address here
+                 // would offer the client an input whose text is not what the field says.
                  .Append("</h3><p class=\"ab-card-spec\">").Append(LongDate(Str(x, "date")))
                  .Append("</p></a>");
         }
@@ -607,18 +693,24 @@ public sealed class SectionRenderer
         var sb = new StringBuilder("<div class=\"ab-wrap\">");
         sb.Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
           .Append("</a> &nbsp;/&nbsp; ").Append(string.Join(" &middot; ", tags)).Append("</p>")
-          .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(title)).Append("</h1>")
+          .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(a, "title"))
+          .Append('>').Append(Esc(title)).Append("</h1>")
           .Append("<p class=\"ab-post-meta\">").Append(LongDate(Str(a, "date")))
-          .Append(" &nbsp;|&nbsp; Written by: ").Append(Esc(Str(a, "author"))).Append("</p>")
+          .Append(" &nbsp;|&nbsp; Written by: ")
+          .Append("<span").Append(TextAddress(a, "author")).Append('>')
+          .Append(Esc(Str(a, "author"))).Append("</span></p>")
           .Append("<div class=\"ab-hero\"><img src=\"")
           .Append(Src(a, root, Placeholder.Uri(1240, 560, title))).Append('"')
           .Append(ImgAddress(a))
           .Append(" width=\"1240\" height=\"560\" alt=\"").Append(Esc(title)).Append("\"></div>")
-          .Append("<div class=\"ab-article\"><p class=\"ab-standfirst\">")
+          .Append("<div class=\"ab-article\"><p class=\"ab-standfirst\"")
+          .Append(TextAddress(a, "excerpt")).Append('>')
           .Append(Esc(Str(a, "excerpt"))).Append("</p>");
 
+        // One address per paragraph rather than one for the body: a paragraph is the unit
+        // somebody rewrites, and an array joined into one box comes back joined.
         foreach (var p in (a["body"] as JsonArray)?.OfType<JsonNode>() ?? [])
-            sb.Append("<p>").Append(Esc(p.ToString())).Append("</p>");
+            sb.Append("<p").Append(TextAt(p)).Append('>').Append(Esc(p.ToString())).Append("</p>");
 
         return sb.Append("</div><div class=\"ab-items\"><h2>More news</h2><div class=\"ab-grid\">")
                  .Append(cards).Append("</div></div></div>").ToString();
@@ -634,6 +726,9 @@ public sealed class SectionRenderer
     /// </summary>
     private static string HeroWords(JsonNode doc, string root)
     {
+        // No address on these. The word shown is the family's name upper-cased, so an editor
+        // reading the element back would offer PROFILE SYSTEMS as the value and save it that
+        // way. The same field is editable, in its own case, everywhere else it appears.
         var cats = Arr(doc, "categories");
         var sb = new StringBuilder();
         for (var i = 0; i < cats.Count; i++)
@@ -650,7 +745,8 @@ public sealed class SectionRenderer
     {
         var first = Arr(doc, "categories").FirstOrDefault();
         if (first is null) return string.Empty;
-        return "<strong>" + Esc(Str(first, "name")) + "</strong> " + Esc(Str(first, "tagline"));
+        return "<strong" + TextAddress(first, "name") + ">" + Esc(Str(first, "name")) + "</strong> "
+             + "<span" + TextAddress(first, "tagline") + ">" + Esc(Str(first, "tagline")) + "</span>";
     }
 
     /// <summary>Every product family as a tile. Same data as the Products page, so they cannot drift.</summary>
@@ -665,7 +761,8 @@ public sealed class SectionRenderer
               .Append(Src(c, root, Placeholder.Uri(340, 300, name))).Append('"')
               .Append(ImgAddress(c))
               .Append(" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
-              .Append("\" loading=\"lazy\"></span><h3>").Append(Esc(name)).Append("</h3><p>")
+              .Append("\" loading=\"lazy\"></span><h3").Append(TextAddress(c, "name")).Append('>')
+              .Append(Esc(name)).Append("</h3><p").Append(TextAddress(c, "tagline")).Append('>')
               .Append(Esc(Str(c, "tagline"))).Append("</p></a>");
         }
         return sb.ToString();
@@ -688,8 +785,10 @@ public sealed class SectionRenderer
         {
             sb.Append("<a class=\"ab-swatch\" href=\"colors/").Append(Href(c))
               .Append("\">").Append(Chip(c, root))
-              .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name")))
-              .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
+              .Append("<span class=\"ab-swatch-name\"").Append(TextAddress(c, "name")).Append('>')
+              .Append(Esc(Str(c, "name")))
+              .Append("</span><span class=\"ab-swatch-meta\"").Append(TextAddress(c, "code")).Append('>')
+              .Append(Esc(Str(c, "code")))
               .Append("</span></a>");
         }
         return sb.ToString();
@@ -708,9 +807,15 @@ public sealed class SectionRenderer
               .Append(Src(a, root, Placeholder.Uri(420, 300, title))).Append('"')
               .Append(ImgAddress(a))
               .Append(" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
-              .Append("\" loading=\"lazy\"><h3>").Append(Esc(title))
+              .Append("\" loading=\"lazy\"><h3").Append(TextAddress(a, "title")).Append('>')
+              .Append(Esc(title))
+              // Year and place are one line of type made of two fields, so each gets a span.
               .Append("</h3><p class=\"ab-card-spec\">")
-              .Append(Esc(Str(a, "year") + " · " + Str(a, "location"))).Append("</p><p>")
+              .Append("<span").Append(TextAddress(a, "year")).Append('>')
+              .Append(Esc(Str(a, "year"))).Append("</span> · ")
+              .Append("<span").Append(TextAddress(a, "location")).Append('>')
+              .Append(Esc(Str(a, "location"))).Append("</span></p><p")
+              .Append(TextAddress(a, "scope")).Append('>')
               .Append(Esc(Str(a, "scope"))).Append("</p></a>");
         }
         return sb.ToString();
@@ -727,10 +832,13 @@ public sealed class SectionRenderer
 
         return new StringBuilder("<div class=\"core-cta-customizable__text-col\">")
             .Append("<div class=\"core-cta-customizable__text-col__top\">")
-            .Append("<p class=\"core-cta-customizable__text-col__bottom__text font-16 mb-32\">")
+            .Append("<p class=\"core-cta-customizable__text-col__bottom__text font-16 mb-32\"")
+            .Append(TextAddress(doc, "eyebrow")).Append('>')
             .Append(Esc(Str(doc, "eyebrow"))).Append("</p>")
-            .Append("<h2 class=\"font-light font-40\" id=\"abfc-title\">").Append(Esc(Str(doc, "heading")))
-            .Append("</h2><p class=\"abfc-text\">").Append(Esc(Str(doc, "text"))).Append("</p></div>")
+            .Append("<h2 class=\"font-light font-40\" id=\"abfc-title\"")
+            .Append(TextAddress(doc, "heading")).Append('>').Append(Esc(Str(doc, "heading")))
+            .Append("</h2><p class=\"abfc-text\"").Append(TextAddress(doc, "text")).Append('>')
+            .Append(Esc(Str(doc, "text"))).Append("</p></div>")
             .Append("<div class=\"core-cta-customizable__text-col__bottom\">")
             .Append(FeatureLink(doc["cta"], "btn btn-blanco-negro font-14", true, root))
             .Append(FeatureLink(doc["more"], "abfc-alt", false, root))
@@ -747,7 +855,10 @@ public sealed class SectionRenderer
         var href = Str(o, "href");
         var label = Str(o, "label");
         if (href.Length == 0 || label.Length == 0) return string.Empty;
-        return "<a class=\"" + cls + "\" href=\"" + Esc(root + href) + "\">" + Esc(label)
+        // The arrow is a child element, so the label is the lead rather than the whole text.
+        return "<a class=\"" + cls + "\" href=\"" + Esc(root + href) + "\""
+               + (arrow ? " data-ab-lead=\"." + Esc(Where(o, "label")) + "\"" : TextAddress(o, "label"))
+               + ">" + Esc(label)
                + (arrow ? "<span class=\"arrow-link\"></span>" : string.Empty) + "</a>";
     }
 
@@ -785,9 +896,11 @@ public sealed class SectionRenderer
               .Append("<div class=\"core-slider-novedades__slide__card-body\">")
               .Append("<div class=\"core-slider-novedades__slide__card-body_top\">")
               .Append("<div class=\"core-slider-novedades__slide__card-body__logo\">")
-              .Append("<p class=\"core-slider-novedades__logo\">").Append(Esc(Str(it, "label")))
+              .Append("<p class=\"core-slider-novedades__logo\"").Append(TextAddress(it, "label"))
+              .Append('>').Append(Esc(Str(it, "label")))
               .Append("</p></div><div class=\"cos-novedades__enlace\">")
-              .Append("<h3 class=\"core-slider-novedades__slide__card-body__name font-display-sm uppercase\">")
+              .Append("<h3 class=\"core-slider-novedades__slide__card-body__name font-display-sm uppercase\"")
+              .Append(TextAddress(it, "title")).Append('>')
               .Append(Esc(title)).Append("</h3></div></div>")
               .Append("<div class=\"extra\">").Append(PlusIcon).Append("</div>")
               .Append("</div></a></div>");
@@ -815,7 +928,8 @@ public sealed class SectionRenderer
               .Append(Esc(sub)).Append("\">")
               .Append("<div class=\"core-gallery__content__item__filter\">")
               .Append("<div class=\"core-gallery__content__item__filter__cruz\"></div>")
-              .Append("<span class=\"abgal-cap\">").Append(Esc(caption)).Append("</span></div>")
+              .Append("<span class=\"abgal-cap\"").Append(TextAddress(item, "caption")).Append('>')
+              .Append(Esc(caption)).Append("</span></div>")
               .Append("<img class=\"core-gallery__thumb skip-lazy\" src=\"")
               .Append(GallerySrc(doc, item, root, 640, 640)).Append('"')
               .Append(ImgAddress(item))
@@ -854,7 +968,8 @@ public sealed class SectionRenderer
               .Append(on ? " active" : "").Append("\" role=\"tab\" id=\"abap-tab-")
               .Append(Esc(Str(tabs[i], "id"))).Append("\" data-index=\"").Append(i)
               .Append("\" aria-controls=\"abap-slider\" aria-selected=\"").Append(on ? "true" : "false")
-              .Append("\" tabindex=\"").Append(on ? "0" : "-1").Append("\">")
+              .Append("\" tabindex=\"").Append(on ? "0" : "-1").Append('"')
+              .Append(TextAddress(tabs[i], "label")).Append('>')
               .Append(Esc(Str(tabs[i], "label"))).Append("</li>");
         }
         return sb.ToString();
@@ -884,10 +999,12 @@ public sealed class SectionRenderer
               .Append(" alt=\"\" loading=\"lazy\"><div class=\"core-slider__slide__filter\"></div>")
               .Append("<div class=\"core-slider__slide__card-body\">")
               .Append("<div class=\"core-slider__slide__card-body__block\">")
-              .Append("<h3 class=\"core-slider__slide__card-body__name font-16\">")
+              .Append("<h3 class=\"core-slider__slide__card-body__name font-16\"")
+              .Append(TextAddress(items[i], "title")).Append('>')
               .Append(Esc(Str(items[i], "title"))).Append("</h3></div>")
               .Append("<div class=\"core-slider__slide__card-body__block\">")
-              .Append("<p class=\"core-slider__slide__card-body__description\">")
+              .Append("<p class=\"core-slider__slide__card-body__description\"")
+              .Append(TextAddress(items[i], "text")).Append('>')
               .Append(Esc(Str(items[i], "text"))).Append("</p></div></div></div>");
         }
         return sb.ToString();
@@ -907,11 +1024,17 @@ public sealed class SectionRenderer
         foreach (var r in Arr(doc, "routes"))
         {
             sb.Append("<li><button type=\"button\" class=\"vgx-item\" aria-pressed=\"false\">")
-              .Append("<span class=\"vgx-dot\"></span>\n      <span><span class=\"vgx-name\">")
-              .Append(Esc(Str(r, "name"))).Append("</span>\n        <span class=\"vgx-desc\">")
+              .Append("<span class=\"vgx-dot\"></span>\n      <span><span class=\"vgx-name\"")
+              .Append(TextAddress(r, "name")).Append('>')
+              .Append(Esc(Str(r, "name"))).Append("</span>\n        <span class=\"vgx-desc\"")
+              .Append(TextAddress(r, "desc")).Append('>')
               .Append(Esc(Str(r, "desc"))).Append("</span>\n        <span class=\"vgx-meta\">")
-              .Append(Esc(Str(r, "meta"))).Append(" · ").Append(Esc(Str(r, "days")))
-              .Append(" days</span></span>\n      <span class=\"vgx-share\">")
+              // days is a number in the file, and the canvas counts with it, so it keeps no
+              // address: the editor writes what was typed, as text, and 22 would become "22".
+              .Append("<span").Append(TextAddress(r, "meta")).Append('>')
+              .Append(Esc(Str(r, "meta"))).Append("</span> · ").Append(Esc(Str(r, "days")))
+              .Append(" days</span></span>\n      <span class=\"vgx-share\"")
+              .Append(TextAddress(r, "share")).Append('>')
               .Append(Esc(Str(r, "share"))).Append("</span></button></li>");
         }
         return sb.ToString();
@@ -927,11 +1050,16 @@ public sealed class SectionRenderer
         foreach (var s in Arr(doc, "sites"))
         {
             sb.Append("<article class=\"vfx-fitem\">")
-              .Append("<p class=\"vfx-fname\">").Append(Esc(Str(s, "name"))).Append("</p>")
-              .Append("<p class=\"vfx-floc\">").Append(Esc(Str(s, "region"))).Append("</p>")
-              .Append("<p class=\"vfx-fdesc\">").Append(Esc(Str(s, "desc"))).Append("</p>")
-              .Append("<div class=\"vfx-fstats\"><div>In operation since<b>")
-              .Append(Esc(Str(s, "since"))).Append("</b></div><div>Annual capacity<b>")
+              .Append("<p class=\"vfx-fname\"").Append(TextAddress(s, "name")).Append('>')
+              .Append(Esc(Str(s, "name"))).Append("</p>")
+              .Append("<p class=\"vfx-floc\"").Append(TextAddress(s, "region")).Append('>')
+              .Append(Esc(Str(s, "region"))).Append("</p>")
+              .Append("<p class=\"vfx-fdesc\"").Append(TextAddress(s, "desc")).Append('>')
+              .Append(Esc(Str(s, "desc"))).Append("</p>")
+              .Append("<div class=\"vfx-fstats\"><div>In operation since<b")
+              .Append(TextAddress(s, "since")).Append('>')
+              .Append(Esc(Str(s, "since"))).Append("</b></div><div>Annual capacity<b")
+              .Append(TextAddress(s, "output")).Append('>')
               .Append(Esc(Str(s, "output"))).Append("</b></div></div></article>");
         }
         return sb.ToString();
@@ -949,7 +1077,8 @@ public sealed class SectionRenderer
             sb.Append("<li class=\"core-gallery__nav__tags-item font-body-base font-normal")
               .Append(id == "all" ? " active" : "").Append("\" data-index=\"").Append(i)
               .Append("\" data-value=\"").Append(Esc(id)).Append("\" data-label=\"").Append(Esc(label))
-              .Append("\">").Append(Esc(label)).Append("</li>");
+              .Append('"').Append(TextAddress(tags[i], "label")).Append('>')
+              .Append(Esc(label)).Append("</li>");
         }
         return sb.ToString();
     }
@@ -966,7 +1095,7 @@ public sealed class SectionRenderer
         var items = Arr(c, "items");
 
         var others = Arr(doc, "categories").Where(x => Str(x, "id") != id)
-            .Select(x => "<a href=\"" + SiblingHref(x) + "\">"
+            .Select(x => "<a href=\"" + SiblingHref(x) + "\"" + TextAddress(x, "name") + ">"
                          + Esc(Str(x, "name")) + "</a>");
 
         var cards = new StringBuilder();
@@ -977,9 +1106,12 @@ public sealed class SectionRenderer
                  .Append("<img src=\"").Append(Src(it, root, Placeholder.Uri(400, 300, n)))
                  .Append('"').Append(ImgAddress(it))
                  .Append(" width=\"400\" height=\"300\" alt=\"").Append(Esc(n))
-                 .Append("\" loading=\"lazy\"><h3>").Append(Esc(n)).Append("</h3>")
-                 .Append("<p class=\"ab-card-spec\">").Append(Esc(Str(it, "spec"))).Append("</p>")
-                 .Append("<p>").Append(Esc(Str(it, "text"))).Append("</p></article>");
+                 .Append("\" loading=\"lazy\"><h3").Append(TextAddress(it, "name")).Append('>')
+                 .Append(Esc(n)).Append("</h3>")
+                 .Append("<p class=\"ab-card-spec\"").Append(TextAddress(it, "spec")).Append('>')
+                 .Append(Esc(Str(it, "spec"))).Append("</p>")
+                 .Append("<p").Append(TextAddress(it, "text")).Append('>')
+                 .Append(Esc(Str(it, "text"))).Append("</p></article>");
         }
 
         var para = SplitInTwo(Str(c, "blurb"));
@@ -987,13 +1119,17 @@ public sealed class SectionRenderer
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
-            .Append("<h1 class=\"ab-title\">").Append(Esc(name)).Append("</h1>")
-            .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "tagline"))).Append("</p></div>")
+            .Append("<h1 class=\"ab-title\"").Append(TextAddress(c, "name")).Append('>')
+            .Append(Esc(name)).Append("</h1>")
+            .Append("<p class=\"ab-tagline\"").Append(TextAddress(c, "tagline")).Append('>')
+            .Append(Esc(Str(c, "tagline"))).Append("</p></div>")
             .Append("<div class=\"ab-wrap\"><div class=\"ab-hero\"><img src=\"")
             .Append(Src(c, root, Placeholder.Uri(1280, 520, name))).Append('"')
             .Append(ImgAddress(c))
             .Append(" width=\"1280\" height=\"520\" alt=\"").Append(Esc(name))
             .Append("\"></div></div>")
+            // No address on either column. They are one field shown as two, so an editor
+            // reading a column back would offer half the blurb as the whole of it, and save that.
             .Append("<div class=\"ab-wrap\"><div class=\"ab-body\"><div><p>").Append(Esc(para[0]))
             .Append("</p></div><div><p>").Append(Esc(para[1])).Append("</p></div></div></div>")
             .Append("<div class=\"ab-wrap\"><div class=\"ab-items\"><h2>").Append(items.Count)
@@ -1049,26 +1185,37 @@ public sealed class SectionRenderer
         var family = Str(c, "family");
         var spec = doc["familySpecs"]?[family];
 
-        (string K, string V)[] rows =
+        // Each row carries the address of the field it is showing. Three of them come from the
+        // family's table rather than from this finish - editing one there changes it for every
+        // colour in the family, which is why that table exists.
+        (string K, string V, string A)[] rows =
         [
-            ("Code", Str(c, "code")), ("Finish", family), ("Gloss", Str(c, "gloss")),
-            ("Exposure", Str(c, "use")),
-            ("Coating", Spec(spec, "layer")), ("Standard", Spec(spec, "std")),
-            ("Colour warranty", Spec(spec, "warranty")),
+            ("Code", Str(c, "code"), TextAddress(c, "code")),
+            // No address: "family" is the key this colour's coating, standard and warranty are
+            // looked up under. Editing it here would not rename the family - it would take this
+            // one colour out of it, and three rows of its own table would turn into em dashes.
+            ("Finish", family, string.Empty),
+            ("Gloss", Str(c, "gloss"), TextAddress(c, "gloss")),
+            ("Exposure", Str(c, "use"), TextAddress(c, "use")),
+            ("Coating", Spec(spec, "layer"), TextAddress(spec, "layer")),
+            ("Standard", Spec(spec, "std"), TextAddress(spec, "std")),
+            ("Colour warranty", Spec(spec, "warranty"), TextAddress(spec, "warranty")),
         ];
 
         var dl = new StringBuilder();
-        foreach (var (k, v) in rows)
-            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
-              .Append(Esc(v)).Append("</dd></div>");
+        foreach (var (k, v, a) in rows)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd")
+              .Append(a).Append('>').Append(Esc(v)).Append("</dd></div>");
 
         var siblings = new StringBuilder();
         foreach (var x in Arr(doc, "items").Where(x => Str(x, "family") == family && Str(x, "id") != id).Take(8))
         {
             siblings.Append("<a class=\"ab-swatch\" href=\"").Append(SiblingHref(x))
                     .Append("\">").Append(Chip(x, root))
-                    .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(x, "name")))
-                    .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(x, "code")))
+                    .Append("<span class=\"ab-swatch-name\"").Append(TextAddress(x, "name")).Append('>')
+                    .Append(Esc(Str(x, "name")))
+                    .Append("</span><span class=\"ab-swatch-meta\"").Append(TextAddress(x, "code")).Append('>')
+                    .Append(Esc(Str(x, "code")))
                     .Append("</span></a>");
         }
 
@@ -1082,10 +1229,14 @@ public sealed class SectionRenderer
                   + ");background-size:cover;background-position:center"
                 : "")
             .Append("\"></div><div>")
-            .Append("<h1 class=\"ab-title\">").Append(Esc(Str(c, "name"))).Append("</h1>")
-            .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "code"))).Append(" &middot; ")
+            .Append("<h1 class=\"ab-title\"").Append(TextAddress(c, "name")).Append('>')
+            .Append(Esc(Str(c, "name"))).Append("</h1>")
+            .Append("<p class=\"ab-tagline\">")
+            .Append("<span").Append(TextAddress(c, "code")).Append('>')
+            .Append(Esc(Str(c, "code"))).Append("</span>").Append(" &middot; ")
             .Append(Esc(family)).Append("</p>")
-            .Append("<p class=\"ab-note\">").Append(Esc(Str(c, "note"))).Append("</p></div></div>")
+            .Append("<p class=\"ab-note\"").Append(TextAddress(c, "note")).Append('>')
+            .Append(Esc(Str(c, "note"))).Append("</p></div></div>")
             .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
             .Append("<div class=\"ab-items\"><h2>Other ").Append(Esc(family.ToLowerInvariant()))
             .Append(" colors</h2><div class=\"ab-swatches\">").Append(siblings)
@@ -1106,17 +1257,21 @@ public sealed class SectionRenderer
         var photos = Arr(a, "photos");
         var products = Arr(a, "products").Select(p => p.ToString());
 
-        (string K, string V)[] facts =
+        // Products is a list joined with commas, so it has no address: one box holding
+        // "A, B, C" saves back as one string where the file wants three.
+        (string K, string V, string A)[] facts =
         [
-            ("Year", Str(a, "year")), ("Location", Str(a, "location")),
-            ("Client", Str(a, "client")), ("Scope", Str(a, "scope")),
-            ("Products", string.Join(", ", products)),
+            ("Year", Str(a, "year"), TextAddress(a, "year")),
+            ("Location", Str(a, "location"), TextAddress(a, "location")),
+            ("Client", Str(a, "client"), TextAddress(a, "client")),
+            ("Scope", Str(a, "scope"), TextAddress(a, "scope")),
+            ("Products", string.Join(", ", products), string.Empty),
         ];
 
         var dl = new StringBuilder();
-        foreach (var (k, v) in facts)
-            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
-              .Append(Esc(v)).Append("</dd></div>");
+        foreach (var (k, v, addr) in facts)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd")
+              .Append(addr).Append('>').Append(Esc(v)).Append("</dd></div>");
 
         // The opening frame runs the full width and the rest sit in an even three-column sheet.
         var tiles = new StringBuilder();
@@ -1132,7 +1287,8 @@ public sealed class SectionRenderer
                  .Append(ImgAddress(photos[i]))
                  .Append(" width=\"").Append(w).Append("\" height=\"").Append(h)
                  .Append("\" alt=\"").Append(Esc(cap)).Append("\" loading=\"lazy\">")
-                 .Append("<span class=\"ab-shot-cap\">").Append(Esc(cap)).Append("</span></button>");
+                 .Append("<span class=\"ab-shot-cap\"").Append(TextAddress(photos[i], "c")).Append('>')
+                 .Append(Esc(cap)).Append("</span></button>");
         }
 
         var others = new StringBuilder();
@@ -1145,16 +1301,22 @@ public sealed class SectionRenderer
                   .Append(Src(x, root, Placeholder.Uri(400, 280, t))).Append('"')
                   .Append(ImgAddress(x))
                   .Append(" width=\"400\" height=\"280\" alt=\"").Append(Esc(t))
-                  .Append("\" loading=\"lazy\"><h3>").Append(Esc(t))
+                  .Append("\" loading=\"lazy\"><h3").Append(TextAddress(x, "title")).Append('>')
+                  .Append(Esc(t))
                   .Append("</h3><p class=\"ab-card-spec\">")
-                  .Append(Esc(Str(x, "year") + " · " + Str(x, "location"))).Append("</p></a>");
+                  .Append("<span").Append(TextAddress(x, "year")).Append('>')
+                  .Append(Esc(Str(x, "year"))).Append("</span> · ")
+                  .Append("<span").Append(TextAddress(x, "location")).Append('>')
+                  .Append(Esc(Str(x, "location"))).Append("</span></p></a>");
         }
 
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(Str(a, "year"))).Append("</p>")
-            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(a, "title")))
-            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(a, "note"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(a, "title")).Append('>')
+            .Append(Esc(Str(a, "title")))
+            .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(a, "note")).Append('>')
+            .Append(Esc(Str(a, "note"))).Append("</p>")
             .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
             .Append("<p class=\"ab-count\">").Append(photos.Count)
             .Append(" photographs — select one to open the viewer</p>")
@@ -1177,16 +1339,22 @@ public sealed class SectionRenderer
         var catName = Str(cat, "name");
         var file = root + "_docs/" + Esc(id) + ".pdf";
 
-        (string K, string V)[] rows =
+        // Reference is the id upper-cased and Type belongs to the category, so neither is
+        // edited here; Format is not in the file at all.
+        (string K, string V, string A)[] rows =
         [
-            ("Reference", id.ToUpperInvariant()), ("Type", catName), ("Edition", Str(d, "edition")),
-            ("Language", Str(d, "lang")), ("Pages", Str(d, "pages")), ("Format", "PDF"),
+            ("Reference", id.ToUpperInvariant(), string.Empty),
+            ("Type", catName, string.Empty),
+            ("Edition", Str(d, "edition"), TextAddress(d, "edition")),
+            ("Language", Str(d, "lang"), TextAddress(d, "lang")),
+            ("Pages", Str(d, "pages"), TextAddress(d, "pages")),
+            ("Format", "PDF", string.Empty),
         ];
 
         var dl = new StringBuilder();
-        foreach (var (k, v) in rows)
-            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd>")
-              .Append(Esc(v)).Append("</dd></div>");
+        foreach (var (k, v, a) in rows)
+            dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd")
+              .Append(a).Append('>').Append(Esc(v)).Append("</dd></div>");
 
         var siblings = new StringBuilder();
         foreach (var x in Arr(cat, "items").Where(x => Str(x, "id") != id))
@@ -1194,17 +1362,24 @@ public sealed class SectionRenderer
             siblings.Append("<a class=\"ab-doc-mini\" href=\"").Append(SiblingHref(x))
                     .Append("\">")
                     .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
-                    .Append("<span><span class=\"ab-doc-title\">").Append(Esc(Str(x, "title")))
-                    .Append("</span><span class=\"ab-doc-meta\">").Append(Esc(Str(x, "edition")))
-                    .Append(" &middot; ").Append(Esc(Str(x, "pages")))
+                    .Append("<span><span class=\"ab-doc-title\"").Append(TextAddress(x, "title")).Append('>')
+                    .Append(Esc(Str(x, "title")))
+                    .Append("</span><span class=\"ab-doc-meta\">")
+                    .Append("<span").Append(TextAddress(x, "edition")).Append('>')
+                    .Append(Esc(Str(x, "edition"))).Append("</span>")
+                    .Append(" &middot; ")
+                    .Append("<span").Append(TextAddress(x, "pages")).Append('>')
+                    .Append(Esc(Str(x, "pages"))).Append("</span>")
                     .Append(" pages</span></span></a>");
         }
 
         var sb = new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(catName)).Append("</p>")
-            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(d, "title")))
-            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(d, "blurb"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(d, "title")).Append('>')
+            .Append(Esc(Str(d, "title")))
+            .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(d, "blurb")).Append('>')
+            .Append(Esc(Str(d, "blurb"))).Append("</p>")
             .Append("<div class=\"ab-docactions\"><a class=\"ab-submit\" href=\"").Append(file)
             .Append("\" download>Download PDF</a><a class=\"ab-plain\" href=\"").Append(file)
             .Append("\" target=\"_blank\" rel=\"noopener\">Open in a new tab</a></div>")
@@ -1237,13 +1412,16 @@ public sealed class SectionRenderer
         var name = Str(c, "name");
 
         var body = new StringBuilder();
-        foreach (var p in Arr(c, "body")) body.Append("<p>").Append(Esc(p.ToString())).Append("</p>");
+        foreach (var p in Arr(c, "body"))
+            body.Append("<p").Append(TextAt(p)).Append('>').Append(Esc(p.ToString())).Append("</p>");
 
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
-            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(c, "title")))
-            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(c, "lede"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(c, "title")).Append('>')
+            .Append(Esc(Str(c, "title")))
+            .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(c, "lede")).Append('>')
+            .Append(Esc(Str(c, "lede"))).Append("</p>")
             .Append("<div class=\"ab-hero\"><img src=\"")
             .Append(Src(c, root, Placeholder.Uri(1240, 520, name))).Append('"').Append(ImgAddress(c))
             .Append(" width=\"1240\" height=\"520\" alt=\"").Append(Esc(name)).Append("\"></div>")
@@ -1258,6 +1436,8 @@ public sealed class SectionRenderer
     private static string Step(JsonNode? x, string label, string cls)
         => x is null
             ? "<span></span>"
+            // The chapter's title sits after a span, so it is neither the element's whole text
+            // nor its lead. It is edited on the chapter's own page, one click away.
             : "<a class=\"ab-step " + cls + "\" href=\"" + SiblingHref(x)
               + "\"><span>" + label + "</span>" + Esc(Str(x, "title")) + "</a>";
 
@@ -1278,17 +1458,20 @@ public sealed class SectionRenderer
         var consents = Arr(doc, "consent");
         for (var i = 0; i < consents.Count; i++)
             consent.Append("<label><input type=\"checkbox\" name=\"consent").Append(i)
-                   .Append("\"> ").Append(Esc(consents[i].ToString())).Append("</label>");
+                   .Append("\"> <span").Append(TextAt(consents[i])).Append('>')
+                   .Append(Esc(consents[i].ToString())).Append("</span></label>");
 
         var others = Arr(doc, "routes").Where(x => Str(x, "id") != id)
-            .Select(x => "<a href=\"" + SiblingHref(x) + "\">"
+            .Select(x => "<a href=\"" + SiblingHref(x) + "\"" + TextAddress(x, "name") + ">"
                          + Esc(Str(x, "name")) + "</a>");
 
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(Str(r, "name"))).Append("</p>")
-            .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(r, "name")))
-            .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(r, "intro"))).Append("</p>")
+            .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(r, "name")).Append('>')
+            .Append(Esc(Str(r, "name")))
+            .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(r, "intro")).Append('>')
+            .Append(Esc(Str(r, "intro"))).Append("</p>")
             .Append("<form class=\"ab-form\" novalidate>")
             // A field no person sees and no person fills. The commonest robot fills in
             // everything it finds, and this costs one input to turn away.
@@ -1296,7 +1479,8 @@ public sealed class SectionRenderer
             .Append(" aria-hidden=\"true\" style=\"position:absolute;left:-9999px\">")
             .Append("<div class=\"ab-fields\">").Append(fields)
             .Append("</div><div class=\"ab-consent\">").Append(consent).Append("</div>")
-            .Append("<button type=\"submit\" class=\"ab-submit\">").Append(Esc(Str(r, "cta")))
+            .Append("<button type=\"submit\" class=\"ab-submit\"").Append(TextAddress(r, "cta")).Append('>')
+            .Append(Esc(Str(r, "cta")))
             .Append("</button><p class=\"ab-form-note\" hidden></p></form>")
             .Append("<p class=\"ab-band-sub\" style=\"margin:44px 0 88px\">Other enquiries: ")
             .Append(string.Join("<span aria-hidden=\"true\"> · </span>", others))
@@ -1325,9 +1509,18 @@ public sealed class SectionRenderer
         };
 
         var wide = type is "textarea" or "file" ? " is-wide" : string.Empty;
-        return "<div class=\"ab-field" + wide + "\"><label for=\"" + id + "\">" + Esc(label)
-               + (required ? "<abbr title=\"required\">*</abbr>" : string.Empty) + "</label>" + input
-               + (hint.Length > 0 ? "<span class=\"ab-hint\">" + Esc(hint) + "</span>" : string.Empty)
+        // A required field puts an <abbr> after its words, so the label is the lead there and
+        // the whole text where there is no star.
+        var mark = required ? "<abbr title=\"required\">*</abbr>" : string.Empty;
+        var labelAddr = required
+            ? " data-ab-lead=\"." + Esc(Where(f, "n")) + "\""
+            : TextAddress(f, "n");
+
+        return "<div class=\"ab-field" + wide + "\"><label for=\"" + id + "\"" + labelAddr + ">"
+               + Esc(label) + mark + "</label>" + input
+               + (hint.Length > 0
+                  ? "<span class=\"ab-hint\"" + TextAddress(f, "hint") + ">" + Esc(hint) + "</span>"
+                  : string.Empty)
                + "</div>";
     }
 
@@ -1374,6 +1567,8 @@ public sealed class SectionRenderer
             var id = Str(chapters[i], "id");
             sb.Append("<a class=\"ab-chap").Append(id == activeId ? " is-on" : "").Append("\" href=\"")
               .Append(up).Append(Href(chapters[i]))
+              // The number is a child element, so the chapter's name is what follows it -
+              // neither the link's whole text nor its lead. Edited on the chapter's own card.
               .Append("\"><span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
               .Append(Esc(Str(chapters[i], "name"))).Append("</a>");
         }
@@ -1390,21 +1585,27 @@ public sealed class SectionRenderer
         var tabs = (f?["tabs"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
         if (tabs.Count == 0) return string.Empty;
 
-        var sb = new StringBuilder("<div class=\"ab-wrap\"><h2 class=\"ab-fig-title\">");
-        sb.Append(Esc(Str(f, "title"))).Append("</h2><div class=\"ab-fig-tabs\">");
+        var sb = new StringBuilder("<div class=\"ab-wrap\"><h2 class=\"ab-fig-title\"");
+        sb.Append(TextAddress(f, "title")).Append('>')
+          .Append(Esc(Str(f, "title"))).Append("</h2><div class=\"ab-fig-tabs\">");
         for (var i = 0; i < tabs.Count; i++)
         {
             sb.Append("<button type=\"button\" data-i=\"").Append(i).Append('"');
             if (i == 0) sb.Append(" class=\"is-on\"");
-            sb.Append('>').Append(Esc(Str(tabs[i], "label"))).Append("</button>");
+            sb.Append(TextAddress(tabs[i], "label"))
+              .Append('>').Append(Esc(Str(tabs[i], "label"))).Append("</button>");
         }
         sb.Append("</div><div class=\"ab-fig-body\" id=\"ab-fig-body\">");
 
         foreach (var r in (tabs[0]["rows"] as JsonArray)?.OfType<JsonArray>() ?? [])
         {
-            sb.Append("<div class=\"ab-fig\"><span class=\"ab-fig-k\">")
+            // A row is a two-element array - the label and the figure - so each half is
+            // addressed by its own position rather than by a field name.
+            sb.Append("<div class=\"ab-fig\"><span class=\"ab-fig-k\"")
+              .Append(r.Count > 0 ? TextAt(r[0]) : string.Empty).Append('>')
               .Append(Esc(r.Count > 0 ? r[0]!.ToString() : string.Empty))
-              .Append("</span><span class=\"ab-fig-v\">")
+              .Append("</span><span class=\"ab-fig-v\"")
+              .Append(r.Count > 1 ? TextAt(r[1]) : string.Empty).Append('>')
               .Append(Esc(r.Count > 1 ? r[1]!.ToString() : string.Empty))
               .Append("</span></div>");
         }
@@ -1426,8 +1627,10 @@ public sealed class SectionRenderer
               .Append(" width=\"560\" height=\"340\" alt=\"").Append(Esc(name))
               .Append("\" loading=\"lazy\">")
               .Append("<span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
-              .Append("<h3>").Append(Esc(Str(c, "title"))).Append("</h3>")
-              .Append("<p>").Append(Esc(Str(c, "lede"))).Append("</p></a>");
+              .Append("<h3").Append(TextAddress(c, "title")).Append('>')
+              .Append(Esc(Str(c, "title"))).Append("</h3>")
+              .Append("<p").Append(TextAddress(c, "lede")).Append('>')
+              .Append(Esc(Str(c, "lede"))).Append("</p></a>");
         }
         return sb.ToString();
     }
@@ -1450,13 +1653,17 @@ public sealed class SectionRenderer
         {
             var phone = Str(o, "phone");
             var email = Str(o, "email");
-            var lines = (o["lines"] as JsonArray)?.OfType<JsonNode>().Select(l => Esc(l.ToString()));
+            var lines = (o["lines"] as JsonArray)?.OfType<JsonNode>()
+                .Select(l => "<span" + TextAt(l) + ">" + Esc(l.ToString()) + "</span>");
 
-            sb.Append("<div class=\"ab-office\"><h2>").Append(Esc(Str(o, "name"))).Append("</h2>")
+            sb.Append("<div class=\"ab-office\"><h2").Append(TextAddress(o, "name")).Append('>')
+              .Append(Esc(Str(o, "name"))).Append("</h2>")
               .Append("<p>").Append(string.Join("<br>", lines ?? [])).Append("</p>")
-              .Append("<p><a href=\"tel:").Append(Esc(StripSpace(phone))).Append("\">")
+              .Append("<p><a href=\"tel:").Append(Esc(StripSpace(phone))).Append('"')
+              .Append(TextAddress(o, "phone")).Append('>')
               .Append(Esc(phone)).Append("</a><br><a href=\"mailto:").Append(Esc(email))
-              .Append("\">").Append(Esc(email)).Append("</a></p></div>");
+              .Append('"').Append(TextAddress(o, "email")).Append('>')
+              .Append(Esc(email)).Append("</a></p></div>");
         }
         return sb.ToString();
     }
@@ -1471,9 +1678,12 @@ public sealed class SectionRenderer
         foreach (var r in routes.OfType<JsonNode>())
         {
             sb.Append("<a class=\"ab-route\" href=\"").Append(Href(r)).Append("\">")
-              .Append("<h3>").Append(Esc(Str(r, "name"))).Append("</h3>")
-              .Append("<p>").Append(Esc(Str(r, "blurb"))).Append("</p>")
-              .Append("<span class=\"ab-route-cta\">").Append(Esc(Str(r, "cta")))
+              .Append("<h3").Append(TextAddress(r, "name")).Append('>')
+              .Append(Esc(Str(r, "name"))).Append("</h3>")
+              .Append("<p").Append(TextAddress(r, "blurb")).Append('>')
+              .Append(Esc(Str(r, "blurb"))).Append("</p>")
+              .Append("<span class=\"ab-route-cta\"").Append(TextAddress(r, "cta")).Append('>')
+              .Append(Esc(Str(r, "cta")))
               .Append("</span></a>");
         }
         return sb.ToString();

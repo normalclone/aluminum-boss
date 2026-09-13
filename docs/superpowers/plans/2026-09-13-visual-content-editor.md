@@ -269,7 +269,7 @@ Nên đây là một partial dùng chung, không phải 15 bản.
 
 ---
 
-## Task 8: Sinh `site/` từ đầu ra bộ ghép — XONG
+## Task 8: Sinh `site/` từ đầu ra bộ ghép — CHỈ LÀM MỘT NỬA
 
 Giữ GitHub Pages sống trong lúc chuyển đổi, và cho một bản sao tĩnh để sao lưu.
 
@@ -277,9 +277,18 @@ Giữ GitHub Pages sống trong lúc chuyển đổi, và cho một bản sao t�
 - Create: `tools/publish-static.js`
 
 - [x] **Step 1: Viết công cụ** — gọi 15 đường dẫn trên máy chủ đang chạy, ghi HTML ra `site/`
-- [x] **Step 2: Chạy, `cmp` từng file `site/` với HTML máy chủ trả về**
-- [x] **Step 3: Verify** — `parity.js` giữa `site/` phục vụ tĩnh và máy chủ: phải giống hệt
-- [x] **Step 4: Commit**
+- [ ] **Step 2: Chạy, `cmp` từng file `site/` với HTML máy chủ trả về**
+- [ ] **Step 3: Verify** — `parity.js` giữa `site/` phục vụ tĩnh và máy chủ: phải giống hệt
+- [ ] **Step 4: Commit**
+
+**Ba ô trên để trống, có lý do.** `tools/publish-static.js` viết xong nhưng chưa từng chạy, và
+chạy nó bây giờ sẽ SAI: từ Task 9, `site/` không còn là "bản in ra của máy chủ" nữa mà là **khuôn
+song song** — chính những tệp mang `data-ab-section` mà bộ ghép đọc vào. Ghi đè nó bằng HTML đã
+ghép là phá luôn nguồn. `tools/fanout.py` mới là thứ giữ 94 thư mục mục riêng, và `trees.py` là
+thứ kiểm hai cây khớp nhau.
+
+Bản xuất tĩnh đầy đủ chỉ cần đến nếu có ngày ai đó muốn bỏ máy chủ; ngày ấy chưa tới, và tích một
+ô cho việc chưa làm thì kế hoạch không còn dùng để bàn giao được nữa.
 
 ---
 
@@ -518,6 +527,26 @@ Highlights · Applications · Export routes · Factories.
 - [x] **Step 6: Verify** — `tools/collection.js`, 12/12; đăng thật một mục mỗi loại, khẳng định trang thật đổi theo
 - [x] **Step 7: Commit**
 
+### Bốn chỗ rà soát lại sau khi tích hết ô
+
+Bước 3 từng được tích mà chưa có gì đứng sau. Không tệp JSON nào mang trường `slug`, và
+`ContentPath` từ chối tạo trường mới, nên `SlugIsFree`, `RecordMove` và nhánh `.slug` trong
+`Apply` đều là mã chết — đường đổi địa chỉ chưa bao giờ tồn tại. Giờ **tên sinh ra địa chỉ**:
+đặt tiêu đề lần đầu cho một mục còn mang id `new-3f9a2c` thì id thành slug của tiêu đề ấy, bỏ
+dấu tiếng Việt, trùng thì thêm hậu tố, và đổi đúng một lần.
+
+Bước 1 nói "mười loại" nhưng hai trong số đó **không thêm mục mới được**: cái làm nên một tuyến
+xuất khẩu là bốn mươi cặp toạ độ, và toạ độ không phải chữ trên trang nên không có địa chỉ để
+điền vào. `CanAdd: false` — nút biến mất, màn hình nói vì sao, máy chủ cũng chặn.
+
+Bước 2 nói màn hình đăng "là trang của chính mục đó trong khung soạn hai cột, ô nhập theo loại".
+Đúng một nửa: khung có, ô nhập thì không — `SectionRenderer` sinh `data-ab-img` cho ảnh nhưng
+không sinh `data-ab-t` cho chữ, nên tiêu đề bài viết, tên sản phẩm, tên màu đều không sửa được.
+Xem Task 15.
+
+Và `Trim(50)` chỉ chạy lúc Restore, nên "giữ 50 bản mỗi tệp" chưa đúng cho tới lần khôi phục đầu
+tiên. Chuyển sang `Content/RevisionLog.cs`, cạnh chỗ ghi.
+
 ---
 
 ## Task 13: SEO và máy trả lời — XONG
@@ -552,6 +581,76 @@ Highlights · Applications · Export routes · Factories.
 - [x] **Step 4: Viết `docs/HANDOVER.md`** — đăng nhập, sao lưu, khôi phục, nơi để ảnh
 - [x] **Step 5: Verify toàn bộ** — 14 công cụ, số thật trong thông điệp commit
 - [x] **Step 6: Commit**
+
+---
+
+## Task 15: Chữ của từng MỤC, không chỉ chữ của khung trang — XONG
+
+Không có trong kế hoạch gốc, vì kế hoạch gốc tưởng Task 12 đã làm. Đo ra thì chưa:
+`SectionRenderer` sinh `data-ab-img` cho mọi ảnh nhưng **không sinh `data-ab-t` cho một chữ nào**.
+Trên một trang bài viết, trình soạn liệt kê đúng 38 ô — wordmark, bảy mục nav, chân trang — và
+không ô nào thuộc về bài viết. Sửa được logo, không sửa được tiêu đề.
+
+Đó là yêu cầu gốc của cả dự án, nên nó là một đợt riêng chứ không phải một dòng ghi chú.
+
+**Files:**
+- Modify: `Content/SectionRenderer.cs` (khoảng 40 chỗ chữ trong 22 hàm dựng)
+- Modify: `wwwroot/admin/edit-bridge.js` (`full()`), `wwwroot/admin/editor.js` (gộp trùng)
+- Modify: `Content/PageComposer.cs` (`Verify` hiểu địa chỉ tương đối)
+- Modify: `tools/editor-shot.js` (phép thu thứ 9)
+
+- [x] **Step 1: Dấu chấm mở đầu là dấu hiệu "tương đối".** `.items.3.title` là của mục, thuộc
+      tệp mà bộ ghép đã đóng dấu `data-ab-doc` lên khối bao quanh; `site.nav.1.label` tự nói tên
+      tệp của nó. Không dùng "có nằm trong khối không" làm phép thử: trang chủ đặt chữ của khuôn
+      **bên trong** khối đã dựng, nên phép thử ấy biến `gallery.heading` thành
+      `gallery.gallery.heading`.
+- [x] **Step 2: `TextAddress(item, field)` cạnh `ImgAddress`** — và **không sinh gì** cho trường
+      không phải chuỗi. Vĩ độ nhà máy, số ngày của một tuyến là số vì có lý do; trình soạn ghi
+      thứ người ta gõ, dạng chữ, nên gõ "22" là biến `22` thành `"22"` và quả địa cầu vẽ bằng
+      một chuỗi.
+- [x] **Step 3: Gắn địa chỉ.** Hai trường trên cùng một dòng chữ thì mỗi trường một `<span>`
+      trần. Bỏ qua: `alt`, `data-v`, `hex`, `id`, ngày đã định dạng lại, số đếm, và chữ đã bị
+      đổi hoa — trình soạn đọc ngược lại phần tử, nên một chữ đã viết hoa sẽ được lưu lại dưới
+      dạng viết hoa.
+- [x] **Step 4: `Verify` kiểm cả hai loại địa chỉ.** Một địa chỉ treo là một ô khách bấm vào mà
+      không lưu được, bất kể nửa nào của hệ thống viết ra nó. Chính nó bắt được lỗi đầu tiên:
+      `GetPath()` bọc khoá có dấu cách trong nháy đơn, nên `familySpecs['Wood grain'].layer`
+      thành một địa chỉ không có thật — bốn họ màu bị trả về khuôn thay vì phục vụ sai.
+- [x] **Step 5: Gộp địa chỉ trùng trong danh sách ô.** Một trường hiện ở nhiều chỗ trên cùng
+      một trang (wordmark ở đầu và cuối; tên dòng sản phẩm ở hero, ở thẻ, ở tiêu đề dải). Trang
+      vẫn vá mọi chỗ khi gõ; hai ô cùng nội dung chỉ là hai chỗ để phân vân cái nào thật.
+- [x] **Step 6: Verify** — `editor-shot` 9/9 (phép thu mới: 16 ô thuộc về bài viết, có
+      `news.items.0.title`), `collection` 13/13, `parity` xem dưới.
+- [x] **Step 7: Commit**
+
+### Ba trường cố tình không gắn địa chỉ
+
+| Chỗ | Vì sao |
+|---|---|
+| `products.categories.N.blurb` | Một trường in thành hai cột. Đọc ngược một cột là lấy nửa bài làm cả bài, rồi lưu đè. |
+| `colors.items.N.family` | Là KHOÁ tra vào `colors.familySpecs`. Sửa ở đây không đổi tên họ màu — nó bỏ màu này ra khỏi họ, và ba dòng thông số của chính nó thành dấu gạch ngang. |
+| `projects.albums.N.products` | Một mảng nối bằng dấu phẩy. Một ô chứa "A, B, C" lưu ngược lại thành một chuỗi ở chỗ tệp muốn ba. |
+
+### Mốc nền mới, và vì sao nó lệch
+
+`baseline/task15` thay `task14`. Năm trang lệch, 15–257 pixel, ở cả 1440 lẫn 390:
+
+```
+/                      19 px   vùng 6×9      thẻ dự án: "2026 · Rayong, Thailand"
+/colors/               34 px   vệt mảnh      "AN-210 · Anodised"
+/documents/           257 px   cột 142 px    "Rev 7 · 24 pages"
+/documents/td-thermal/ 23 px   dải 392×10    cùng dòng ấy
+/news/                 58 px   vệt mảnh      "Written by: <tên>"
+```
+
+Mọi chỗ lệch đều nằm đúng ranh giới nơi một dòng chữ bị tách thành hai `<span>`. Trình duyệt
+ngắt chữ thành từng đoạn theo hộp inline và làm tròn bề rộng mỗi đoạn riêng, nên nét chữ được vẽ
+lại hơi khác — **không có gì xê dịch**: ảnh hai bên cùng kích thước (parity dừng ngay nếu khác),
+vùng lệch mỏng, và số pixel lệch ở hai bề ngang khác nhau vẫn cùng cỡ. Một dòng bị ngắt khác đi
+sẽ làm trang cao lên và số pixel nhảy lên hàng vạn, như năm trang đầu tiên khi so với mốc nền
+trước kiến trúc.
+
+Đổi lấy: 102 trang, mỗi trang chữ của chính nó sửa được.
 
 ---
 

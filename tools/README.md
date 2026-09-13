@@ -276,6 +276,30 @@ python json-fallback.py --check    # chỉ báo có lệch không, thoát 1 nế
 
 ---
 
+## `canvas-titles.py` — ba con số cuối cùng còn nằm trong HTML
+
+Chạy một lần, giữ lại vì nó là bản ghi của việc đã làm và vì `--check` trả lời được câu "đã làm
+chưa". Nó biến hai tiêu đề canvas và thẻ tally thành tham số:
+
+```
+<h2 id="vgx-title">One origin, <em>four markets</em>.</h2>
+<h1 id="vfx-title">Five factories, <em>one coastline</em>.</h1>
+<b id="vfx-tally">5</b>
+```
+
+```bash
+python canvas-titles.py           # sửa cả hai cây
+python canvas-titles.py --check   # chỉ báo đã sửa chưa, thoát 1 nếu chưa
+```
+
+Hai tiêu đề thành cặp `lead`/`tail` y như wordmark, vì `data-ab-t` ghi `textContent` và ghi
+`textContent` là thẻ `<em>` biến mất. Con số thành `data-ab-count="factories.sites"` — **đếm số
+mục đang hiện**, lúc trả trang; không ai gõ một con số đếm vào ô nhập mà nó đúng mãi được.
+
+> Chạy xong phải chạy `python json-fallback.py`, vì hai tệp dữ liệu vừa đổi.
+
+---
+
 ## `compose.js` — trang có thật sự được ghép không
 
 Bộ ghép từ chối phục vụ trang có địa chỉ không phân giải được: nó ghi log rồi trả về khuôn, mà

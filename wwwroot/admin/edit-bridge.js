@@ -35,24 +35,25 @@
   var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines'],
                ['data-ab-img', 'img']];
 
-  // Two kinds of address, and only one of them needs completing.
+  // Two kinds of address, and the leading dot says which.
   //
-  // A text address is written into the template by hand and names its document already:
-  // "site.nav.1.label". An image address is written by the renderer, which is drawing one list
-  // out of one file and does not know that file's name - so it writes "items.3.image", and the
-  // composer stamps the name once on the section around it. Completing a text address too would
-  // produce "products.site.nav.1.label" for any template text that happens to sit inside a
-  // rendered section, which is a real arrangement on the home page.
-  function full(el, kind, address) {
-    if (kind !== 'img') return address;
+  // An address written into the template by hand names its document already: "site.nav.1.label".
+  // One written by the renderer cannot - it is drawing one list out of one file and was never
+  // told that file's name - so it writes ".items.3.title", and the composer stamps the name once
+  // on the section around it.
+  //
+  // The dot rather than "is it inside a section": the home page puts template text inside
+  // rendered sections, so that test would make "gallery.heading" into "gallery.gallery.heading".
+  function full(el, address) {
+    if (address.charAt(0) !== '.') return address;
     var box = el.closest ? el.closest('[data-ab-doc]') : null;
-    return box ? box.getAttribute('data-ab-doc') + '.' + address : address;
+    return box ? box.getAttribute('data-ab-doc') + address : address.slice(1);
   }
 
   function attr(el) {
     for (var i = 0; i < KINDS.length; i++) {
       var a = el.getAttribute(KINDS[i][0]);
-      if (a) return { address: full(el, KINDS[i][1], a), kind: KINDS[i][1] };
+      if (a) return { address: full(el, a), kind: KINDS[i][1] };
     }
     return null;
   }

@@ -259,8 +259,15 @@
       return;
     }
 
-    var current = null, box = null;
+    // One box per address, not per element. A field can appear several times on a page - the
+    // wordmark is in the header and the footer, a product family's name is in the hero, in the
+    // tile below it and in the band heading - and the page patches every one of them as you
+    // type. Two boxes holding the same words is two places to wonder which one is real.
+    var current = null, box = null, done = {};
     fields.forEach(function (f) {
+      if (done[f.address]) return;
+      done[f.address] = true;
+
       if (group(f.address) !== current) {
         current = group(f.address);
         var section = document.createElement('details');

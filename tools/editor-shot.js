@@ -37,6 +37,12 @@ async function signIn(page) {
 
 const frame = page => page.frameLocator('#ed-frame');
 
+/** Mo trinh soan tren mot trang, khong qua o chon - xem chu thich o buoc 5. */
+async function open(page, path) {
+  await page.goto(BASE + '/Admin/Edit?page=' + encodeURIComponent(path), { waitUntil: 'load' });
+  await page.waitForSelector('#ed-fields .ed-field', { timeout: 30000 });
+}
+
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   const b = await launch();
@@ -100,8 +106,12 @@ const frame = page => page.frameLocator('#ed-frame');
   }
 
   // 5 - o anh va bang chon anh
+  //
+  // Mo thang bang dia chi chu khong chon trong o Page: buoc 2 da go mot chu vao, nen trang dang
+  // "co thay doi chua luu" va doi trang se hoi lai bang mot hop thoai. Playwright tu bam Huy,
+  // nen khung xem thu O NGUYEN CHO CU va phep thu sau do se dem nham trang chu.
   await page.click('.ed-w[data-w="1440"]');
-  await page.selectOption('#ed-page', '/products/');
+  await open(page, '/products/');
   await page.waitForSelector('.ed-field-img', { timeout: 30000 });
   const imgFields = await page.locator('.ed-field-img').count();
   check('o anh tren /products/', imgFields > 0, imgFields + ' o anh');
@@ -114,6 +124,33 @@ const frame = page => page.frameLocator('#ed-frame');
   check('bang chon anh', tiles > 0, tiles + ' o trong thu vien (ke ca o "khong anh")');
   await shot('6-picture-shelf');
   await page.click('#ed-shelf-close');
+
+  // 7 - chu cua chinh MUC, khong phai chu cua khung trang.
+  //
+  // Phep thu nay tung do, va do lau: trinh ghep sinh data-ab-img cho anh nhung khong sinh
+  // data-ab-t cho chu, nen tieu de mot bai viet khong co o nhap nao. Sua header voi footer thi
+  // duoc, con sua bai viet thi khong - tuc la dung phan khach can nhat.
+  // Cai ten trong o Page la duong dan that cua mot muc, khong phai "/news/detail/".
+  const newsPage = await page.evaluate(() =>
+    [...document.querySelectorAll('#ed-page option')]
+      .map(o => o.value).filter(v => v.indexOf('/news/') === 0 && v !== '/news/')[0]);
+  await open(page, newsPage);
+  // Doi danh sach o nhap dung LEN LAI - no duoc dung lai tu nhung gi trang bao ve, nen ngay sau
+  // khi doi trang thi danh sach cu van con do va mot phep dem se dem nham no.
+  await page.waitForFunction(
+    () => [...document.querySelectorAll('#ed-fields [data-address]')]
+            .some(e => e.getAttribute('data-address').indexOf('news.items.') === 0),
+    null, { timeout: 30000 }).catch(() => {});
+  const own = await page.evaluate(() =>
+    [...document.querySelectorAll('#ed-fields [data-address]')]
+      .map(e => e.getAttribute('data-address'))
+      .filter(a => a.indexOf('news.items.') === 0));
+  check('chu cua bai viet co o nhap',
+        own.some(a => /[.]title$/.test(a)) && own.length >= 3,
+        own.length ? own.length + ' o, gom ' + own.filter(a => /[.]title$/.test(a))[0]
+                   : 'KHONG o nao thuoc ve bai viet (' + newsPage + ', khung '
+                     + (await page.locator('#ed-frame').getAttribute('src')) + ')');
+  await shot('7-item-fields');
 
   heading('Man hinh soan tren ' + BASE);
   table(['phep thu', 'ket qua', 'chi tiet'], rows, [false, false, false]);
