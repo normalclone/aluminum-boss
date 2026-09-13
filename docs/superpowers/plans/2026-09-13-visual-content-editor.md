@@ -391,22 +391,61 @@ từ nay đếm riêng liên kết nội bộ trả 301, và đó là cách duy 
 
 ---
 
-## Task 11: Khung soạn hai cột
+## Task 11: Khung soạn hai cột — XONG
 
 **Files:**
-- Create: `Areas/Admin/Views/Edit/Index.cshtml`, `wwwroot/admin/editor.js`, `wwwroot/admin/editor.css`
-- Create: `wwwroot/_app/edit-bridge.js` (chỉ nạp khi `?edit=1`)
+- Create: `Areas/Admin/Controllers/EditController.cs`, `Areas/Admin/Views/Edit/Index.cshtml`,
+  `wwwroot/admin/editor.js`, `wwwroot/admin/editor.css`, `wwwroot/admin/edit-bridge.js`,
+  `tools/editor-shot.js`
+- Modify: `Content/PageComposer.cs` (cờ `edit`), `Content/PageCompositionMiddleware.cs`,
+  `Program.cs`, `appsettings.json`, `Areas/Admin/Views/Shared/_AdminLayout.cshtml`,
+  `tools/compose.js`
 
-**Interfaces:**
-- Cầu nối nhận `{type:'ab:text', path, value}` → vá `[data-ab-t="path"]`
-- Cầu nối gửi `{type:'ab:pick', path}` khi bấm vào phần tử
+**Interfaces (hợp đồng đầy đủ nằm ở đầu `wwwroot/admin/edit-bridge.js`):**
+- soạn → trang: `{type:'ab:text', address, value}`, `{type:'ab:list'}`
+- trang → soạn: `{type:'ab:ready', url, fields:[{address, kind, value}]}`, `{type:'ab:pick', address}`
 
-- [ ] **Step 1: Khung hai cột, iframe mở `/?edit=1`**
-- [ ] **Step 2: Cầu nối vá chữ tại chỗ qua `postMessage`**
-- [ ] **Step 3: Chiều ngược lại — bấm phần tử nhảy tới ô nhập**
-- [ ] **Step 4: Thanh chọn bề ngang 1440 / 834 / 390**
-- [ ] **Step 5: Verify trực quan** — chụp ảnh cả ba bề ngang và **xem bằng mắt**, không chỉ đọc DOM
-- [ ] **Step 6: Commit**
+- [x] **Step 1: Khung hai cột, iframe mở `/?edit=1`**
+- [x] **Step 2: Cầu nối vá chữ tại chỗ qua `postMessage`**
+- [x] **Step 3: Chiều ngược lại — bấm phần tử nhảy tới ô nhập**
+- [x] **Step 4: Thanh chọn bề ngang 1440 / 834 / 390**
+- [x] **Step 5: Verify trực quan** — `tools/editor-shot.js`, 6 phép thử + 5 ảnh, đã xem bằng mắt
+- [x] **Step 6: Commit**
+
+### Khu quản trị cũ ghi vào một cơ sở dữ liệu không ai đọc
+
+Phát hiện khi mở Task 11. Bốn màn hình cũ — Overview, Content, Page order, Search listing — đọc
+và ghi `ContentDocuments`, `PageRegions`, `PageSeos`. Từ Task 3, chữ trên site đến từ
+`wwwroot/_data/*.json` qua `ContentStore`, và middleware từng phục vụ tài liệu từ SQLite đã bị bỏ.
+Nên bật khu quản trị lên nguyên trạng là đưa cho khách một biểu mẫu bấm `Save changes` xong không
+có gì đổi — tệ hơn hẳn việc chưa có màn hình nào.
+
+Đã gỡ link tới bốn màn hình đó khỏi thanh điều hướng và để lại một chú thích ngay đó nói cái nào
+quay lại ở đợt nào (12 bộ sưu tập, 13 SEO, 14 lịch sử). Controller vẫn còn, vẫn biên dịch được —
+xoá là việc của chính các đợt ấy. Chú thích trong `Program.cs` cũng viết lại: nó vẫn đang nói
+rằng bật khu quản trị thì `_data` đến từ cơ sở dữ liệu, điều đã hết đúng từ Task 3.
+
+### Ba chỗ làm khác kế hoạch
+
+**`wwwroot/admin/edit-bridge.js`, không phải `wwwroot/_app/`.** Cầu nối là thứ của trình soạn, và
+bản tĩnh không bao giờ được mang nó — `trees.py` bỏ qua thư mục `admin/`, còn một cầu nối nằm
+trong cây đã publish là một script ngồi chờ tin nhắn không bao giờ tới.
+
+**Bộ ghép chèn thẻ script, không phải khuôn.** `?edit=1` là một khoá cache riêng, nên trang khách
+nhận và trang trình soạn xem là cùng một chuỗi byte cộng đúng một thẻ `<script>`. Đó mới là lý do
+xem thử đáng tin. Đã đo: `curl /` không có `edit-bridge`, `curl /?edit=1` có đúng một.
+
+**Chưa lưu.** Kế hoạch không có bước lưu ở đợt này, và đúng thế: ghi nội dung là Task 12, cùng với
+`ContentRevisions` cho lịch sử ở Task 14. Màn hình nói thẳng điều đó — *"Changes show immediately
+on the right; saving arrives with the next update"* — vì một dòng chữ nói "chưa có" tốt hơn một
+nút Save im lặng không làm gì.
+
+### Một khoản nợ của Task 10 lộ ra ở đây
+
+`tools/compose.js` dò khuôn theo đúng đường dẫn, nên từ khi `lib/pages.js` đổi sang đường dẫn
+riêng, bảy trang chi tiết báo "không tìm thấy khuôn". Task 10 chạy `compose.js` **trước** khi đổi
+`pages.js` nên không thấy. Đã dạy nó cùng quy tắc `SlugRouter` dùng: không có khuôn ở đúng đường
+dẫn thì tìm `detail/index.html` cùng cấp.
 
 ---
 

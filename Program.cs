@@ -6,15 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "App_Data"));
 
-// The admin is parked, not removed. Every controller, view and helper it needs is still in the
-// project and still compiles; this switch decides whether the app wires any of it up.
+// Whether the editor is wired up. On from Task 11; the site does not change either way.
 //
-// It matters more than a hidden menu would: with the admin off, /_data/*.json is served from the
-// files on disk instead of from the database, so the site is a plain static site plus JSON and
-// editing a JSON file is all it takes. With it on, the database answers instead - and a change
-// made to a file would appear to do nothing until it was imported.
+// The comment that used to sit here said that turning the admin on made /_data/*.json come from
+// the database instead of from the files. That was true of the prototype and stopped being true
+// at Task 3: the middleware that served documents from SQLite is gone, and ContentStore reads the
+// files in every case. What the database still holds is revision history and the one login.
 //
-// Turn it back on with "Admin:Enabled": true in appsettings.json.
+// So this switch decides one thing only - whether /Admin answers - and turning it on also creates
+// the database file and seeds it, which is why it is a switch rather than nothing at all.
 var adminEnabled = builder.Configuration.GetValue("Admin:Enabled", false);
 
 builder.Services.AddControllersWithViews();
@@ -95,7 +95,7 @@ if (adminEnabled)
     app.MapAreaControllerRoute(
         name: "admin",
         areaName: "Admin",
-        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+        pattern: "Admin/{controller=Edit}/{action=Index}/{id?}");
 }
 
 // No conventional routes: every page of the site is a file under wwwroot, and the only

@@ -1,0 +1,84 @@
+/* The two-column editor. Loaded by the editor screen only; admin.css carries the shared parts. */
+
+/* The editor needs the whole window, not the 960px column the rest of the admin reads in. */
+.ad-main.is-wide { max-width: none; padding: 0; }
+
+.ed {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  height: calc(100vh - 57px);      /* the top bar */
+}
+
+/* ---- left: what to change ---- */
+.ed-side {
+  border-right: 1px solid var(--ad-line);
+  overflow-y: auto;
+  padding: 18px 20px 60px;
+  background: #fff;
+}
+
+.ed-pick label {
+  display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ad-mute); font-weight: 600; margin-bottom: 6px;
+}
+.ed-pick select {
+  width: 100%; font: inherit; padding: 8px 10px;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff;
+}
+
+.ed-note {
+  color: var(--ad-mute); font-size: 13px; line-height: 1.5;
+  margin: 16px 0 20px; padding-left: 11px; border-left: 2px solid var(--ad-line);
+}
+
+.ed-empty { color: var(--ad-mute); font-size: 13px; }
+
+.ed-group { border: 1px solid var(--ad-line); border-radius: 4px; margin: 0 0 12px; }
+.ed-group > summary {
+  padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 13px;
+  background: var(--ad-wash); border-radius: 4px 4px 0 0; list-style: none;
+}
+.ed-group > summary::-webkit-details-marker { display: none; }
+.ed-group > summary::before { content: "▸ "; color: var(--ad-mute); }
+.ed-group[open] > summary::before { content: "▾ "; }
+.ed-group > div { padding: 4px 12px 12px; }
+
+.ed-field { margin: 12px 0; }
+.ed-field > label {
+  display: block; font-size: 12px; color: var(--ad-mute); margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+.ed-field input[type=text], .ed-field textarea {
+  width: 100%; font: inherit; font-size: 14px; padding: 7px 9px;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-ink);
+}
+.ed-field textarea { resize: vertical; line-height: 1.5; }
+.ed-field input:focus, .ed-field textarea:focus { outline: 2px solid #8f8a81; outline-offset: -2px; }
+
+/* Clicking text in the preview scrolls its field into view; without a moment of colour you
+   cannot tell which of forty identical boxes just moved under the cursor. */
+.ed-field .is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
+
+/* ---- right: the page ---- */
+.ed-preview { display: flex; flex-direction: column; min-width: 0; background: var(--ad-wash); }
+
+.ed-bar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 9px 16px; border-bottom: 1px solid var(--ad-line); background: #fff;
+}
+.ed-url { font-size: 13px; color: var(--ad-mute); }
+.ed-widths { margin-left: auto; display: flex; gap: 6px; }
+.ed-w {
+  font: inherit; font-size: 12px; padding: 6px 11px; cursor: pointer;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-mute);
+}
+.ed-w:hover { background: var(--ad-wash); color: var(--ad-ink); }
+.ed-w.is-on { background: var(--ad-ink); border-color: var(--ad-ink); color: #fff; }
+.ed-open { font-size: 13px; color: var(--ad-mute); text-decoration: none; }
+.ed-open:hover { color: var(--ad-ink); text-decoration: underline; }
+
+.ed-stage { flex: 1; overflow: hidden; padding: 1px; }
+.ed-stage iframe {
+  display: block; border: 0; background: #fff;
+  transform-origin: top left;
+}

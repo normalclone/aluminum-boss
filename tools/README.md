@@ -341,6 +341,26 @@ node redirects.js http://localhost:5199
 
 ---
 
+## `editor-shot.js` — màn hình soạn có thật sự dùng được không
+
+Cả bộ đo còn lại chỉ chạm vào site công khai. Khu soạn thì không phép đo nào với tới, mà thứ phải
+nhìn ở đây lại đúng là thứ không đọc bằng DOM được: hai cột có cân nhau không, khung xem thử có
+vừa cột không, đổi bề ngang 390 thì trang có thật sự nhảy sang bố cục điện thoại không.
+
+```bash
+node editor-shot.js http://localhost:5199 [thư-mục-ra]
+```
+
+Sáu phép thử, năm ảnh: đăng nhập thật (không tắt `[Authorize]` cho dễ đo) · gõ vào ô nhập thì chữ
+trong khung xem thử đổi theo · bấm chữ trong khung thì ô nhập tương ứng được cuộn tới và làm nổi
+lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung báo về.
+
+> **Đã bắt được:** nhãn ô nhập ghi `nav › 0 › label` — tức là đường dẫn trong JSON, đúng thứ yêu
+> cầu gốc nói khách không được nhìn thấy. Con số đo không thấy; mở ảnh ra thì thấy ngay. Nay là
+> `Nav #1`, đếm từ một, và đường dẫn thật nằm trong tooltip.
+
+---
+
 ## `fanout.py` — trải khuôn chi tiết ra bản tĩnh
 
 Máy chủ tự ghép `/news/press-line-2500/` từ khuôn `/news/detail/`. GitHub Pages không ghép gì cả,

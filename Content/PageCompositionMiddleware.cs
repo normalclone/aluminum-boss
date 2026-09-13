@@ -39,14 +39,18 @@ public sealed class PageCompositionMiddleware
             return;
         }
 
-        var html = composer.Compose(path, itemId);
+        // The editor previews the real page rather than a copy of it: same URL, same composition,
+        // plus one script that listens for the editor's messages.
+        var edit = context.Request.Query["edit"] == "1";
+
+        var html = composer.Compose(path, itemId, edit);
         if (html is null)
         {
             // No template answers this path. It may still be an item: /news/press-line-2500/ is
             // composed from /news/detail/, which sits at the same depth, so the page it produces
             // is the page the old address produced, byte for byte.
             if (router.Resolve(path) is { } item)
-                html = composer.Compose(item.TemplatePath, item.ItemId);
+                html = composer.Compose(item.TemplatePath, item.ItemId, edit);
         }
         if (html is null)
         {

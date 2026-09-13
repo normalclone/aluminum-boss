@@ -22,8 +22,15 @@ const ROOT = process.argv[3] || path.join(__dirname, '..', 'wwwroot');
 /** The template on disk that answers a URL path, the way the composer resolves it. */
 function templateFor(urlPath) {
   const rel = urlPath.split('?')[0].replace(/^\/|\/$/g, '');
-  const file = rel ? path.join(ROOT, rel, 'index.html') : path.join(ROOT, 'index.html');
-  return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  const direct = rel ? path.join(ROOT, rel, 'index.html') : path.join(ROOT, 'index.html');
+  if (fs.existsSync(direct)) return fs.readFileSync(direct, 'utf8');
+
+  // An item page has no template of its own: /news/press-line-2500/ is composed from
+  // /news/detail/, which sits at the same depth. Same rule SlugRouter follows.
+  const parts = rel.split('/');
+  if (parts.length < 2) return null;
+  const detail = path.join(ROOT, ...parts.slice(0, -1), 'detail', 'index.html');
+  return fs.existsSync(detail) ? fs.readFileSync(detail, 'utf8') : null;
 }
 
 const ADDRESSES = /data-ab-(?:t|lead|lines|section)="/g;

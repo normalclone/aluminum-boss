@@ -13,18 +13,32 @@
     <meta name="robots" content="noindex, nofollow">
     <title>@ViewData["Title"] — Site content</title>
     <link rel="stylesheet" href="~/admin/admin.css" asp-append-version="true">
+    @if (ViewData["Wide"] is true)
+    {
+        <link rel="stylesheet" href="~/admin/editor.css" asp-append-version="true">
+    }
 </head>
 <body>
 <header class="ad-top">
-    <a class="ad-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Site content</a>
+    <a class="ad-brand" asp-area="Admin" asp-controller="Edit" asp-action="Index">Site content</a>
     @if (User.Identity?.IsAuthenticated == true)
     {
+        @*
+            One link, on purpose.
+
+            Overview, Content, Page order and Search listing all read and write ContentDocuments,
+            PageRegions and PageSeos - tables nothing serves from any more. The site's words come
+            from wwwroot/_data/*.json through ContentStore, and have since Task 3. Those screens
+            still compile and still work; they simply change nothing anybody can see, which is a
+            worse thing to hand someone than a missing screen.
+
+            They come back rebuilt on top of ContentStore: Task 12 the collections, Task 13 the
+            search listing, Task 14 the history. Pictures (MediaController) writes real files
+            under wwwroot/_media and is honest today, but it has no way in yet either - it joins
+            the editor in Task 12 alongside the image picker it belongs to.
+        *@
         <nav class="ad-nav">
-            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Overview</a>
-            <a asp-area="Admin" asp-controller="Content" asp-action="Index">Content</a>
-            <a asp-area="Admin" asp-controller="Layout" asp-action="Index">Page order</a>
-            <a asp-area="Admin" asp-controller="Seo" asp-action="Index">Search listing</a>
-            <a asp-area="Admin" asp-controller="Media" asp-action="Index">Pictures</a>
+            <a asp-area="Admin" asp-controller="Edit" asp-action="Index">Edit pages</a>
         </nav>
         <div class="ad-right">
             <a class="ad-view" href="/" target="_blank" rel="noopener">View site</a>
@@ -37,7 +51,7 @@
     }
 </header>
 
-<main class="ad-main">
+<main class="ad-main@(ViewData["Wide"] is true ? " is-wide" : "")">
     @if (TempData["Flash"] is string flash)
     {
         <p class="ad-flash">@flash</p>

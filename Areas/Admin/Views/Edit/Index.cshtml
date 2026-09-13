@@ -1,0 +1,50 @@
+@{
+    // The shell only. Fields arrive from the page in the frame - see wwwroot/admin/edit-bridge.js
+    // for the contract the two halves are written against.
+    Layout = "_AdminLayout";
+    var pages = (List<QlWeb2.Areas.Admin.Controllers.EditController.PageLink>)ViewData["Pages"]!;
+    var current = (string)ViewData["Page"]!;
+    ViewData["Wide"] = true;
+}
+
+<div class="ed" data-ed-page="@current">
+    <div class="ed-side">
+        <div class="ed-pick">
+            <label for="ed-page">Page</label>
+            <select id="ed-page">
+                @foreach (var p in pages)
+                {
+                    <option value="@p.Path" selected="@(p.Path == current)">@p.Label</option>
+                }
+            </select>
+        </div>
+
+        <p class="ed-note">
+            Click any text in the preview to find it here. Changes show immediately on the right;
+            saving arrives with the next update.
+        </p>
+
+        <div id="ed-fields" class="ed-fields">
+            <p class="ed-empty">Loading the page&hellip;</p>
+        </div>
+    </div>
+
+    <div class="ed-preview">
+        <div class="ed-bar">
+            <span class="ed-url" id="ed-url">@current</span>
+            <div class="ed-widths" role="group" aria-label="Preview width">
+                <button type="button" class="ed-w is-on" data-w="1440">Desktop 1440</button>
+                <button type="button" class="ed-w" data-w="834">Tablet 834</button>
+                <button type="button" class="ed-w" data-w="390">Phone 390</button>
+            </div>
+            <a class="ed-open" href="@current" target="_blank" rel="noopener">Open in a tab</a>
+        </div>
+        <div class="ed-stage" id="ed-stage">
+            <iframe id="ed-frame" title="Preview" src="@(current)?edit=1"></iframe>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/admin/editor.js" asp-append-version="true"></script>
+}
