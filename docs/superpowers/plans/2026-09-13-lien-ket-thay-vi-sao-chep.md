@@ -320,7 +320,7 @@ một dòng trong `DocumentFor`, một dòng `Kind`, vài danh sách trong `tool
 - [x] **Step 5: Màn hình Content chia ba nhóm** — Libraries · The home page · The two maps.
       Danh sách phẳng mười ba ô giấu mất chuyện có hai bước, và "Home: Products" nằm cạnh
       "Products" trông như một danh sách sản phẩm thứ hai đang tranh nhau.
-- [x] **Step 6: Verify** — `dotnet test` 86/86 · `parity --against baseline/task19` 15/15 ·
+- [x] **Step 6: Verify** — `dotnet test` 87/87 · `parity --against baseline/task19` 15/15 ·
       `collection` 21/21 (phép thử đổi con trỏ chạy vòng qua cả bốn giá) · `admin-shots` 33/33 ·
       `editor-shot` 13/13 · `labels` 32/32 · `guide-video` 8/8 · `trees` đạt.
 - [x] **Step 7: Commit.**
@@ -338,6 +338,23 @@ một dòng trong `DocumentFor`, một dòng `Kind`, vài danh sách trong `tool
    `CAO KHÁC: -159px so voi moc`, và chính con số ấy chỉ thẳng ra khối "New".
 3. **Màn hình Content ghi "Ten kinds of thing" trong khi bên dưới có mười ba ô.** Con số viết
    cứng nói dối, ngay trên màn hình của chính mình. Giờ lấy từ model.
+4. **Câu hỏi trước khi xoá một cái thẻ hỏi nhầm chuyện.** `Mentions(id)` đi tìm mọi tệp có nhắc
+   tới id ấy — mà với một cái thẻ thì mọi kết quả đều là chính cái kho nó trỏ tới, thứ mà việc
+   xoá thẻ không đụng đến. Nó in ra *"Other content points at it: products.json (3), site.json
+   (1)"* trước một thao tác chỉ đổi một dòng của một tệp: đúng, và doạ người dùng về đúng cái
+   sai. Giờ với thẻ nó nói thẳng: xoá thẻ thôi, mục trong kho vẫn còn nguyên.
+5. **Đường "giá rỗng → Add → Set" được hứa ngay trên màn hình mà chưa ai đi thử.** `Add` chép
+   hình dạng của mục đầu danh sách; danh sách rỗng thì không có gì để chép, và nhánh ấy chưa ai
+   bước vào. Một mục không có `id` sẽ làm bước ngay sau đó thất bại. Đã thêm phép thử đi trọn
+   đường: `Structure(Add)` → `Apply(.id)` → khối vẽ ra đúng một thẻ.
+
+### Một lỗ hổng cũ, ghi ra để không quên
+
+Các script `_app/*.js` **không lọc `visible`** ở bất cứ đâu ngoài bốn khối vừa sửa. Nghĩa là trên
+bản tĩnh `site/` (GitHub Pages), một mục đã ẩn vẫn hiện ở các danh sách do JavaScript vẽ —
+`/products/`, `/colors/`, `/news/`, `/documents/`, `/projects/`. Máy chủ thì lọc đúng (`Arr`).
+Hiện chưa có mục nào bị ẩn nên chưa ai thấy. Có trước Task 21, không thuộc phạm vi Task 21, và
+cách sửa là đưa `AB.keep()` — vừa thêm vào `app.js` — vào từng danh sách ấy.
 
 ### Còn lại, cố ý không đụng
 

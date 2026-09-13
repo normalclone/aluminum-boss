@@ -215,12 +215,19 @@ public class CollectionController : Controller
 
         if (!confirmed)
         {
-            var mentions = _editor.Mentions(row.Id, kind.Document);
             TempData["Confirm"] = index;
             TempData["ConfirmWhat"] = row.Title;
-            TempData["ConfirmRefs"] = mentions.Count == 0
-                ? "Nothing else points at it."
-                : "Other content points at it: " + string.Join(", ", mentions);
+            // A card is a pointer, so "what else mentions this id" is the wrong question: every
+            // hit would be the library item the card points at, and the card's removal touches
+            // none of it. Asking it anyway printed "Other content points at it: products.json
+            // (3), site.json (1)" over a delete that changes one line of one file - true, and
+            // frightening about the wrong thing.
+            TempData["ConfirmRefs"] = kind.Source is { } from
+                ? $"This removes the card only. The {from.One.ToLowerInvariant()} itself stays in "
+                  + $"{from.Label}, and everywhere else it appears."
+                : _editor.Mentions(row.Id, kind.Document) is { Count: > 0 } mentions
+                  ? "Other content points at it: " + string.Join(", ", mentions)
+                  : "Nothing else points at it.";
             return RedirectToAction(nameof(Items), new { id });
         }
 

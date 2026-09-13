@@ -114,6 +114,7 @@ Cách làm việc vì thế là hai bước: **đăng bài vào kho trước, r�
   điều đó ngay dưới ô chọn, nên không có thẻ trắng nào ở lại mà bạn không biết.
 - **Để trống cả cái giá** thì khối tự chọn lấy như trước khi có tính năng này: đủ sáu dòng sản
   phẩm, mười màu mỗi họ một cái, ba công trình mới nhất, sáu bài mới nhất.
+- **Xoá một cái thẻ chỉ xoá cái thẻ.** Mục trong kho vẫn còn nguyên, ở mọi nơi nó xuất hiện.
 
 > Trước đây mỗi thẻ mang một tiêu đề và một ô ảnh **riêng**, tách khỏi bài. Kết quả là sáu bài có
 > hai tiêu đề khác nhau ở hai chỗ, và không có gì giữ cho chúng khớp nhau. Ba khối còn lại thì

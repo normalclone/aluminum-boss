@@ -121,6 +121,31 @@ public class ShelfTests : IDisposable
     }
 
     [Fact]
+    public void An_empty_shelf_can_be_filled_from_the_screen()
+    {
+        // The path the Content screen promises in so many words: "This shelf is empty... Add a
+        // card and the shelf takes over." Add writes a blank item shaped like the ones already
+        // there - and on an EMPTY list there are none to copy, so what it writes is decided by
+        // one branch nobody had walked. An item with no id would refuse the very next step.
+        Write("home-products", """{ "items": [] }""");
+        var store = new ContentStore(Path.Combine(_root, "_data"));
+        var editor = new ContentEditor(store, _root);
+        var sections = new SectionRenderer(store);
+
+        var added = editor.Structure("home-products.items", ContentEditor.Op.Add);
+        Assert.Equal(1, added.Applied);
+
+        var set = editor.Apply([new ContentEditor.Change("home-products.items.0.id", "facade")]);
+        Assert.Equal(1, set.Applied);
+        Assert.Empty(set.Rejected);
+
+        var drawn = Regex.Matches(sections.Render("home-products", "") ?? string.Empty,
+                                  @"href=""products/([^/""]+)/""")
+                         .Select(m => m.Groups[1].Value).ToList();
+        Assert.Equal(["facade"], drawn);
+    }
+
+    [Fact]
     public void Every_shelf_band_names_its_own_document()
     {
         // The composer stamps this on the section, and the Content screen writes to it. A band
