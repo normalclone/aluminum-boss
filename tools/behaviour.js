@@ -74,13 +74,20 @@ async function home(page) {
   const okTabs = record('doi tab / (applications)', !!tab2 && tab2 !== tab0,
     (tab0 || '?') + ' -> ' + (tab2 || '?'));
 
+  // Bam mot tuyen xuat khau: qua dia cau phai bay toi do va nut phai sang.
+  await page.click('#vgx-list li:nth-child(2) .vgx-item');
+  await wait(600);
+  const pressed = await page.evaluate(() =>
+    (document.querySelector('#vgx-list li:nth-child(2) .vgx-item') || {}).getAttribute('aria-pressed'));
+  const okRoute = record('bam tuyen / (globe)', pressed === 'true', 'aria-pressed=' + pressed);
+
   await page.hover('#abhero-words a[data-i="3"]');
   await wait(400);
   const cap = await page.evaluate(() =>
     (document.getElementById('abhero-caption') || {}).textContent.trim());
   const okHero = record('di chuot len chu hero /', cap.length > 0, cap.slice(0, 44));
 
-  return okGallery && okTabs && okHero;
+  return okGallery && okTabs && okRoute && okHero;
 }
 
 /** Clicking a photograph must open the viewer over the page. */

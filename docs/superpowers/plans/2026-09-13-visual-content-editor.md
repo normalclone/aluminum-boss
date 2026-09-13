@@ -310,7 +310,9 @@ cùng một thứ dưới bảy cái tên.
 - [x] **9g: khối trang chủ** — xong (1.864 → 5.272, bot đọc 92%). Dọc đường phát hiện trang chủ
   chưa bao giờ được ghép: địa chỉ ghi `home.title` trong khi dữ liệu ở `site.home.title`, nên bộ
   ghép vẫn trả về khuôn suốt. `tools/compose.js` giờ bắt được chuyện đó.
-- [ ] **9h: danh sách chữ cạnh hai canvas** — 4 tuyến, 5 nhà máy. Hình vẽ ở lại phía trình duyệt.
+- [x] **9h: danh sách chữ cạnh hai canvas** — xong. Dữ liệu ra `_data/globe.json` và
+  `_data/factories.json`; địa chỉ mới `data-ab-json` đặt nguyên văn tài liệu vào một thẻ
+  `<script type="application/json">` để script đọc đồng bộ, hình vẽ ở lại phía trình duyệt.
 - [x] **9i: mọi trang chi tiết** — xong. `PageComposer` nhận `?id=`, đệm khoá theo id đã quy
   chuẩn; cả bảy loại dùng chung. Script chỉ dựng khi khung còn rỗng, nên phép so pixel giờ
   kiểm THẬT bộ dựng phía máy chủ chứ không kiểm lại script.
@@ -324,7 +326,8 @@ hơn một mốc chụp theo thời gian, vì nó là đúng bản trước đ�
 `tools/baseline/pages-js/` (1440 và 390) trước khi `site/` được sinh lại, vì lúc đẩy bản mới lên
 là mốc đó biến mất.
 
-- [ ] **Step cuối: Verify toàn bộ** — trang bài tin từ 672 lên ≳ 2.000 ký tự HTML thô
+- [x] **Step cuối: Verify toàn bộ** — trang bài tin 676 → 2.117 ký tự HTML thô; trang chủ
+  1.864 → 6.516; 15/15 trang có nội dung thật.
 - [ ] **Commit kèm bảng số trước/sau**
 
 ---

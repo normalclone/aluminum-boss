@@ -580,12 +580,13 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
           Finished surfaces leave Vietnam for four markets. Select a destination to turn the globe
           to it and isolate that route.
         </p>
-        <ul class="vgx-list" id="vgx-list"></ul>
+        <ul class="vgx-list" id="vgx-list" data-ab-section="globe-routes"></ul>
       </div>
     </div>
   </div>
 </section>
 
+<script type="application/json" id="vgx-data" data-ab-json="globe">{"section":"Export routes","origin":{"name":"Vietnam","code":"SGN","lat":10.82,"lon":106.63},"routes":[{"key":"eu","mode":"sea","name":"European Union","share":"31%","days":31,"desc":"Malacca Strait, Indian Ocean, Suez, then Rotterdam for onward distribution.","meta":"Sea · Ho Chi Minh City → Rotterdam","at":[46,10],"legs":[{"to":"Rotterdam","code":"RTM","via":[[10.8,106.6],[8.5,105.5],[5.5,104.5],[2.5,103.6],[3.5,100],[5.5,96.5],[6,92],[5.5,85],[6,75],[9,65],[12,55],[12.5,45],[13.5,42.8],[17,40],[22,37.5],[27,34.5],[29.9,32.6],[31.5,32.3],[33.5,28],[34.5,22],[36,14],[37,6],[36,-2],[35.9,-5.6],[36.5,-9],[40,-10.5],[44.5,-9.5],[48.5,-6],[50.2,-1.5],[51.2,2],[51.95,4.14]]}]},{"key":"na","mode":"sea","name":"North America","share":"34%","days":22,"desc":"The Pacific crossing to Los Angeles and Long Beach.","meta":"Sea · Ho Chi Minh City → Los Angeles","at":[30,-170],"legs":[{"to":"Los Angeles","code":"LAX","via":[[10.8,106.6],[13,110],[16,114],[19.5,119],[21.5,122],[24,127],[28,135],[32,145],[36,158],[39,172],[40,-175],[40,-165],[39,-150],[37,-138],[35,-128],[33.9,-118.4]]}]},{"key":"au","mode":"sea","name":"Australia","share":"12%","days":14,"desc":"South through the Indonesian straits and the Torres Strait to Sydney.","meta":"Sea · Ho Chi Minh City → Sydney","at":[-14,133],"legs":[{"to":"Sydney","code":"SYD","via":[[10.8,106.6],[8,107.5],[4,108.5],[0,108.5],[-2.5,108],[-5,110],[-6.5,114],[-7.5,118],[-8.5,123],[-9.5,128],[-10,133],[-10.5,138],[-10.6,142.5],[-13,145.5],[-17,147.5],[-22,152],[-27,153.8],[-31,153],[-33.87,151.2]]}]},{"key":"asean","mode":"land","name":"ASEAN","share":"23%","days":3,"desc":"Overland by road to Laos, Cambodia and Thailand.","meta":"Road · Vientiane · Phnom Penh · Bangkok","at":[14.5,103],"legs":[{"to":"ASEAN","code":"LAO · KHM · THA","via":[[10.8,106.6],[11.3,105.5],[12,104.4],[12.9,103.2],[14,102],[15.2,101.2],[16,100.6]]}]}]}</script>
 <script>
 (() => {
   'use strict';
@@ -594,50 +595,11 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   const ctx = cv.getContext('2d');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const ORIGIN = { name:'Vietnam', code:'SGN', lat:10.82, lon:106.63 };
-  // Waypoints, not great circles: a straight line to Rotterdam crosses Asia, which is the
-  // one path a ship cannot take. These follow the lanes actually used.
-  const ROUTES = [
-    { key:'eu', mode:'sea', name:'European Union', share:'31%', days:31,
-      desc:'Malacca Strait, Indian Ocean, Suez, then Rotterdam for onward distribution.',
-      meta:'Sea · Ho Chi Minh City → Rotterdam', at:[46,10],
-      legs:[{ to:'Rotterdam', code:'RTM', via:[
-        [10.8,106.6],[8.5,105.5],[5.5,104.5],[2.5,103.6],[3.5,100.0],[5.5,96.5],[6.0,92.0],
-        [5.5,85.0],[6.0,75.0],[9.0,65.0],[12.0,55.0],[12.5,45.0],[13.5,42.8],[17.0,40.0],
-        [22.0,37.5],[27.0,34.5],[29.9,32.6],[31.5,32.3],[33.5,28.0],[34.5,22.0],[36.0,14.0],
-        [37.0,6.0],[36.0,-2.0],[35.9,-5.6],[36.5,-9.0],[40.0,-10.5],[44.5,-9.5],[48.5,-6.0],
-        [50.2,-1.5],[51.2,2.0],[51.95,4.14]] }] },
-
-    { key:'na', mode:'sea', name:'North America', share:'34%', days:22,
-      desc:'The Pacific crossing to Los Angeles and Long Beach.',
-      meta:'Sea · Ho Chi Minh City → Los Angeles', at:[30,-170],
-      legs:[{ to:'Los Angeles', code:'LAX', via:[
-        [10.8,106.6],[13.0,110.0],[16.0,114.0],[19.5,119.0],[21.5,122.0],[24.0,127.0],
-        [28.0,135.0],[32.0,145.0],[36.0,158.0],[39.0,172.0],[40.0,-175.0],[40.0,-165.0],
-        [39.0,-150.0],[37.0,-138.0],[35.0,-128.0],[33.9,-118.4]] }] },
-
-    { key:'au', mode:'sea', name:'Australia', share:'12%', days:14,
-      desc:'South through the Indonesian straits and the Torres Strait to Sydney.',
-      meta:'Sea · Ho Chi Minh City → Sydney', at:[-14,133],
-      legs:[{ to:'Sydney', code:'SYD', via:[
-        [10.8,106.6],[8.0,107.5],[4.0,108.5],[0.0,108.5],[-2.5,108.0],[-5.0,110.0],
-        [-6.5,114.0],[-7.5,118.0],[-8.5,123.0],[-9.5,128.0],[-10.0,133.0],[-10.5,138.0],
-        [-10.6,142.5],[-13.0,145.5],[-17.0,147.5],[-22.0,152.0],[-27.0,153.8],[-31.0,153.0],
-        [-33.87,151.2]] }] },
-
-    { key:'asean', mode:'land', name:'ASEAN', share:'23%', days:3,
-      desc:'Overland by road to Laos, Cambodia and Thailand.',
-      meta:'Road · Vientiane · Phnom Penh · Bangkok', at:[14.5,103],
-      // One overland run, not three. Three legs from the same origin crowded the labels and
-      // the trucks into a few hundred kilometres of map, and the panel already treats them as
-      // a single market. The endpoint sits between Bangkok and Vientiane rather than at the
-      // exact centre of the three capitals: the centroid put it so close to the origin that
-      // the truck covered half the route and sat on top of the destination dot.
-      legs:[
-        { to:'ASEAN', code:'LAO · KHM · THA', via:[
-          [10.8,106.6],[11.3,105.5],[12.0,104.4],[12.9,103.2],[14.0,102.0],[15.2,101.2],[16.0,100.6]] },
-      ] },
-  ];
+  // Du lieu tu _data/globe.json, bo ghep dat vao the JSON ngay tren. Doc dong bo vi
+  // hinh ve bat dau tu khung hinh ngay sau khi script duoc phan tich.
+  const VGX = JSON.parse(document.getElementById('vgx-data').textContent);
+  const ORIGIN = VGX.origin;
+  const ROUTES = VGX.routes;
 
   const LAND = [
     [[71,-156],[70,-128],[60,-140],[58,-133],[48,-124],[37,-122],[32,-117],[23,-110],[18,-95],[21,-87],[30,-83],[25,-80],[35,-76],[45,-67],[52,-56],[60,-64],[66,-61],[73,-80],[76,-95],[70,-125]],
@@ -1268,15 +1230,21 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   // ---- panel -----------------------------------------------------------
   const list = document.getElementById('vgx-list');
   const buttons = [];
-  ROUTES.forEach(r => {
-    const li = document.createElement('li');
-    const b = document.createElement('button');
-    b.type='button'; b.className='vgx-item'; b.setAttribute('aria-pressed','false');
-    b.innerHTML = `<span class="vgx-dot"></span>
+  ROUTES.forEach((r, i) => {
+    // May chu da dat san danh sach nay. Chi tao khi khung con rong - tuc la khi thu muc site/
+    // duoc phuc vu tinh, khong qua bo ghep.
+    let b = list.children[i] && list.children[i].querySelector('.vgx-item');
+    if (!b) {
+      const li = document.createElement('li');
+      b = document.createElement('button');
+      b.type='button'; b.className='vgx-item'; b.setAttribute('aria-pressed','false');
+      b.innerHTML = `<span class="vgx-dot"></span>
       <span><span class="vgx-name">${r.name}</span>
         <span class="vgx-desc">${r.desc}</span>
         <span class="vgx-meta">${r.meta} · ${r.days} days</span></span>
       <span class="vgx-share">${r.share}</span>`;
+      li.appendChild(b); list.appendChild(li);
+    }
     b.addEventListener('click', () => {
       const already = focus === r.key;
       buttons.forEach(x => x.setAttribute('aria-pressed','false'));
@@ -1284,7 +1252,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
       focus = r.key; b.setAttribute('aria-pressed','true');
       flyTo(r.at[0], r.at[1]);
     });
-    buttons.push(b); li.appendChild(b); list.appendChild(li);
+    buttons.push(b);
   });
 
   resize();
@@ -1453,7 +1421,7 @@ function rafStop(){ rafOn = false; }
     <div class="vfx-tally"><b id="vfx-tally">5</b><span>Factories</span></div>
   </header>
 
-  <div class="vfx-flist" id="vfx-flist"></div>
+  <div class="vfx-flist" id="vfx-flist" data-ab-section="factories-list"></div>
 
   <div class="vfx-stage">
     <canvas id="vfx-c" tabindex="0" aria-label="Perspective map of Vietnam with five factories"></canvas>
@@ -1472,6 +1440,7 @@ function rafStop(){ rafOn = false; }
 
 
 
+<script type="application/json" id="vfx-data" data-ab-json="factories">{"section":"Factories","sites":[{"id":"yb","name":"Yen Bai","region":"Yen Bai province","lat":21.72,"lon":104.9,"desc":"Cutting and calibration. Raw marble block arrives, sized slab leaves.","since":"2009","output":"42k t/yr","tone":[228,226,221],"vein":[176,170,160]},{"id":"th","name":"Thanh Hoa","region":"Thanh Hoa province","lat":19.81,"lon":105.78,"desc":"The largest slab mill. Gang saws, resin lines, polishing — closest to Hai Phong port.","since":"2013","output":"68k t/yr","tone":[214,208,196],"vein":[150,142,128]},{"id":"na","name":"Nghe An","region":"Nghe An province","lat":18.68,"lon":105.68,"desc":"Sintered surface production. Presses and kiln lines run continuously.","since":"2016","output":"55k t/yr","tone":[196,190,180],"vein":[120,114,104]},{"id":"bd","name":"Quy Nhon","region":"Binh Dinh province","lat":13.78,"lon":109.22,"desc":"Granite finishing. Flaming, honing and edge profiling beside the port.","since":"2011","output":"37k t/yr","tone":[178,172,164],"vein":[104,98,92]},{"id":"bg","name":"Binh Duong","region":"Binh Duong province","lat":11.16,"lon":106.68,"desc":"Final polish, quality grading, crating and container loading for export.","since":"2019","output":"71k t/yr","tone":[232,228,220],"vein":[190,182,168]}]}</script>
 <script>
 
 (() => {
@@ -1515,23 +1484,8 @@ const ARCH = [
 ];
 
 // Five sites placed on the country's real stone corridor, north to south.
-const SITES = [
-  { id:'yb', name:'Yen Bai', region:'Yen Bai province', lat:21.72, lon:104.90,
-    desc:'Cutting and calibration. Raw marble block arrives, sized slab leaves.',
-    since:'2009', output:'42k t/yr', tone:[228,226,221], vein:[176,170,160] },
-  { id:'th', name:'Thanh Hoa', region:'Thanh Hoa province', lat:19.81, lon:105.78,
-    desc:'The largest slab mill. Gang saws, resin lines, polishing — closest to Hai Phong port.',
-    since:'2013', output:'68k t/yr', tone:[214,208,196], vein:[150,142,128] },
-  { id:'na', name:'Nghe An', region:'Nghe An province', lat:18.68, lon:105.68,
-    desc:'Sintered surface production. Presses and kiln lines run continuously.',
-    since:'2016', output:'55k t/yr', tone:[196,190,180], vein:[120,114,104] },
-  { id:'bd', name:'Quy Nhon', region:'Binh Dinh province', lat:13.78, lon:109.22,
-    desc:'Granite finishing. Flaming, honing and edge profiling beside the port.',
-    since:'2011', output:'37k t/yr', tone:[178,172,164], vein:[104,98,92] },
-  { id:'bg', name:'Binh Duong', region:'Binh Duong province', lat:11.16, lon:106.68,
-    desc:'Final polish, quality grading, crating and container loading for export.',
-    since:'2019', output:'71k t/yr', tone:[232,228,220], vein:[190,182,168] },
-];
+// Du lieu tu _data/factories.json, dat vao the JSON ngay tren.
+const SITES = JSON.parse(document.getElementById('vfx-data').textContent).sites;
 
 // ---- procedural surface swatches -------------------------------------
 // The tooltip needs photographs of stone. Rather than ship binaries, each swatch is drawn:
@@ -2015,10 +1969,13 @@ function frame(){
   const host = document.getElementById('vfx-flist');
   if (!host) return;
   SITES.forEach((s0, i) => {
+    const img = '<img class="vfx-fimg" src="' + plantImage(320, 132, i + 3, s0.tone) + '" alt="">';
+    // May chu dat san phan chu; anh duoc ve bang canvas luc chay nen no phai duoc them vao day.
+    const have = host.children[i];
+    if (have) { have.insertAdjacentHTML('afterbegin', img); return; }
     const el = document.createElement('article');
     el.className = 'vfx-fitem';
-    el.innerHTML =
-      '<img class="vfx-fimg" src="' + plantImage(320, 132, i + 3, s0.tone) + '" alt="">' +
+    el.innerHTML = img +
       '<p class="vfx-fname">' + s0.name + '</p>' +
       '<p class="vfx-floc">' + s0.region + '</p>' +
       '<p class="vfx-fdesc">' + s0.desc + '</p>' +

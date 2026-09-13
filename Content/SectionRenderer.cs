@@ -39,6 +39,8 @@ public sealed class SectionRenderer
         "home-highlights" => _store.Get("highlights"),
         "home-gallery" or "home-gallery-tags" => _store.Get("gallery"),
         "home-app-tabs" or "home-app-slides" => _store.Get("applications"),
+        "globe-routes" => _store.Get("globe"),
+        "factories-list" => _store.Get("factories"),
         _ => null,
     };
 
@@ -121,6 +123,8 @@ public sealed class SectionRenderer
             "home-gallery-tags" => HomeGalleryTags(doc),
             "home-app-tabs" => AppTabs(doc),
             "home-app-slides" => AppSlides(doc, rootPrefix),
+            "globe-routes" => GlobeRoutes(doc),
+            "factories-list" => FactoriesList(doc),
             _ => null,
         };
     }
@@ -741,6 +745,50 @@ public sealed class SectionRenderer
               .Append("<div class=\"core-slider__slide__card-body__block\">")
               .Append("<p class=\"core-slider__slide__card-body__description\">")
               .Append(Esc(Str(items[i], "text"))).Append("</p></div></div></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The four export routes beside the globe. Names, shares and transit times are the sort of
+    /// thing an answer engine is asked for by name - "who exports aluminium from Vietnam, and
+    /// where to" - and until now every word of it was drawn by a script.
+    ///
+    /// The whitespace is the script's own, kept character for character: these are inline spans
+    /// and a space between them is a space on the page.
+    /// </summary>
+    private static string GlobeRoutes(JsonNode doc)
+    {
+        var sb = new StringBuilder();
+        foreach (var r in Arr(doc, "routes"))
+        {
+            sb.Append("<li><button type=\"button\" class=\"vgx-item\" aria-pressed=\"false\">")
+              .Append("<span class=\"vgx-dot\"></span>\n      <span><span class=\"vgx-name\">")
+              .Append(Esc(Str(r, "name"))).Append("</span>\n        <span class=\"vgx-desc\">")
+              .Append(Esc(Str(r, "desc"))).Append("</span>\n        <span class=\"vgx-meta\">")
+              .Append(Esc(Str(r, "meta"))).Append(" · ").Append(Esc(Str(r, "days")))
+              .Append(" days</span></span>\n      <span class=\"vgx-share\">")
+              .Append(Esc(Str(r, "share"))).Append("</span></button></li>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// The five plants. Each card's photograph is drawn on a canvas at run time, so the script
+    /// still puts that in; everything a reader or a crawler needs is here.
+    /// </summary>
+    private static string FactoriesList(JsonNode doc)
+    {
+        var sb = new StringBuilder();
+        foreach (var s in Arr(doc, "sites"))
+        {
+            sb.Append("<article class=\"vfx-fitem\">")
+              .Append("<p class=\"vfx-fname\">").Append(Esc(Str(s, "name"))).Append("</p>")
+              .Append("<p class=\"vfx-floc\">").Append(Esc(Str(s, "region"))).Append("</p>")
+              .Append("<p class=\"vfx-fdesc\">").Append(Esc(Str(s, "desc"))).Append("</p>")
+              .Append("<div class=\"vfx-fstats\"><div>In operation since<b>")
+              .Append(Esc(Str(s, "since"))).Append("</b></div><div>Annual capacity<b>")
+              .Append(Esc(Str(s, "output"))).Append("</b></div></div></article>");
         }
         return sb.ToString();
     }

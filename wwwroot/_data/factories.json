@@ -1,0 +1,105 @@
+{
+  "section": "Factories",
+  "sites": [
+    {
+      "id": "yb",
+      "name": "Yen Bai",
+      "region": "Yen Bai province",
+      "lat": 21.72,
+      "lon": 104.9,
+      "desc": "Cutting and calibration. Raw marble block arrives, sized slab leaves.",
+      "since": "2009",
+      "output": "42k t/yr",
+      "tone": [
+        228,
+        226,
+        221
+      ],
+      "vein": [
+        176,
+        170,
+        160
+      ]
+    },
+    {
+      "id": "th",
+      "name": "Thanh Hoa",
+      "region": "Thanh Hoa province",
+      "lat": 19.81,
+      "lon": 105.78,
+      "desc": "The largest slab mill. Gang saws, resin lines, polishing — closest to Hai Phong port.",
+      "since": "2013",
+      "output": "68k t/yr",
+      "tone": [
+        214,
+        208,
+        196
+      ],
+      "vein": [
+        150,
+        142,
+        128
+      ]
+    },
+    {
+      "id": "na",
+      "name": "Nghe An",
+      "region": "Nghe An province",
+      "lat": 18.68,
+      "lon": 105.68,
+      "desc": "Sintered surface production. Presses and kiln lines run continuously.",
+      "since": "2016",
+      "output": "55k t/yr",
+      "tone": [
+        196,
+        190,
+        180
+      ],
+      "vein": [
+        120,
+        114,
+        104
+      ]
+    },
+    {
+      "id": "bd",
+      "name": "Quy Nhon",
+      "region": "Binh Dinh province",
+      "lat": 13.78,
+      "lon": 109.22,
+      "desc": "Granite finishing. Flaming, honing and edge profiling beside the port.",
+      "since": "2011",
+      "output": "37k t/yr",
+      "tone": [
+        178,
+        172,
+        164
+      ],
+      "vein": [
+        104,
+        98,
+        92
+      ]
+    },
+    {
+      "id": "bg",
+      "name": "Binh Duong",
+      "region": "Binh Duong province",
+      "lat": 11.16,
+      "lon": 106.68,
+      "desc": "Final polish, quality grading, crating and container loading for export.",
+      "since": "2019",
+      "output": "71k t/yr",
+      "tone": [
+        232,
+        228,
+        220
+      ],
+      "vein": [
+        190,
+        182,
+        168
+      ]
+    }
+  ]
+}
