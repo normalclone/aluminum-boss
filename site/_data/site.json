@@ -1,0 +1,161 @@
+{
+  "_note": "Khung cua site. Menu va cau hero theo nguyen mau PDF — khong tu doi ten.",
+  "wordmark": {
+    "lead": "Aluminum",
+    "tail": "Böss"
+  },
+  "nav": [
+    {
+      "key": "about-us",
+      "label": "About us",
+      "href": "about-us/"
+    },
+    {
+      "key": "products",
+      "label": "Products",
+      "href": "products/"
+    },
+    {
+      "key": "colors",
+      "label": "Colors",
+      "href": "colors/"
+    },
+    {
+      "key": "documents",
+      "label": "Documents",
+      "href": "documents/"
+    },
+    {
+      "key": "projects",
+      "label": "Projects",
+      "href": "projects/"
+    },
+    {
+      "key": "news",
+      "label": "News",
+      "href": "news/"
+    },
+    {
+      "key": "contact",
+      "label": "Contact",
+      "href": "contact/"
+    }
+  ],
+  "footer": {
+    "tagline": [
+      "Aluminium extrusion, finishing and fabrication.",
+      "Five plants in Vietnam, forty-three export markets."
+    ],
+    "columns": [
+      {
+        "heading": "Site",
+        "links": [
+          {
+            "label": "About us",
+            "href": "about-us/"
+          },
+          {
+            "label": "Products",
+            "href": "products/"
+          },
+          {
+            "label": "Colors",
+            "href": "colors/"
+          },
+          {
+            "label": "Documents",
+            "href": "documents/"
+          },
+          {
+            "label": "Projects",
+            "href": "projects/"
+          },
+          {
+            "label": "News",
+            "href": "news/"
+          },
+          {
+            "label": "Contact",
+            "href": "contact/"
+          }
+        ],
+        "lines": []
+      },
+      {
+        "heading": "Products",
+        "links": [
+          {
+            "label": "Profile",
+            "href": "products/detail/?id=profile"
+          },
+          {
+            "label": "Facade",
+            "href": "products/detail/?id=facade"
+          },
+          {
+            "label": "Furniture",
+            "href": "products/detail/?id=furniture"
+          },
+          {
+            "label": "Door’s accessory",
+            "href": "products/detail/?id=door-accessory"
+          },
+          {
+            "label": "Car’s accessory",
+            "href": "products/detail/?id=car-accessory"
+          },
+          {
+            "label": "Honeycomb",
+            "href": "products/detail/?id=honeycomb"
+          }
+        ],
+        "lines": []
+      },
+      {
+        "heading": "Enquiries",
+        "links": [
+          {
+            "label": "Request a quotation",
+            "href": "contact/detail/?id=quote"
+          },
+          {
+            "label": "Order finish samples",
+            "href": "contact/detail/?id=sample"
+          },
+          {
+            "label": "Technical assistance",
+            "href": "contact/detail/?id=technical"
+          },
+          {
+            "label": "Become a distributor",
+            "href": "contact/detail/?id=become-distributor"
+          },
+          {
+            "label": "Catalogues & data sheets",
+            "href": "documents/"
+          }
+        ],
+        "lines": []
+      },
+      {
+        "heading": "Head office",
+        "links": [
+          {
+            "label": "+84 274 3999 100",
+            "href": "tel:+842743999100"
+          },
+          {
+            "label": "sales@bossgroup.vn",
+            "href": "mailto:sales@bossgroup.vn"
+          }
+        ],
+        "lines": [
+          "Lot 14, VSIP II-A Industrial Park",
+          "Tan Uyen, Binh Duong, Vietnam"
+        ]
+      }
+    ],
+    "copyright": "© Böss Group. All rights reserved.",
+    "demoNote": "Demonstration site — photography and documents are specimens."
+  }
+}
