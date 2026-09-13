@@ -248,6 +248,99 @@
   // whenever the path had a number in it, which is not the same thing at all.
   var ROLE = /^(label|lead|tail|text|title|heading|name)$/;
 
+  // What each list is called, in the client's words rather than the file's.
+  //
+  // Numbering an item is only half the job: "Categories #1 name" still makes somebody work out
+  // that a category is a product family, and "Items #3 title" appears on five different screens
+  // meaning five different things. The key is the path with every index written as N, so a list
+  // inside a list gets its own word - a product family holds products, a document group holds
+  // documents - and the label says both: "Product family #1, Product #3 spec".
+  //
+  // The first ten are the same ten lists the Content screen offers, and the words here are the
+  // singular of the words there (CollectionController.Kinds). If those are ever renamed, rename
+  // these. Everything below the line is a list the Content screen does not show at all.
+  //
+  // A list with no entry here falls back to its key, which is what every list used to do - the
+  // label stays readable, it just goes back to sounding like a database. tools/labels.js walks
+  // every page and reports which lists have landed in that fallback.
+  var WORDS = {
+    'products.categories': 'Product family',
+    'colors.items': 'Finish',
+    'news.items': 'Article',
+    'projects.albums': 'Project',
+    'documents.categories': 'Document group',
+    'gallery.items': 'Picture',
+    'highlights.items': 'Story',
+    'applications.tabs': 'Tab',
+    'globe.routes': 'Export route',
+    'factories.sites': 'Factory',
+
+    'products.categories.N.items': 'Product',
+    'documents.categories.N.items': 'Document',
+    'applications.tabs.N.items': 'Application',
+    'news.items.N.tags': 'Tag',
+    'news.items.N.body': 'Paragraph',
+    'gallery.tags': 'Tag',
+    'gallery.intro': 'Paragraph',
+    'colors.filters': 'Filter',
+    'colors.filters.N.options': 'Option',
+    'projects.albums.N.photos': 'Photo',
+    'contact.offices': 'Office',
+    'contact.offices.N.lines': 'Line',
+    'contact.routes': 'Enquiry type',
+    'contact.routes.N.fields': 'Field',
+    'contact.consent': 'Consent line',
+    'about.chapters': 'Chapter',
+    'about.chapters.N.body': 'Paragraph',
+    'about.figures.tabs': 'Tab',
+    'about.figures.tabs.N.rows': 'Row',
+    'about.figures.tabs.N.rows.N': 'Cell',
+    'site.nav': 'Menu item',
+    'site.footer.columns': 'Footer column',
+    'site.footer.columns.N.links': 'Link',
+  };
+
+  // The same for the keys that are not lists. Only the ones that are not already English: "spec"
+  // and "lede" and "cta" are what a developer types, not what a client would say out loud.
+  var LEAF = {
+    blurb: 'description',
+    c: 'caption',
+    cta: 'call to action',
+    desc: 'description',
+    excerpt: 'summary',
+    eyebrow: 'small heading',
+    familySpecs: 'finish family',
+    figures: 'specs table',
+    lang: 'language',
+    // Not "intro": about.json has an "intro" of its own, and two boxes on one screen with the
+    // same label is worse than one box with a word from the file.
+    lede: 'opening line',
+    meta: 'detail',
+    n: 'name',
+    output: 'capacity',
+    region: 'province',
+    share: 'share of exports',
+    since: 'in operation since',
+    spec: 'specification',
+    std: 'standard',
+  };
+
+  // Read by tools/labels.js, which walks every page and names the lists with no entry above.
+  window.AB_WORDS = WORDS;
+
+  function word(shape, key) {
+    return WORDS[shape] || plain(key);
+  }
+
+  // camelCase is a third vocabulary of its own - "familySpecs" is not a word in any language -
+  // so a key with no entry above at least comes apart into the two words it is made of. Only the
+  // capital that was joining them comes down: some keys are names the client wrote, and
+  // "Anodised" has to stay "Anodised".
+  function plain(key) {
+    return LEAF[key] || key.replace(/[-_]/g, ' ')
+      .replace(/([a-z0-9])([A-Z])/g, function (_, a, b) { return a + ' ' + b.toLowerCase(); });
+  }
+
   /** Addresses whose parent holds nothing else - those are the ones that lose their role word. */
   function alone(fields) {
     var count = {};
@@ -275,18 +368,72 @@
 
   function round2(v) { return Math.round(v * 100) / 100; }
 
+  // Walk the address left to right, keeping the shape - the same path with every index written
+  // as N - alongside it, because that shape is what names the list being counted.
+  //
+  // A key followed by a number is a list: emit its word and the number together. A number with
+  // no key in front of it is a list inside a list with no name of its own (a table row holds
+  // cells), and the shape has already grown the extra N that names it. Everything else is a
+  // plain key, and the last one is the role word if it is one.
   function label(address, drop) {
-    var parts = address.split('.').slice(1);
-    var role = parts.length > 1 && ROLE.test(parts[parts.length - 1]) ? parts.pop() : '';
-    var numbered = false;
-    var out = parts.map(function (p) {
-      if (!/^\d+$/.test(p)) return p.replace(/[-_]/g, ' ');
-      numbered = true;
-      return '#' + (+p + 1);
-    }).join(' ');
-    if (role && !drop) out += ' ' + role;
-    if (!out) out = role;
-    return out.charAt(0).toUpperCase() + out.slice(1);
+    var parts = address.split('.');
+    var shape = parts[0];
+    var out = [];               // { text, num } - num marks a piece that ends in a number
+    var tail = '';              // the last key, hung off the end rather than listed
+    var droppable = false;
+
+    for (var i = 1; i < parts.length; i++) {
+      var p = parts[i];
+
+      if (/^\d+$/.test(p)) {
+        // A number with no key in front of it: a list inside a list with no name of its own,
+        // such as the cells of a table row. The shape already grew the N that names it.
+        out.push({ text: word(shape, last(shape)) + ' #' + (+p + 1), num: true });
+        shape += '.N';
+        continue;
+      }
+
+      shape += '.' + p;
+      if (/^\d+$/.test(parts[i + 1] || '')) {
+        out.push({ text: word(shape, p) + ' #' + (+parts[i + 1] + 1), num: true });
+        shape += '.N';
+        i++;
+        continue;
+      }
+
+      if (i === parts.length - 1 && out.length) {
+        tail = plain(p);
+        droppable = ROLE.test(p);
+      } else {
+        out.push({ text: plain(p), num: false });
+      }
+    }
+
+    // A plain key that the next piece already says: "footer" in front of "Footer column #1".
+    // The key is there because the path goes through it, not because the label needs it twice.
+    out = out.filter(function (piece, n) {
+      var next = out[n + 1];
+      return piece.num || !next
+          || next.text.toLowerCase().indexOf(piece.text.toLowerCase()) !== 0;
+    });
+
+    // A comma wherever a number meets the next piece - "Tab #1 Row #2 Cell #3" is three hashes
+    // in a row with nowhere for the eye to stop - and a plain space everywhere else.
+    var text = '';
+    out.forEach(function (piece, n) {
+      if (!n) text = piece.text;
+      else text += (piece.num || out[n - 1].num ? ', ' : ' ') + piece.text;
+    });
+    if (tail && !(drop && droppable)) text += (text ? ' ' : '') + tail;
+    if (!text) text = tail;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  function last(shape) {
+    var parts = shape.split('.');
+    // Skip back over the Ns: the name of an unnamed inner list is the key that started it.
+    while (parts.length > 1 && parts[parts.length - 1] === 'N') parts.pop();
+    return parts[parts.length - 1];
   }
 
   function build(fields) {

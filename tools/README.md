@@ -12,6 +12,15 @@ npm run check                 # crawl + textmass + overlap
 node crawl.js https://normalclone.github.io/aluminum-boss
 ```
 
+**Đăng nhập khu quản trị** dùng chung `lib/admin.js`. Nó thử `AB_ADMIN_PASS` (mặc định
+`changeme-please`), không được thì thử mật khẩu gốc trong mã nguồn, và nếu máy chủ đẩy sang cổng
+đổi mật khẩu thì **đi qua đúng đường người thật đi** — đổi rồi làm tiếp, và in ra rằng nó đã đổi.
+Nghĩa là lần chạy đầu tiên trên một máy mới sẽ đổi mật khẩu của tài khoản `admin`.
+
+**Mốc nền của `parity.js`:** dùng `baseline/task15`, không dùng `baseline/` trần. Thư mục trên
+cùng là mốc từ trước Task 10, đặt tên tệp theo lối đường dẫn cũ, nên so với nó ra 15 trang lệch
+mà không có gì sai cả.
+
 ---
 
 ## `crawl.js` — liên kết chết và request hỏng
@@ -302,9 +311,14 @@ console.
 > đang sửa nằm **dưới** ba mươi tám ô của header và footer; và cột Order đặt `display:flex` lên
 > một `<td>` nên ô ấy thôi làm ô bảng — đường kẻ ngang đứt một đoạn ở mỗi dòng.
 
-Nó cũng chụp bốn màn hình **đã tháo khỏi menu** từ Task 11. "đạt" ở đó nghĩa là còn vẽ được,
-KHÔNG nghĩa là còn dùng được: nút Save của chúng ghi vào những bảng bộ ghép không đọc. Ai có địa
-chỉ vẫn vào được.
+Và một bảng riêng cho bốn địa chỉ của bản mẫu — `/Admin/Dashboard`, `/Admin/Content`,
+`/Admin/Layout`, `/Admin/Seo`. Chúng bị xoá ở Task 16, nên phép đo ở đây là **404**: một cái vẽ
+ra được lần nữa nghĩa là ai đó đã hồi sinh một màn hình có nút Save không lưu gì.
+
+Hỏi bằng `ctx.request.get` chứ không mở bằng trình duyệt: một 404 của MVC không có thân trang
+nào, và Chrome coi trang rỗng kèm mã lỗi là `ERR_HTTP_RESPONSE_CODE_FAILURE` rồi ném ra. Dùng
+đúng ngữ cảnh của trang nên cookie đăng nhập vẫn đi theo — phải hỏi với tư cách người đã đăng
+nhập, không thì 404 chỉ nghĩa là "chưa đăng nhập".
 
 ---
 
@@ -434,6 +448,55 @@ lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung 
 > trình duyệt, nên bảng chọn ảnh **luôn mở** — trắng trên trắng, phủ kín khung xem thử và nuốt mọi
 > cú bấm nhắm vào trang bên dưới. Không có gì trông sai cả; khung xem thử chỉ đơn giản là không
 > trả lời nữa. Phép thử "bấm chữ → chọn ô nhập" là thứ duy nhất đổi màu.
+
+---
+
+## `labels.js` — cái nhãn trên ô nhập có còn là tiếng người không
+
+Địa chỉ là đường đi trong một tệp JSON, và khách đã được hứa không bao giờ phải nhìn thấy một tệp
+JSON. Trình soạn có một bảng chữ (`WORDS` trong `wwwroot/admin/editor.js`) đổi tên khoá sang tên
+khách gọi: `products.categories` là **Product family**, và `products.categories.N.items` bên
+trong nó là **Product**.
+
+Bảng chữ thì lạc hậu dần. Thêm một danh sách vào dữ liệu là thêm một từ chưa ai đặt tên, và cái
+nhãn lặng lẽ quay về giống một cơ sở dữ liệu — không có gì kêu lên.
+
+```bash
+node labels.js http://localhost:5199          # chỉ in những chỗ còn thiếu
+node labels.js http://localhost:5199 --all    # in cả 118 cái nhãn để đọc một lượt
+```
+
+Mở cả 15 trang trong ô **Page**, gom mọi dạng ô nhập, rồi hỏi hai câu: danh sách nào không có
+trong bảng chữ, và cái nhãn nào còn mang nguyên một từ của tệp.
+
+> **Đã bắt được:** năm danh sách chưa đặt tên (`about.chapters.N.body`, `contact.consent`,
+> `contact.routes.N.fields`, `news.items.N.body`, `projects.albums.N.photos`) và `familySpecs`
+> lọt ra nguyên dạng camelCase.
+>
+> Và chính nó, lần đầu: nó báo "không còn cái nào" trên một site còn năm chỗ chưa đặt tên, vì hàm
+> tách khúc danh sách tìm số thứ tự bằng `/^\d+$/` trong khi thứ truyền vào đã thay hết số bằng
+> `N`. Nó không tìm thấy danh sách nào cả. Nay bảng in kèm **số danh sách tìm được**, vì một bảng
+> rỗng bên dưới số 0 trông giống hệt một bảng rỗng bên dưới số 33.
+
+---
+
+## `forwarded.js` — sau một proxy, ai là khách
+
+Biểu mẫu liên hệ cho mỗi địa chỉ tám lần một giờ. Đặt sau nginx thì **mọi** yêu cầu đến từ
+`127.0.0.1`, nên tám người là hết hạn mức của cả Internet, và người thứ chín bị từ chối vì người
+thứ tám — từ bên ngoài không ai đoán ra chuyện gì đang xảy ra.
+
+```bash
+node forwarded.js http://localhost:5199 --expect shared   # Proxy:TrustedIps rỗng
+node forwarded.js http://localhost:5199 --expect split    # Proxy:TrustedIps có 127.0.0.1
+```
+
+Gửi chín yêu cầu, mỗi cái một `X-Forwarded-For` khác nhau, rồi đếm. `shared` mong 8 nhận / 1 từ
+chối; `split` mong cả 9 nhận. Đo bằng hành vi chứ không đọc cấu hình.
+
+> **Lưu ý:** bộ đếm hạn mức nằm trong bộ nhớ máy chủ. Chạy `shared` hai lần liên tiếp mà không
+> khởi động lại máy chủ thì lần hai hỏng ngay từ yêu cầu đầu — đó là đúng, không phải lỗi. Mỗi
+> lần chạy để lại chín dòng trong `App_Data/enquiries.jsonl`, route `tools/forwarded`.
 
 ---
 

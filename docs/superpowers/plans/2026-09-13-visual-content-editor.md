@@ -676,6 +676,82 @@ trước kiến trúc.
 
 ---
 
+## Task 16: Bốn chỗ hứa nhiều hơn làm được — XONG
+
+Bộ chụp của Task 15 trả lời "màn hình ấy TRÔNG ra sao". Đọc lại bảng ấy cùng mã lộ ra bốn chỗ
+nữa, và cả bốn cùng một dạng: **thứ hiện ra nói một đằng, thứ chạy bên dưới làm một nẻo.**
+
+- [x] **Step 1: Xoá bốn màn hình của bản mẫu.** `Dashboard`, `Content`, `Layout`, `Seo` — cùng
+      `ContentDocument`, `PageSeo`, `PageRegion`, ba khối seed của chúng, và bốn tệp helper chỉ
+      còn chúng gọi (`JsonForm`, `SeoWriter`, `RegionMarkup`, `prepare-regions.py`).
+      Task 11 đã tháo chúng khỏi menu, và ghi vào nhật ký rằng để lại một màn hình còn vẽ được
+      thì tử tế hơn một trang 404. **Điều đó sai.** Chúng vẫn ghi vào ba bảng mà bộ ghép không
+      đọc, nút Save vẫn báo "Saved", và ai còn bookmark thì vẫn vào được — một cái bẫy im lặng.
+      404 nói thật ngay lập tức.
+      `ContentSeeder` còn lại đúng một việc nên thành `AdminSeeder`; `AppDbContext` còn hai bảng:
+      lịch sử sửa và một tài khoản. `EnsureCreated` không sửa cơ sở dữ liệu đã có, nên trên máy
+      đang chạy ba bảng cũ nằm lại, rỗng nghĩa, và không ai mở.
+- [x] **Step 2: `Proxy:TrustedIps` và `UseForwardedHeaders`.** Biểu mẫu liên hệ cho mỗi địa chỉ
+      tám lần một giờ. Sau nginx thì mọi yêu cầu đến từ `127.0.0.1`, nên tám người là hết hạn
+      mức của cả Internet, và người thứ chín bị từ chối vì người thứ tám. Chỉ tin
+      `X-Forwarded-For` khi cấu hình gọi tên proxy; danh sách rỗng thì middleware không được đăng
+      ký — tin một dòng tiêu đề ai cũng gõ được, trên một máy chủ nối thẳng, là để khách tự chọn
+      ô đếm của mình.
+      Đo bằng `tools/forwarded.js`, cả hai chiều: rỗng → 8 nhận / 1 từ chối; có `127.0.0.1` →
+      9 nhận / 0 từ chối.
+- [x] **Step 3: Cổng đổi mật khẩu.** `admin` / `changeme` nằm trong mã nguồn của một kho công
+      khai. HANDOVER *xin* người vận hành đổi nó; lời xin không phải một biện pháp. Một
+      `IActionFilter` đẩy mọi màn hình về Change password trong lúc mật khẩu gốc còn hiệu lực,
+      trừ `Account` — chỗ sửa nó và nút Sign out đều ở đó, và một vòng lặp chuyển hướng khoá
+      người vận hành ra ngoài site của chính họ còn chặt hơn một mật khẩu yếu.
+      Sự thật là **bản băm đã lưu**, không phải một cột cờ: cờ có thể nói "đã đổi" trong khi mật
+      khẩu nói ngược lại — chép cơ sở dữ liệu giữa hai máy là ra ngay. Băm thì tốn 210.000 vòng
+      PBKDF2, giá đúng cho một lần lúc khởi động và giá sai cho mỗi yêu cầu, nên câu trả lời được
+      giữ trong một singleton và cập nhật đúng hai lúc nó đổi được: lúc đăng nhập (lúc mật khẩu
+      còn ở dạng chữ) và lúc đổi.
+      Bốn công cụ đều đăng nhập bằng `admin`/`changeme` nên cả bốn sẽ gãy. Chúng dùng chung
+      `tools/lib/admin.js`: thử mật khẩu làm việc, không được thì thử mật khẩu gốc, gặp cổng thì
+      **đi qua đúng đường người thật đi** — đổi mật khẩu rồi làm tiếp.
+- [x] **Step 4: Bảng chữ cho nhãn ô nhập.** "Categories #1 name" bắt khách tự đoán rằng
+      *category* ở đây nghĩa là một dòng sản phẩm; "Items #3 title" xuất hiện trên năm màn hình
+      với năm nghĩa khác nhau. 33 danh sách trên site, mỗi cái một tên: `products.categories` là
+      **Product family**, và `products.categories.N.items` bên trong nó là **Product**.
+      Khoá là *hình dạng* địa chỉ (mọi số thứ tự viết thành `N`), nên danh sách lồng trong danh
+      sách có tên riêng chứ không mượn tên của cái bọc ngoài.
+- [x] **Step 5: Verify** — `dotnet test` 69/69, `admin-shots` 30/30 (bốn màn hình cũ: 404),
+      `editor-shot` 10/10, `collection` 13/13, `image-edit` 7/7, `labels` 33/33,
+      `forwarded` hai chiều, `parity --against baseline/task15` 15/15 ở cả 1440 và 390.
+- [x] **Step 6: Commit** — bốn commit, mỗi cái một chỗ sai.
+
+### Một bảng chữ cần một công cụ, không cần một lời hứa
+
+Bảng chữ của Step 4 sẽ lạc hậu dần: thêm một danh sách vào dữ liệu là thêm một từ chưa ai đặt
+tên, và cái nhãn lặng lẽ quay về giống một cơ sở dữ liệu. Không có gì kêu lên.
+
+`tools/labels.js` mở cả 15 trang, gom 118 dạng ô nhập, và hỏi hai câu: danh sách nào không có
+trong bảng chữ, và nhãn nào còn mang nguyên một từ của tệp. Nó cũng **in ra số danh sách tìm
+được** — vì lần viết đầu tiên nó báo "không còn cái nào" trên một site còn năm chỗ chưa đặt tên:
+hàm tách khúc danh sách tìm số thứ tự bằng `/^\d+$/` trong khi thứ được truyền vào đã thay hết
+số bằng `N`, nên nó không tìm thấy danh sách nào cả. Một bảng rỗng bên dưới số 0 trông giống hệt
+một bảng rỗng bên dưới số 33.
+
+Cùng lớp lỗi với phép thu thứ bảy của `editor-shot` ở Task 15, và với bảng chọn ảnh ở Task 11b:
+**phép đo đạt vì lý do khác với lý do nó được viết ra.** Lần này nó được chứng minh ngược lại —
+bỏ một dòng khỏi bảng chữ, công cụ báo KHÔNG ĐẠT và chỉ đúng tám cái nhãn.
+
+### Một nút Save bấm nhầm suốt ba phiên bản
+
+`tools/lib/admin.js` viết xong thì báo "đã đổi mật khẩu", mà mật khẩu không hề đổi. Nó bấm
+`button[type=submit]` — và thanh tiêu đề mang một biểu mẫu **Sign out** nằm trước `<main>` trong
+DOM. Trên trang đổi mật khẩu, nút đầu tiên có `type=submit` là Sign out. Đăng xuất xong thì trang
+về Login, mà Login **không phải** trang đổi mật khẩu, nên phép kiểm "còn ở đây không" trả lời
+"không" và công cụ tưởng là xong.
+
+Bốn công cụ cũ đều bấm bằng bộ chọn ấy suốt từ Task 11 — trên trang Login nó vô hại, vì lúc chưa
+đăng nhập thanh tiêu đề không có nút nào. Đúng một lần một trang có hai biểu mẫu là nó sai.
+
+---
+
 ## Self-Review
 
 **Spec coverage:** Mục 4 (kiến trúc) → Task 6, 9. Mục 5 (mô hình dữ liệu) → Task 5, 7. Mục 6
