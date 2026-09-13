@@ -62,6 +62,17 @@ chụp lại thì giống hệt, và trang đó không hề bị đụng tới t
 cùng một trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là
 phép chụp không ổn định; giống nhau mà vẫn lệch với mốc nền thì mới là hồi quy thật.
 
+**Ảnh `loading="lazy"` phải được ép tải trước khi chụp.** Ảnh chụp toàn trang không cuộn, nên
+ảnh dưới màn hình vẫn trống. Vô hại khi cả hai bên cùng hoãn như nhau; nguy hiểm ngay khi không:
+danh sách do máy chủ dựng đặt ảnh sẵn trong HTML nên trình duyệt hoãn thật, còn danh sách do JS
+chèn sau thì tải ngay. Đo được: riêng khác biệt đó báo **235.008 pixel lệch** trên một trang mà
+chữ giống hệt nhau. Công cụ giờ đổi mọi ảnh sang `eager` và chờ `decode()` xong.
+
+**Chữ trong ô điều khiển gốc của trình duyệt không tất định.** Ba lần chụp cùng một trang cho ra
+hai kết quả, lệch đúng 175 pixel trên vùng 50×12px chứa chữ `Select...` của một `<select>`. Hai
+ảnh nhìn bằng mắt giống hệt; chữ chỉ dịch một phần pixel. Công cụ làm trong suốt chữ trong
+`select` / `input` / `textarea`, giữ nguyên khung viền nên vẫn bắt được thay đổi bố cục.
+
 **Con số quyết định là "bao nhiêu pixel lệch quá 32/255", không phải "có giống hệt không".** Khử
 răng cưa và giải mã JPEG luôn để lại vài đơn vị nhiễu trên một nhúm pixel, kể cả giữa hai lần
 tải **cùng một trang**. Ngưỡng 32 luôn bằng 0 qua mọi thay đổi trên site này; ngưỡng "khác chút
@@ -113,6 +124,24 @@ ngang, link 200. Một trong số đó tự viết phép kiểm *"src có bắt 
 khẳng định luôn xanh trong khi trang trông sai.
 
 **Quy tắc rút ra: chụp ảnh và mở ra xem. Phép đo không thay được việc nhìn.**
+
+---
+
+## `locate-diff.py` — lệch ở CHỖ NÀO
+
+`compare.py` trả lời "lệch bao nhiêu"; cái này trả lời "lệch ở đâu", và cắt vùng đó ra thành hai
+ảnh để mở lên nhìn.
+
+```bash
+python locate-diff.py baseline/products_1440.png after/products_1440.png diff
+```
+
+> **Đã bắt được:** một phép so báo 235.000 pixel lệch. Cắt ra nhìn thì thấy chữ giống hệt nhau,
+> chỉ thiếu ảnh — hoá ra là ảnh `lazy` chưa kịp tải, không phải hồi quy. Không có công cụ này thì
+> con số đó dẫn thẳng tới việc đi truy một lỗi không tồn tại.
+
+Một dấu hiệu đáng nhớ: **số pixel lệch giống hệt nhau ở hai bề ngang khác nhau** nghĩa là vùng
+lệch có kích thước cố định — thường là một ô điều khiển, không phải nội dung chạy theo bố cục.
 
 ---
 

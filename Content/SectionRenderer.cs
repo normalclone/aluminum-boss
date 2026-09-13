@@ -27,6 +27,8 @@ public sealed class SectionRenderer
         var doc = section switch
         {
             "news-list" => _store.Get("news"),
+            "products-list" => _store.Get("products"),
+            "projects-list" => _store.Get("projects"),
             _ => null,
         };
         if (doc is null) return null;
@@ -34,6 +36,8 @@ public sealed class SectionRenderer
         return section switch
         {
             "news-list" => NewsList(doc, rootPrefix),
+            "products-list" => ProductsList(doc, rootPrefix),
+            "projects-list" => ProjectsList(doc, rootPrefix),
             _ => null,
         };
     }
@@ -77,6 +81,96 @@ public sealed class SectionRenderer
               .Append("<p class=\"ab-post-meta\">").Append(Ago(Str(a, "date")))
               .Append(" &nbsp;|&nbsp; Written by: ").Append(Esc(Str(a, "author")))
               .Append("</p></a>");
+        }
+        return sb.ToString();
+    }
+
+
+    /// <summary>
+    /// Product families, each a band of tiles. The count beside the heading is taken from the
+    /// list rather than written into the prose, so adding a family cannot make the page lie.
+    /// </summary>
+    private static string ProductsList(JsonNode doc, string root)
+    {
+        var cats = doc["categories"] as JsonArray;
+        if (cats is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var c in cats.OfType<JsonNode>())
+        {
+            var id = Uri.EscapeDataString(Str(c, "id"));
+            var items = (c["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+
+            var tiles = new StringBuilder();
+            foreach (var it in items)
+            {
+                var image = Str(it, "image");
+                var src = string.IsNullOrEmpty(image)
+                    ? Placeholder.Uri(340, 300, Str(it, "name"))
+                    : root + "_media/" + image;
+
+                tiles.Append("<a class=\"ab-tile\" href=\"detail/?id=").Append(id)
+                     .Append('#').Append(Uri.EscapeDataString(Str(it, "id"))).Append("\">")
+                     .Append("<span class=\"ab-thumb\"><img src=\"").Append(src)
+                     .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(Str(it, "name")))
+                     .Append("\" loading=\"lazy\"></span>")
+                     .Append("<h3>").Append(Esc(Str(it, "name"))).Append("</h3>")
+                     .Append("<p>").Append(Esc(Str(it, "spec"))).Append("</p></a>");
+            }
+
+            sb.Append("<section class=\"ab-band\"><div class=\"ab-band-head\">")
+              .Append("<h2>").Append(Esc(Str(c, "name"))).Append("</h2>")
+              .Append("<a class=\"ab-more\" href=\"detail/?id=").Append(id).Append("\">")
+              .Append(items.Count).Append(" products</a></div>")
+              .Append("<p class=\"ab-band-sub\">").Append(Esc(Str(c, "tagline"))).Append("</p>")
+              .Append("<div class=\"ab-row\">").Append(tiles).Append("</div></section>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Albums grouped by year of completion, newest first. The year is the organising idea the
+    /// client asked for, so it is a heading in the page rather than a filter to discover.
+    /// </summary>
+    private static string ProjectsList(JsonNode doc, string root)
+    {
+        var albums = doc["albums"] as JsonArray;
+        if (albums is null) return string.Empty;
+
+        var byYear = albums.OfType<JsonNode>()
+            .GroupBy(a => Str(a, "year"))
+            .OrderByDescending(g => g.Key, StringComparer.Ordinal);
+
+        var sb = new StringBuilder();
+        foreach (var year in byYear)
+        {
+            var list = year.ToList();
+            var cards = new StringBuilder();
+            foreach (var a in list)
+            {
+                var image = Str(a, "image");
+                var src = string.IsNullOrEmpty(image)
+                    ? Placeholder.Uri(760, 520, Str(a, "title"))
+                    : root + "_media/" + image;
+                var photos = (a["photos"] as JsonArray)?.Count ?? 0;
+
+                cards.Append("<a class=\"ab-album\" href=\"detail/?id=")
+                     .Append(Uri.EscapeDataString(Str(a, "id"))).Append("\">")
+                     .Append("<span class=\"ab-album-cover\"><img src=\"").Append(src)
+                     .Append("\" width=\"760\" height=\"520\" alt=\"").Append(Esc(Str(a, "title")))
+                     .Append("\" loading=\"lazy\">")
+                     .Append("<span class=\"ab-album-count\">").Append(photos)
+                     .Append(" photographs</span></span>")
+                     .Append("<h3>").Append(Esc(Str(a, "title"))).Append("</h3>")
+                     .Append("<p class=\"ab-album-where\">").Append(Esc(Str(a, "location"))).Append("</p>")
+                     .Append("<p class=\"ab-album-scope\">").Append(Esc(Str(a, "scope"))).Append("</p></a>");
+            }
+
+            sb.Append("<section class=\"ab-year\"><div class=\"ab-year-head\">")
+              .Append("<h2>").Append(Esc(year.Key)).Append("</h2>")
+              .Append("<span>").Append(list.Count).Append(list.Count == 1 ? " album" : " albums")
+              .Append("</span></div>")
+              .Append("<div class=\"ab-albums\">").Append(cards).Append("</div></section>");
         }
         return sb.ToString();
     }

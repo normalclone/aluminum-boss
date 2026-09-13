@@ -27,7 +27,31 @@ const FREEZE = `
   document.querySelectorAll('canvas').forEach(c => { c.style.visibility = 'hidden'; });
   document.querySelectorAll('object, embed, iframe').forEach(o => { o.style.visibility = 'hidden'; });
   document.querySelectorAll('.ab-row, .keen-slider').forEach(r => { r.scrollLeft = 0; });
+
+  // Native form controls draw their own text, and that drawing is not stable between runs:
+  // measured, three shots of the same page gave two different results, differing by exactly 175
+  // pixels over the 50x12 box holding a <select>'s "Select..." label. The two images look
+  // identical; the glyphs simply land a fraction of a pixel apart. Making the text transparent
+  // keeps the box, its border and its size in the comparison and drops only the unstable part.
+  const noControlText = document.createElement('style');
+  noControlText.textContent = 'select, input, textarea, option { color: transparent !important; }';
+  document.head.appendChild(noControlText);
+
   window.scrollTo(0, 0);
+`;
+
+// A full-page screenshot does not scroll, so loading="lazy" images below the fold are still
+// blank when it is taken. That is harmless while both sides defer the same way, and misleading
+// the moment they do not: a server-rendered list puts its images in the initial HTML and the
+// browser genuinely defers them, while a JS-built list inserts them later and they load at once.
+// Measured, that difference alone reported 235,008 differing pixels on a page whose text was
+// identical.
+const LOAD_IMAGES = `
+  (async () => {
+    const imgs = [...document.images];
+    imgs.forEach(i => { i.loading = 'eager'; });
+    await Promise.all(imgs.map(i => i.decode().catch(() => {})));
+  })()
 `;
 
 async function shoot(ctx, base, p, out) {
@@ -35,6 +59,8 @@ async function shoot(ctx, base, p, out) {
   try {
     await page.goto(base + p, { waitUntil: 'load', timeout: 90000 });
     await wait(4500);
+    await page.evaluate(LOAD_IMAGES);
+    await wait(600);
     await page.evaluate(FREEZE);
     await wait(400);
     await page.screenshot({ path: out, fullPage: true });
