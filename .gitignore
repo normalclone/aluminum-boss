@@ -31,3 +31,4 @@ build/shell-*.html
 # anh khong thuoc ve lich su git. metrics.json thi co commit.
 tools/baseline/*.png
 tools/node_modules/
+tools/after/

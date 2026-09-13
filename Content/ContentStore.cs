@@ -19,6 +19,8 @@ public sealed class ContentStore
     private readonly string _dir;
     private readonly object _lock = new();
     private readonly Dictionary<string, Entry> _cache = new(StringComparer.OrdinalIgnoreCase);
+    private readonly FileSystemWatcher? _watcher;
+    private System.Threading.Timer? _settle;
 
     private sealed record Entry(string Raw, JsonNode Node, DateTime Stamp);
 
@@ -28,7 +30,47 @@ public sealed class ContentStore
     public ContentStore(IWebHostEnvironment env)
         : this(Path.Combine(env.WebRootPath ?? "wwwroot", "_data")) { }
 
-    public ContentStore(string dataDirectory) => _dir = dataDirectory;
+    public ContentStore(string dataDirectory)
+    {
+        _dir = dataDirectory;
+
+        // Editing a content file in a text editor has to take effect, or "the files are the source
+        // of truth" is only true for the admin. Without this the composed page stays cached until
+        // the app restarts.
+        if (!Directory.Exists(_dir)) return;
+        try
+        {
+            _watcher = new FileSystemWatcher(_dir, "*.json")
+            {
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.Size,
+                EnableRaisingEvents = true,
+            };
+            _watcher.Changed += OnFileTouched;
+            _watcher.Created += OnFileTouched;
+            _watcher.Deleted += OnFileTouched;
+            _watcher.Renamed += OnFileTouched;
+        }
+        catch (Exception)
+        {
+            // A platform without file watching still works; it just needs a restart to pick up a
+            // hand edit. Not worth failing startup over.
+            _watcher = null;
+        }
+    }
+
+    /// <summary>
+    /// Editors and atomic renames produce several events for one save, so the reload is debounced
+    /// rather than run per event - otherwise a single save clears the composed pages five times.
+    /// </summary>
+    private void OnFileTouched(object sender, FileSystemEventArgs e)
+    {
+        _settle?.Dispose();
+        _settle = new System.Threading.Timer(_ =>
+        {
+            lock (_lock) _cache.Clear();
+            Changed?.Invoke(null);
+        }, null, 150, System.Threading.Timeout.Infinite);
+    }
 
     /// <summary>Document names present on disk, without the .json extension.</summary>
     public IReadOnlyList<string> Names =>

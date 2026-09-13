@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using QlWeb2.Helpers;
+using QlWeb2.Content;
 using QlWeb2.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +20,11 @@ var adminEnabled = builder.Configuration.GetValue("Admin:Enabled", false);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+// The site's content. Files on disk are the single source of truth; the database keeps revision
+// history and the admin account, and nothing else.
+builder.Services.AddSingleton<ContentStore>();
+builder.Services.AddSingleton<PageComposer>();
 
 if (adminEnabled)
 {
@@ -66,15 +71,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-if (adminEnabled)
-{
-    // Must sit above UseStaticFiles: static files are matched first in the pipeline, so below it
-    // the file on disk would answer and every edit through the admin would appear to do nothing.
-    app.UseMiddleware<ContentFileMiddleware>();
-}
+// Above UseStaticFiles, and the ordering is the whole point: static files are matched first
+// in the pipeline, so registered below it the raw template would answer and the composition
+// would be silently skipped.
+app.UseMiddleware<PageCompositionMiddleware>();
 
-// The imported site addresses its pages as directories - /, /colors/detail/ - so the
-// directory's index.html has to be found without naming it. UseStaticFiles alone will not.
+// Pages the composer has no template for - and every asset - fall through to here. The imported
+// site addresses its pages as directories, so the directory's index.html has to be found without
+// naming it, which UseStaticFiles alone will not do.
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
