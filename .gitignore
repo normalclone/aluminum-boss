@@ -33,3 +33,7 @@ tools/baseline/*.png
 tools/node_modules/
 tools/after/
 tools/after*/
+
+# Moc nen chup tu GitHub Pages khi no con dung danh sach bang JS. Day la moc "truoc"
+# cua ca Task 9; mat di khi site/ duoc sinh lai va day len. Sinh lai bang parity.js --save.
+tools/baseline/pages-js/

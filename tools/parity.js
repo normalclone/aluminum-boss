@@ -89,7 +89,10 @@ function sameBytes(a, b) {
   // containing a substring; without it every page is shot, as before.
   const onlyAt = args.indexOf('--only');
   const only = onlyAt === -1 ? null : args.splice(onlyAt, 2)[1];
-  const pages = only ? PAGES.filter(p => p.includes(only)) : PAGES;
+  // "=" means the whole path, because the home page is "/" and every path contains it.
+  const pages = !only ? PAGES
+    : only.startsWith('=') ? PAGES.filter(p => p === only.slice(1))
+    : PAGES.filter(p => p.includes(only));
   if (!pages.length) { console.log('  --only %s khong khop trang nao.', only); return; }
 
   const mode = args[0] && args[0].startsWith('--') ? args.shift() : '--compare';

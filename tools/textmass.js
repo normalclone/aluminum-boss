@@ -15,13 +15,28 @@ const { table, heading, verdict } = require('./lib/report');
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:5117').replace(/\/$/, '');
 
+// An entity stands for ONE character, so turning it into a space and letting the space collapse
+// undercounts. Measured, the documents page came out at 98% instead of 100% purely because its
+// 75 &middot; separators evaporated - the page itself was character-for-character identical with
+// and without scripts. Anything not in the table is still one character, so '?' keeps the count
+// honest even for an entity nobody anticipated.
+const ENTITY = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  middot: '·', mdash: '—', ndash: '–', rsquo: '’', lsquo: '‘',
+  rdquo: '”', ldquo: '“', hellip: '…', copy: '©', reg: '®',
+  ouml: 'ö', auml: 'ä', uuml: 'ü', eacute: 'é', deg: '°',
+  times: '×', bull: '•', laquo: '«', raquo: '»',
+};
+
 /** Visible text of a raw HTML string, with scripts and styles removed. */
 function textOf(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&[a-z]+;|&#\d+;/gi, ' ')
+    .replace(/&#(\d+);/g, (m, n) => String.fromCodePoint(+n))
+    .replace(/&#x([0-9a-f]+);/gi, (m, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&([a-z]+);/gi, (m, n) => ENTITY[n.toLowerCase()] || '?')
     .replace(/\s+/g, ' ')
     .trim().length;
 }

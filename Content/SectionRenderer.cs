@@ -30,6 +30,7 @@ public sealed class SectionRenderer
             "products-list" => _store.Get("products"),
             "projects-list" => _store.Get("projects"),
             "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
+            "documents-filters" or "documents-count" or "documents-list" => _store.Get("documents"),
             _ => null,
         };
         if (doc is null) return null;
@@ -42,6 +43,9 @@ public sealed class SectionRenderer
             "colors-filters" => ColorFilters(doc),
             "colors-count" => ColorCount(doc),
             "colors-list" => ColorList(doc),
+            "documents-filters" => DocumentFilters(doc),
+            "documents-count" => DocumentCount(doc),
+            "documents-list" => DocumentList(doc, rootPrefix),
             _ => null,
         };
     }
@@ -236,6 +240,95 @@ public sealed class SectionRenderer
               .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name"))).Append("</span>")
               .Append("<span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
               .Append(" · ").Append(Esc(Str(c, "family"))).Append("</span></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Type and Language. The type list is the categories; the language list is collected from the
+    /// documents themselves in order of first appearance, so adding a Vietnamese edition to any
+    /// category makes a Vietnamese button appear without anyone maintaining a second list.
+    /// </summary>
+    private static string DocumentFilters(JsonNode doc)
+    {
+        var cats = (doc["categories"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+
+        var types = new List<(string V, string T)> { (string.Empty, "All") };
+        types.AddRange(cats.Select(c => (Str(c, "id"), Str(c, "name"))));
+
+        var langs = new List<(string V, string T)> { (string.Empty, "All") };
+        foreach (var d in cats.SelectMany(c => (c["items"] as JsonArray)?.OfType<JsonNode>() ?? []))
+        {
+            var l = Str(d, "lang");
+            if (l.Length > 0 && !langs.Any(x => x.V == l)) langs.Add((l, l));
+        }
+
+        return Group("Type", "cat", types) + Group("Language", "lang", langs);
+    }
+
+    /// <summary>One filter row. The empty value is the one already on, matching the settled page.</summary>
+    private static string Group(string label, string key, List<(string V, string T)> opts)
+    {
+        var sb = new StringBuilder();
+        sb.Append("<div class=\"ab-filter\"><span class=\"ab-filter-label\">").Append(Esc(label))
+          .Append("</span><div class=\"ab-filter-opts\">");
+        foreach (var (v, t) in opts)
+        {
+            sb.Append("<button type=\"button\" data-k=\"").Append(Esc(key))
+              .Append("\" data-v=\"").Append(Esc(v)).Append('"');
+            if (v.Length == 0) sb.Append(" class=\"is-on\"");
+            sb.Append('>').Append(Esc(t)).Append("</button>");
+        }
+        return sb.Append("</div></div>").ToString();
+    }
+
+    /// <summary>Every document in every category, counted rather than written down.</summary>
+    private static string DocumentCount(JsonNode doc)
+    {
+        var total = (doc["categories"] as JsonArray)?.OfType<JsonNode>()
+            .Sum(c => (c["items"] as JsonArray)?.Count ?? 0) ?? 0;
+        return total + " documents";
+    }
+
+    /// <summary>
+    /// The document list, grouped by category. Each row links twice: to the document's own page,
+    /// and straight to the PDF. The second link is what most people came for, so it is a real
+    /// link with a real filename rather than something a script attaches later.
+    /// </summary>
+    private static string DocumentList(JsonNode doc, string root)
+    {
+        var cats = doc["categories"] as JsonArray;
+        if (cats is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var c in cats.OfType<JsonNode>())
+        {
+            var items = (c["items"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+            if (items.Count == 0) continue;
+
+            var rows = new StringBuilder();
+            foreach (var d in items)
+            {
+                var id = Str(d, "id");
+                rows.Append("<div class=\"ab-doc\">")
+                    .Append("<a class=\"ab-doc-main\" href=\"detail/?id=")
+                    .Append(Uri.EscapeDataString(id)).Append("\">")
+                    .Append("<span class=\"ab-doc-icon\" aria-hidden=\"true\">PDF</span>")
+                    .Append("<span class=\"ab-doc-text\">")
+                    .Append("<span class=\"ab-doc-title\">").Append(Esc(Str(d, "title"))).Append("</span>")
+                    .Append("<span class=\"ab-doc-blurb\">").Append(Esc(Str(d, "blurb"))).Append("</span>")
+                    .Append("<span class=\"ab-doc-meta\">").Append(Esc(Str(c, "name")))
+                    .Append(" &middot; ").Append(Esc(Str(d, "edition")))
+                    .Append(" &middot; ").Append(Esc(Str(d, "lang")))
+                    .Append(" &middot; ").Append(Esc(Str(d, "pages"))).Append(" pages</span>")
+                    .Append("</span></a>")
+                    .Append("<a class=\"ab-doc-dl\" href=\"").Append(root).Append("_docs/")
+                    .Append(Esc(id)).Append(".pdf\" download>Download</a></div>");
+            }
+
+            sb.Append("<section class=\"ab-doccat\"><div class=\"ab-doccat-head\"><h2>")
+              .Append(Esc(Str(c, "name"))).Append("</h2><p>").Append(Esc(Str(c, "blurb")))
+              .Append("</p></div><div class=\"ab-docs\">").Append(rows).Append("</div></section>");
         }
         return sb.ToString();
     }

@@ -286,17 +286,29 @@ Giữ GitHub Pages sống trong lúc chuyển đổi, và cho một bản sao t�
 
 Thứ tự làm, mỗi loại là một vòng test–cài đặt–verify–commit:
 
-- [ ] **9a: products** (danh sách + chi tiết)
-- [ ] **9b: colors** (danh sách + chi tiết; giữ bộ lọc phía trình duyệt)
-- [ ] **9c: news** (danh sách + chi tiết)
-- [ ] **9d: projects** (danh sách + chi tiết + bộ ảnh)
-- [ ] **9e: documents**
+**Danh sách trước, chi tiết sau.** Bảy trang danh sách dùng chung một khuôn — một `data-ab-section`
+trên khung rỗng — nên làm liền mạch được. Còn mọi trang chi tiết đều cần bộ ghép biết `?id=`, tức
+là một việc chung làm một lần (9i) rồi áp cho cả bảy loại. Tách ra để không phải viết đi viết lại
+cùng một thứ dưới bảy cái tên.
+
+- [x] **9a: products** — danh sách xong (685 → 3.185 ký tự, bot đọc 101%)
+- [x] **9b: colors** — danh sách + ba hàng lọc + dòng đếm xong (685 → 2.208, bot đọc 101%)
+- [x] **9c: news** — danh sách xong (677 → 2.511, bot đọc 100%)
+- [x] **9d: projects** — danh sách xong (685 → 1.850, bot đọc 101%)
+- [ ] **9e: documents** — trang tệ nhất site: 691 ký tự thô trên 5.890 sau khi JS chạy, bot đọc 12%
 - [ ] **9f: about, contact**
 - [ ] **9g: khối trang chủ** — products, colors, projects, highlights, applications, gallery, feature
 - [ ] **9h: danh sách chữ cạnh hai canvas** — 4 tuyến, 5 nhà máy. Hình vẽ ở lại phía trình duyệt.
+- [ ] **9i: mọi trang chi tiết** — `PageComposer` nhận `?id=`, rồi bảy loại dùng chung
 
 Sau mỗi mục: `textmass.js` phải cho thấy chữ trong HTML thô **tăng**, `parity.js` phải cho thấy
-hình thức **không đổi**, `crawl.js` sạch.
+hình thức **không đổi**, `nojs.js` phải cho thấy trang **đọc được khi tắt JavaScript** (mở ảnh ra
+nhìn, không chỉ đọc con số), `crawl.js` sạch.
+
+**Mốc "trước" là bản đang chạy trên GitHub Pages**, vốn còn dựng mọi danh sách bằng JS — chính xác
+hơn một mốc chụp theo thời gian, vì nó là đúng bản trước đợt sửa này. Đã chụp lại vào
+`tools/baseline/pages-js/` (1440 và 390) trước khi `site/` được sinh lại, vì lúc đẩy bản mới lên
+là mốc đó biến mất.
 
 - [ ] **Step cuối: Verify toàn bộ** — trang bài tin từ 672 lên ≳ 2.000 ký tự HTML thô
 - [ ] **Commit kèm bảng số trước/sau**
