@@ -31,6 +31,8 @@ public sealed class SectionRenderer
             "projects-list" => _store.Get("projects"),
             "colors-filters" or "colors-count" or "colors-list" => _store.Get("colors"),
             "documents-filters" or "documents-count" or "documents-list" => _store.Get("documents"),
+            "about-nav" or "about-figures" or "about-chapters" => _store.Get("about"),
+            "contact-offices" or "contact-routes" => _store.Get("contact"),
             _ => null,
         };
         if (doc is null) return null;
@@ -46,6 +48,11 @@ public sealed class SectionRenderer
             "documents-filters" => DocumentFilters(doc),
             "documents-count" => DocumentCount(doc),
             "documents-list" => DocumentList(doc, rootPrefix),
+            "about-nav" => AboutNav(doc),
+            "about-figures" => AboutFigures(doc),
+            "about-chapters" => AboutChapters(doc),
+            "contact-offices" => ContactOffices(doc),
+            "contact-routes" => ContactRoutes(doc),
             _ => null,
         };
     }
@@ -332,6 +339,128 @@ public sealed class SectionRenderer
         }
         return sb.ToString();
     }
+
+    /// <summary>
+    /// The numbered chapter bar. The numbering is the one structural idea worth keeping from the
+    /// page this section is modelled on: it says how many chapters there are and where you are in
+    /// them, which a plain menu does not. Numbers come from position, so reordering renumbers.
+    /// </summary>
+    private static string AboutNav(JsonNode doc)
+    {
+        var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        var sb = new StringBuilder("<div class=\"ab-wrap ab-chapbar\">");
+        for (var i = 0; i < chapters.Count; i++)
+        {
+            sb.Append("<a class=\"ab-chap\" href=\"detail/?id=")
+              .Append(Uri.EscapeDataString(Str(chapters[i], "id")))
+              .Append("\"><span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
+              .Append(Esc(Str(chapters[i], "name"))).Append("</a>");
+        }
+        return sb.Append("</div>").ToString();
+    }
+
+    /// <summary>
+    /// The key-figures panel, with the first tab already open - the state the page settles into.
+    /// The other tabs stay in the data the script reads, so switching them costs no round trip.
+    /// </summary>
+    private static string AboutFigures(JsonNode doc)
+    {
+        var f = doc["figures"];
+        var tabs = (f?["tabs"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        if (tabs.Count == 0) return string.Empty;
+
+        var sb = new StringBuilder("<div class=\"ab-wrap\"><h2 class=\"ab-fig-title\">");
+        sb.Append(Esc(Str(f, "title"))).Append("</h2><div class=\"ab-fig-tabs\">");
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            sb.Append("<button type=\"button\" data-i=\"").Append(i).Append('"');
+            if (i == 0) sb.Append(" class=\"is-on\"");
+            sb.Append('>').Append(Esc(Str(tabs[i], "label"))).Append("</button>");
+        }
+        sb.Append("</div><div class=\"ab-fig-body\" id=\"ab-fig-body\">");
+
+        foreach (var r in (tabs[0]["rows"] as JsonArray)?.OfType<JsonArray>() ?? [])
+        {
+            sb.Append("<div class=\"ab-fig\"><span class=\"ab-fig-k\">")
+              .Append(Esc(r.Count > 0 ? r[0]!.ToString() : string.Empty))
+              .Append("</span><span class=\"ab-fig-v\">")
+              .Append(Esc(r.Count > 1 ? r[1]!.ToString() : string.Empty))
+              .Append("</span></div>");
+        }
+        return sb.Append("</div></div>").ToString();
+    }
+
+    /// <summary>One card per chapter, numbered to match the bar above.</summary>
+    private static string AboutChapters(JsonNode doc)
+    {
+        var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        var sb = new StringBuilder();
+        for (var i = 0; i < chapters.Count; i++)
+        {
+            var c = chapters[i];
+            var name = Str(c, "name");
+            sb.Append("<a class=\"ab-chapcard\" href=\"detail/?id=")
+              .Append(Uri.EscapeDataString(Str(c, "id"))).Append("\">")
+              .Append("<img src=\"").Append(Placeholder.Uri(560, 340, name))
+              .Append("\" width=\"560\" height=\"340\" alt=\"").Append(Esc(name))
+              .Append("\" loading=\"lazy\">")
+              .Append("<span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
+              .Append("<h3>").Append(Esc(Str(c, "title"))).Append("</h3>")
+              .Append("<p>").Append(Esc(Str(c, "lede"))).Append("</p></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>"01", "02" - two digits, so the numbers line up in a column.</summary>
+    private static string Num(int i) => (i + 1).ToString("00");
+
+    /// <summary>
+    /// Each office as an address block with a real tel: and mailto: link. These are the two things
+    /// a visitor came for and the two things an AI answer engine is asked for by name, so they
+    /// belong in the HTML rather than in a script's output.
+    /// </summary>
+    private static string ContactOffices(JsonNode doc)
+    {
+        var offices = doc["offices"] as JsonArray;
+        if (offices is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var o in offices.OfType<JsonNode>())
+        {
+            var phone = Str(o, "phone");
+            var email = Str(o, "email");
+            var lines = (o["lines"] as JsonArray)?.OfType<JsonNode>().Select(l => Esc(l.ToString()));
+
+            sb.Append("<div class=\"ab-office\"><h2>").Append(Esc(Str(o, "name"))).Append("</h2>")
+              .Append("<p>").Append(string.Join("<br>", lines ?? [])).Append("</p>")
+              .Append("<p><a href=\"tel:").Append(Esc(StripSpace(phone))).Append("\">")
+              .Append(Esc(phone)).Append("</a><br><a href=\"mailto:").Append(Esc(email))
+              .Append("\">").Append(Esc(email)).Append("</a></p></div>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The four enquiry routes, each a card linking to its own form.</summary>
+    private static string ContactRoutes(JsonNode doc)
+    {
+        var routes = doc["routes"] as JsonArray;
+        if (routes is null) return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var r in routes.OfType<JsonNode>())
+        {
+            sb.Append("<a class=\"ab-route\" href=\"detail/?id=")
+              .Append(Uri.EscapeDataString(Str(r, "id"))).Append("\">")
+              .Append("<h3>").Append(Esc(Str(r, "name"))).Append("</h3>")
+              .Append("<p>").Append(Esc(Str(r, "blurb"))).Append("</p>")
+              .Append("<span class=\"ab-route-cta\">").Append(Esc(Str(r, "cta")))
+              .Append("</span></a>");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>A tel: href carries no spaces. Matches the script's <c>replace(/\s/g, '')</c>.</summary>
+    private static string StripSpace(string s) => new(s.Where(c => !char.IsWhiteSpace(c)).ToArray());
 
     /// <summary>
     /// "3 months ago" rather than a date. It answers "is this current" without arithmetic, which
