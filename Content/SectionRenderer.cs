@@ -21,28 +21,38 @@ public sealed class SectionRenderer
 
     public SectionRenderer(ContentStore store) => _store = store;
 
-    /// <summary>The JSON document a section reads from, or null when the name is not one we know.</summary>
-    private JsonNode? DocFor(string section) => section switch
+    /// <summary>
+    /// Which JSON document a section reads from, by name.
+    ///
+    /// The name is worth having on its own, not only the parsed document: an address starts with
+    /// it - <c>news.items.3.image</c> - and the composer stamps it onto the section element so the
+    /// editor can work out the full address of anything inside.
+    /// </summary>
+    public string? DocumentFor(string section) => section switch
     {
-        "news-list" or "news-detail" => _store.Get("news"),
+        "news-list" or "news-detail" => "news",
         "products-list" or "products-detail" or "home-hero-words" or "home-hero-caption"
-            or "home-products" => _store.Get("products"),
-        "projects-list" or "projects-detail" or "home-projects" => _store.Get("projects"),
+            or "home-products" => "products",
+        "projects-list" or "projects-detail" or "home-projects" => "projects",
         "colors-filters" or "colors-count" or "colors-list" or "colors-detail" or "home-colors"
-            => _store.Get("colors"),
+            => "colors",
         "documents-filters" or "documents-count" or "documents-list" or "documents-detail"
-            => _store.Get("documents"),
+            => "documents",
         "about-nav" or "about-figures" or "about-chapters" or "about-detail" or "about-chapbar"
-            => _store.Get("about"),
-        "contact-offices" or "contact-routes" or "contact-detail" => _store.Get("contact"),
-        "home-feature" => _store.Get("feature"),
-        "home-highlights" => _store.Get("highlights"),
-        "home-gallery" or "home-gallery-tags" => _store.Get("gallery"),
-        "home-app-tabs" or "home-app-slides" => _store.Get("applications"),
-        "globe-routes" => _store.Get("globe"),
-        "factories-list" => _store.Get("factories"),
+            => "about",
+        "contact-offices" or "contact-routes" or "contact-detail" => "contact",
+        "home-feature" => "feature",
+        "home-highlights" => "highlights",
+        "home-gallery" or "home-gallery-tags" => "gallery",
+        "home-app-tabs" or "home-app-slides" => "applications",
+        "globe-routes" => "globe",
+        "factories-list" => "factories",
         _ => null,
     };
+
+    /// <summary>The JSON document a section reads from, or null when the name is not one we know.</summary>
+    private JsonNode? DocFor(string section)
+        => DocumentFor(section) is { } name ? _store.Get(name) : null;
 
     /// <summary>
     /// The items a detail page can show, in the order the listing shows them. The first is what an
@@ -128,6 +138,65 @@ public sealed class SectionRenderer
         return Slug(hit ?? items[0]);
     }
 
+    /// <summary>
+    /// Where a field sits inside its document: <c>items.3.image</c>.
+    ///
+    /// Worked out from the node itself rather than from the loop it arrived in. Every one of these
+    /// lists is sorted, grouped or filtered before it is drawn - the third card on the page is
+    /// rarely the third item in the file - and an address has to name the file, not the page.
+    ///
+    /// The document's own name is not here. The composer stamps that onto the section element as
+    /// data-ab-doc, once per section, and the editor joins the two: a renderer that had to know
+    /// its document's name would need it threaded through a dozen signatures for one attribute.
+    /// </summary>
+    private static string Where(JsonNode? node, string field)
+    {
+        if (node is null) return string.Empty;
+
+        // GetPath gives JSON Path - "$.categories[0].items[2]". Ours is the same walk written the
+        // way the rest of this project writes it, which is the way ContentPath reads it.
+        var path = node.GetPath().Replace("[", ".").Replace("]", "");
+        path = path.StartsWith("$.", StringComparison.Ordinal) ? path[2..]
+             : path == "$" ? string.Empty
+             : path;
+        return path.Length == 0 ? field : path + "." + field;
+    }
+
+    /// <summary>
+    /// The attribute that lets the editor point at a picture.
+    ///
+    /// It goes on whether or not there is a file behind the field, because on this site most of
+    /// them are empty - what you see in their place is a drawing, not a photograph - and an empty
+    /// field is precisely the one somebody wants to fill. It has to be clickable before it has a
+    /// picture in it.
+    /// </summary>
+    private static string ImgAddress(JsonNode? item, string field = "image")
+        => " data-ab-img=\"" + Esc(Where(item, field)) + "\"";
+
+    /// <summary>
+    /// One swatch: the photograph if the finish has one, the flat colour if it does not.
+    ///
+    /// A finish is a surface, not a flat colour, so beside photographed surfaces a plain chip
+    /// reads as an empty box - the home page has worked this way from the start. Written once
+    /// here because it is now drawn in three places, and three copies drift.
+    /// </summary>
+    private static string Chip(JsonNode? c, string root, string cls = "ab-chip")
+    {
+        var image = Str(c, "image");
+        return image.Length > 0
+            ? "<span class=\"" + cls + "\"><img src=\"" + root + "_media/" + Esc(image)
+              + "\"" + ImgAddress(c) + " alt=\"\" loading=\"lazy\"></span>"
+            : "<span class=\"" + cls + "\"" + ImgAddress(c) + " style=\"background:"
+              + Esc(Str(c, "hex")) + "\"></span>";
+    }
+
+    /// <summary>The file behind an image field, or the drawing that stands in for it.</summary>
+    private static string Src(JsonNode? item, string root, string fallback, string field = "image")
+    {
+        var image = Str(item, field);
+        return image.Length > 0 ? root + "_media/" + Esc(image) : fallback;
+    }
+
     /// <summary>Where an item's page sits, seen from a listing page: <c>press-line-2500/</c>.</summary>
     private static string Href(JsonNode? item) => Uri.EscapeDataString(Slug(item)) + "/";
 
@@ -147,21 +216,21 @@ public sealed class SectionRenderer
             "projects-list" => ProjectsList(doc, rootPrefix),
             "colors-filters" => ColorFilters(doc),
             "colors-count" => ColorCount(doc),
-            "colors-list" => ColorList(doc),
+            "colors-list" => ColorList(doc, rootPrefix),
             "documents-filters" => DocumentFilters(doc),
             "documents-count" => DocumentCount(doc),
             "documents-list" => DocumentList(doc, rootPrefix),
             "about-nav" => AboutNav(doc),
             "about-figures" => AboutFigures(doc),
-            "about-chapters" => AboutChapters(doc),
+            "about-chapters" => AboutChapters(doc, rootPrefix),
             "contact-offices" => ContactOffices(doc),
             "contact-routes" => ContactRoutes(doc),
             "news-detail" => NewsDetail(doc, Pick(section, doc, itemId), rootPrefix),
-            "products-detail" => ProductDetail(doc, Pick(section, doc, itemId)),
-            "colors-detail" => ColorDetail(doc, Pick(section, doc, itemId)),
+            "products-detail" => ProductDetail(doc, Pick(section, doc, itemId), rootPrefix),
+            "colors-detail" => ColorDetail(doc, Pick(section, doc, itemId), rootPrefix),
             "projects-detail" => ProjectDetail(doc, Pick(section, doc, itemId), rootPrefix),
             "documents-detail" => DocumentDetail(doc, Pick(section, doc, itemId), rootPrefix),
-            "about-detail" => AboutDetail(doc, itemId),
+            "about-detail" => AboutDetail(doc, itemId, rootPrefix),
             "about-chapbar" => AboutNav(doc, Str(Pick("about-detail", doc, itemId), "id")),
             "contact-detail" => ContactDetail(doc, Pick(section, doc, itemId)),
             "home-hero-words" => HeroWords(doc, rootPrefix),
@@ -210,8 +279,9 @@ public sealed class SectionRenderer
 
             sb.Append($"<a class=\"ab-post{(lead ? " is-lead" : "")}\" href=\"")
               .Append(Href(a)).Append("\">")
-              .Append("<span class=\"ab-post-img\"><img src=\"").Append(src)
-              .Append($"\" width=\"{w}\" height=\"{h}\" alt=\"").Append(Esc(Str(a, "title")))
+              .Append("<span class=\"ab-post-img\"><img src=\"").Append(src).Append('"')
+              .Append(ImgAddress(a))
+              .Append($" width=\"{w}\" height=\"{h}\" alt=\"").Append(Esc(Str(a, "title")))
               .Append("\" loading=\"lazy\"></span>")
               .Append("<span class=\"ab-post-tags\">").Append(string.Join(" &middot; ", tags))
               .Append("</span>")
@@ -250,8 +320,9 @@ public sealed class SectionRenderer
 
                 tiles.Append("<a class=\"ab-tile\" href=\"").Append(href)
                      .Append('#').Append(Uri.EscapeDataString(Str(it, "id"))).Append("\">")
-                     .Append("<span class=\"ab-thumb\"><img src=\"").Append(src)
-                     .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(Str(it, "name")))
+                     .Append("<span class=\"ab-thumb\"><img src=\"").Append(src).Append('"')
+                     .Append(ImgAddress(it))
+                     .Append(" width=\"340\" height=\"300\" alt=\"").Append(Esc(Str(it, "name")))
                      .Append("\" loading=\"lazy\"></span>")
                      .Append("<h3>").Append(Esc(Str(it, "name"))).Append("</h3>")
                      .Append("<p>").Append(Esc(Str(it, "spec"))).Append("</p></a>");
@@ -295,8 +366,9 @@ public sealed class SectionRenderer
 
                 cards.Append("<a class=\"ab-album\" href=\"")
                      .Append(Href(a)).Append("\">")
-                     .Append("<span class=\"ab-album-cover\"><img src=\"").Append(src)
-                     .Append("\" width=\"760\" height=\"520\" alt=\"").Append(Esc(Str(a, "title")))
+                     .Append("<span class=\"ab-album-cover\"><img src=\"").Append(src).Append('"')
+                     .Append(ImgAddress(a))
+                     .Append(" width=\"760\" height=\"520\" alt=\"").Append(Esc(Str(a, "title")))
                      .Append("\" loading=\"lazy\">")
                      .Append("<span class=\"ab-album-count\">").Append(photos)
                      .Append(" photographs</span></span>")
@@ -356,7 +428,7 @@ public sealed class SectionRenderer
     /// stand-in used everywhere else - the colour IS the product, and a page of grey rectangles
     /// would tell a client nothing.
     /// </summary>
-    private static string ColorList(JsonNode doc)
+    private static string ColorList(JsonNode doc, string root)
     {
         var items = doc["items"] as JsonArray;
         if (items is null) return string.Empty;
@@ -365,9 +437,7 @@ public sealed class SectionRenderer
         foreach (var c in items.OfType<JsonNode>())
         {
             sb.Append("<a class=\"ab-swatch\" href=\"")
-              .Append(Href(c)).Append("\">")
-              .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(c, "hex")))
-              .Append("\"></span>")
+              .Append(Href(c)).Append("\">").Append(Chip(c, root))
               .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name"))).Append("</span>")
               .Append("<span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
               .Append(" · ").Append(Esc(Str(c, "family"))).Append("</span></a>");
@@ -496,17 +566,16 @@ public sealed class SectionRenderer
         foreach (var x in more)
         {
             var xTitle = Str(x, "title");
-            var xImage = Str(x, "image");
             cards.Append("<a class=\"ab-card\" href=\"").Append(SiblingHref(x))
                  .Append("\"><img src=\"")
-                 .Append(xImage.Length > 0 ? root + "_media/" + xImage : Placeholder.Uri(400, 260, xTitle))
-                 .Append("\" width=\"400\" height=\"260\" alt=\"").Append(Esc(xTitle))
+                 .Append(Src(x, root, Placeholder.Uri(400, 260, xTitle))).Append('"')
+                 .Append(ImgAddress(x))
+                 .Append(" width=\"400\" height=\"260\" alt=\"").Append(Esc(xTitle))
                  .Append("\" loading=\"lazy\"><h3>").Append(Esc(xTitle))
                  .Append("</h3><p class=\"ab-card-spec\">").Append(LongDate(Str(x, "date")))
                  .Append("</p></a>");
         }
 
-        var image = Str(a, "image");
         var sb = new StringBuilder("<div class=\"ab-wrap\">");
         sb.Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
           .Append("</a> &nbsp;/&nbsp; ").Append(string.Join(" &middot; ", tags)).Append("</p>")
@@ -514,8 +583,9 @@ public sealed class SectionRenderer
           .Append("<p class=\"ab-post-meta\">").Append(LongDate(Str(a, "date")))
           .Append(" &nbsp;|&nbsp; Written by: ").Append(Esc(Str(a, "author"))).Append("</p>")
           .Append("<div class=\"ab-hero\"><img src=\"")
-          .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(1240, 560, title))
-          .Append("\" width=\"1240\" height=\"560\" alt=\"").Append(Esc(title)).Append("\"></div>")
+          .Append(Src(a, root, Placeholder.Uri(1240, 560, title))).Append('"')
+          .Append(ImgAddress(a))
+          .Append(" width=\"1240\" height=\"560\" alt=\"").Append(Esc(title)).Append("\"></div>")
           .Append("<div class=\"ab-article\"><p class=\"ab-standfirst\">")
           .Append(Esc(Str(a, "excerpt"))).Append("</p>");
 
@@ -562,11 +632,11 @@ public sealed class SectionRenderer
         foreach (var c in Arr(doc, "categories"))
         {
             var name = Str(c, "name");
-            var image = Str(c, "image");
             sb.Append("<a class=\"ab-tile\" href=\"products/").Append(Href(c)).Append("\">")
               .Append("<span class=\"ab-thumb\"><img src=\"")
-              .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(340, 300, name))
-              .Append("\" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
+              .Append(Src(c, root, Placeholder.Uri(340, 300, name))).Append('"')
+              .Append(ImgAddress(c))
+              .Append(" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
               .Append("\" loading=\"lazy\"></span><h3>").Append(Esc(name)).Append("</h3><p>")
               .Append(Esc(Str(c, "tagline"))).Append("</p></a>");
         }
@@ -588,16 +658,8 @@ public sealed class SectionRenderer
         var sb = new StringBuilder();
         foreach (var c in pick.Take(10))
         {
-            var image = Str(c, "image");
-            // A finish is a surface, not a flat colour: beside photographed surfaces a plain
-            // chip reads as an empty box, so the photograph wins where there is one.
-            var chip = image.Length > 0
-                ? "<span class=\"ab-chip\"><img src=\"" + root + "_media/" + Esc(image)
-                  + "\" alt=\"\" loading=\"lazy\"></span>"
-                : "<span class=\"ab-chip\" style=\"background:" + Esc(Str(c, "hex")) + "\"></span>";
-
             sb.Append("<a class=\"ab-swatch\" href=\"colors/").Append(Href(c))
-              .Append("\">").Append(chip)
+              .Append("\">").Append(Chip(c, root))
               .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(c, "name")))
               .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(c, "code")))
               .Append("</span></a>");
@@ -613,11 +675,11 @@ public sealed class SectionRenderer
                      .OrderByDescending(a => int.TryParse(Str(a, "year"), out var y) ? y : 0).Take(3))
         {
             var title = Str(a, "title");
-            var image = Str(a, "image");
             sb.Append("<a class=\"ab-card\" href=\"projects/").Append(Href(a))
               .Append("\"><img src=\"")
-              .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(420, 300, title))
-              .Append("\" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
+              .Append(Src(a, root, Placeholder.Uri(420, 300, title))).Append('"')
+              .Append(ImgAddress(a))
+              .Append(" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
               .Append("\" loading=\"lazy\"><h3>").Append(Esc(title))
               .Append("</h3><p class=\"ab-card-spec\">")
               .Append(Esc(Str(a, "year") + " · " + Str(a, "location"))).Append("</p><p>")
@@ -646,7 +708,8 @@ public sealed class SectionRenderer
             .Append(FeatureLink(doc["more"], "abfc-alt", false, root))
             .Append("</div></div><div class=\"core-cta-customizable__image-col\">")
             .Append("<img class=\"core-cta-customizable__image-col__image\" src=\"").Append(src)
-            .Append("\" width=\"2400\" height=\"1000\" alt=\"").Append(Esc(Str(doc, "alt")))
+            .Append('"').Append(ImgAddress(doc))
+            .Append(" width=\"2400\" height=\"1000\" alt=\"").Append(Esc(Str(doc, "alt")))
             .Append("\" loading=\"lazy\"></div>").ToString();
     }
 
@@ -687,7 +750,8 @@ public sealed class SectionRenderer
               .Append(i).Append("\"><a class=\"core-slider-novedades__slide__container\" href=\"")
               .Append(Esc(root + Str(it, "href"))).Append("\"><div class=\"shadow\"></div>")
               .Append("<img class=\"core-slider-novedades__slide__image\" src=\"").Append(Esc(src))
-              .Append("\" width=\"444\" height=\"370\" alt=\"").Append(Esc(title))
+              .Append('"').Append(ImgAddress(it))
+              .Append(" width=\"444\" height=\"370\" alt=\"").Append(Esc(title))
               .Append("\" loading=\"lazy\">")
               .Append("<div class=\"core-slider-novedades__slide__filter\"></div>")
               .Append("<div class=\"core-slider-novedades__slide__card-body\">")
@@ -725,8 +789,9 @@ public sealed class SectionRenderer
               .Append("<div class=\"core-gallery__content__item__filter__cruz\"></div>")
               .Append("<span class=\"abgal-cap\">").Append(Esc(caption)).Append("</span></div>")
               .Append("<img class=\"core-gallery__thumb skip-lazy\" src=\"")
-              .Append(GallerySrc(doc, item, root, 640, 640))
-              .Append("\" width=\"640\" height=\"640\" alt=\"").Append(Esc(caption))
+              .Append(GallerySrc(doc, item, root, 640, 640)).Append('"')
+              .Append(ImgAddress(item))
+              .Append(" width=\"640\" height=\"640\" alt=\"").Append(Esc(caption))
               .Append("\" draggable=\"false\" loading=\"lazy\"></div>");
         }
         return sb.ToString();
@@ -787,7 +852,8 @@ public sealed class SectionRenderer
 
             sb.Append("<div class=\"core-slider__slide keen-slider__slide number-slide-").Append(i)
               .Append("\"><img class=\"core-slider__slide__image\" src=\"").Append(Esc(src))
-              .Append("\" alt=\"\" loading=\"lazy\"><div class=\"core-slider__slide__filter\"></div>")
+              .Append('"').Append(ImgAddress(items[i]))
+              .Append(" alt=\"\" loading=\"lazy\"><div class=\"core-slider__slide__filter\"></div>")
               .Append("<div class=\"core-slider__slide__card-body\">")
               .Append("<div class=\"core-slider__slide__card-body__block\">")
               .Append("<h3 class=\"core-slider__slide__card-body__name font-16\">")
@@ -863,7 +929,7 @@ public sealed class SectionRenderer
     /// <summary>
     /// One product family: headline, hero, a two-column blurb, and every product in it.
     /// </summary>
-    private static string? ProductDetail(JsonNode doc, JsonNode? c)
+    private static string? ProductDetail(JsonNode doc, JsonNode? c, string root)
     {
         if (c is null) return null;
 
@@ -880,8 +946,9 @@ public sealed class SectionRenderer
         {
             var n = Str(it, "name");
             cards.Append("<article class=\"ab-card\" id=\"").Append(Esc(Str(it, "id"))).Append("\">")
-                 .Append("<img src=\"").Append(Placeholder.Uri(400, 300, n))
-                 .Append("\" width=\"400\" height=\"300\" alt=\"").Append(Esc(n))
+                 .Append("<img src=\"").Append(Src(it, root, Placeholder.Uri(400, 300, n)))
+                 .Append('"').Append(ImgAddress(it))
+                 .Append(" width=\"400\" height=\"300\" alt=\"").Append(Esc(n))
                  .Append("\" loading=\"lazy\"><h3>").Append(Esc(n)).Append("</h3>")
                  .Append("<p class=\"ab-card-spec\">").Append(Esc(Str(it, "spec"))).Append("</p>")
                  .Append("<p>").Append(Esc(Str(it, "text"))).Append("</p></article>");
@@ -895,8 +962,9 @@ public sealed class SectionRenderer
             .Append("<h1 class=\"ab-title\">").Append(Esc(name)).Append("</h1>")
             .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "tagline"))).Append("</p></div>")
             .Append("<div class=\"ab-wrap\"><div class=\"ab-hero\"><img src=\"")
-            .Append(Placeholder.Uri(1280, 520, name))
-            .Append("\" width=\"1280\" height=\"520\" alt=\"").Append(Esc(name))
+            .Append(Src(c, root, Placeholder.Uri(1280, 520, name))).Append('"')
+            .Append(ImgAddress(c))
+            .Append(" width=\"1280\" height=\"520\" alt=\"").Append(Esc(name))
             .Append("\"></div></div>")
             .Append("<div class=\"ab-wrap\"><div class=\"ab-body\"><div><p>").Append(Esc(para[0]))
             .Append("</p></div><div><p>").Append(Esc(para[1])).Append("</p></div></div></div>")
@@ -945,7 +1013,7 @@ public sealed class SectionRenderer
     /// on all 35 entries. That table lives in colors.json, which the browser script reads too -
     /// one table rather than two that drift apart.
     /// </summary>
-    private static string? ColorDetail(JsonNode doc, JsonNode? c)
+    private static string? ColorDetail(JsonNode doc, JsonNode? c, string root)
     {
         if (c is null) return null;
 
@@ -970,9 +1038,8 @@ public sealed class SectionRenderer
         foreach (var x in Arr(doc, "items").Where(x => Str(x, "family") == family && Str(x, "id") != id).Take(8))
         {
             siblings.Append("<a class=\"ab-swatch\" href=\"").Append(SiblingHref(x))
-                    .Append("\">")
-                    .Append("<span class=\"ab-chip\" style=\"background:").Append(Esc(Str(x, "hex")))
-                    .Append("\"></span><span class=\"ab-swatch-name\">").Append(Esc(Str(x, "name")))
+                    .Append("\">").Append(Chip(x, root))
+                    .Append("<span class=\"ab-swatch-name\">").Append(Esc(Str(x, "name")))
                     .Append("</span><span class=\"ab-swatch-meta\">").Append(Esc(Str(x, "code")))
                     .Append("</span></a>");
         }
@@ -980,8 +1047,13 @@ public sealed class SectionRenderer
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(family)).Append("</p>")
-            .Append("<div class=\"ab-colour-head\"><div class=\"ab-colour-block\" style=\"background:")
-            .Append(Esc(Str(c, "hex"))).Append("\"></div><div>")
+            .Append("<div class=\"ab-colour-head\"><div class=\"ab-colour-block\"")
+            .Append(ImgAddress(c)).Append(" style=\"background:").Append(Esc(Str(c, "hex")))
+            .Append(Str(c, "image").Length > 0
+                ? ";background-image:url(" + root + "_media/" + Esc(Str(c, "image"))
+                  + ");background-size:cover;background-position:center"
+                : "")
+            .Append("\"></div><div>")
             .Append("<h1 class=\"ab-title\">").Append(Esc(Str(c, "name"))).Append("</h1>")
             .Append("<p class=\"ab-tagline\">").Append(Esc(Str(c, "code"))).Append(" &middot; ")
             .Append(Esc(family)).Append("</p>")
@@ -1023,14 +1095,14 @@ public sealed class SectionRenderer
         for (var i = 0; i < photos.Count; i++)
         {
             var cap = Str(photos[i], "c");
-            var image = Str(photos[i], "image");
             var w = i == 0 ? 1260 : 620;
             var h = i == 0 ? 540 : 414;
 
             tiles.Append("<button type=\"button\" class=\"ab-shot\" data-i=\"").Append(i)
                  .Append("\"><img src=\"")
-                 .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(w, h, cap))
-                 .Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
+                 .Append(Src(photos[i], root, Placeholder.Uri(w, h, cap))).Append('"')
+                 .Append(ImgAddress(photos[i]))
+                 .Append(" width=\"").Append(w).Append("\" height=\"").Append(h)
                  .Append("\" alt=\"").Append(Esc(cap)).Append("\" loading=\"lazy\">")
                  .Append("<span class=\"ab-shot-cap\">").Append(Esc(cap)).Append("</span></button>");
         }
@@ -1040,11 +1112,11 @@ public sealed class SectionRenderer
                      .OrderByDescending(x => int.TryParse(Str(x, "year"), out var y) ? y : 0).Take(3))
         {
             var t = Str(x, "title");
-            var image = Str(x, "image");
             others.Append("<a class=\"ab-card\" href=\"").Append(SiblingHref(x))
                   .Append("\"><img src=\"")
-                  .Append(image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(400, 280, t))
-                  .Append("\" width=\"400\" height=\"280\" alt=\"").Append(Esc(t))
+                  .Append(Src(x, root, Placeholder.Uri(400, 280, t))).Append('"')
+                  .Append(ImgAddress(x))
+                  .Append(" width=\"400\" height=\"280\" alt=\"").Append(Esc(t))
                   .Append("\" loading=\"lazy\"><h3>").Append(Esc(t))
                   .Append("</h3><p class=\"ab-card-spec\">")
                   .Append(Esc(Str(x, "year") + " · " + Str(x, "location"))).Append("</p></a>");
@@ -1126,7 +1198,7 @@ public sealed class SectionRenderer
     /// One chapter of the About section, with the previous and next chapter at the foot. The pair
     /// of steps is how someone reads the section through rather than bouncing back to the index.
     /// </summary>
-    private static string? AboutDetail(JsonNode doc, string? itemId)
+    private static string? AboutDetail(JsonNode doc, string? itemId, string root)
     {
         var chapters = Arr(doc, "chapters");
         if (chapters.Count == 0) return null;
@@ -1144,8 +1216,9 @@ public sealed class SectionRenderer
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
             .Append("<h1 class=\"ab-title ab-article-title\">").Append(Esc(Str(c, "title")))
             .Append("</h1><p class=\"ab-tagline\">").Append(Esc(Str(c, "lede"))).Append("</p>")
-            .Append("<div class=\"ab-hero\"><img src=\"").Append(Placeholder.Uri(1240, 520, name))
-            .Append("\" width=\"1240\" height=\"520\" alt=\"").Append(Esc(name)).Append("\"></div>")
+            .Append("<div class=\"ab-hero\"><img src=\"")
+            .Append(Src(c, root, Placeholder.Uri(1240, 520, name))).Append('"').Append(ImgAddress(c))
+            .Append(" width=\"1240\" height=\"520\" alt=\"").Append(Esc(name)).Append("\"></div>")
             .Append("<div class=\"ab-article\">").Append(body).Append("</div>")
             .Append("<nav class=\"ab-steps\">")
             .Append(Step(at > 0 ? chapters[at - 1] : null, "Previous", "is-prev"))
@@ -1306,7 +1379,7 @@ public sealed class SectionRenderer
     }
 
     /// <summary>One card per chapter, numbered to match the bar above.</summary>
-    private static string AboutChapters(JsonNode doc)
+    private static string AboutChapters(JsonNode doc, string root)
     {
         var chapters = (doc["chapters"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
         var sb = new StringBuilder();
@@ -1315,8 +1388,9 @@ public sealed class SectionRenderer
             var c = chapters[i];
             var name = Str(c, "name");
             sb.Append("<a class=\"ab-chapcard\" href=\"").Append(Href(c)).Append("\">")
-              .Append("<img src=\"").Append(Placeholder.Uri(560, 340, name))
-              .Append("\" width=\"560\" height=\"340\" alt=\"").Append(Esc(name))
+              .Append("<img src=\"").Append(Src(c, root, Placeholder.Uri(560, 340, name)))
+              .Append('"').Append(ImgAddress(c))
+              .Append(" width=\"560\" height=\"340\" alt=\"").Append(Esc(name))
               .Append("\" loading=\"lazy\">")
               .Append("<span class=\"ab-chap-n\">").Append(Num(i)).Append(".</span>")
               .Append("<h3>").Append(Esc(Str(c, "title"))).Append("</h3>")

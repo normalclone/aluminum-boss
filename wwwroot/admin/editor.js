@@ -14,11 +14,162 @@
   var list = document.getElementById('ed-fields');
   var urlOut = document.getElementById('ed-url');
   var picker = document.getElementById('ed-page');
+  var saveBtn = document.getElementById('ed-save');
+  var saveNote = document.getElementById('ed-save-note');
+  var shelf = document.getElementById('ed-shelf');
+  var shelfList = document.getElementById('ed-shelf-list');
+  var shelfFile = document.getElementById('ed-shelf-file');
+  var shelfNote = document.getElementById('ed-shelf-note');
+  var token = document.querySelector('input[name=__RequestVerificationToken]').value;
+
   var inputs = {};              // address -> the input showing it
+  var dirty = {};               // address -> the value waiting to be written
   var width = 1440;
+  var choosing = null;          // the image field the picture shelf is open for
 
   function send(msg) {
     if (frame.contentWindow) frame.contentWindow.postMessage(msg, location.origin);
+  }
+
+  function post(url, body) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', RequestVerificationToken: token },
+      body: JSON.stringify(body),
+    }).then(function (r) { return r.json(); });
+  }
+
+  /* ---- saving ------------------------------------------------------------------------ */
+
+  function mark(address, value) {
+    dirty[address] = value;
+    var n = Object.keys(dirty).length;
+    saveBtn.disabled = false;
+    saveBtn.textContent = n === 1 ? 'Save 1 change' : 'Save ' + n + ' changes';
+    saveNote.textContent = '';
+  }
+
+  function clean() {
+    dirty = {};
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Save changes';
+  }
+
+  function save() {
+    var edits = Object.keys(dirty).map(function (a) { return { address: a, value: dirty[a] }; });
+    if (!edits.length) return Promise.resolve();
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving…';
+    return post('/Admin/Edit/Save', edits).then(function (r) {
+      clean();
+      saveNote.textContent = r.saved + (r.saved === 1 ? ' change saved' : ' changes saved');
+      if (r.rejected && r.rejected.length) {
+        saveNote.textContent += ' · ' + r.rejected.length + ' could not be written';
+      }
+      // Reload rather than trust the patched copy. A picture that replaced a coloured square, or
+      // a word that also appears in a heading built by the server, only comes out right when the
+      // page is built again - and after a save the page on disk is the truth.
+      frame.src = frame.src;
+    }).catch(function () {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save changes';
+      saveNote.textContent = 'Could not reach the server. Nothing was saved.';
+    });
+  }
+
+  /* ---- the picture shelf -------------------------------------------------------------- */
+
+  function openShelf(address) {
+    choosing = address;
+    shelf.hidden = false;
+    shelfNote.textContent = '';
+    shelfList.innerHTML = '';
+    fetch('/Admin/Edit/Pictures', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(fillShelf)
+      .catch(function () { shelfNote.textContent = 'Could not read the picture library.'; });
+  }
+
+  function closeShelf() {
+    choosing = null;
+    shelf.hidden = true;
+  }
+
+  function fillShelf(pictures) {
+    shelfList.innerHTML = '';
+
+    // "No picture" is a choice, not an absence: every image field starts empty and draws a
+    // placeholder, and putting the wrong photograph in has to be undoable from the same place.
+    shelfList.appendChild(tile({ name: '', url: '', kb: 0 }, 'No picture'));
+    pictures.forEach(function (p) { shelfList.appendChild(tile(p, p.name)); });
+
+    if (!pictures.length) {
+      shelfNote.textContent = 'The library is empty. Add a picture with the button above.';
+    }
+  }
+
+  function tile(picture, caption) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ed-tile' + (picture.name ? '' : ' is-none');
+    if (picture.url) {
+      var img = document.createElement('img');
+      img.src = picture.url;
+      img.alt = '';
+      img.loading = 'lazy';
+      b.appendChild(img);
+    }
+    var cap = document.createElement('span');
+    cap.textContent = caption;
+    b.appendChild(cap);
+    b.addEventListener('click', function () { choose(picture.name); });
+    return b;
+  }
+
+  function choose(name) {
+    if (!choosing) return;
+    var address = choosing;
+    var input = inputs[address];
+    if (input) {
+      input.value = name;
+      showThumb(input, name);
+    }
+    mark(address, name);
+    send({ type: 'ab:img', address: address, file: name });
+    closeShelf();
+  }
+
+  function upload(file) {
+    if (!file) return;
+    shelfNote.textContent = 'Uploading ' + file.name + '…';
+    var form = new FormData();
+    form.append('file', file);
+    form.append('__RequestVerificationToken', token);
+    fetch('/Admin/Edit/Upload', { method: 'POST', body: form })
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (r.error) { shelfNote.textContent = r.error; return; }
+        shelfNote.textContent = '';
+        choose(r.name);
+      })
+      .catch(function () { shelfNote.textContent = 'The upload did not finish.'; });
+  }
+
+  function showThumb(input, name) {
+    var box = input.parentNode.querySelector('.ed-thumb');
+    if (!box) return;
+    box.innerHTML = '';
+    if (name) {
+      var img = document.createElement('img');
+      img.src = '/_media/' + name;
+      img.alt = '';
+      box.appendChild(img);
+    } else {
+      var none = document.createElement('span');
+      none.textContent = 'No picture';
+      box.appendChild(none);
+    }
   }
 
   /* ---- the preview, and its width ---------------------------------------------------- */
@@ -88,6 +239,7 @@
   function build(fields) {
     list.innerHTML = '';
     inputs = {};
+    closeShelf();
     if (!fields.length) {
       list.appendChild(note('This page has no editable text yet.'));
       return;
@@ -118,6 +270,34 @@
       cap.title = f.address;
       field.appendChild(cap);
 
+      if (f.kind === 'img') {
+        field.className = 'ed-field ed-field-img';
+        var thumb = document.createElement('div');
+        thumb.className = 'ed-thumb';
+        field.appendChild(thumb);
+
+        var pick = document.createElement('button');
+        pick.type = 'button';
+        pick.className = 'ed-choose';
+        pick.textContent = 'Choose picture';
+        pick.addEventListener('click', function () { openShelf(f.address); });
+        field.appendChild(pick);
+
+        // The file's name is kept, hidden, as the field's value: the shelf writes to it, the
+        // thumbnail reads from it, and nothing else has to remember what was chosen.
+        var held = document.createElement('input');
+        held.type = 'hidden';
+        held.id = id;
+        held.value = f.value;
+        held.setAttribute('data-address', f.address);
+        field.appendChild(held);
+
+        box.appendChild(field);
+        inputs[f.address] = held;
+        showThumb(held, f.value);
+        return;
+      }
+
       // A line break in the value means the address holds several lines; a long value wants room
       // to breathe. Everything else is one line, which is most of them.
       var many = f.kind === 'lines' || f.value.length > 70;
@@ -129,6 +309,7 @@
       if (many) input.rows = Math.min(6, f.value.split('\n').length + 1);
       input.addEventListener('input', function () {
         send({ type: 'ab:text', address: f.address, value: input.value });
+        mark(f.address, input.value);
       });
       field.appendChild(input);
 
@@ -142,10 +323,15 @@
     if (!input) return;
     var group = input.closest('details');
     if (group) group.open = true;
-    input.scrollIntoView({ block: 'center' });
-    input.focus();
-    input.classList.add('is-found');
-    setTimeout(function () { input.classList.remove('is-found'); }, 900);
+
+    // An image field's input is hidden - it holds the file's name - so the thing to scroll to
+    // and light up is the card around it.
+    var card = input.closest('.ed-field');
+    var target = input.type === 'hidden' ? card : input;
+    card.scrollIntoView({ block: 'center' });
+    if (input.type !== 'hidden') input.focus();
+    target.classList.add('is-found');
+    setTimeout(function () { target.classList.remove('is-found'); }, 900);
   }
 
   /* ---- wiring ------------------------------------------------------------------------- */
@@ -156,7 +342,26 @@
     else if (e.data.type === 'ab:pick') reveal(e.data.address);
   });
 
-  picker.addEventListener('change', function () { show(picker.value); });
+  picker.addEventListener('change', function () {
+    if (Object.keys(dirty).length &&
+        !confirm('There are unsaved changes on this page. Leave them behind?')) {
+      picker.value = root.getAttribute('data-ed-page');
+      return;
+    }
+    clean();
+    show(picker.value);
+  });
+
+  saveBtn.addEventListener('click', save);
+  document.getElementById('ed-shelf-close').addEventListener('click', closeShelf);
+  shelfFile.addEventListener('change', function () { upload(shelfFile.files[0]); shelfFile.value = ''; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeShelf(); });
+
+  // Nothing is written until Save is pressed, so a closed tab is a lost edit. The browser's own
+  // warning is the only one that still appears once the tab is going away.
+  window.addEventListener('beforeunload', function (e) {
+    if (Object.keys(dirty).length) { e.preventDefault(); e.returnValue = ''; }
+  });
 
   Array.prototype.forEach.call(document.querySelectorAll('.ed-w'), function (b) {
     b.addEventListener('click', function () {

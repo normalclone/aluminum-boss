@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QlWeb2.Content;
+using QlWeb2.Data;
+using QlWeb2.Models;
 
 namespace QlWeb2.Areas.Admin.Controllers;
 
@@ -21,12 +23,19 @@ public class EditController : Controller
 {
     private readonly PageComposer _composer;
     private readonly SectionRenderer _sections;
+    private readonly ContentEditor _editor;
+    private readonly MediaLibrary _media;
+    private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
 
-    public EditController(PageComposer composer, SectionRenderer sections, IWebHostEnvironment env)
+    public EditController(PageComposer composer, SectionRenderer sections, ContentEditor editor,
+                          MediaLibrary media, AppDbContext db, IWebHostEnvironment env)
     {
         _composer = composer;
         _sections = sections;
+        _editor = editor;
+        _media = media;
+        _db = db;
         _env = env;
     }
 
@@ -75,4 +84,80 @@ public class EditController : Controller
 
     private static string Title(string folder)
         => string.Join(' ', folder.Split('-').Select(w => char.ToUpperInvariant(w[0]) + w[1..]));
+
+    // ---------------------------------------------------------------------------------------
+    // What the editor's JavaScript talks to. JSON in, JSON out; the screen itself never reloads.
+
+    public record Edit(string Address, string Value);
+
+    /// <summary>
+    /// Writes a batch of changes to the content files.
+    ///
+    /// One request for the whole batch, because a document is rewritten whole: six fields saved
+    /// one at a time would rewrite the same file six times and leave five places to stop halfway.
+    ///
+    /// Every touched document's previous contents are kept as a revision before the new one goes
+    /// down. Nothing reads those yet - the history screen is the last task in this project - but
+    /// the edits being made now are the ones that would be worth getting back, so they are
+    /// recorded from the first save rather than from the day the screen exists.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Save([FromBody] List<Edit>? edits)
+    {
+        if (edits is null || edits.Count == 0) return Json(new { saved = 0 });
+
+        var result = _editor.Apply(edits.Select(e => new ContentEditor.Change(e.Address, e.Value)));
+
+        foreach (var (name, before) in result.Previous)
+        {
+            if (before is null) continue;
+            _db.ContentRevisions.Add(new ContentRevision
+            {
+                Name = name,
+                Json = before,
+                SavedAt = DateTime.UtcNow,
+                SavedBy = User.Identity?.Name ?? "editor",
+            });
+        }
+        if (result.Previous.Count > 0) await _db.SaveChangesAsync();
+
+        return Json(new
+        {
+            saved = result.Applied,
+            rejected = result.Rejected,
+            documents = result.Previous.Keys,
+        });
+    }
+
+    /// <summary>Every picture in the library, newest first.</summary>
+    [HttpGet]
+    public IActionResult Pictures()
+        => Json(_media.All().Select(p => new
+        {
+            name = p.Name,
+            url = "/" + MediaLibrary.Folder + "/" + p.Name,
+            kb = (int)Math.Ceiling(p.Bytes / 1024.0),
+        }));
+
+    /// <summary>
+    /// Takes a picture and hands back the name to put in the field.
+    ///
+    /// Answers with a message rather than a status code when the file is refused: every reason a
+    /// picture is turned away is something the person can fix - the wrong kind of file, or one too
+    /// large - and they are the ones who have to read it.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestSizeLimit(MediaLibrary.MaxBytes)]
+    public async Task<IActionResult> Upload(IFormFile? file)
+    {
+        if (file is null) return Json(new { error = "No file was chosen." });
+
+        await using var stream = file.OpenReadStream();
+        var saved = await _media.Accept(stream, file.FileName, file.Length);
+        return saved.Name is null
+            ? Json(new { error = saved.Error })
+            : Json(new { name = saved.Name, url = "/" + MediaLibrary.Folder + "/" + saved.Name });
+    }
 }

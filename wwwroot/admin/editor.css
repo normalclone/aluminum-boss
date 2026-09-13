@@ -1,7 +1,9 @@
 /* The two-column editor. Loaded by the editor screen only; admin.css carries the shared parts. */
 
-/* The editor needs the whole window, not the 960px column the rest of the admin reads in. */
-.ad-main.is-wide { max-width: none; padding: 0; }
+/* The editor needs the whole window, not the 960px column the rest of the admin reads in. It
+   also must not scroll as a page: the two columns scroll inside themselves, and a document that
+   can move underneath a fixed panel puts them out of register. */
+.ad-main.is-wide { max-width: none; padding: 0; overflow: hidden; }
 
 .ed {
   display: grid;
@@ -82,3 +84,74 @@
   display: block; border: 0; background: #fff;
   transform-origin: top left;
 }
+
+/* ---- image fields ---- */
+.ed-field-img {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  grid-template-areas: "label label" "thumb button";
+  gap: 8px 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--ad-line);
+  border-radius: 4px;
+}
+.ed-field-img > label { grid-area: label; margin: 0; }
+.ed-thumb { grid-area: thumb; }
+.ed-thumb img {
+  display: block; width: 64px; height: 48px; object-fit: cover;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: var(--ad-wash);
+}
+.ed-thumb span {
+  display: flex; align-items: center; justify-content: center;
+  width: 64px; height: 48px; font-size: 11px; text-align: center; line-height: 1.2;
+  color: var(--ad-mute); border: 1px dashed #c2bcb3; border-radius: 3px; background: var(--ad-wash);
+}
+.ed-choose {
+  grid-area: button; justify-self: start;
+  font: inherit; font-size: 13px; padding: 6px 12px; cursor: pointer;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-ink);
+}
+.ed-choose:hover { background: var(--ad-wash); }
+.ed-field-img.is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
+
+/* ---- saving ---- */
+.ed-save {
+  position: sticky; bottom: 0; margin-top: 18px; padding: 12px 0;
+  background: #fff; border-top: 1px solid var(--ad-line);
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.ed-save button:disabled { opacity: .4; cursor: default; }
+.ed-save-note { font-size: 12px; color: var(--ad-mute); }
+
+/* ---- the picture library ---- */
+.ed-shelf {
+  position: fixed; inset: 57px 0 0 380px; z-index: 20;
+  background: #fff; border-left: 1px solid var(--ad-line);
+  display: flex; flex-direction: column; padding: 18px 22px 24px;
+}
+/* display:flex above beats the browser's own [hidden] { display: none }, so the shelf sat over
+   the preview the whole time - invisible, white on white, and swallowing every click aimed at the
+   page underneath. Nothing looked wrong; the preview simply stopped answering. */
+.ed-shelf[hidden] { display: none; }
+
+.ed-shelf-head { display: flex; align-items: center; gap: 12px; }
+.ed-shelf-head h2 { margin: 0 auto 0 0; font-size: 18px; }
+.ed-upload { position: relative; overflow: hidden; cursor: pointer; }
+.ed-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ed-shelf-note { margin: 10px 0 0; font-size: 13px; color: var(--ad-mute); }
+
+.ed-shelf-list {
+  margin-top: 16px; flex: 1; overflow-y: auto;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;
+  align-content: start;
+}
+.ed-tile {
+  font: inherit; padding: 0; cursor: pointer; text-align: left;
+  border: 1px solid var(--ad-line); border-radius: 4px; background: #fff; overflow: hidden;
+}
+.ed-tile:hover { border-color: var(--ad-ink); }
+.ed-tile img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; background: var(--ad-wash); }
+.ed-tile span { display: block; padding: 8px 10px; font-size: 12px; word-break: break-all; }
+.ed-tile.is-none { display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3.55; border-style: dashed; }
+.ed-tile.is-none span { color: var(--ad-mute); }

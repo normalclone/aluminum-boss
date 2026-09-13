@@ -27,6 +27,8 @@ builder.Services.AddSingleton<ContentStore>();
 builder.Services.AddSingleton<SectionRenderer>();
 builder.Services.AddSingleton<PageComposer>();
 builder.Services.AddSingleton<SlugRouter>();
+builder.Services.AddSingleton<ContentEditor>();
+builder.Services.AddSingleton<MediaLibrary>();
 
 if (adminEnabled)
 {

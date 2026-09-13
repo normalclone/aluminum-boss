@@ -9,6 +9,7 @@
 //   2. go vao mot o nhap  -> chu trong khung xem thu doi theo ngay
 //   3. bam chu trong khung -> o nhap tuong ung duoc cuon toi va lam noi len
 //   4. ba bo ngang 1440 / 834 / 390
+//   5. o anh tren mot trang co anh, va bang chon anh mo ra
 //
 //   node editor-shot.js [origin] [thu-muc-ra]
 const fs = require('fs');
@@ -97,6 +98,22 @@ const frame = page => page.frameLocator('#ed-frame');
     check('bo ngang ' + w, Math.abs(real - w) <= 1, 'khung bao innerWidth = ' + real);
     await shot('4-width-' + w);
   }
+
+  // 5 - o anh va bang chon anh
+  await page.click('.ed-w[data-w="1440"]');
+  await page.selectOption('#ed-page', '/products/');
+  await page.waitForSelector('.ed-field-img', { timeout: 30000 });
+  const imgFields = await page.locator('.ed-field-img').count();
+  check('o anh tren /products/', imgFields > 0, imgFields + ' o anh');
+  await shot('5-image-fields');
+
+  await page.locator('.ed-field-img').first().locator('.ed-choose').click();
+  await page.waitForSelector('#ed-shelf:not([hidden])', { timeout: 15000 });
+  await wait(600);
+  const tiles = await page.locator('.ed-tile').count();
+  check('bang chon anh', tiles > 0, tiles + ' o trong thu vien (ke ca o "khong anh")');
+  await shot('6-picture-shelf');
+  await page.click('#ed-shelf-close');
 
   heading('Man hinh soan tren ' + BASE);
   table(['phep thu', 'ket qua', 'chi tiet'], rows, [false, false, false]);

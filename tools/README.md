@@ -351,13 +351,42 @@ vừa cột không, đổi bề ngang 390 thì trang có thật sự nhảy sang
 node editor-shot.js http://localhost:5199 [thư-mục-ra]
 ```
 
-Sáu phép thử, năm ảnh: đăng nhập thật (không tắt `[Authorize]` cho dễ đo) · gõ vào ô nhập thì chữ
+Tám phép thử, sáu ảnh: đăng nhập thật (không tắt `[Authorize]` cho dễ đo) · gõ vào ô nhập thì chữ
 trong khung xem thử đổi theo · bấm chữ trong khung thì ô nhập tương ứng được cuộn tới và làm nổi
-lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung báo về.
+lên · ba bề ngang, mỗi lần đối chiếu `innerWidth` mà chính khung báo về · ô ảnh trên một trang có
+ảnh · và bảng chọn ảnh mở ra được.
 
 > **Đã bắt được:** nhãn ô nhập ghi `nav › 0 › label` — tức là đường dẫn trong JSON, đúng thứ yêu
 > cầu gốc nói khách không được nhìn thấy. Con số đo không thấy; mở ảnh ra thì thấy ngay. Nay là
 > `Nav #1`, đếm từ một, và đường dẫn thật nằm trong tooltip.
+>
+> Và một cái nặng hơn: `.ed-shelf { display: flex }` thắng `[hidden] { display: none }` của chính
+> trình duyệt, nên bảng chọn ảnh **luôn mở** — trắng trên trắng, phủ kín khung xem thử và nuốt mọi
+> cú bấm nhắm vào trang bên dưới. Không có gì trông sai cả; khung xem thử chỉ đơn giản là không
+> trả lời nữa. Phép thử "bấm chữ → chọn ô nhập" là thứ duy nhất đổi màu.
+
+---
+
+## `image-edit.js` — đổi một tấm ảnh, từ đầu đến cuối
+
+Phép đo duy nhất đi hết đường: bấm vào ảnh trong khung xem thử, tải một file lên, chọn nó, bấm
+Lưu — rồi kiểm ba chỗ một thay đổi **phải** xuất hiện, và một chỗ nó **không được** xuất hiện.
+
+```bash
+node image-edit.js http://localhost:5199
+```
+
+1. `wwwroot/_data/news.json` đổi · 2. bản sao trong `site/_data` giống hệt · 3. trang công khai —
+không `?edit=1`, không trình soạn — hiện đúng tấm ảnh đó · 4. và trang công khai vẫn **không** có
+cầu nối. Rồi đặt lại như cũ và kiểm JSON trở về nguyên văn, vì một phép thử để lại rác trong dữ
+liệu của khách là một phép thử không ai dám chạy lần hai.
+
+> **Đã bắt được:** bộ ghi JSON thụt lề kết thúc dòng bằng `Environment.NewLine`, trên máy này là
+> CRLF — nên sửa một trường ghi lại cả 141 dòng của file, và `trees.py` so hai cây từng byte. Chỉ
+> phép thử "đặt lại như cũ" mới thấy: mọi phép đo khác đều đạt.
+>
+> Và một cái nữa cùng lớp: một địa chỉ sai trong lô cũng khiến file bị ghi lại — cùng nội dung,
+> tuần tự hoá lại, một diff trên toàn bộ tài liệu không ai sửa. Phép thử đơn vị bắt cái đó.
 
 ---
 

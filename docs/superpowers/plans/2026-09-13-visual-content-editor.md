@@ -449,6 +449,52 @@ dẫn thì tìm `detail/index.html` cùng cấp.
 
 ---
 
+## Task 11b: Đổi ảnh — XONG
+
+Không nằm trong kế hoạch gốc như một đợt riêng; làm ngay sau Task 11 vì trình soạn sửa được chữ
+mà không sửa được ảnh thì chưa dùng được, và ảnh là thứ khách hỏi đầu tiên.
+
+**Files:**
+- Create: `Content/ContentEditor.cs`, `Content/MediaLibrary.cs`, `tools/image-edit.js`,
+  `QlWeb2.Tests/ContentEditorTests.cs`
+- Modify: `Content/SectionRenderer.cs` (18 tấm ảnh có địa chỉ), `Content/PageComposer.cs`
+  (`data-ab-doc`), `Areas/Admin/Controllers/EditController.cs` (Save / Pictures / Upload),
+  `Areas/Admin/Controllers/MediaController.cs` (dùng chung `MediaLibrary`),
+  `wwwroot/admin/{edit-bridge,editor}.js`, `editor.css`, `_data/{products,about}.json`
+
+- [x] **Địa chỉ cho ảnh** — `data-ab-img="items.3.image"` trên chính thẻ `<img>`, suy từ
+      `JsonNode.GetPath()` chứ không từ vòng lặp: mọi danh sách đều được sắp xếp, gộp nhóm hoặc
+      lọc trước khi vẽ, nên thẻ thứ ba trên trang hiếm khi là mục thứ ba trong file.
+- [x] **Tên tài liệu đóng một lần** — bộ ghép thêm `data-ab-doc="news"` vào thẻ mang
+      `data-ab-section`. Chỉ địa chỉ ảnh mới cần ghép thêm; địa chỉ chữ viết trong khuôn đã đủ.
+- [x] **Ghi xuống file** — `ContentEditor` là chỗ duy nhất ghi nội dung: đọc lại từ đĩa (không
+      sửa bản trong bộ nhớ mà mọi trang đang dựng từ đó), từ chối tạo trường không có sẵn, ghi cả
+      hai cây, và trả lại nội dung cũ để ghi một bản lịch sử.
+- [x] **Thư viện ảnh + tải lên** — `MediaLibrary` giữ luật (JPG/PNG/WebP/GIF, kiểm cả chữ ký file,
+      **không nhận SVG** vì SVG là tài liệu mang script được), dùng chung cho cả màn hình Pictures
+      lẫn bộ chọn ảnh trong trình soạn.
+- [x] **Verify** — `tools/image-edit.js` đi hết đường và đặt lại như cũ; 48 phép thử đơn vị
+
+### Ba thứ bắt được nhờ đo, không nhờ nhìn mã
+
+**CRLF.** Bộ ghi JSON thụt lề kết thúc dòng bằng `Environment.NewLine` — sửa một trường ghi lại
+cả 141 dòng. Chỉ phép thử "đặt lại như cũ" thấy được.
+
+**Địa chỉ sai cũng làm file bị ghi lại.** Tài liệu được nạp không có nghĩa là đã đổi; một lô chỉ
+chứa một địa chỉ gõ sai vẫn khiến file được tuần tự hoá lại. Phép thử đơn vị bắt.
+
+**Bảng chọn ảnh luôn mở.** `.ed-shelf { display: flex }` thắng `[hidden] { display: none }`, nên
+tấm nền trắng phủ kín khung xem thử và nuốt mọi cú bấm. Không có gì trông sai; khung xem thử chỉ
+ngừng trả lời. Phép thử "bấm chữ → chọn ô nhập" là thứ duy nhất đổi màu.
+
+### Lấy trước của Task 12
+
+Ba bước của Task 12 coi như đã xong: ghi thật xuống `ContentStore`, bộ chọn ảnh kèm tải lên, và
+ghi bản lịch sử mỗi lần lưu. Còn lại của Task 12: màn hình danh sách cho mười loại nội dung,
+thêm/xoá một mục, `visible`, đổi thứ tự, và dò tham chiếu trước khi xoá.
+
+---
+
 ## Task 12: Màn hình danh sách và màn hình đăng
 
 **Files:**

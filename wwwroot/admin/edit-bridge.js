@@ -10,11 +10,12 @@
 
     editor -> page
       { type: 'ab:text', address, value }   set the text at that address
+      { type: 'ab:img',  address, file }    put that picture in that image field
       { type: 'ab:list' }                   send the addresses again (after a reload)
 
     page -> editor
       { type: 'ab:ready', url, fields: [{ address, kind, value }] }   on load
-      { type: 'ab:pick', address }                                    someone clicked the text
+      { type: 'ab:pick', address }                                    someone clicked it
 
   WHAT CAN BE PATCHED LIVE, AND WHAT CANNOT. An address written as data-ab-t, data-ab-lead or
   data-ab-lines is one element's text, and this file sets it. A data-ab-section is a list the
@@ -31,18 +32,40 @@
   var d = w.document;
   if (w.parent === w) return;   // Not in a frame: there is nobody to talk to.
 
-  var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines']];
+  var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines'],
+               ['data-ab-img', 'img']];
+
+  // Two kinds of address, and only one of them needs completing.
+  //
+  // A text address is written into the template by hand and names its document already:
+  // "site.nav.1.label". An image address is written by the renderer, which is drawing one list
+  // out of one file and does not know that file's name - so it writes "items.3.image", and the
+  // composer stamps the name once on the section around it. Completing a text address too would
+  // produce "products.site.nav.1.label" for any template text that happens to sit inside a
+  // rendered section, which is a real arrangement on the home page.
+  function full(el, kind, address) {
+    if (kind !== 'img') return address;
+    var box = el.closest ? el.closest('[data-ab-doc]') : null;
+    return box ? box.getAttribute('data-ab-doc') + '.' + address : address;
+  }
 
   function attr(el) {
     for (var i = 0; i < KINDS.length; i++) {
       var a = el.getAttribute(KINDS[i][0]);
-      if (a) return { address: a, kind: KINDS[i][1] };
+      if (a) return { address: full(el, KINDS[i][1], a), kind: KINDS[i][1] };
     }
     return null;
   }
 
-  /** The text at an address, read back the same way it was written. */
+  /** The value at an address, read back the same way it was written. */
   function read(el, kind) {
+    // A picture's value is the file's name, not the src: an empty field draws a placeholder,
+    // whose src is a data: URI several kilobytes long and means "there is no picture here".
+    if (kind === 'img') {
+      var src = el.tagName === 'IMG' ? el.getAttribute('src') || '' : '';
+      var cut = src.indexOf('_media/');
+      return cut < 0 ? '' : src.slice(cut + 7);
+    }
     if (kind === 't') return el.textContent;
     if (kind === 'lead') {
       var first = el.firstChild;
@@ -59,6 +82,13 @@
   }
 
   function write(el, kind, value) {
+    if (kind === 'img') {
+      // Only an <img> can be shown the new picture without re-rendering. A finish with no
+      // photograph is drawn as a coloured square, and turning that into a picture is the
+      // server's job - the editor reloads the frame after saving, which settles both cases.
+      if (el.tagName === 'IMG' && value) el.setAttribute('src', root() + '_media/' + value);
+      return;
+    }
     if (kind === 't') { el.textContent = value; return; }
     if (kind === 'lead') {
       var first = el.firstChild;
@@ -75,7 +105,7 @@
   }
 
   function each(fn) {
-    var all = d.querySelectorAll('[data-ab-t],[data-ab-lead],[data-ab-lines]');
+    var all = d.querySelectorAll('[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img]');
     for (var i = 0; i < all.length; i++) {
       var a = attr(all[i]);
       if (a) fn(all[i], a.address, a.kind);
@@ -90,6 +120,12 @@
     return out;
   }
 
+  // Pages sit at three depths and each one is stamped with its own way back to the site root.
+  function root() {
+    var el = d.querySelector('[data-ab-root]');
+    return el ? el.getAttribute('data-ab-root') : '';
+  }
+
   function send(msg) {
     msg.url = w.location.pathname;
     w.parent.postMessage(msg, w.location.origin);
@@ -100,10 +136,11 @@
     if (e.origin !== w.location.origin || !e.data) return;
 
     if (e.data.type === 'ab:list') { send({ type: 'ab:ready', fields: fields() }); return; }
-    if (e.data.type !== 'ab:text') return;
+    if (e.data.type !== 'ab:text' && e.data.type !== 'ab:img') return;
 
+    var value = e.data.type === 'ab:img' ? e.data.file : e.data.value;
     each(function (el, address, kind) {
-      if (address === e.data.address) write(el, kind, e.data.value);
+      if (address === e.data.address) write(el, kind, value);
     });
   });
 
@@ -139,6 +176,9 @@
   style.textContent =
     '[data-ab-t]:hover,[data-ab-lead]:hover,[data-ab-lines]:hover' +
     '{outline:1px dashed rgba(31,106,68,.55);outline-offset:2px;cursor:text}' +
+    // A picture gets a solid outline and a pointer, not a text cursor: you are not going to
+    // type into it, you are going to choose one.
+    '[data-ab-img]:hover{outline:2px solid rgba(31,106,68,.8);outline-offset:2px;cursor:pointer}' +
     '[data-ab-on]{outline:2px solid #1f6a44 !important;outline-offset:2px}';
   d.head.appendChild(style);
 

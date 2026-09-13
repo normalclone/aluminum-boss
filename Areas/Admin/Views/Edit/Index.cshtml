@@ -7,6 +7,12 @@
     ViewData["Wide"] = true;
 }
 
+@* The editor posts JSON, so the token travels in a header rather than in a form. Wrapped,
+   because a bare hidden input still occupies a line box - enough to make the document a little
+   taller than the window, which is enough for one scroll to slide the header out from under a
+   panel positioned against it. *@
+<div hidden>@Html.AntiForgeryToken()</div>
+
 <div class="ed" data-ed-page="@current">
     <div class="ed-side">
         <div class="ed-pick">
@@ -20,12 +26,17 @@
         </div>
 
         <p class="ed-note">
-            Click any text in the preview to find it here. Changes show immediately on the right;
-            saving arrives with the next update.
+            Click any text or picture in the preview to find it here. Text changes show as you
+            type; pictures and everything else appear when you save.
         </p>
 
         <div id="ed-fields" class="ed-fields">
             <p class="ed-empty">Loading the page&hellip;</p>
+        </div>
+
+        <div class="ed-save">
+            <button type="button" id="ed-save" class="ad-save" disabled>Save changes</button>
+            <span id="ed-save-note" class="ed-save-note"></span>
         </div>
     </div>
 
@@ -43,6 +54,21 @@
             <iframe id="ed-frame" title="Preview" src="@(current)?edit=1"></iframe>
         </div>
     </div>
+</div>
+
+@* The picture library, over the preview rather than beside it: the choice needs the room, and
+   while it is open there is nothing else to do. *@
+<div class="ed-shelf" id="ed-shelf" hidden>
+    <div class="ed-shelf-head">
+        <h2>Choose a picture</h2>
+        <label class="ad-btn is-quiet ed-upload">
+            Add a picture
+            <input type="file" id="ed-shelf-file" accept="image/jpeg,image/png,image/webp,image/gif">
+        </label>
+        <button type="button" class="ad-btn is-quiet" id="ed-shelf-close">Close</button>
+    </div>
+    <p class="ed-shelf-note" id="ed-shelf-note"></p>
+    <div class="ed-shelf-list" id="ed-shelf-list"></div>
 </div>
 
 @section Scripts {
