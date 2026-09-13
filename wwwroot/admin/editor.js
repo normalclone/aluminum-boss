@@ -237,6 +237,15 @@
   // field's tooltip - it is what you need when something does not update and you are asking why.
   var ROLE = /^(label|lead|tail|text|title|heading|name)$/;
 
+  // "4:3" rather than 1.333: the number somebody types into a cropping tool.
+  function ratio(s) {
+    var a = s.w, b = s.h;
+    while (b) { var t = b; b = a % b; a = t; }
+    var w = s.w / a, h = s.h / a;
+    // A ratio nobody can use is worse than none; fall back to one decimal place.
+    return (w > 30 || h > 30) ? (s.w / s.h).toFixed(1) + ':1' : w + ':' + h;
+  }
+
   function label(address) {
     var parts = address.split('.').slice(1);
     var role = parts.length > 1 && ROLE.test(parts[parts.length - 1]) ? parts.pop() : '';
@@ -303,6 +312,16 @@
         pick.textContent = 'Choose picture';
         pick.addEventListener('click', function () { openShelf(f.address); });
         field.appendChild(pick);
+
+        // The shape of the hole, so a choice is made knowing what will be cropped away. The
+        // page reports it rather than the editor guessing: the layout is the only thing that
+        // knows, and it differs between a lead article and the cards under it.
+        if (f.shape) {
+          var slot = document.createElement('span');
+          slot.className = 'ed-slot';
+          slot.textContent = f.shape.w + ' × ' + f.shape.h + ' · ' + ratio(f.shape);
+          field.appendChild(slot);
+        }
 
         // The file's name is kept, hidden, as the field's value: the shelf writes to it, the
         // thumbnail reads from it, and nothing else has to remember what was chosen.

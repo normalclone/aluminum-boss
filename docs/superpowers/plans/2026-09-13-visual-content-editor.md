@@ -269,26 +269,30 @@ Nên đây là một partial dùng chung, không phải 15 bản.
 
 ---
 
-## Task 8: Sinh `site/` từ đầu ra bộ ghép — CHỈ LÀM MỘT NỬA
+## Task 8: Sinh một bản tĩnh từ đầu ra bộ ghép — XONG (ghi ra `export/`, không ghi vào `site/`)
 
 Giữ GitHub Pages sống trong lúc chuyển đổi, và cho một bản sao tĩnh để sao lưu.
 
 **Files:**
 - Create: `tools/publish-static.js`
 
-- [x] **Step 1: Viết công cụ** — gọi 15 đường dẫn trên máy chủ đang chạy, ghi HTML ra `site/`
-- [ ] **Step 2: Chạy, `cmp` từng file `site/` với HTML máy chủ trả về**
-- [ ] **Step 3: Verify** — `parity.js` giữa `site/` phục vụ tĩnh và máy chủ: phải giống hệt
-- [ ] **Step 4: Commit**
+**Đích đến đổi chỗ, và đó là chỗ duy nhất kế hoạch nói sai.** Kế hoạch viết "ghi ra `site/`",
+đúng vào lúc viết: khi ấy `site/` là bản in ra của máy chủ. Từ Task 9 thì ngược lại — `site/` là
+**khuôn song song**, chính những tệp mang `data-ab-section` mà bộ ghép đọc vào, và ghi HTML đã
+ghép lên đó là phá luôn nguồn. Công cụ ghi ra `export/`; `trees.py` vẫn là thứ giữ `wwwroot/` và
+`site/` khớp nhau.
 
-**Ba ô trên để trống, có lý do.** `tools/publish-static.js` viết xong nhưng chưa từng chạy, và
-chạy nó bây giờ sẽ SAI: từ Task 9, `site/` không còn là "bản in ra của máy chủ" nữa mà là **khuôn
-song song** — chính những tệp mang `data-ab-section` mà bộ ghép đọc vào. Ghi đè nó bằng HTML đã
-ghép là phá luôn nguồn. `tools/fanout.py` mới là thứ giữ 94 thư mục mục riêng, và `trees.py` là
-thứ kiểm hai cây khớp nhau.
+- [x] **Step 1: Viết công cụ** — lấy danh sách trang từ chính `/sitemap.xml` của máy chủ, không
+      viết lại một danh sách thứ hai để hai bên lệch nhau mà không ai thấy
+- [x] **Step 2: Chạy, `cmp` từng file với HTML máy chủ trả về** — 105 trang (102 URL + ba tệp
+      máy chủ tự sinh) và 369 tệp tài nguyên chép sang; mỗi trang đọc lại và đối chiếu
+- [x] **Step 3: Verify** — `parity.js` giữa bản tĩnh phục vụ ở cổng 5210 và máy chủ: **15/15
+      giống hệt ở 1440, 15/15 ở 390**
+- [x] **Step 4: Commit**
 
-Bản xuất tĩnh đầy đủ chỉ cần đến nếu có ngày ai đó muốn bỏ máy chủ; ngày ấy chưa tới, và tích một
-ô cho việc chưa làm thì kế hoạch không còn dùng để bàn giao được nữa.
+Công cụ mang luôn một máy chủ tĩnh nhỏ (`--serve`) vì nếu không thì không chứng minh được gì:
+một thư mục không so ảnh với một máy chủ được. `export/` không vào git — 369 tệp sinh lại được
+trong một phút, và không cái nào là nguồn.
 
 ---
 
@@ -539,10 +543,12 @@ Bước 1 nói "mười loại" nhưng hai trong số đó **không thêm mục 
 xuất khẩu là bốn mươi cặp toạ độ, và toạ độ không phải chữ trên trang nên không có địa chỉ để
 điền vào. `CanAdd: false` — nút biến mất, màn hình nói vì sao, máy chủ cũng chặn.
 
-Bước 2 nói màn hình đăng "là trang của chính mục đó trong khung soạn hai cột, ô nhập theo loại".
-Đúng một nửa: khung có, ô nhập thì không — `SectionRenderer` sinh `data-ab-img` cho ảnh nhưng
-không sinh `data-ab-t` cho chữ, nên tiêu đề bài viết, tên sản phẩm, tên màu đều không sửa được.
-Xem Task 15.
+Bước 2 nói màn hình đăng "là trang của chính mục đó trong khung soạn hai cột, ô nhập theo loại;
+ảnh là thẻ ảnh có nút Choose image kèm tỉ lệ". Lúc tích thì mới đúng một nửa: khung có, ô nhập
+thì không — `SectionRenderer` sinh `data-ab-img` cho ảnh nhưng không sinh `data-ab-t` cho chữ.
+**Task 15 làm nốt nửa kia**, và thẻ ảnh giờ có tỉ lệ thật: chính trang báo lên kích thước ô nó
+dành cho tấm ảnh (`400 × 300 · 4:3`), vì bố cục là thứ duy nhất biết điều đó và nó khác nhau
+giữa bài dẫn và các thẻ bên dưới.
 
 Và `Trim(50)` chỉ chạy lúc Restore, nên "giữ 50 bản mỗi tệp" chưa đúng cho tới lần khôi phục đầu
 tiên. Chuyển sang `Content/RevisionLog.cs`, cạnh chỗ ghi.

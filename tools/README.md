@@ -319,15 +319,29 @@ markup. Giống hệt khuôn nghĩa là đã rơi về khuôn.
 
 ---
 
-## `publish-static.js` — sinh `site/` từ đầu ra máy chủ
+## `publish-static.js` — bản tĩnh, và bằng chứng nó giống máy chủ
 
-Gọi 15 trang trên máy chủ đang chạy, ghi HTML đã ghép ra `site/`. Giữ GitHub Pages sống trong
-lúc chuyển sang dựng phía máy chủ, và cho một bản sao tĩnh dùng làm sao lưu.
+Trả lời một câu hỏi thật: nếu ngày mai không còn máy chủ nữa thì còn lại gì. Câu trả lời phải là
+"một thư mục mở bằng trình duyệt là chạy".
 
-> **Chưa dùng.** Từ Task 10 mỗi mục có thư mục riêng trong `site/`, do `fanout.py` trải khuôn ra —
-> **khuôn**, không phải đầu ra đã ghép. Chạy `publish-static.js` bây giờ sẽ ghi đầu ra đã ghép đè
-> lên những khuôn đó và đóng cứng một mục vào mỗi file. Nó để dành cho Task 14: một bản xuất tĩnh
-> đầy đủ để bàn giao, lúc đó `site/` thôi làm nguồn song song và `trees.py` nghỉ.
+```bash
+node publish-static.js http://localhost:5199        # ghi ra export/, đối chiếu từng tệp
+node publish-static.js --serve export 5210          # phục vụ nó để parity.js so
+node parity.js http://localhost:5199 http://127.0.0.1:5210 1440
+```
+
+Danh sách trang lấy từ chính `/sitemap.xml` của máy chủ — một danh sách thứ hai viết ở đây là một
+chỗ để hai bên lệch nhau mà không ai thấy. 102 URL, cộng ba tệp máy chủ tự sinh
+(`sitemap.xml`, `robots.txt`, `llms.txt`), cộng 369 tệp tài nguyên chép từ `wwwroot/` (trừ mọi
+`.html`, vì mỗi cái là một khuôn, và trừ `admin/`).
+
+> **Ghi ra `export/`, KHÔNG ghi vào `site/`.** Trước Task 9, `site/` là bản in ra của máy chủ và
+> ghi đè lên nó là đúng. Từ Task 9 thì ngược lại: `site/` là **khuôn song song**, chính những tệp
+> mang `data-ab-section` mà bộ ghép đọc vào. Ghi HTML đã ghép lên đó là phá luôn nguồn.
+> `trees.py` vẫn là thứ giữ `wwwroot/` và `site/` khớp nhau.
+
+Công cụ mang luôn một máy chủ tĩnh nhỏ (`--serve`) vì nếu không thì không chứng minh được gì: một
+thư mục không so ảnh với một máy chủ được. Đo lần cuối: **15/15 trang giống hệt ở 1440 và 390.**
 
 ---
 

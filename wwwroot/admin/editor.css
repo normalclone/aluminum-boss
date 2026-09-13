@@ -89,7 +89,7 @@
 .ed-field-img {
   display: grid;
   grid-template-columns: 64px 1fr;
-  grid-template-areas: "label label" "thumb button";
+  grid-template-areas: "label label" "thumb button" "thumb slot";
   gap: 8px 10px;
   align-items: center;
   padding: 10px;
@@ -113,6 +113,9 @@
   border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-ink);
 }
 .ed-choose:hover { background: var(--ad-wash); }
+
+/* The shape of the slot the picture fills, so a choice is made knowing what gets cropped. */
+.ed-slot { grid-area: slot; align-self: start; font-size: 11px; color: var(--ad-mute); }
 .ed-field-img.is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
 
 /* ---- saving ---- */

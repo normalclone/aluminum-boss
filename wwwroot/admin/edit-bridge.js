@@ -14,7 +14,8 @@
       { type: 'ab:list' }                   send the addresses again (after a reload)
 
     page -> editor
-      { type: 'ab:ready', url, fields: [{ address, kind, value }] }   on load
+      { type: 'ab:ready', url, fields: [{ address, kind, value, shape? }] }   on load
+                                          shape = { w, h } of an image field's slot
       { type: 'ab:pick', address }                                    someone clicked it
 
   WHAT CAN BE PATCHED LIVE, AND WHAT CANNOT. An address written as data-ab-t, data-ab-lead or
@@ -116,9 +117,23 @@
   function fields() {
     var out = [];
     each(function (el, address, kind) {
-      out.push({ address: address, kind: kind, value: read(el, kind) });
+      var f = { address: address, kind: kind, value: read(el, kind) };
+      if (kind === 'img') f.shape = shape(el);
+      out.push(f);
     });
     return out;
+  }
+
+  // The size of the hole a picture goes into, so somebody choosing one knows what will be
+  // cropped away. Taken from the width/height the renderer wrote, which is the shape the layout
+  // reserves; a background block carries none, so its drawn box answers instead.
+  function shape(el) {
+    var w = +el.getAttribute('width'), h = +el.getAttribute('height');
+    if (!w || !h) {
+      var r = el.getBoundingClientRect();
+      w = Math.round(r.width); h = Math.round(r.height);
+    }
+    return w && h ? { w: w, h: h } : null;
   }
 
   // Pages sit at three depths and each one is stamped with its own way back to the site root.

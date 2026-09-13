@@ -52,6 +52,10 @@ thay một tấm thì nó có tên mới — không trình duyệt nào còn hi�
 **Nên cắt ảnh trước khi tải lên.** Máy chủ không thu nhỏ ảnh; một tấm 6 MB từ máy ảnh sẽ làm trang
 tải chậm cho mọi khách. Cỡ hợp lý: cạnh dài khoảng 2000 px.
 
+Dưới mỗi nút **Choose picture** có ghi cỡ ô mà tấm ảnh sẽ lấp vào — ví dụ `400 × 300 · 4:3`. Cắt
+theo tỉ lệ ấy thì không bị mất phần nào bạn muốn giữ; ảnh sai tỉ lệ sẽ bị cắt bớt hai bên hoặc
+trên dưới.
+
 ### Thêm, ẩn, đổi thứ tự
 
 Vào **Content**, chọn loại, rồi:
