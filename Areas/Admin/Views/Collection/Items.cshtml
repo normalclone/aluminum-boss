@@ -18,13 +18,23 @@
     {
         <text>These appear on the home page.</text>
     }
-    @if (kind.PickFrom is not null)
+    @if (kind.Source is { } from)
     {
+        var one = from.One.ToLowerInvariant();
         <text>
-            Each card stands for an article: its picture and its link come from that article, so
-            the picture is chosen once, on the article. The headline here is optional &mdash;
-            leave it empty and the card uses the article&rsquo;s own.
+            Each card stands for @(one.StartsWith("a") || one.StartsWith("e") || one.StartsWith("i")
+                                   || one.StartsWith("o") || one.StartsWith("u") ? "an" : "a")
+            @one: its picture, its words and its link all come from there, so each of them is
+            written once, in <a asp-action="Items" asp-route-id="@from.Key">@from.Label</a>.
+            Choosing here is choosing which of them the home page shows, and in what order.
         </text>
+        @if (Model.Count == 0)
+        {
+            <text>
+                This shelf is empty, so the band picks for itself the way it always did. Add a
+                card and the shelf takes over.
+            </text>
+        }
     }
 </p>
 
@@ -68,9 +78,9 @@ else
             <th class="ad-num">#</th>
             <th></th>
             <th>Item</th>
-            @if (kind.PickFrom is not null)
+            @if (kind.Source is { } sourceKind)
             {
-                <th>Article</th>
+                <th>@sourceKind.One</th>
             }
             <th>Shown</th>
             <th>Order</th>
@@ -100,30 +110,32 @@ else
                     <span class="ad-note">@row.Note</span>
                 }
             </td>
-            @if (kind.PickFrom is not null)
+            @if (kind.Source is { } src)
             {
-                @* Which article this card is for. The picture and the link come from it, so this
-                   one control is the whole of what makes the card that card. *@
+                @* Which library item this card is for. The picture, the words and the link all
+                   come from it, so this one control is the whole of what makes the card that
+                   card. *@
                 <td class="ad-pick">
                     <form asp-action="Link" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" value="@kind.Key">
                         <input type="hidden" name="index" value="@row.Index">
-                        <select name="to" aria-label="Article for this card">
+                        <select name="to" aria-label="@src.One for this card">
                             @if (!choices.Any(c => c.Id == row.Id))
                             {
-                                <option value="" selected>Not linked yet</option>
+                                <option value="" selected>Not chosen yet</option>
                             }
                             @foreach (var c in choices)
                             {
                                 <option value="@c.Id" selected="@(c.Id == row.Id)">@c.Title</option>
                             }
                         </select>
-                        <button type="submit" class="ad-move" title="Point this card at that article">Set</button>
+                        <button type="submit" class="ad-move"
+                                title="Point this card at that @src.One.ToLowerInvariant()">Set</button>
                     </form>
-                    @if (!choices.Any(c => c.Id == row.Id))
+                    @if (row.Warn is not null)
                     {
-                        <span class="ad-note">Until an article is chosen, this card does not appear.</span>
+                        <span class="ad-note">@row.Warn</span>
                     }
                 </td>
             }

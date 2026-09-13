@@ -1,0 +1,11 @@
+@model List<QlWeb2.Areas.Admin.Controllers.CollectionController.Summary>
+
+<div class="ad-cards">
+    @foreach (var s in Model)
+    {
+        <a class="ad-card" asp-action="Items" asp-route-id="@s.Kind.Key">
+            <b>@s.Kind.Label</b>
+            <span>@s.Items @(s.Items == 1 ? "item" : "items")</span>
+        </a>
+    }
+</div>

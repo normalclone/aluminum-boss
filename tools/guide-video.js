@@ -7,7 +7,7 @@
 //
 //   node guide-video.js [origin] [--out <thư-mục>] [--keep-webm]
 //
-// Để lại: mp4 trong tools/out/. KHÔNG để lại thay đổi nội dung - highlights.json và news.json ở
+// Để lại: mp4 trong tools/out/. KHÔNG để lại thay đổi nội dung - home-news.json và news.json ở
 // cả hai cây được chụp lại trước khi quay và ghi đè lại sau khi quay xong. Một dòng trong History
 // thì vẫn còn, và đó là sự thật: đoạn phim đã bấm Save thật.
 
@@ -31,8 +31,8 @@ const OUT = opt('out', path.join(__dirname, 'out'));
 const KEEP = argv.includes('--keep-webm');
 
 const W = 1440, H = 900;
-// Đoạn phim sửa tiêu đề thẻ (highlights) và ảnh của bài (news), nên phải trả lại cả hai.
-const DOCS = ['highlights', 'news'];
+// Đoạn phim sửa tiêu đề và ảnh của một bài, và thẻ trên trang chủ trỏ vào bài ấy.
+const DOCS = ['home-news', 'news'];
 const TITLE = 'Dây chuyền sơn tĩnh điện thứ hai đã chạy';
 
 // Hai cây phải luôn khớp nhau (xem trees.py), nên chụp lại và trả lại cả hai.
@@ -187,7 +187,7 @@ async function stop(ctx, b, rows, why) {
 
   /* 2 - cuộn khung xem thử tới khối "New" của trang chủ */
   await say(page, 'Cuộn khung bên phải xuống khối "New" — mỗi thẻ là một bài trong mục Tin.');
-  const band = '[data-ab-doc="highlights"] .core-slider-novedades__slide';
+  const band = '[data-ab-doc="home-news"] .core-slider-novedades__slide';
   await bringInFrame(page, band);
   await wait(1200);
 

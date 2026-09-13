@@ -32,17 +32,21 @@ public sealed class SectionRenderer
     {
         "news-list" or "news-detail" => "news",
         "products-list" or "products-detail" or "home-hero-words" or "home-hero-caption"
-            or "home-products" => "products",
-        "projects-list" or "projects-detail" or "home-projects" => "projects",
-        "colors-filters" or "colors-count" or "colors-list" or "colors-detail" or "home-colors"
-            => "colors",
+            => "products",
+        "projects-list" or "projects-detail" => "projects",
+        "colors-filters" or "colors-count" or "colors-list" or "colors-detail" => "colors",
+        // The four home-page bands that are SHELVES: a list of ids pointing into a library.
+        // Their document is the shelf, not the library; the renderer reads the library itself.
+        "home-products" => "home-products",
+        "home-colors" => "home-colors",
+        "home-projects" => "home-projects",
+        "home-highlights" => "home-news",
         "documents-filters" or "documents-count" or "documents-list" or "documents-detail"
             => "documents",
         "about-nav" or "about-figures" or "about-chapters" or "about-detail" or "about-chapbar"
             => "about",
         "contact-offices" or "contact-routes" or "contact-detail" => "contact",
         "home-feature" => "feature",
-        "home-highlights" => "highlights",
         "home-gallery" or "home-gallery-tags" => "gallery",
         "home-app-tabs" or "home-app-slides" => "applications",
         "globe-routes" => "globe",
@@ -228,6 +232,20 @@ public sealed class SectionRenderer
         => item is null ? string.Empty
          : " data-ab-" + kind + "=\"" + Esc(document + "." + Where(item, field)) + "\"";
 
+    /// <summary>
+    /// The same as <see cref="TextAddress"/> - a word somebody can click and retype - but naming
+    /// its document outright instead of leaning on the stamp around the section.
+    ///
+    /// It keeps TextAddress's one condition: a field that is absent, or that holds a number
+    /// rather than a string, gets no address. An album's year is a number in the file, and an
+    /// editor that offered to save "2026" over it as text would quietly change its type.
+    /// </summary>
+    private static string ElsewhereText(string document, JsonNode? item, string field)
+        => item is JsonObject o && o.TryGetPropertyValue(field, out var n)
+           && n is JsonValue v && v.TryGetValue<string>(out _)
+           ? " data-ab-t=\"" + Esc(document + "." + Where(item, field)) + "\""
+           : string.Empty;
+
     /// <summary>The same, for a node that is a value in its own right - one tag out of a list.</summary>
     private static string ElsewhereAt(string document, JsonNode? node)
         => node is JsonValue v && v.TryGetValue<string>(out _)
@@ -296,13 +314,17 @@ public sealed class SectionRenderer
     /// reads as an empty box - the home page has worked this way from the start. Written once
     /// here because it is now drawn in three places, and three copies drift.
     /// </summary>
-    private static string Chip(JsonNode? c, string root, string cls = "ab-chip")
+    private static string Chip(JsonNode? c, string root, string cls = "ab-chip",
+                              string? document = null)
     {
         var image = Str(c, "image");
+        // On the home page the swatch belongs to a band stamped with the SHELF's name, so its
+        // picture has to name the colours file itself to be saveable.
+        var at = document is null ? ImgAddress(c) : Elsewhere(document, c, "image", "img");
         return image.Length > 0
             ? "<span class=\"" + cls + "\"><img src=\"" + root + "_media/" + Esc(image)
-              + "\"" + ImgAddress(c) + " alt=\"\" loading=\"lazy\"></span>"
-            : "<span class=\"" + cls + "\"" + ImgAddress(c) + " style=\"background:"
+              + "\"" + at + " alt=\"\" loading=\"lazy\"></span>"
+            : "<span class=\"" + cls + "\"" + at + " style=\"background:"
               + Esc(Str(c, "hex")) + "\"></span>";
     }
 
@@ -349,6 +371,19 @@ public sealed class SectionRenderer
     public string? Render(string section, string rootPrefix, string? itemId = null)
     {
         var doc = DocFor(section);
+
+        // The four shelf bands answer first, because a shelf file that has never been written is
+        // an EMPTY shelf, not a missing band: each falls back to the rule that chose for the
+        // client before shelves existed, so a site without these files draws the page it always
+        // drew. Everything else needs its document and renders nothing without it.
+        switch (section)
+        {
+            case "home-products": return HomeProducts(doc, rootPrefix);
+            case "home-colors": return HomeColors(doc, rootPrefix);
+            case "home-projects": return HomeProjects(doc, rootPrefix);
+            case "home-highlights": return HomeHighlights(doc, rootPrefix);
+        }
+
         if (doc is null) return null;
 
         return section switch
@@ -377,11 +412,7 @@ public sealed class SectionRenderer
             "contact-detail" => ContactDetail(doc, Pick(section, doc, itemId)),
             "home-hero-words" => HeroWords(doc, rootPrefix),
             "home-hero-caption" => HeroCaption(doc),
-            "home-products" => HomeProducts(doc, rootPrefix),
-            "home-colors" => HomeColors(doc, rootPrefix),
-            "home-projects" => HomeProjects(doc, rootPrefix),
             "home-feature" => HomeFeature(doc, rootPrefix),
-            "home-highlights" => HomeHighlights(doc, rootPrefix),
             "home-gallery" => HomeGallery(doc, rootPrefix),
             "home-gallery-tags" => HomeGalleryTags(doc),
             "home-app-tabs" => AppTabs(doc),
@@ -800,77 +831,121 @@ public sealed class SectionRenderer
              + "<span" + TextAddress(first, "tagline") + ">" + Esc(Str(first, "tagline")) + "</span>";
     }
 
-    /// <summary>Every product family as a tile. Same data as the Products page, so they cannot drift.</summary>
-    private static string HomeProducts(JsonNode doc, string root)
+    /// <summary>
+    /// What a home-page band shows: the library items its SHELF points at, in the shelf's order.
+    ///
+    /// A shelf is a list of ids and nothing else. Everything a card says - its name, its picture,
+    /// its link - belongs to the library item and is addressed there, so the home page and the
+    /// listing page cannot drift apart: there is only one of each. This is the arrangement the
+    /// "New" band has had since Task 18, made the arrangement of every band that picks.
+    ///
+    /// An empty shelf is not an empty band. Before shelves existed, each band chose for the client
+    /// by a rule written here - every family, ten finishes one per family, the three newest
+    /// albums. That rule stays, as what the band falls back to. So a site whose shelf file has
+    /// never been written draws exactly the page it drew before, and a client who empties a shelf
+    /// gets the old choice back rather than a hole in the home page.
+    ///
+    /// The join runs through <see cref="Arr"/>, so hiding a library item takes its card off the
+    /// home page too - the promise the Content screen's Hidden button makes everywhere else.
+    /// An id on the shelf that names nothing draws nothing; it is a pointer, and a pointer at
+    /// something deleted has no card to draw.
+    /// </summary>
+    private List<JsonNode> Shelf(JsonNode? shelf, string library, string array,
+                                 Func<List<JsonNode>, IEnumerable<JsonNode>> otherwise)
+    {
+        var stock = Arr(_store.Get(library), array);
+        var picks = Arr(shelf, "items");
+        if (picks.Count == 0) return otherwise(stock).ToList();
+
+        return picks.Select(p => stock.FirstOrDefault(s => Str(s, "id") == Str(p, "id")))
+                    .OfType<JsonNode>().ToList();
+    }
+
+    /// <summary>The product families on the shelf. Same data as the Products page, so they cannot drift.</summary>
+    private string HomeProducts(JsonNode? shelf, string root)
     {
         var sb = new StringBuilder();
-        foreach (var c in Arr(doc, "categories"))
+        foreach (var c in Shelf(shelf, "products", "categories", all => all))
         {
             var name = Str(c, "name");
             sb.Append("<a class=\"ab-tile\" href=\"products/").Append(Href(c)).Append("\">")
               .Append("<span class=\"ab-thumb\"><img src=\"")
               .Append(Src(c, root, Placeholder.Uri(340, 300, name))).Append('"')
-              .Append(ImgAddress(c))
+              .Append(Elsewhere("products", c, "image", "img"))
               .Append(" width=\"340\" height=\"300\" alt=\"").Append(Esc(name))
-              .Append("\" loading=\"lazy\"></span><h3").Append(TextAddress(c, "name")).Append('>')
-              .Append(Esc(name)).Append("</h3><p").Append(TextAddress(c, "tagline")).Append('>')
+              .Append("\" loading=\"lazy\"></span><h3")
+              .Append(ElsewhereText("products", c, "name")).Append('>')
+              .Append(Esc(name)).Append("</h3><p")
+              .Append(ElsewhereText("products", c, "tagline")).Append('>')
               .Append(Esc(Str(c, "tagline"))).Append("</p></a>");
         }
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Ten finishes, one from each family first so the strip reads as a range rather than as a
-    /// shade card of one colour.
-    /// </summary>
-    private static string HomeColors(JsonNode doc, string root)
+    /// <summary>The finishes on the shelf.</summary>
+    private string HomeColors(JsonNode? shelf, string root)
     {
-        var items = Arr(doc, "items");
-        var seen = new HashSet<string>(StringComparer.Ordinal);
-        var pick = new List<JsonNode>();
-        foreach (var c in items) if (seen.Add(Str(c, "family"))) pick.Add(c);
-        foreach (var c in items) { if (pick.Count >= 10) break; if (!pick.Contains(c)) pick.Add(c); }
-
         var sb = new StringBuilder();
-        foreach (var c in pick.Take(10))
+        foreach (var c in Shelf(shelf, "colors", "items", OnePerFamily))
         {
             sb.Append("<a class=\"ab-swatch\" href=\"colors/").Append(Href(c))
-              .Append("\">").Append(Chip(c, root))
-              .Append("<span class=\"ab-swatch-name\"").Append(TextAddress(c, "name")).Append('>')
+              .Append("\">").Append(Chip(c, root, document: "colors"))
+              .Append("<span class=\"ab-swatch-name\"")
+              .Append(ElsewhereText("colors", c, "name")).Append('>')
               .Append(Esc(Str(c, "name")))
-              .Append("</span><span class=\"ab-swatch-meta\"").Append(TextAddress(c, "code")).Append('>')
+              .Append("</span><span class=\"ab-swatch-meta\"")
+              .Append(ElsewhereText("colors", c, "code")).Append('>')
               .Append(Esc(Str(c, "code")))
               .Append("</span></a>");
         }
         return sb.ToString();
     }
 
-    /// <summary>The three most recent albums.</summary>
-    private static string HomeProjects(JsonNode doc, string root)
+    /// <summary>
+    /// Ten finishes, one from each family first so the strip reads as a range rather than as a
+    /// shade card of one colour. What the band showed before it had a shelf, kept as what it
+    /// falls back to.
+    /// </summary>
+    private static List<JsonNode> OnePerFamily(List<JsonNode> items)
+    {
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        var pick = new List<JsonNode>();
+        foreach (var c in items) if (seen.Add(Str(c, "family"))) pick.Add(c);
+        foreach (var c in items) { if (pick.Count >= 10) break; if (!pick.Contains(c)) pick.Add(c); }
+        return pick.Take(10).ToList();
+    }
+
+    /// <summary>The albums on the shelf; the three most recent until somebody picks.</summary>
+    private string HomeProjects(JsonNode? shelf, string root)
     {
         var sb = new StringBuilder();
-        foreach (var a in Arr(doc, "albums")
-                     .OrderByDescending(a => int.TryParse(Str(a, "year"), out var y) ? y : 0).Take(3))
+        foreach (var a in Shelf(shelf, "projects", "albums", Newest))
         {
             var title = Str(a, "title");
             sb.Append("<a class=\"ab-card\" href=\"projects/").Append(Href(a))
               .Append("\"><img src=\"")
               .Append(Src(a, root, Placeholder.Uri(420, 300, title))).Append('"')
-              .Append(ImgAddress(a))
+              .Append(Elsewhere("projects", a, "image", "img"))
               .Append(" width=\"420\" height=\"300\" alt=\"").Append(Esc(title))
-              .Append("\" loading=\"lazy\"><h3").Append(TextAddress(a, "title")).Append('>')
+              .Append("\" loading=\"lazy\"><h3")
+              .Append(ElsewhereText("projects", a, "title")).Append('>')
               .Append(Esc(title))
               // Year and place are one line of type made of two fields, so each gets a span.
               .Append("</h3><p class=\"ab-card-spec\">")
-              .Append("<span").Append(TextAddress(a, "year")).Append('>')
+              .Append("<span").Append(ElsewhereText("projects", a, "year")).Append('>')
               .Append(Esc(Str(a, "year"))).Append("</span> · ")
-              .Append("<span").Append(TextAddress(a, "location")).Append('>')
+              .Append("<span").Append(ElsewhereText("projects", a, "location")).Append('>')
               .Append(Esc(Str(a, "location"))).Append("</span></p><p")
-              .Append(TextAddress(a, "scope")).Append('>')
+              .Append(ElsewhereText("projects", a, "scope")).Append('>')
               .Append(Esc(Str(a, "scope"))).Append("</p></a>");
         }
         return sb.ToString();
     }
+
+    /// <summary>The three most recent albums: what the band showed before it had a shelf.</summary>
+    private static List<JsonNode> Newest(List<JsonNode> albums)
+        => albums.OrderByDescending(a => int.TryParse(Str(a, "year"), out var y) ? y : 0)
+                 .Take(3).ToList();
 
     /// <summary>
     /// The sample-request panel. Its photograph carries no label: the headline and body sit over
@@ -941,19 +1016,17 @@ public sealed class SectionRenderer
     /// An article that is hidden or gone takes its card with it. <see cref="Arr"/> filters
     /// visible:false, so hiding one article hides it everywhere it appears - which is the promise
     /// the Content screen's Hidden button already makes.
+    ///
+    /// <see cref="Shelf"/> is how all four picking bands are drawn now; this one was the first.
     /// </summary>
-    private string HomeHighlights(JsonNode doc, string root)
+    private string HomeHighlights(JsonNode? shelf, string root)
     {
         var sb = new StringBuilder();
-        var articles = Arr(_store.Get("news"), "items");
-        var items = Arr(doc, "items")
-            .Select(it => (Card: it, Article: articles.FirstOrDefault(a => Str(a, "id") == Str(it, "id"))))
-            .Where(x => x.Article is not null)
-            .Take(6).ToList();
+        var items = Shelf(shelf, "news", "items", all => all.Take(6));
 
         for (var i = 0; i < items.Count; i++)
         {
-            var (_, article) = items[i];
+            var article = items[i];
             var image = Str(article, "image");
             var src = image.Length > 0 ? root + "_media/" + image : Placeholder.Uri(444, 370, "");
             var title = Str(article, "title");
@@ -967,7 +1040,7 @@ public sealed class SectionRenderer
               .Append(i).Append("\"><a class=\"core-slider-novedades__slide__container\" href=\"")
               .Append(Esc(root + "news/" + Href(article))).Append("\"><div class=\"shadow\"></div>")
               // The picture's address names the NEWS file, not this one - an absolute address
-              // rather than the leading-dot kind, so it resolves past the data-ab-doc="highlights"
+              // rather than the leading-dot kind, so it resolves past the data-ab-doc="home-news"
               // stamp around this band. Clicking the card's picture on the home page therefore
               // edits the article's picture, which is the only picture there now is.
               .Append("<img class=\"core-slider-novedades__slide__image\" src=\"").Append(Esc(src))

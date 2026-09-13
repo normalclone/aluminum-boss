@@ -87,21 +87,37 @@ Best upload 680 × 600 px          cỡ nên tải lên
 trả đúng tệp ấy cho khách. Một tấm 6 MB thẳng từ máy ảnh là 6 MB trên lưng mọi người vào trang.
 Trần là 2000 px cạnh dài — con số ấy đã nằm sẵn trong dòng gợi ý.
 
-### Thẻ "New" trên trang chủ LÀ bài viết
+### Trang chủ là một cái giá: bạn chọn, không nhập lại
 
-Sáu thẻ ở khối **New** trên trang chủ không có nội dung riêng nào cả. Mỗi thẻ là **một bài trong
-mục Tin**: tiêu đề, dòng tag nhỏ phía trên, ảnh và đường dẫn đều là của bài ấy.
+Bốn khối trên trang chủ — **New**, **Products**, **Colors**, **Recent projects** — không có nội
+dung riêng nào cả. Mỗi thẻ trên đó là **một mục trong kho**: tiêu đề, ảnh, đường dẫn đều là của
+mục ấy, viết một lần, ở một chỗ.
 
-- **Đổi thẻ sang bài khác:** vào **Content → Highlights**, cột **Article**, chọn bài rồi bấm
+Cách làm việc vì thế là hai bước: **đăng bài vào kho trước, rồi ra trang chủ chọn**.
+
+| Khối trên trang chủ | Chọn ở | Lấy từ kho |
+|---|---|---|
+| New | **Content → Home: New** | News |
+| Products | **Content → Home: Products** | Products |
+| Colors | **Content → Home: Colors** | Colors |
+| Recent projects | **Content → Home: Projects** | Projects |
+
+- **Đổi một thẻ sang mục khác:** vào màn hình **Home: …**, cột bên phải tên, chọn rồi bấm
   **Set**. Đó là toàn bộ những gì một thẻ có thể đổi.
-- **Sửa chữ trên thẻ là sửa bài.** Bấm vào tiêu đề thẻ ngay trên trang chủ cũng được — ô nhập
-  hiện ra sẽ ghi *"Article #1 title"*, và sửa nó là đổi tiêu đề bài ở **mọi nơi** bài xuất hiện:
-  trang chủ, trang /news/, và trang riêng của bài.
-- **Ảnh chỉ phải chọn một lần**, trên bài.
-- **Ẩn một bài là thẻ của nó cũng biến mất.** Xoá bài cũng vậy. Không có thẻ trắng nào ở lại.
+- **Thêm / bớt / đổi thứ tự thẻ** bằng **Add an item**, **Delete** và **↑ ↓** như mọi danh sách
+  khác. Thứ tự trong bảng chính là thứ tự trên trang chủ.
+- **Sửa chữ trên thẻ là sửa mục trong kho.** Bấm vào tiêu đề thẻ ngay trên trang chủ cũng được —
+  ô nhập hiện ra sẽ ghi *"Article #1 title"*, và sửa nó là đổi tiêu đề ở **mọi nơi** mục ấy xuất
+  hiện: trang chủ, trang danh sách, và trang riêng của nó.
+- **Ảnh chỉ phải chọn một lần**, trên mục trong kho.
+- **Ẩn một mục là thẻ của nó cũng biến mất.** Xoá cũng vậy. Màn hình **Home: …** nói thẳng ra
+  điều đó ngay dưới ô chọn, nên không có thẻ trắng nào ở lại mà bạn không biết.
+- **Để trống cả cái giá** thì khối tự chọn lấy như trước khi có tính năng này: đủ sáu dòng sản
+  phẩm, mười màu mỗi họ một cái, ba công trình mới nhất, sáu bài mới nhất.
 
 > Trước đây mỗi thẻ mang một tiêu đề và một ô ảnh **riêng**, tách khỏi bài. Kết quả là sáu bài có
-> hai tiêu đề khác nhau ở hai chỗ, và không có gì giữ cho chúng khớp nhau.
+> hai tiêu đề khác nhau ở hai chỗ, và không có gì giữ cho chúng khớp nhau. Ba khối còn lại thì
+> ngược lại: chúng tự chọn bằng một quy tắc viết trong mã, và khách không đổi được gì.
 
 ### Thêm, ẩn, đổi thứ tự
 
@@ -179,12 +195,16 @@ documents.json    catalogue và tài liệu kỹ thuật
 about.json        các chương trang giới thiệu
 contact.json      văn phòng và các biểu mẫu liên hệ
 gallery.json      ảnh khối thư viện trang chủ
-highlights.json   thẻ tin trang chủ
 applications.json khối ứng dụng trang chủ
 feature.json      khối đặt mẫu trang chủ
 globe.json        bốn tuyến xuất khẩu trên quả địa cầu
 factories.json    năm nhà máy trên bản đồ
 redirects.json    các đường dẫn cũ đã chuyển đi đâu
+
+home-news.json     ─┐  bốn "cái giá" của trang chủ: mỗi tệp chỉ là một danh sách id
+home-products.json  │  trỏ vào kho ở trên. Nội dung nằm trong kho, viết một lần;
+home-colors.json    │  cái giá chỉ nói trang chủ lấy những cái nào và theo thứ tự nào.
+home-projects.json ─┘  Giá rỗng thì khối tự chọn như trước khi có giá.
 ```
 
 Sửa thẳng bằng trình soạn văn bản cũng được — máy chủ nhận ra tệp đổi và cập nhật ngay, không cần

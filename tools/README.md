@@ -98,6 +98,12 @@ tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--on
 rồi mới kết luận. Trước đó nó báo "KHÁC — chạy compare.py" và để người tự làm; trong một buổi
 chiều, cách đó báo động giả ba lần liền trên những trang không lệch một pixel nào.
 
+**Hai ảnh khác CHIỀU CAO thì nó nói thẳng cao khác bao nhiêu.** Không còn pixel nào để trừ,
+nhưng đó là một câu trả lời thật chứ không phải phép đo hỏng — và `CAO KHÁC: -159px so voi moc`
+chỉ ngay ra khối nào mất chỗ, trong khi dòng cũ (`khong chay duoc python`) gửi người đọc đi tìm
+Python cả buổi. Đã gặp thật: một script trang chủ gọi `highlights.json` sau khi tệp ấy đổi tên,
+báo lỗi ngay trong khối "New" và làm trang ngắn đi đúng 159px.
+
 **Một trang lệch đơn lẻ thì chụp lại trước khi coi là hồi quy.** Cách phân biệt: chụp cùng một
 trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là phép chụp
 không ổn định; giống nhau mà vẫn lệch với mốc nền thì mới là hồi quy thật. Đã gặp thật hai lần —
@@ -253,6 +259,33 @@ python trees.py
 File dữ liệu và script phải giống **từng byte**. File HTML so sau khi giải mã thực thể và bỏ
 khoảng trắng cạnh thẻ, vì bản tĩnh viết `Böss` còn khuôn viết `B&ouml;ss`, và bộ ghép nối các
 dòng bằng `<br>` không xuống dòng.
+
+---
+
+## `seed-shelves.js` — gieo hạt cho bốn cái giá của trang chủ
+
+Bốn khối trên trang chủ — New, Products, Colors, Recent projects — lấy nội dung từ một **cái
+giá**: `wwwroot/_data/home-*.json`, mỗi tệp chỉ là một danh sách id trỏ vào kho. Trước Task 21
+không có giá nào; mỗi khối tự chọn bằng một quy tắc viết cứng trong `SectionRenderer`.
+
+```bash
+node seed-shelves.js            # chỉ viết vào giá đang rỗng
+node seed-shelves.js --force    # ghi đè cả giá đã có nội dung
+```
+
+Nó viết ra **đúng những gì quy tắc cũ sinh ra hôm nay**, ở cả hai cây. Đó là hai việc trong một:
+cái giá có nội dung để bắt đầu, và trang chủ **không đổi một pixel** khi chuyển sang cơ chế giá.
+Nên bước tiếp theo phải là parity, chạy **một mình**, trước khi đổi bất cứ thứ gì khác:
+
+```bash
+node parity.js --against http://localhost:5199 baseline/task19
+```
+
+Quy tắc được **viết lại** trong script chứ không gọi vào renderer: gọi thẳng vào C# thì phép đo
+sẽ hợp lệ cả khi cả hai cùng sai. Hai bên lệch nhau thì parity phải kêu lên.
+
+> Giá rỗng **không** có nghĩa là khối rỗng — renderer rơi về đúng quy tắc cũ. Nên script này an
+> toàn khi chạy lại, và xoá một tệp `home-*.json` đi thì trang chủ quay về như trước.
 
 ---
 
@@ -547,7 +580,7 @@ thẳng vào tiêu đề trong khung → ô nhập tự sáng lên bên trái �
 
 Ba thứ nó tự kiểm trong lúc quay, nên một đoạn phim quay ra là một đoạn phim **đúng**: khung xem
 thử có đổi theo từng phím không, ô ảnh có nói được cỡ cần tải lên không, và bảng chọn ảnh có nhắc
-lại cỡ ấy không. Quay xong nó ghi `highlights.json` ở **cả hai cây** trở lại nguyên văn và kiểm
+lại cỡ ấy không. Quay xong nó ghi `home-news.json` ở **cả hai cây** trở lại nguyên văn và kiểm
 từng byte — một công cụ để lại rác trong dữ liệu của khách là công cụ không ai dám chạy lần hai.
 Một dòng trong History thì vẫn còn, và đó là sự thật: đoạn phim đã bấm Save thật.
 

@@ -251,3 +251,96 @@ chốt bảo vệ ở đó gọi `process.exit(1)` trần: **không một dòng 
 Nay hai chốt ấy in bảng và nói rõ nó không tìm thấy cái gì. Và bộ chọn đổi sang **lớp CSS của
 thẻ** thay vì địa chỉ: lớp ấy là hình thức của trang, địa chỉ là nơi dữ liệu nằm, và phép thử này
 hỏi về hình thức.
+
+---
+
+## Task 21: Trang chủ là một giá sách, không phải một kho thứ hai
+
+**Yêu cầu:** *"Tôi muốn là đăng bài news, đăng tin tức, đăng color riêng. Sau đó ở trang chủ sẽ
+cho người dùng pick từ kho bài đó và fill các nội dung ấy."*
+
+Mô hình: **kho** là nơi viết nội dung; **trang chủ** là nơi chọn ra từ kho. Task 18–20 đã dựng
+đúng cơ chế ấy cho một khối. Task 21 áp dụng cho những khối còn lại.
+
+### Hôm nay khối nào chọn được, khối nào không
+
+| Khối trang chủ | Hiện lấy gì | Ai quyết |
+|---|---|---|
+| New (tin) | 6 bài do người dùng chọn | **người dùng** ✓ |
+| Product families | **tất cả** 6 dòng | không ai |
+| Colors | 10 màu: một cho mỗi họ, rồi lấp đầy theo thứ tự tệp | một thuật toán viết cứng |
+| Recent projects | 3 dự án mới nhất theo năm | một thuật toán viết cứng |
+| Gallery, Applications, Feature | nội dung riêng, không phải kho nào | — |
+
+"Một cho mỗi họ rồi lấp đầy theo thứ tự tệp" là quy tắc không ai đoán được và không ai đổi được
+mà không sửa mã. Đó chính là chỗ yêu cầu này chỉ vào.
+
+### Cờ hay danh sách chọn?
+
+Một cờ `home: true` trên từng mục trong kho thì rẻ hơn, nhưng **không diễn đạt được thứ tự**: thứ
+tự khối New là biên tập, khác thứ tự `/news/` (theo ngày). Khối Colors chọn 10 trên 35 — đó là
+một lựa chọn thật, không phải một bộ lọc. Nên: **danh sách chọn**, đúng hình dạng đã có.
+
+### Bốn cái giá, cùng một hình dạng
+
+`highlights.json` đổi tên thành **`home-news.json`**, và ba tệp mới cùng hình dạng:
+
+```jsonc
+// home-news.json, home-products.json, home-colors.json, home-projects.json
+{ "items": [ { "id": "press-line-2500" }, … ] }
+```
+
+Đổi tên vì bốn tệp cùng một ý tưởng thì phải cùng một lối đặt tên; `highlights` không nói lên nó
+là cái giá của trang chủ. Giá phải trả: một địa chỉ trong khuôn trang chủ (`highlights.heading`),
+một dòng trong `DocumentFor`, một dòng `Kind`, vài danh sách trong `tools/`. Rẻ bây giờ, đắt sau.
+
+### Ba cái bẫy
+
+1. **Giá rỗng phải rơi về đúng quy tắc hôm nay.** Cài đặt đang chạy chưa có `home-colors.json`;
+   không có bước rơi về thì lần deploy đầu tiên trang chủ mất ba khối. Quy tắc cũ ở lại làm bước
+   rơi về, và **một script gieo hạt** viết ra đúng những gì quy tắc ấy sinh ra hôm nay — nên
+   `parity` trên `/` phải 15/15 ngay sau khi gieo. Chạy parity NGAY sau bước gieo, một mình.
+2. **`PickFrom` đang giả định mảng nguồn tên là `items`.** Kho products là `categories`, projects
+   là `albums`. Không sửa thì màn hình danh sách của hai giá ấy hiện "Not linked yet" trên mọi
+   dòng mà không báo gì.
+3. **Tiêu đề khối "Six product families" là chữ viết cứng.** Giá chọn năm dòng thì nó nói dối.
+   Cùng loại với "four markets" ở Task 7 — đổi sang `data-ab-count` hoặc ghi rõ là chưa đổi.
+
+### Các bước
+
+- [x] **Step 1: Đổi tên `highlights` → `home-news`**, cả hai cây, khuôn, `DocumentFor`, `Kind`, `tools/`.
+- [x] **Step 2: `PickFrom` trỏ sang một KIND khác**, không phải một tệp. Kho products giữ mục
+      dưới `categories`, projects dưới `albums` — trỏ sang kind thì mảng và **danh từ số ít** đi
+      kèm luôn, nên đầu cột tự đổi theo ("Product family", "Color", "Article", "Project").
+- [x] **Step 3: `tools/seed-shelves.js`** — viết ra ba giá đúng bằng những gì quy tắc hôm nay
+      sinh ra, ở cả hai cây, chỉ đụng vào giá đang rỗng trừ khi `--force`.
+- [x] **Step 4: Bốn khối đọc giá, rơi về quy tắc cũ khi giá rỗng.** `SectionRenderer.Shelf`.
+      Địa chỉ đặt trên mục của KHO (`products.categories.N.name`), tuyệt đối chứ không phải
+      tương đối, vì thẻ `data-ab-doc` quanh khối giờ mang tên cái giá.
+- [x] **Step 5: Màn hình Content chia ba nhóm** — Libraries · The home page · The two maps.
+      Danh sách phẳng mười ba ô giấu mất chuyện có hai bước, và "Home: Products" nằm cạnh
+      "Products" trông như một danh sách sản phẩm thứ hai đang tranh nhau.
+- [x] **Step 6: Verify** — `dotnet test` 86/86 · `parity --against baseline/task19` 15/15 ·
+      `collection` 21/21 (phép thử đổi con trỏ chạy vòng qua cả bốn giá) · `admin-shots` 33/33 ·
+      `editor-shot` 13/13 · `labels` 32/32 · `guide-video` 8/8 · `trees` đạt.
+- [x] **Step 7: Commit.**
+
+### Ba thứ lộ ra khi làm, không nằm trong kế hoạch
+
+1. **`_app/highlights.js` gọi `highlights.json` và báo lỗi ngay trong khối "New".** Bốn khối
+   trang chủ vẫn do JavaScript vẽ khi phục vụ tĩnh (`site/` trên GitHub Pages), nên đổi tên tệp
+   ở phía máy chủ là chưa đủ. Nặng hơn: script ấy **đã hỏng từ Task 18** cho bản tĩnh — nó vẽ
+   thẻ từ `it.image`/`it.title`/`it.href`, những trường mà cái giá không còn mang. Giờ cả ba
+   script (`app.js` thêm `AB.shelf`, `highlights.js`, `home-blocks.js`) đọc giá và rơi về đúng
+   quy tắc cũ, giống hệt phía máy chủ.
+2. **`parity.js` nói "khong chay duoc python" khi hai ảnh khác chiều cao.** Đó là một câu trả
+   lời thật bị dán nhãn thành phép đo hỏng — đúng loại lỗi cả dự án này đang đi sửa. Giờ nó nói
+   `CAO KHÁC: -159px so voi moc`, và chính con số ấy chỉ thẳng ra khối "New".
+3. **Màn hình Content ghi "Ten kinds of thing" trong khi bên dưới có mười ba ô.** Con số viết
+   cứng nói dối, ngay trên màn hình của chính mình. Giờ lấy từ model.
+
+### Còn lại, cố ý không đụng
+
+Tiêu đề khối vẫn là chữ viết cứng: **"Six product families"** (`site.home.products.heading`).
+Giá chọn năm dòng thì nó nói sai. Không đổi vì đó là đổi **nội dung**, không phải cơ chế — và
+khách sửa được nó ngay trong trình soạn, một cú bấm. Ghi ra đây để không ai tưởng là đã quên.

@@ -31,10 +31,13 @@ const WIDTH = +opt('width', 1440);
 const OUT = opt('out', path.join(os.tmpdir(), 'admin-shots'));
 const DATA = path.join(__dirname, '..', 'wwwroot', '_data');
 
-// Muoi loai trong man hinh Content. Viet lai o day chu khong dung chung voi
-// CollectionController: neu hai ben lech nhau thi phep do phai keu len.
+// Muoi ba loai trong man hinh Content: bay kho, bon cai gia cua trang chu, hai khoi canvas.
+// Viet lai o day chu khong dung chung voi CollectionController: neu hai ben lech nhau thi phep
+// do phai keu len.
 const KINDS = ['products', 'colors', 'news', 'projects', 'documents',
-               'gallery', 'highlights', 'applications', 'routes', 'factories'];
+               'gallery', 'applications',
+               'home-news', 'home-products', 'home-colors', 'home-projects',
+               'routes', 'factories'];
 
 // Bon man hinh cua ban mau. Task 11 thao chung khoi menu, Task 15 xoa han - chung ghi vao ba
 // bang khong ai doc, va mot nut Save bao "da luu" khi khong luu gi la thu te hon mot trang 404.
@@ -128,8 +131,10 @@ async function screen(page, urlPath, name, into = rows) {
 
   const before = Object.fromEntries(KINDS.map(k => [k, null]));
   const DOC = { products: 'products', colors: 'colors', news: 'news', projects: 'projects',
-                documents: 'documents', gallery: 'gallery', highlights: 'highlights',
-                applications: 'applications', routes: 'globe', factories: 'factories' };
+                documents: 'documents', gallery: 'gallery', applications: 'applications',
+                'home-news': 'home-news', 'home-products': 'home-products',
+                'home-colors': 'home-colors', 'home-projects': 'home-projects',
+                routes: 'globe', factories: 'factories' };
   for (const k of KINDS) before[k] = read(DOC[k]);
 
   const b = await launch();
@@ -164,7 +169,7 @@ async function screen(page, urlPath, name, into = rows) {
   const shelfFile = await capture(page, 'edit-bang-chon-anh');
   check('bang chon anh', shelfTiles > 0, shelfTiles + ' o trong thu vien · ' + shelfFile);
 
-  await screen(page, '/Admin/Collection', 'content-muoi-loai');
+  await screen(page, '/Admin/Collection', 'content-cac-loai');
   for (const k of KINDS) await screen(page, '/Admin/Collection/Items/' + k, 'content-' + k);
 
   await screen(page, '/Admin/Media', 'pictures');
@@ -267,7 +272,7 @@ async function screen(page, urlPath, name, into = rows) {
 
   const drifted = KINDS.filter(k => read(DOC[k]) !== before[k]);
   check('file noi dung tro lai nguyen van', drifted.length === 0,
-        drifted.length ? 'con lech: ' + drifted.join(', ') : 'ca 10 file giong het luc bat dau');
+        drifted.length ? 'con lech: ' + drifted.join(', ') : `ca ${KINDS.length} file giong het luc bat dau`);
 
   await b.close();
 

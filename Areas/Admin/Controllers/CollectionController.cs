@@ -34,11 +34,12 @@ public class CollectionController : Controller
     }
 
     /// <summary>
-    /// The ten kinds of thing a client adds and removes.
+    /// The kinds of thing a client adds and removes: seven libraries, four home-page shelves,
+    /// and two canvas blocks.
     ///
     /// <c>Page</c> is where an item of this kind appears. Seven have a page each, addressed by
-    /// slug; the other three live on the home page and are edited there, which is why their page
-    /// is "/" and their items have no link of their own.
+    /// slug; the rest live on the home page and are edited there, which is why their page is "/"
+    /// and their items have no link of their own.
     /// </summary>
     /// <param name="CanAdd">
     /// Whether a new item of this kind can be filled in once it exists.
@@ -50,32 +51,51 @@ public class CollectionController : Controller
     /// removing still work: those need no new coordinates.
     /// </param>
     /// <param name="PickFrom">
-    /// The document whose items this kind POINTS AT, when its items are pointers rather than
-    /// things.
+    /// The KEY of the kind this one points at, when its items are pointers rather than things.
     ///
-    /// A home-page highlight is a card for a news article: the picture and the link come from the
-    /// article, and all the card adds is a shorter headline. Which article it is cannot be a text
-    /// field on the page - it is an id, and ids are not words anybody reads - so it is chosen
-    /// here, on the screen that is already about which items exist.
+    /// A home-page card is a card FOR something in a library: the picture, the words and the link
+    /// all come from whatever it points at, and the pointer is the whole of what makes the card
+    /// that card. Which one it is cannot be a text field on the page - it is an id, and ids are
+    /// not words anybody reads - so it is chosen here, on the screen that is already about which
+    /// items exist.
+    ///
+    /// It names a KIND rather than a document so the library's array and its word for one item
+    /// come with it. Naming only the document meant assuming every library kept its items under
+    /// "items", which two of them do not.
+    /// </param>
+    /// <param name="One">
+    /// What one item of this kind is called, in the singular. It is the heading of the column
+    /// that chooses one, on the screen of whatever kind points here.
     /// </param>
     public record Kind(string Key, string Label, string Document, string Array, string Page,
-                       bool CanAdd = true, string? PickFrom = null)
+                       bool CanAdd = true, string? PickFrom = null, string One = "Item")
     {
         public bool HasOwnPage => Page != "/";
+
+        /// <summary>The library this kind points into, or null when its items are things.</summary>
+        public Kind? Source => PickFrom is null ? null : Kinds.FirstOrDefault(k => k.Key == PickFrom);
     }
 
     public static readonly Kind[] Kinds =
     [
-        new("products",     "Products",      "products",     "categories", "/products/"),
-        new("colors",       "Colors",        "colors",       "items",      "/colors/"),
-        new("news",         "News",          "news",         "items",      "/news/"),
-        new("projects",     "Projects",      "projects",     "albums",     "/projects/"),
-        new("documents",    "Documents",     "documents",    "categories", "/documents/"),
-        new("gallery",      "Gallery",       "gallery",      "items",      "/"),
-        new("highlights",   "Highlights",    "highlights",   "items",      "/", PickFrom: "news"),
-        new("applications", "Applications",  "applications", "tabs",       "/"),
-        new("routes",       "Export routes", "globe",        "routes",     "/", CanAdd: false),
-        new("factories",    "Factories",     "factories",    "sites",      "/", CanAdd: false),
+        new("products",     "Products",      "products",     "categories", "/products/",  One: "Product family"),
+        new("colors",       "Colors",        "colors",       "items",      "/colors/",    One: "Color"),
+        new("news",         "News",          "news",         "items",      "/news/",      One: "Article"),
+        new("projects",     "Projects",      "projects",     "albums",     "/projects/",  One: "Project"),
+        new("documents",    "Documents",     "documents",    "categories", "/documents/", One: "Document group"),
+        new("gallery",      "Gallery",       "gallery",      "items",      "/", One: "Picture"),
+        new("applications", "Applications",  "applications", "tabs",       "/", One: "Tab"),
+
+        // The home page's four shelves. Each is a list of ids pointing into the library above it:
+        // what the client writes lives in the library, once, and the shelf says which of it the
+        // home page shows and in what order.
+        new("home-news",     "Home: New",      "home-news",     "items", "/", PickFrom: "news",     One: "Card"),
+        new("home-products", "Home: Products", "home-products", "items", "/", PickFrom: "products", One: "Card"),
+        new("home-colors",   "Home: Colors",   "home-colors",   "items", "/", PickFrom: "colors",   One: "Card"),
+        new("home-projects", "Home: Projects", "home-projects", "items", "/", PickFrom: "projects", One: "Card"),
+
+        new("routes",       "Export routes", "globe",        "routes",     "/", CanAdd: false, One: "Export route"),
+        new("factories",    "Factories",     "factories",    "sites",      "/", CanAdd: false, One: "Factory"),
     ];
 
     public IActionResult Index()
@@ -86,9 +106,16 @@ public class CollectionController : Controller
 
     public record Summary(Kind Kind, int Items);
 
-    /// <summary><c>Page</c> is where this item is looked at and edited - its own, or the home page.</summary>
+    /// <summary>
+    /// <c>Page</c> is where this item is looked at and edited - its own, or the home page.
+    ///
+    /// <c>Warn</c> is the one sentence a pointer row sometimes has to say: what it points at is
+    /// hidden, or nothing. Either way the card draws nothing on the site while the row here still
+    /// says "Shown", because what is shown is the SHELF's own switch. Without the sentence, that
+    /// reads as a broken screen.
+    /// </summary>
     public record Row(int Index, string Id, string Title, string Note, string? Image, bool Visible,
-                      string Page);
+                      string Page, string? Warn = null);
 
     public IActionResult Items(string id)
     {
@@ -148,16 +175,23 @@ public class CollectionController : Controller
         return RedirectToAction(nameof(Items), new { id });
     }
 
-    /// <summary>The items a pointer kind may point at, newest first the way the source holds them.</summary>
+    /// <summary>
+    /// The items a pointer kind may point at, in the order the library holds them.
+    ///
+    /// Hidden items are on the list. Choosing one and then publishing it is an ordinary way to
+    /// work, and leaving it off would mean the card silently loses its selection the day somebody
+    /// hides the article for an afternoon. The row says so instead.
+    /// </summary>
     public record Choice(string Id, string Title);
 
     public List<Choice> Choices(Kind kind)
     {
-        if (kind.PickFrom is null) return [];
-        var list = _store.Get(kind.PickFrom)?["items"] as JsonArray;
+        if (kind.Source is not { } from) return [];
+        var list = _store.Get(from.Document)?[from.Array] as JsonArray;
         return list?.OfType<JsonNode>()
-            .Select(a => new Choice(Text(a, "id"), First(a, "title", "name") is { Length: > 0 } t
-                                                   ? t : Text(a, "id")))
+            .Select(a => new Choice(Text(a, "id"),
+                                    First(a, "title", "name", "label", "caption") is { Length: > 0 } t
+                                    ? t : Text(a, "id")))
             .Where(c => c.Id.Length > 0).ToList() ?? [];
     }
 
@@ -212,8 +246,8 @@ public class CollectionController : Controller
 
         // A pointer kind has no picture of its own - that is the point of it - so the thumbnail
         // comes from whatever it points at, the same place the card on the site takes it from.
-        var source = kind.PickFrom is null ? null
-                   : (_store.Get(kind.PickFrom)?["items"] as JsonArray)?.OfType<JsonNode>().ToList();
+        var source = kind.Source is not { } from ? null
+                   : (_store.Get(from.Document)?[from.Array] as JsonArray)?.OfType<JsonNode>().ToList();
 
         var rows = new List<Row>();
         for (var i = 0; i < list.Count; i++)
@@ -235,10 +269,25 @@ public class CollectionController : Controller
                 Note: First(shown, "tagline", "spec", "code", "year", "location", "description"),
                 Image: image.Length > 0 ? "/_media/" + image : null,
                 Visible: item?["visible"] is not JsonValue v || !v.TryGetValue<bool>(out var y) || y,
-                Page: PageFor(kind, Text(item, "id"))));
+                Page: PageFor(kind, Text(item, "id")),
+                Warn: Warning(kind, linked)));
         }
         return rows;
     }
+
+    /// <summary>Why this pointer row draws nothing on the site, when it draws nothing.</summary>
+    private static string? Warning(Kind kind, JsonNode? linked)
+    {
+        if (kind.Source is not { } from) return null;
+        if (linked is null) return $"Until a{An(from.One)} is chosen, this card does not appear.";
+        return linked["visible"] is JsonValue v && v.TryGetValue<bool>(out var y) && !y
+            ? $"That {from.One.ToLowerInvariant()} is hidden, so this card does not appear."
+            : null;
+    }
+
+    private static string An(string word)
+        => (word.Length > 0 && "AEIOU".Contains(char.ToUpperInvariant(word[0])) ? "n " : " ")
+           + word.ToLowerInvariant();
 
     private static string Text(JsonNode? node, string key)
     {

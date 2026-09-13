@@ -1,18 +1,41 @@
 @model List<QlWeb2.Areas.Admin.Controllers.CollectionController.Summary>
 @{ ViewData["Title"] = "Content"; }
 
+@*
+    Three groups, because there are two steps and the screen should say so: you write into a
+    library, then you choose from it on the home page. A flat grid of thirteen tiles hid that -
+    "Home: Products" sat beside "Products" looking like a second, rival list of products.
+
+    The count comes from the model. "Ten kinds of thing" was typed here when there were ten, and
+    it was still saying ten with thirteen tiles underneath it.
+*@
+@{
+    var shelves = Model.Where(s => s.Kind.PickFrom is not null).ToList();
+    var maps = Model.Where(s => !s.Kind.CanAdd).ToList();
+    var libraries = Model.Except(shelves).Except(maps).ToList();
+}
+
 <h1>Content</h1>
 <p class="ad-sub">
-    Ten kinds of thing on the site. Open one to add, remove, reorder or hide an item; to change
-    what an item says, open its page in the editor &mdash; you can see it there.
+    @Model.Count kinds of thing on the site. Open one to add, remove, reorder or hide an item;
+    to change what an item says, open its page in the editor &mdash; you can see it there.
 </p>
 
-<div class="ad-cards">
-    @foreach (var s in Model)
-    {
-        <a class="ad-card" asp-action="Items" asp-route-id="@s.Kind.Key">
-            <b>@s.Kind.Label</b>
-            <span>@s.Items @(s.Items == 1 ? "item" : "items")</span>
-        </a>
-    }
-</div>
+<h2 class="ad-group-title">Libraries</h2>
+<p class="ad-sub">Where everything is written. Each item here has a page of its own, or a place on the home page.</p>
+<partial name="_Kinds" model="libraries" />
+
+<h2 class="ad-group-title">The home page</h2>
+<p class="ad-sub">
+    Which of the above the home page shows, and in what order. Nothing is written here &mdash;
+    each card points at one item in a library, and takes its words, its picture and its link
+    from there.
+</p>
+<partial name="_Kinds" model="shelves" />
+
+<h2 class="ad-group-title">The two maps</h2>
+<p class="ad-sub">
+    The globe and the factory map. Items can be hidden, reordered and removed; adding one needs
+    map coordinates, which are not words on a page.
+</p>
+<partial name="_Kinds" model="maps" />

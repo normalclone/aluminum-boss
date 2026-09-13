@@ -133,6 +133,44 @@
       });
   }
 
+  // Whatever is published. Absent means yes, the same rule the server's Arr() applies, and the
+  // same one every list on this site is filtered by.
+  function keep(list) {
+    return (list || []).filter(function (x) { return x && x.visible !== false; });
+  }
+
+  /**
+   * What a home-page band shows: the library items its SHELF points at, in the shelf's order.
+   *
+   * A shelf - home-news, home-products, home-colors, home-projects - is a list of ids and
+   * nothing else. Everything a card says belongs to the library item and is written there once,
+   * so the home page and the listing page cannot drift apart.
+   *
+   * An empty or missing shelf is not an empty band: it means nobody has picked, and the band
+   * falls back to the rule that chose before shelves existed. This is SectionRenderer.Shelf on
+   * the server, written again here because the server composes the site it serves and this file
+   * draws the static copy of it - and the two have to say the same thing.
+   *
+   * Resolves to { doc, items }: the shelf document itself, for the heading it may carry, and
+   * the library items to draw.
+   */
+  function shelf(name, stock, otherwise) {
+    var live = keep(stock);
+    var pick = function (picks) {
+      var out = [];
+      picks.forEach(function (p) {
+        live.forEach(function (s) { if (s.id === p.id) out.push(s); });
+      });
+      return out;
+    };
+    return load(name).then(function (d) {
+      var picks = keep(d && d.items);
+      return { doc: d, items: picks.length ? pick(picks) : otherwise(live) };
+    }).catch(function () {
+      return { doc: null, items: otherwise(live) };
+    });
+  }
+
   function fail(el, e) {
     el.innerHTML = '<div class="ab-fail"><p>Could not load this section.</p><p>' +
       esc(e && e.message) + '</p></div>';
@@ -146,5 +184,5 @@
   }
 
   w.AB = { ph: ph, esc: esc, qs: qs, href: href, itemId: itemId,
-         load: load, root: root, fail: fail, title: title };
+         load: load, keep: keep, shelf: shelf, root: root, fail: fail, title: title };
 }(window));

@@ -1,7 +1,7 @@
-// Them, an, doi thu tu, xoa - cho ca muoi loai noi dung, roi tra moi thu ve nhu cu.
+// Them, an, doi thu tu, xoa - cho MOI loai noi dung, roi tra moi thu ve nhu cu.
 //
 // Man hinh danh sach la thu duy nhat doi duoc TAP HOP cac muc, va moi thao tac cua no ghi thang
-// vao file noi dung cua khach. Nen phep do nay lam dung nhung viec do, tren ca muoi loai, va ket
+// vao file noi dung cua khach. Nen phep do nay lam dung nhung viec do, tren tat ca, va ket
 // thuc bang cau hoi nghiem khac nhat: sau tat ca, mo file ra co giong het luc bat dau khong.
 //
 //   node collection.js [origin]
@@ -21,8 +21,19 @@ const DATA = path.join(__dirname, '..', 'wwwroot', '_data');
 const KINDS = [
   ['products', 'products', true], ['colors', 'colors', true], ['news', 'news', true],
   ['projects', 'projects', true], ['documents', 'documents', true], ['gallery', 'gallery', true],
-  ['highlights', 'highlights', true], ['applications', 'applications', true],
+  ['applications', 'applications', true],
+  ['home-news', 'home-news', true], ['home-products', 'home-products', true],
+  ['home-colors', 'home-colors', true], ['home-projects', 'home-projects', true],
   ['routes', 'globe', false], ['factories', 'factories', false],
+];
+
+// Bon cai gia cua trang chu, va cho tren trang chu de nhin xem no co di theo khong.
+// Cot cuoi: selector tim the dau tien, va duong dan tren the phai chua id vua chon.
+const SHELVES = [
+  ['home-news', '.core-slider-novedades__slide__container'],
+  ['home-products', '#abhb-products .ab-tile'],
+  ['home-colors', '#abhb-colors .ab-swatch'],
+  ['home-projects', '#abhb-projects .ab-card'],
 ];
 
 const read = doc => fs.readFileSync(path.join(DATA, doc + '.json'), 'utf8');
@@ -195,52 +206,63 @@ async function press(page, i, selector) {
 
   /* ---- mot the tren trang chu la mot con tro, khong phai mot ban sao ------------------- */
   //
-  // Sau Task 18, the "New" khong mang anh rieng nua: anh, duong dan va tieu de du phong deu lay
-  // tu bai. Nen phep thu la doi CON TRO va xem trang chu co di theo khong - mot phep thu chi doc
-  // JSON se qua duoc ca khi trang chu van ve bang du lieu cu.
-  await page.goto(BASE + '/Admin/Collection/Items/highlights', { waitUntil: 'load', timeout: 60000 });
-  const pickRow = page.locator('table tbody tr').first();
-  const was = await pickRow.locator('select').inputValue();
-  const others = await page.evaluate(() =>
-    [...document.querySelectorAll('table tbody tr')].slice(1)
-      .map(r => r.querySelector('select').value));
-  // Mot bai chua the nao dang tro toi, de khong trung voi the khac.
-  const all = await page.evaluate(() =>
-    [...document.querySelectorAll('table tbody tr select')[0].options]
-      .map(o => o.value).filter(Boolean));
-  const free = all.find(v => v !== was && !others.includes(v));
+  // Mot cai gia khong mang gi cua rieng no: anh, chu va duong dan deu lay tu kho no tro toi.
+  // Nen phep thu la doi CON TRO va xem TRANG CHU co di theo khong - mot phep thu chi doc JSON
+  // se qua duoc ca khi trang chu van ve bang du lieu cu.
+  //
+  // Chay cho ca bon cai gia, vi bon cai dung chung mot doan ma nhung tro vao bon kho khac nhau,
+  // va hai trong so do khong giu muc duoi khoa "items".
+  for (const [key, card] of SHELVES) {
+    const items = BASE + '/Admin/Collection/Items/' + key;
+    await page.goto(items, { waitUntil: 'load', timeout: 60000 });
 
-  await pickRow.locator('select').selectOption(free);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
-    pickRow.locator('.ad-pick button').click(),
-  ]);
-  const pointed = JSON.parse(read('highlights')).items[0].id;
+    const pickRow = page.locator('table tbody tr').first();
+    const was = await pickRow.locator('select').inputValue();
+    const others = await page.evaluate(() =>
+      [...document.querySelectorAll('table tbody tr')].slice(1)
+        .map(r => r.querySelector('select').value));
+    // Mot muc chua the nao dang tro toi, de khong trung voi the khac.
+    const all = await page.evaluate(() =>
+      [...document.querySelectorAll('table tbody tr select')[0].options]
+        .map(o => o.value).filter(Boolean));
+    // Uu tien mot muc chua the nao tro toi, cho de doc. Nhung gia home-products giu ca sau dong
+    // san pham, nen khong con cai nao thua - luc ay lay bat ky cai nao khac cai dang tro, va
+    // chap nhan hai the cung tro vao mot cho trong vai giay. Phep do chi hoi ve THE DAU TIEN.
+    const free = all.find(v => v !== was && !others.includes(v)) || all.find(v => v !== was);
+    if (!free) { check('gia ' + key, false, 'kho chi co dung mot muc, khong doi duoc'); continue; }
 
-  const home = await ctx.newPage();
-  await home.goto(BASE + '/', { waitUntil: 'load', timeout: 60000 });
-  const firstHref = await home.locator('.core-slider-novedades__slide__container').first()
-    .getAttribute('href');
-  await home.close();
+    await pickRow.locator('select').selectOption(free);
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+      pickRow.locator('.ad-pick button').click(),
+    ]);
+    const pointed = JSON.parse(read(key)).items[0].id;
 
-  check('the trang chu tro sang bai khac',
-        pointed === free && (firstHref || '').includes(free),
-        `${was} -> ${pointed} · the tren trang chu: ${firstHref}`);
+    const home = await ctx.newPage();
+    await home.goto(BASE + '/', { waitUntil: 'load', timeout: 60000 });
+    const firstHref = await home.locator(card).first().getAttribute('href');
+    await home.close();
 
-  // Tra lai bai cu.
-  await page.goto(BASE + '/Admin/Collection/Items/highlights', { waitUntil: 'load', timeout: 60000 });
-  await page.locator('table tbody tr').first().locator('select').selectOption(was);
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
-    page.locator('table tbody tr').first().locator('.ad-pick button').click(),
-  ]);
+    check('gia ' + key + ': trang chu di theo con tro',
+          pointed === free && (firstHref || '').includes(free),
+          `${was} -> ${pointed} · the dau tren trang chu: ${firstHref}`);
+
+    // Tra lai muc cu.
+    await page.goto(items, { waitUntil: 'load', timeout: 60000 });
+    await page.locator('table tbody tr').first().locator('select').selectOption(was);
+    await Promise.all([
+      page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }),
+      page.locator('table tbody tr').first().locator('.ad-pick button').click(),
+    ]);
+  }
 
   // Va cau hoi nghiem khac nhat.
   const same = KINDS.filter(([, doc]) => read(doc) !== before[doc]).map(([, doc]) => doc);
   check('file noi dung tro lai nguyen van', same.length === 0,
-        same.length ? 'con lech: ' + same.join(', ') : 'ca 10 file giong het luc bat dau');
+        same.length ? 'con lech: ' + same.join(', ')
+                    : `ca ${KINDS.length} file giong het luc bat dau`);
 
-  heading('Muoi loai noi dung: them, an, doi thu tu, xoa');
+  heading(`${KINDS.length} loai noi dung: them, an, doi thu tu, xoa`);
   table(['loai', 'ket qua', 'chi tiet'], out, [false, false, false]);
   await b.close();
   verdict(bad === 0, 'man hinh danh sach doi duoc tap hop, va khong de lai gi');

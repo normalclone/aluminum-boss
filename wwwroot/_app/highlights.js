@@ -1,9 +1,10 @@
 /* The "New" slider on the homepage.
  *
- * Same shape as the other homepage sections: the cards come from /_data/highlights.json, so
- * announcing something new is a JSON edit rather than an HTML one. The markup below is the
- * theme's own core-slider-novedades component, class for class, so the theme stylesheet
- * dresses it and nothing new has to be written for the card itself.
+ * A card is a POINTER at a news article, and nothing else. /_data/home-news.json is a list of
+ * ids saying which six articles the home page shows and in what order; the headline, the tag,
+ * the picture and the link all come from the article itself, in /_data/news.json, where they are
+ * written once. The markup below is the theme's own core-slider-novedades component, class for
+ * class, so the theme stylesheet dresses it and nothing new has to be written for the card.
  *
  * Driven by the theme's SliderNovedades class when it is on the page. That class is declared
  * with `class`, not assigned to window, so it is reachable as a bare identifier only - hence
@@ -43,6 +44,9 @@
   function el(id) { return document.getElementById(id); }
 
   function slide(it, i) {
+    // Everything drawn here is the ARTICLE's. The line over the headline is its first tag.
+    var href = 'news/' + AB.href(it);
+    var label = (it.tags || [])[0] || '';
     // The placeholder goes in unlabelled. AB.ph's label is normally the only clue to what
     // belongs in the hole, but here the card already prints the family and the headline over
     // the image in white - passing either to AB.ph draws the same words a second time in grey
@@ -51,7 +55,7 @@
     var src = it.image ? AB.root() + '_media/' + it.image : AB.ph(IMG_W, IMG_H, '');
     return '<div class="core-slider-novedades__slide keen-slider__slide number-slide-' + i + '">' +
              '<a class="core-slider-novedades__slide__container" href="' +
-               AB.esc(AB.root() + it.href) + '">' +
+               AB.esc(AB.root() + href) + '">' +
                '<div class="shadow"></div>' +
                '<img class="core-slider-novedades__slide__image" src="' + AB.esc(src) +
                  '" width="' + IMG_W + '" height="' + IMG_H + '" alt="' + AB.esc(it.title) +
@@ -65,7 +69,7 @@
                '<div class="core-slider-novedades__slide__card-body">' +
                  '<div class="core-slider-novedades__slide__card-body_top">' +
                    '<div class="core-slider-novedades__slide__card-body__logo">' +
-                     '<p class="core-slider-novedades__logo">' + AB.esc(it.label) + '</p>' +
+                     '<p class="core-slider-novedades__logo">' + AB.esc(label) + '</p>' +
                    '</div>' +
                    '<div class="cos-novedades__enlace">' +
                      '<h3 class="core-slider-novedades__slide__card-body__name font-display-sm uppercase">' +
@@ -160,19 +164,23 @@
     sync();
   }
 
-  AB.load('highlights').then(function (d) {
+  AB.load('news').then(function (news) {
     var t = el(SLIDER);
     if (!t) return;
 
-    var h = el('ab-nov-heading');
-    if (h && d.heading) h.textContent = d.heading;
+    // An empty shelf falls back to the six most recent articles, which is what this band showed
+    // before anybody could choose.
+    return AB.shelf('home-news', news.items, function (all) { return all.slice(0, 6); })
+      .then(function (band) {
+        var h = el('ab-nov-heading');
+        if (h && band.doc && band.doc.heading) h.textContent = band.doc.heading;
 
-    var items = (d.items || []).slice(0, 6);
-    if (!t.firstElementChild) t.innerHTML = items.map(slide).join('');
+        if (!t.firstElementChild) t.innerHTML = band.items.map(slide).join('');
 
-    bleed();
-    window.addEventListener('resize', bleed);
-    start();
+        bleed();
+        window.addEventListener('resize', bleed);
+        start();
+      });
   }).catch(function (e) {
     var t = el(SLIDER);
     if (t) AB.fail(t, e);

@@ -109,7 +109,13 @@ function overThreshold(a, b) {
   const out = (r.stdout || '') + (r.stderr || '');
   if (/Khong co pixel nao lech qua 32/.test(out)) return 0;
   const m = out.match(/(\d+) pixel lech qua 32/);
-  return m ? +m[1] : NaN;   // NaN: khong chay duoc python, khong dam ket luan
+  if (m) return +m[1];
+  // Hai anh khac chieu cao: khong con pixel nao de tru, va do la mot cau tra loi THAT, khong
+  // phai mot phep do hong. Noi thang ra bao nhieu, vi "trang ngan hon 159px" chi ra ngay khoi
+  // nao mat cho - con dong "khong chay duoc python" thi gui nguoi doc di sai huong ca buoi.
+  const size = out.match(/Kich thuoc khac nhau: \((\d+), (\d+)\) vs \((\d+), (\d+)\)/);
+  if (size) return { taller: +size[2] - +size[4] };
+  return NaN;   // NaN: that su khong chay duoc python, khong dam ket luan
 }
 
 (async () => {
@@ -165,6 +171,10 @@ function overThreshold(a, b) {
 
     const n = overThreshold(shotA, shotB);
     if (n === 0) { rows.push([p, 'giong het (chi nhieu khu rang cua)']); }
+    else if (n && n.taller !== undefined) {
+      differing++;
+      rows.push([p, 'CAO KHAC: ' + (n.taller > 0 ? '+' : '') + n.taller + 'px so voi moc']);
+    }
     else if (Number.isNaN(n)) { differing++; rows.push([p, 'KHAC byte — khong chay duoc python']); }
     else { differing++; rows.push([p, 'LECH ' + n + ' pixel qua 32/255']); }
   }
