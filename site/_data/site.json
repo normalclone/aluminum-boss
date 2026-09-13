@@ -157,5 +157,23 @@
     ],
     "copyright": "© Böss Group. All rights reserved.",
     "demoNote": "Demonstration site — photography and documents are specimens."
+  },
+  "home": {
+    "title": "Boss Group — aluminium extrusion, finishing and fabrication in Vietnam",
+    "colors": {
+      "heading": "Colors",
+      "more": "All colors"
+    },
+    "projects": {
+      "heading": "Recent projects",
+      "more": "All projects"
+    },
+    "products": {
+      "more": "All products",
+      "heading": "Six product families"
+    },
+    "cta": {
+      "heading": "Send us a drawing."
+    }
   }
 }
