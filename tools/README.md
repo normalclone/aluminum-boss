@@ -271,6 +271,27 @@ dòng bằng `<br>` không xuống dòng.
 
 ---
 
+## `hero-shots.js` — sáu chữ trên hero còn đọc được không
+
+```bash
+node hero-shots.js http://localhost:5199
+```
+
+Chụp khối hero với **từng** dòng sản phẩm được chọn, ở 1440 và 390 — mười hai tấm để mở ra nhìn.
+Không kết luận gì cả, và đó là toàn bộ công việc của nó.
+
+`home.js` mang một giả định viết thành lời trong chính nó: *"không cần lớp phủ — chữ rơi xuống
+mảng tường nhạt mà bức ảnh đặt sẵn dưới đó"*. Giả định ấy đúng với ảnh nền sáng. Khách đổi một
+tấm sang ảnh tối là sáu chữ trên hero và dòng chữ góc dưới có thể không đọc được nữa, và **không
+phép đo nào bắt được** — `parity` chỉ nói "khác mốc nền", đúng cả khi cái khác ấy là cái đẹp hơn.
+
+> Đo được ở lô banner đầu: năm tấm nền sáng, một tấm (`Door's Accessory`) nền xám đậm — mà vẫn
+> đọc tốt, vì ảnh neo phải nên phần gradient nhạt nằm đúng dưới sáu chữ. Chỗ khó đọc lại là tấm
+> `Facade`: dòng chú thích góc dưới phải nằm trên phần kính phản chiếu toà nhà tối. Chỉ ở 1440;
+> ở 390 bố cục xếp ảnh trên, chữ dưới trên nền trắng.
+
+---
+
 ## `ingest-images.py` — đưa một lô ảnh của khách vào site
 
 Khách gửi ảnh theo lô, và mỗi lần đều là cùng ba việc: chuyển sang JPEG, chép vào **cả hai cây**,
