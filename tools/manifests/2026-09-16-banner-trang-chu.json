@@ -1,0 +1,56 @@
+[
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/1-profiles.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "profile",
+    "field": "image",
+    "as": "hero-profile.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 1. Profiles.png  (id 1VrshNnuZiLfXkkqZWe8RwjVRAuNx4_vo)"
+  },
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/2-facade.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "facade",
+    "field": "image",
+    "as": "hero-facade.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 2. Facade.png  (id 16Xwy7gfdvpvCvNmmT5jf-PrtXA1N8y5o)"
+  },
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/3-furniture.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "furniture",
+    "field": "image",
+    "as": "hero-furniture.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 3. Furniture.png  (id 1ncHIJFY1PGMpZ4eunpUDkKECOPyIrUs6)"
+  },
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/4-door-accessory.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "door-accessory",
+    "field": "image",
+    "as": "hero-door-accessory.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 4. Door's Accessories.png  (id 1K3atn3IKaLXl-uQynOx0OstAFd9FSQQT)"
+  },
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/5-car-accessory.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "car-accessory",
+    "field": "image",
+    "as": "hero-car-accessory.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 5. Car's Accessories.png  (id 1evJZoY3M86FiUCOMiexfIipauN-R7XKX)"
+  },
+  {
+    "src": "C:/Users/Admin/AppData/Local/Temp/ab-drive/6-honeycomb.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "honeycomb",
+    "field": "image",
+    "as": "hero-honeycomb.jpg",
+    "from": "Drive AluminumBoss / 1x - Banner Header Trang chu / 6. Honeycomb.png  (id 1LY7UEUQ2uZ0dj4juVxfjyc-cTHFqUOel)"
+  }
+]

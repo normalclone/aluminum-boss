@@ -87,7 +87,8 @@
           "spec": "Hook-on cassette · open or closed joint · rear-ventilated",
           "text": "Hook-on cassettes on a rail carrier, removable one at a time from the face. Sizes follow the setting-out grid, not the sheet size."
         }
-      ]
+      ],
+      "image": "hero-facade.jpg"
     },
     {
       "id": "furniture",
@@ -130,7 +131,8 @@
           "spec": "Height 100–150 mm · clip-on seal · adjustable foot",
           "text": "Cabinet plinth with a clip-on seal at the floor. Adjustable feet take up the 12 mm of level a screed usually leaves behind."
         }
-      ]
+      ],
+      "image": "hero-furniture.jpg"
     },
     {
       "id": "door-accessory",
@@ -173,7 +175,8 @@
           "spec": "EN 2–4 · in-leaf · hold-open option",
           "text": "Closer housed inside the leaf, invisible when the door is shut. Force is adjustable across EN 2 to 4 without removing the door."
         }
-      ]
+      ],
+      "image": "hero-door-accessory.jpg"
     },
     {
       "id": "car-accessory",
@@ -216,7 +219,8 @@
           "spec": "Fin pitch to 2 mm · aspect ratio 18:1 · skived option",
           "text": "High-aspect fins for inverter and charger modules. Where the pitch goes below 2 mm the part is skived rather than extruded."
         }
-      ]
+      ],
+      "image": "hero-car-accessory.jpg"
     },
     {
       "id": "honeycomb",
@@ -259,7 +263,8 @@
           "spec": "Non-slip face · 25–40 mm · point load 300 kg",
           "text": "Bus and rail floor panel with a bonded non-slip face. Rated for a 300 kg point load on a 100 mm footprint."
         }
-      ]
+      ],
+      "image": "hero-honeycomb.jpg"
     }
   ]
 }

@@ -94,6 +94,10 @@ tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--on
 > **Đã ký duyệt:** port từ bản clone tĩnh vào app .NET · dời cả cây lên một cấp · mọi lần đổi
 > nội dung kể từ đó.
 
+**Mốc nền đang dùng: `baseline/task22`** (trước đó là `task19`). Thư mục `baseline/` ở cấp trên
+cùng là mốc **trước Task 10**, còn dùng lối đặt đường dẫn cũ — so với nó thì cả 15 trang đều báo
+lệch, và đó không phải hồi quy.
+
 **Khác byte không phải câu hỏi.** Công cụ tự đếm pixel lệch quá 32/255 khi hai ảnh khác byte,
 rồi mới kết luận. Trước đó nó báo "KHÁC — chạy compare.py" và để người tự làm; trong một buổi
 chiều, cách đó báo động giả ba lần liền trên những trang không lệch một pixel nào.
@@ -103,6 +107,11 @@ nhưng đó là một câu trả lời thật chứ không phải phép đo hỏ
 chỉ ngay ra khối nào mất chỗ, trong khi dòng cũ (`khong chay duoc python`) gửi người đọc đi tìm
 Python cả buổi. Đã gặp thật: một script trang chủ gọi `highlights.json` sau khi tệp ấy đổi tên,
 báo lỗi ngay trong khối "New" và làm trang ngắn đi đúng 159px.
+
+**`/news/` lệch vài trăm pixel mà không ai sửa gì: đó là NGÀY, không phải hồi quy.** Danh sách
+tin in ngày theo lối tương đối — "25 days ago", "2 months ago" — nên mọi mốc nền tự hỏng dần theo
+thời gian. Đo được: mốc chụp ngày 13/09, chạy lại ngày 16/09, lệch **878 pixel** gọn trong hai
+dòng ngày. Vùng lệch nằm đúng dưới chữ ngày thì đọc tên tệp `locate-diff` ra là biết ngay.
 
 **Một trang lệch đơn lẻ thì chụp lại trước khi coi là hồi quy.** Cách phân biệt: chụp cùng một
 trang hai lần từ **cùng một máy chủ** rồi so hai ảnh đó với nhau. Khác nhau nghĩa là phép chụp
@@ -259,6 +268,45 @@ python trees.py
 File dữ liệu và script phải giống **từng byte**. File HTML so sau khi giải mã thực thể và bỏ
 khoảng trắng cạnh thẻ, vì bản tĩnh viết `Böss` còn khuôn viết `B&ouml;ss`, và bộ ghép nối các
 dòng bằng `<br>` không xuống dòng.
+
+---
+
+## `ingest-images.py` — đưa một lô ảnh của khách vào site
+
+Khách gửi ảnh theo lô, và mỗi lần đều là cùng ba việc: chuyển sang JPEG, chép vào **cả hai cây**,
+rồi trỏ dữ liệu vào tên tệp. Làm tay ba việc ấy cho sáu tấm là sáu lần có thể quên một bước —
+và bước hay quên nhất là cây `site/`, vốn là bản GitHub Pages đang phục vụ.
+
+```bash
+python tools/ingest-images.py tools/manifests/2026-09-16-banner-trang-chu.json --dry   # xem trước
+python tools/ingest-images.py tools/manifests/2026-09-16-banner-trang-chu.json         # làm thật
+python tools/trees.py                                                                  # kiểm hai cây
+```
+
+Manifest là một danh sách, mỗi dòng một tấm:
+
+```jsonc
+[{ "src":   "C:/.../1. Profiles.png",
+   "doc":   "products", "array": "categories",
+   "id":    "profile",          // tìm theo id, KHÔNG theo số thứ tự
+   "field": "image",
+   "as":    "hero-profile.jpg",
+   "from":  "Drive AluminumBoss / 1x - Banner Header ... (id 1Vrsh...)" }]
+```
+
+**Tìm theo `id`, không theo chỉ số.** Khách kéo một dòng lên trên trong màn hình Content là chỉ
+số đổi; `id` thì không. Một manifest chạy lại sau ba tháng vẫn trỏ đúng chỗ.
+
+**`from` không làm gì cả, và đó là lý do nó ở đây.** Sáu tấm ảnh nằm trong `_media/` mà không ai
+còn nhớ lấy từ đâu là sáu tấm không ai dám thay. Manifest được commit cùng ảnh.
+
+**Thông số nén lấy từ `build/hero-image.py`** — JPEG quality 82, optimize, progressive — chứ
+không tự đặt bộ mới: hai bộ khác nhau cho cùng một loại ảnh thì tấm này nét hơn tấm kia và không
+ai biết vì sao. Trần 2000px cạnh dài, đúng con số tài liệu bàn giao nói với khách, vì **máy chủ
+không thu nhỏ ảnh** — nó trả đúng tệp nhận được.
+
+> Đo được ở lô đầu: sáu banner 1440×696 PNG, 1,0–1,5 MB mỗi tấm → 55–160 KB JPEG. Cả sáu cộng lại
+> nhẹ hơn một tấm PNG gốc.
 
 ---
 

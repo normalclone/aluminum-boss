@@ -87,6 +87,10 @@ Best upload 680 × 600 px          cỡ nên tải lên
 trả đúng tệp ấy cho khách. Một tấm 6 MB thẳng từ máy ảnh là 6 MB trên lưng mọi người vào trang.
 Trần là 2000 px cạnh dài — con số ấy đã nằm sẵn trong dòng gợi ý.
 
+**Gửi cả một lô ảnh thì đừng làm tay.** Đưa đường dẫn thư mục cho người làm kỹ thuật và bảo chạy
+`python tools/ingest-images.py` — nó nén, chép sang cả hai cây, và trỏ dữ liệu vào, trong một
+lệnh, kèm ghi chú ảnh lấy từ đâu. Làm tay ba việc ấy cho sáu tấm là sáu lần có thể quên một bước.
+
 ### Trang chủ là một cái giá: bạn chọn, không nhập lại
 
 Bốn khối trên trang chủ — **New**, **Products**, **Colors**, **Recent projects** — không có nội
