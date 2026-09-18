@@ -257,7 +257,14 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
   AB.load('products').then(function (d) {
     document.getElementById('ab-intro').textContent = d.intro;
     if (!bands.firstElementChild) bands.innerHTML = d.categories.map(function (c) {
-      var tiles = c.items.map(function (it) {
+      // Bang la mot dai CUON NGANG, thiet ke cho khoang nam the. Ho Door's Accessory sau khi
+      // nhap bossdoor co 40 san pham, va ca 40 the deu duoc ve: dai rong 10.060px trong mot
+      // khung 1.232px — tam man cuon ngang, chi 5 the nhin thay, khong dau hieu nao bao con 35
+      // cai nua. Trang cao them dung 36px nen khong phep do chieu cao nao thay.
+      // Cat con 8: du de dai co cuon (bao "con nua"), khong bien thanh mot hanh lang. So that
+      // van nam o lien ket "40 products" ben canh tieu de, va trang ho san pham ve du ca 40
+      // trong mot luoi xuong hang binh thuong.
+      var tiles = c.items.slice(0, 8).map(function (it) {
         return '<a class="ab-tile" href="' + AB.href(c) +
                '#' + encodeURIComponent(it.id) + '">' +
                  '<span class="ab-thumb"><img src="' +

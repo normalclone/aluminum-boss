@@ -97,7 +97,9 @@
         '<h1 class="ab-title ab-article-title">' + AB.esc(a.title) + '</h1>' +
         '<p class="ab-tagline">' + AB.esc(a.note) + '</p>' +
         '<dl class="ab-specs">' + facts + '</dl>' +
-        '<p class="ab-count">' + a.photos.length + ' photographs — select one to open the viewer</p>' +
+        '<p class="ab-count">' + (a.photos.length === 0 ? 'Photographs to come'
+                          : a.photos.length === 1 ? '1 photograph'
+                          : a.photos.length + ' photographs — select one to open the viewer') + '</p>' +
         '<div class="ab-sheet">' + tiles + '</div>' +
         '<div class="ab-items"><h2>Other albums</h2><div class="ab-grid">' + others + '</div></div>' +
       '</div>';

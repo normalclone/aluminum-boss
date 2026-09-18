@@ -37,13 +37,29 @@ const STATES = [
     },
   },
   {
-    name: 'header-da-cuon', page: '/products/', w: 1440, h: 900,
-    act: () => window.scrollTo(0, 600),
+    // Ban dau muc nay kiem `!getComputedStyle(bar).backgroundColor` tren `.abh-bar`. Sai hai
+    // lan: lop `is-over` nam tren `.abh` chu khong phai `.abh-bar`, va backgroundColor KHONG
+    // BAO GIO rong — it nhat no tra ve "rgba(0, 0, 0, 0)". Nghia la phep kiem luon bao "dat",
+    // ke ca khi quy tac bi cat mat. Mot phep kiem khong the that bai thi khong phai phep kiem.
+    //
+    // Ban nay do cai that su xay ra: o dinh trang chu, header nam TREN hero nen trong suot;
+    // cuon xuong thi no phai co nen. Hai gia tri phai KHAC nhau.
+    name: 'header-da-cuon', page: '/', w: 1440, h: 900,
+    act: async () => {
+      const bar = document.querySelector('.abh');
+      window.__truoc = bar ? getComputedStyle(bar).backgroundColor : null;
+      window.__lopTruoc = bar ? bar.classList.contains('is-over') : null;
+      window.scrollTo(0, 1200);
+    },
     check: () => {
-      const bar = document.querySelector('.abh-bar');
-      if (!bar) return 'khong tim thay .abh-bar';
-      return bar.classList.contains('is-over') && !getComputedStyle(bar).backgroundColor
-        ? 'thanh dau trang khong con nen khi cuon' : '';
+      const bar = document.querySelector('.abh');
+      if (!bar) return 'khong tim thay .abh';
+      const sau = getComputedStyle(bar).backgroundColor;
+      if (window.__lopTruoc === bar.classList.contains('is-over'))
+        return 'lop is-over khong doi khi cuon (truoc/sau deu ' + window.__lopTruoc + ')';
+      if (window.__truoc === sau)
+        return 'nen thanh dau trang khong doi khi cuon (van ' + sau + ')';
+      return '';
     },
   },
   {
