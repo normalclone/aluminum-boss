@@ -64,10 +64,10 @@ tại đã có sẵn một dòng tên là **"Door's Accessory"** — đó là ch
 | bossdoor.vn | → danh mục site hiện tại | Ghi chú |
 |---|---|---|
 | 64 sản phẩm cửa cuốn | `products.categories` — **thêm 1 dòng mới "Roller shutters"**, và các phụ kiện dồn vào `Door's Accessory` đã có | 49 trong số 64 là phụ kiện |
-| 247 tin | `news.items` — **chọn lọc, không lấy hết** (mục 4.2) | |
+| 227 tin | `news.items` — **chọn lọc, không lấy hết** (mục 4.2) | Đo thật: chỉ **8 bài** đạt ngưỡng B2B, không phải 30–40. Xem 4.2 |
 | 9 dự án | `projects.albums` | Khớp trường gần như 1-1 |
 | Giới thiệu (1.175 từ) | `about.chapters` | Có sẵn chương |
-| Bảo hành + quy chuẩn lắp đặt | `documents.categories` | |
+| Bảo hành + quy chuẩn lắp đặt | ~~`documents.categories`~~ → **chưa có chỗ** | Mỗi mục tài liệu vẽ nút **Download PDF** trỏ vào tệp thật; ta chỉ có chữ → nút tải hỏng. Sửa 18/09/2026 |
 | Màu/bề mặt | **không có nguồn** — bossdoor.vn chỉ có "màu tiêu chuẩn: ghi sáng" | `colors` giữ nguyên 35 mục hiện có |
 | 124 đại lý | **KHÔNG nhập** — site hiện không có màn hình nào cho nó, và đó là dữ liệu đối tác | |
 | `/thiet-ke.html` (dự toán) | **KHÔNG cào được** — là một công cụ cấu hình bằng JS, phải viết lại nếu cần | |
@@ -132,6 +132,30 @@ nghĩa gì** với người đọc tiếng Anh.
 Đề xuất: **giữ ~30–40 bài** — tin nhà máy, chứng nhận, sản phẩm mới, sự kiện — và bỏ toàn bộ
 nhóm địa phương. Site hiện có 8 bài, nên 30–40 đã là gấp bốn lần.
 
+**→ Anh chốt "giữ ~30–40 bài" ngày 18/09/2026. Đo xong thì con số này không có thật.**
+
+Ước lượng ở trên sai, và sai theo một cách đáng ghi lại: nó cho rằng "60–80 bài SEO địa phương"
+là nhóm cần bỏ, còn lại dùng được. Công cụ bản đầu đi theo đúng ước lượng đó — một cờ dò
+`quận/huyện/tỉnh` trong tiêu đề — và đếm được 29. **Cả hai con số đều vô nghĩa vì cùng một lý
+do: "SEO địa phương" không phải nhóm thật.**
+
+Nhóm thật là: bossdoor.vn viết cho **chủ nhà Việt Nam mua cửa cuốn**, site này bán **nhôm định
+hình cho khách B2B xuất khẩu**. Đó chính là điều mục 2 đã cảnh báo, chỉ là lúc đó chưa ai đo.
+Chấm điểm lại theo dấu hiệu nội dung (billet, đùn ép, xuất khẩu, nhà máy, chứng nhận, ký kết —
+trừ đi báo giá, hotline, giá rẻ, quận/huyện, nhà phố) trên **cả tiêu đề lẫn thân bài**:
+
+| ngưỡng điểm B2B | số bài |
+|---|---|
+| ≥ 10 | 5 |
+| ≥ 5 | **8** ← chọn |
+| ≥ 1 | 41 |
+| ≥ 0 | 68 |
+| tất cả | 227 |
+
+Muốn đủ 30–40 bài thì phải hạ ngưỡng xuống gần 0, tức là **đưa bài bán lẻ cửa cuốn cho khách
+Việt lên site xuất khẩu nhôm**. Đó là một quyết định về nội dung, không phải một phép lọc khó
+tính — nên nó quay lại bàn của anh Phúc, kèm ba lựa chọn và số đo ở trên.
+
 ### 4.3 Đổ thẳng vào `wwwroot/_data`, hay vào một cây nháp?
 
 Đề xuất: **cây nháp**. Nhập 300+ mục vào dữ liệu đang chạy là một thay đổi không hoàn tác được
@@ -146,10 +170,11 @@ bằng History (History giữ 50 bản cho mỗi tệp, một lần nhập hàng
 |---|---|---|
 | **0** | Chốt ba quyết định ở mục 4 | Biết phải làm bao nhiêu |
 | **1** ✅ | `tools/crawl-bossdoor.js` — đi theo phân trang, lưu HTML thô vào `import/raw/` (gitignore). Chạy lại an toàn, 1 request/giây. | HTML trên đĩa, cào một lần |
-| **2** | `tools/extract-bossdoor.js` — bóc HTML thành JSON thô: tiêu đề, ngày, bảng thông số, thân bài, danh sách ảnh. Báo cáo số mục và số từ. | Dữ liệu có cấu trúc, kiểm đếm được |
+| **2** ✅ | `tools/extract-bossdoor.js` — bóc HTML thành JSON thô: tiêu đề, ngày, bảng thông số, thân bài, danh sách ảnh. Báo cáo số mục và số từ. | Dữ liệu có cấu trúc, kiểm đếm được |
 | **3** | Ảnh: chuyển WebP, cạnh dài ≤ 2000 px (đúng quy tắc đã ghi trên màn hình Choose picture), **đánh dấu ảnh có chữ tiếng Việt** để vẽ lại | `wwwroot/_media/` nhẹ, có danh sách ảnh phải làm lại |
-| **4** | Dịch/viết lại theo lô, mỗi lô một agent, **dùng lại 16 bản EN đã có** | Nội dung tiếng Anh |
-| **5** | Trộn vào `products.json`, `news.json`, `projects.json`, `about.json`, `documents.json` theo đúng khuôn hiện tại; sinh `id` bằng `ContentEditor.Slugify` | Nội dung vào site |
+| **4a** ✅ | `tools/select-bossdoor.js` + `tools/claims-bossdoor.js` — chọn lọc theo điểm B2B, và lọc ra 32 dòng cần anh Phúc duyệt (nhãn hiệu bên thứ ba, tên khách hàng, con số kiểm chứng được) | `import/selected.json`, `import/xac-nhan.md` |
+| **4b** | Dịch/viết lại 52 mục (~27.300 từ) ra `import/en/<loại>/<id>.json`, **dùng lại 16 bản EN đã có** | Nội dung tiếng Anh, mỗi mục một tệp đọc lại được |
+| **5** | `tools/merge-bossdoor.js --apply` ✅ *(công cụ xong, chờ nội dung)* — trộn vào `products.json`, `news.json`, `projects.json`; kiểm `id`, ngày, họ sản phẩm trước khi ghi | Nội dung vào site, một commit riêng để `git revert` là một lệnh |
 | **6** | Verify: `slugs.py`, `trees.py`, `crawl.js`, `seo.js`, `labels.js`, `parity` trên 15 trang cũ | Không có liên kết chết, hai cây khớp, trang cũ không đổi |
 
 **Đợt 1–2 là phần máy làm được và cào một lần là xong. Đợt 4 là phần tốn nhất và là phần cần

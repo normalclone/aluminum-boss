@@ -312,6 +312,88 @@ Thân bài ra thành **khối** (đoạn, tiêu đề, gạch đầu dòng, bả
 hiện tại lưu bài viết dưới dạng mảng đoạn văn, và một cục chữ thì tới đợt 5 lại phải cắt ra —
 lúc ấy không còn thẻ HTML nào để biết chỗ nào hết đoạn.
 
+**Hai cái bẫy mã hoá, và cái bẫy thứ hai tự lộ ra nhờ một phép đếm.** Trang tin của bossdoor.vn
+ghi tiếng Việt bằng UTF-8, còn trang dự án và trang tĩnh ghi bằng **tên thực thể** (`&ocirc;`,
+`&agrave;`) — cùng một site, hai cách. Thiếu bảng Latin-1 thì 5 dự án và 7 trang tĩnh bóc ra
+thành `Th&ocirc;ng tin`: đọc đúng, trả về chữ vô nghĩa, và không có gì báo. Nên cuối `extract`
+có một dòng **đếm thực thể còn sót**. Chính nó chỉ ra `&le;` 42 lần và `&Phi;` 12 lần — hai ký
+tự nằm trong **bảng thông số sản phẩm**. Bỏ qua thì `Φ ≤ 76mm` thành `&Phi; &le; 76mm`: mất
+nghĩa chứ không chỉ mất dấu. Bảng tra phân biệt hoa thường (`&Phi;` là Φ, `&phi;` là φ) và regex
+nhận tên có chữ số (`&sup2;`).
+
+**Điểm B2B thay cho cờ "SEO địa phương".** Bản đầu có một cờ `localSeo` dò tiêu đề xem có
+`quận/huyện/tỉnh` không, đếm được 29; kế hoạch thì đoán 60–80. Cả hai con số đều vô nghĩa **vì
+cùng một lý do**: "SEO địa phương" không phải nhóm thật. Nhóm thật là *bossdoor.vn viết cho chủ
+nhà Việt Nam mua cửa cuốn, site này bán nhôm định hình cho khách B2B xuất khẩu*. Giờ mỗi mục
+mang `b2b: {pro, con, score}` nằm trong `extracted.json`, nên ngưỡng đổi được và lựa chọn kiểm
+lại được.
+
+---
+
+## `select-bossdoor.js` — chọn nhập cái gì, và nói rõ vì sao bỏ phần còn lại
+
+```bash
+node select-bossdoor.js             # ngưỡng điểm B2B >= 5 (mặc định)
+node select-bossdoor.js --news 0    # kéo rộng lưới tin tức
+```
+
+Ba trạng thái chứ không phải hai: `giu` (có chỗ vào ngay), `cho-quyet-dinh` (nội dung đúng nhưng
+**site chưa có chỗ** — kèm đề xuất), `bo` (kèm lý do). Kết quả vào `import/selected.json`.
+
+> **Đã bắt được — bản đồ đích trong kế hoạch sai một chỗ.** Kế hoạch viết *bảo hành + quy chuẩn
+> lắp đặt → `documents.categories`*. Đọc lại `build/bodies/documents-detail.js` thì mỗi mục tài
+> liệu vẽ một nút **Download PDF** trỏ vào một tệp thật. Ta có **chữ**, không có PDF. Nhập vào
+> đấy là một nút tải hỏng trên trang thật, và `crawl.js` không bắt được vì nó chỉ đòi 200 trên
+> trang HTML.
+
+## `claims-bossdoor.js` — những thứ không được tự quyết
+
+```bash
+node claims-bossdoor.js      # -> import/xac-nhan.md
+```
+
+Quét các mục **sẽ nhập** tìm ba loại: nhãn hiệu bên thứ ba (Somfy, Kasankie, HOPO…), tên khách
+hàng và dự án (Aeon Mall, Vincom, Cát Bi…), con số kiểm chứng được (Guinness, số bằng độc quyền,
+ISO, bảo hành 10 năm). Mỗi dòng kèm một câu ví dụ và danh sách mục chứa nó.
+
+Đây không phải việc dịch mà là việc **cam kết**: sau khi nhập, những dòng này nằm trên trang
+tiếng Anh như lời công ty nói với khách nước ngoài. Dòng nào không được đánh dấu thì **bỏ** —
+bỏ sót an toàn hơn giữ sai.
+
+## `merge-bossdoor.js` — đổ nội dung đã viết lại vào `_data`
+
+```bash
+node merge-bossdoor.js           # xem trước, không ghi gì
+node merge-bossdoor.js --apply   # ghi thật, cả hai cây
+```
+
+Đọc `import/en/{news,products,families,projects}/<id>.json`, kiểm rồi ghi vào `wwwroot/_data` và
+`site/_data`. **Mặc định là xem trước** vì một lần đổ sai chỉ lùi được bằng `git`.
+
+Bốn phép kiểm đã thử bằng tệp cố tình sai: `id` không đúng slug, `id` dài quá 48 ký tự (crawler
+đã chết một lần vì giới hạn 260 ký tự của Windows), ngày sai định dạng, và trỏ vào một họ sản
+phẩm không tồn tại. Có một tệp hỏng thì **không ghi gì cả**.
+
+---
+
+## `hero-words.js` — hero chứa được bao nhiêu họ sản phẩm
+
+```bash
+node hero-words.js 11      # thử từ 6 họ lên 11
+```
+
+Trang chủ vẽ mỗi họ sản phẩm thành một dòng chữ lớn, đọc từ `products.json`. Nghe thì mềm dẻo,
+nhưng khối hero là `height:100vh; overflow:hidden; align-items:flex-end` — cao cố định, chữ dán
+từ **dưới** lên, tràn thì bị cắt ở **trên**. Nên thêm một họ không làm trang dài ra; nó đẩy chữ
+đầu tiên ra khỏi khung, lặng lẽ.
+
+Công cụ thêm họ giả vào `site/_data/products.json`, chụp ở 1440×900, 1440×720 và 390×844, đo
+khoảng từ đỉnh hero xuống chữ đầu tiên, rồi **trả lại tệp nguyên văn**.
+
+> **Đo được:** 7 họ còn thừa 466px ở 1440×900 và 294px ở 1440×720 — thoải mái. Mỗi họ ăn ~56px,
+> nên trần thật là khoảng 13 họ ở màn laptop 720px. Trên 390px hero là `height:auto` nên không
+> bao giờ cắt, chỉ dài ra.
+
 ---
 
 ## `hidden.js` — ẩn một mục có thật sự biến mất trên bản tĩnh không
