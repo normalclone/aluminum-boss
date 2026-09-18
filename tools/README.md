@@ -376,6 +376,107 @@ phẩm không tồn tại. Có một tệp hỏng thì **không ghi gì cả**.
 
 ---
 
+## `css-unused.js` — CSS nào đang không được dùng
+
+```bash
+node css-unused.js            # chỉ báo cáo
+node css-unused.js --apply    # cắt thật, cả hai cây
+```
+
+Site kéo theo **2 MB CSS** từ một theme WordPress cũ. Công cụ này đo được **11.692 / 14.699
+quy tắc không khớp phần tử nào**, và cắt 1.900 KB xuống 721 KB — giảm 62%.
+
+Không dò tên lớp trong HTML: DOM của site do JavaScript dựng lúc chạy. Nó mở trang bằng Chrome
+thật trên 15 trang × 3 khung màn hình, rồi hỏi **chính trình duyệt** từng bộ chọn một. Trước
+khi hỏi thì cắt bỏ giả lớp **trạng thái** (`:hover`, `:focus`) và giả phần tử (`::before`),
+giữ lại giả lớp **cấu trúc** (`:nth-child`, `:not`). Không chắc thì giữ.
+
+### Hai cái rào, và vì sao con số tụt từ 88% xuống 62%
+
+Lần chạy đầu bỏ được 88%. Con số đó **sai theo hướng nguy hiểm** — nó cắt cả những quy tắc mà
+phép đo về bản chất không thể nhìn thấy. Hai cái rào dưới đây kéo nó về 62%, và chỗ chênh
+**500 KB** ấy chính là phần không chứng minh được là chết.
+
+| Rào | Làm gì | Vì sao |
+|---|---|---|
+| **Bỏ qua `_app/`** | Không đụng một byte nào vào CSS mình tự viết | `app.css` chỉ có ~40 KB (2% của đống cần cắt) nhưng dày đặc lớp do JS bật: `.abhero.is-dark` (chỉ khi ảnh hero tối), `.abh-bar.is-over` (chỉ khi đã cuộn), `.ab-form-note.is-bad` (chỉ khi form lỗi), `.ab-fail` (chỉ khi tải hỏng). Lần chạy đầu đã cắt mất `is-dark` và `ab-fail`. Lợi 2%, hại đúng loại lỗi khó thấy nhất |
+| **JS biết tên lớp thì CSS ở lại** | Đọc mọi tệp `.js` và `<script>` nội tuyến dưới `site/`, gom tên lớp từ `classList.add/remove/toggle`, `addClass/removeClass`, `className =`, `class="..."` trong chuỗi HTML, và các chuỗi trông như bộ chọn CSS | Đây là dạng tổng quát của `POKE`. `POKE` bấm được bao nhiêu thì biết bấy nhiêu; còn tên lớp thì **nằm sẵn trong mã nguồn**. Giữ thêm 2.408 quy tắc từ 636 từ |
+
+> **Bằng chứng rào thứ hai đúng việc:** sau khi thêm nó, dòng "quy tắc chỉ lộ ra SAU khi bấm"
+> tụt từ 4 xuống **0** — vì phép quét JS đã bắt hết chúng trước khi `POKE` kịp bấm.
+
+**Một cái bẫy trong chính bộ quét JS.** Bản đầu tìm chuỗi bằng biểu thức chính quy, và nó chỉ
+thấy 68 chuỗi trong `app.js` thay vì hàng trăm: một dấu nháy đơn trong chú thích
+(`the theme's chrome`) mở một chuỗi giả kéo dài đến dấu nháy tiếp theo, và từ đó **mọi thứ lệch
+pha**. `.ab-fail` biến mất vì lý do đó. Phải đi từng ký tự và bỏ qua chú thích trước.
+
+### Ba cách đã thử, và hai cách đầu sai
+
+| Cách | Vì sao bỏ |
+|---|---|
+| Ghép lại tệp từ `r.cssText` | CSSOM của Chrome **chỉ giữ khai báo Chrome hiểu**, nên `-moz-appearance` và `-ms-grid-column` biến mất khi tuần tự hoá lại. Site vẫn đúng trên Chrome — là chỗ mình đo — và vỡ trên Firefox/Safari, mà không phép đo nào nhìn thấy |
+| `CSS.startRuleUsageTracking` (giao thức DevTools) | Nghe đúng nhất, nhưng nó **chỉ trả về quy tắc ĐÃ DÙNG**. Quy tắc không dùng không được nhắc đến, nên kết quả ra "bỏ được 0 KB" — một con số trống nhìn như thành công |
+| **Tự quét ranh giới quy tắc trên văn bản gốc** | Đang dùng. Một máy quét dấu ngoặc biết bỏ qua chuỗi và chú thích, rồi xoá đúng dải byte. Tiền tố nhà cung cấp, thứ tự, bản rút gọn, `@media` bọc ngoài — còn nguyên từng byte |
+
+> **Đã bắt được — và phép đo pixel KHÔNG bắt được.** Lần chạy đầu đo trang ở trạng thái nghỉ và
+> bỏ mất `.abh-nav.is-open { display: flex }`, quy tắc **duy nhất** làm menu trên điện thoại mở
+> ra. Bộ chọn đó chỉ khớp khi menu đang mở, mà lúc đo thì không ai bấm. `parity.js` báo *15/15
+> trang giống hệt* — hoàn toàn đúng, vì nó cũng chụp trang ở trạng thái nghỉ, và ở trạng thái
+> nghỉ thì menu đóng. Phải bấm thử bằng tay mới phát hiện.
+>
+> Sửa bằng cách thêm bước `POKE`: mỗi trang, mỗi khung màn hình, công cụ **tự bấm** — mở menu,
+> bấm bộ lọc, mở mọi thứ có `aria-expanded` — rồi hỏi lại. 96 lần bấm. Số lần bấm được in ra
+> kèm cảnh báo nếu bằng 0.
+
+**Vẫn còn chỗ nó không nhìn thấy:** hộp thoại, trạng thái sau một chuỗi thao tác dài hơn một cú
+bấm. Sau `--apply` **bắt buộc** chạy `parity.js` **và** `states.js`.
+
+---
+
+---
+
+## `states.js` — chụp những trạng thái ảnh tĩnh không bao giờ thấy
+
+```bash
+node states.js                                  # tự dựng máy chủ ở cổng 5119
+node states.js --origin http://127.0.0.1:5117   # dùng máy chủ đang chạy
+```
+
+`parity.js` chụp trang ở **trạng thái nghỉ**: menu đóng, hero sáng, form chưa gửi, header chưa
+cuộn. Lần cắt CSS đầu tiên bỏ mất `.abh-nav.is-open` và parity vẫn báo *15/15 không lệch pixel
+nào* — một câu trả lời **đúng** cho một câu hỏi không phủ được chỗ hỏng.
+
+Công cụ này làm đúng năm việc rồi chụp lại. Mỗi việc từng là một lỗi thật hoặc một lỗi suýt xảy ra:
+
+| Trạng thái | Làm gì | Bắt cái gì |
+|---|---|---|
+| `menu-mo` | Bấm `.abh-burger` ở 390px | `.abh-nav.is-open { display: flex }` — lỗi đã xảy ra thật |
+| `header-da-cuon` | Cuộn 600px | `.abh-bar.is-over` — nền thanh đầu trang |
+| `hero-anh-toi` | Bật `.is-dark` lên hero | `.abhero.is-dark .abhero-caption` — chữ trắng trên ảnh tối |
+| `form-loi` | Gửi form rỗng ở `/contact/quote/` | `.ab-field.is-bad`, `.ab-form-note.is-bad` — viền đỏ, chữ đỏ |
+| `tai-hong` | Chèn một khối `.ab-fail` | Định dạng thông báo "Could not load this section." |
+
+Mỗi mục có một hàm `check()` chạy trong trang và trả về chuỗi rỗng nếu đạt. **Nhưng `check()`
+chỉ bắt được cái nó biết hỏi** — đó là chính xác cái bẫy đã tạo ra công cụ này. Ảnh ghi vào
+`tools/out/states/` để **nhìn bằng mắt**, và bước nhìn là bắt buộc chứ không phải tuỳ chọn.
+
+---
+
+## `serve-site.js` — phục vụ `site/` trên một cổng
+
+```bash
+node serve-site.js                  # http://127.0.0.1:5117
+node serve-site.js --port 8080 --dir wwwroot
+```
+
+`parity.js`, `crawl.js`, `states.js` đều cần một origin thật để Chrome nạp vào. Lõi nằm ở
+`lib/static.js`, dùng chung.
+
+> **Một lỗi nó đã sửa sẵn.** Máy chủ tạm trước đó thiếu `.pdf` trong bảng MIME, nên `crawl.js`
+> báo `/documents/td-thermal/ FAIL` suốt nhiều lần chạy và tôi đã ghi nhầm là "lỗi có sẵn của
+> site". Tệp PDF vẫn ở đó, vẫn trả về 200 — chỉ sai `content-type`. Sau khi gom vào `lib/static.js`
+> thì còn **0 request hỏng**. Một phép đo sai làm mình quen với một con số đỏ.
+
 ## `hero-words.js` — hero chứa được bao nhiêu họ sản phẩm
 
 ```bash

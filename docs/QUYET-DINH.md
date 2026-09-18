@@ -57,8 +57,28 @@ site này do JavaScript dựng lúc chạy nên một lớp chỉ xuất hiện 
 không có trong tệp HTML nào. Chạy trên 15 trang × 3 khung màn hình, cắt bỏ giả lớp trạng thái
 (`:hover`, `:focus`) trước khi hỏi, và **không chắc thì giữ**.
 
-Chỗ công cụ này không nhìn thấy được, phải nói thẳng: phần tử chỉ sinh ra khi bấm nút. Vì vậy
-sau `--apply` **bắt buộc** chạy `parity.js` — một pixel đổi là có quy tắc bị bỏ nhầm.
+**Đã chạy 18/09/2026: 11.692 / 14.699 quy tắc bị bỏ, 1.900 KB → 721 KB (giảm 62%).** 15/15
+trang không lệch một pixel nào, ở cả 1440 và 390; `crawl.js` 0 liên kết chết, 0 lỗi script;
+`states.js` 5/5 trạng thái tương tác còn định dạng.
+
+**Con số đầu tiên là 88%, và tôi đã kéo nó xuống 62% — đây là chỗ đáng đọc nhất của mục này.**
+88% đạt được bằng cách cắt cả những quy tắc mà phép đo, về bản chất, **không thể** nhìn thấy:
+lớp do JavaScript bật lên trong một phần nghìn giây rồi tắt. Lần chạy ấy đã bỏ mất
+`.abhero.is-dark` (chữ trắng khi ảnh hero tối — đúng cái lớp phủ ở mục 6) và `.ab-fail` (khối
+báo lỗi khi tải hỏng). Không phép chụp ảnh nào bắt được, vì không ảnh nào chụp đúng khoảnh khắc đó.
+
+Hai cái rào mới, và 500 KB chênh lệch là giá của chúng:
+
+1. **Không đụng vào `_app/`** — CSS mình tự viết, 40 KB, nơi ở của mọi lớp trạng thái. Cắt nó
+   lợi 2% và hại đúng loại lỗi khó thấy nhất.
+2. **JS biết tên lớp thì CSS ở lại** — đọc mã nguồn JavaScript, gom tên lớp từ `classList.add`,
+   `addClass`, `className =`, `class="..."`. Sau khi thêm, số quy tắc "chỉ lộ ra sau khi bấm"
+   tụt từ 4 xuống **0**: phép quét mã đã bắt hết chúng trước khi bước tự bấm kịp chạy.
+
+Nói gọn: **62% là con số bỏ đi được mà chứng minh được; 88% là con số bỏ đi được mà không.**
+
+Chỗ vẫn không nhìn thấy: hộp thoại và trạng thái sau một chuỗi thao tác dài. Sau `--apply` vẫn
+**bắt buộc** chạy `parity.js` **và** `states.js`.
 
 ## 6. Hình thức
 
