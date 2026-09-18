@@ -151,6 +151,19 @@ function overThreshold(a, b) {
 
   const [A, B] = mode === '--against' ? [args[0], null] : args;
   const dir = mode === '--against' ? args[1] : null;
+
+  // Mot thu muc moc KHONG TON TAI truoc day di het duong xuong `overThreshold`, khong doc noi
+  // file, va bao "KHAC byte - khong chay duoc python" cho ca 15 trang. Cau do dung ve ky thuat
+  // va sai ve nguyen nhan: nguoi doc di kiem tra Python ca buoi trong khi loi chi la go thieu
+  // `tools/`. Chan ngay o day, va noi thang duong dan nao khong co.
+  if (dir && !fs.existsSync(dir)) {
+    console.error('');
+    console.error('  Khong co thu muc moc: %s', path.resolve(dir));
+    const thu = path.join(__dirname, 'baseline', path.basename(dir));
+    if (fs.existsSync(thu)) console.error('  Y anh la tools/baseline/%s chu? (cac moc nam trong tools/baseline/)', path.basename(dir));
+    process.exit(1);
+  }
+
   const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'parity-'));
 
   const rows = [];
@@ -161,7 +174,16 @@ function overThreshold(a, b) {
     await shoot(ctx, A.replace(/\/$/, ''), p, shotA);
 
     let shotB;
-    if (dir) { shotB = path.join(dir, name); }
+    if (dir) {
+      shotB = path.join(dir, name);
+      // Thieu dung MOT tam moc (moc chup truoc khi them trang) cung tung bao "khong chay duoc
+      // python". Goi ten trang con thieu ra thay vi do cho Python.
+      if (!fs.existsSync(shotB)) {
+        differing++;
+        rows.push([p, 'KHONG CO anh moc: ' + name]);
+        continue;
+      }
+    }
     else { shotB = path.join(tmp, 'b_' + name); await shoot(ctx, B.replace(/\/$/, ''), p, shotB); }
 
     if (sameBytes(shotA, shotB)) {

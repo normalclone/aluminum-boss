@@ -1,7 +1,7 @@
 # To lien anh cho lo anh vua tai, kem mot diem doan xem tam nao co chu in san.
 #
 #   python tools/images-text.py                      # doc import/media/, ghi to lien anh
-#   python tools/images-text.py --dir import/media   # thu muc khac
+#   python tools/images-text.py --dir import/media/dot2   # thu muc khac
 #
 # ---------------------------------------------------------------------------------------------
 # VI SAO KHONG OCR
@@ -22,6 +22,11 @@
 # Cach doc ket qua: mo tools/out/lien-anh.png, nhin tu tren xuong. Doan dau se lan lon anh do
 # hoa co chu va anh san pham nen trang - ca hai deu "phang va nhieu bien". Do la gioi han that
 # cua phep do nay, va vi the buoc nhin la bat buoc chu khong phai tuy chon.
+#
+# DA THU VA BO: mot lan da co nguong `s >= 40` ve vien do quanh cac tam dang ngo nhat. Tren lo 79
+# anh cua bossdoor.vn no bat duoc 0/79, trong khi tam diem cao nhat lai la mot ban ve ky thuat
+# sach khong co mot chu nao. Nguong do khong phan biet duoc gi nen da go han di: cong cu nay chi
+# con XEP THU TU to lien anh, viec quyet dinh la cua nguoi nhin.
 import io
 import json
 import math
@@ -130,9 +135,6 @@ def main():
                 sheet.paste(im, (cx + (CELL - im.size[0]) // 2, cy + (CELL - im.size[1]) // 2))
         except Exception:
             pass
-        # Vien do cho nhung tam dang ngo nhat, de mat bat duoc ngay ca khi luot nhanh.
-        if s >= 40:
-            draw.rectangle([cx + 2, cy + 2, cx + CELL - 3, cy + CELL - 3], outline=(190, 40, 40), width=2)
         name = os.path.basename(p)
         if len(name) > 30:
             name = name[:28] + '…'
@@ -143,9 +145,8 @@ def main():
     dest = os.path.join(OUT, 'lien-anh.png')
     sheet.save(dest)
 
-    hot = [r for r in rated if r[0] >= 40]
     print('\n  To lien anh: %s  (%dx%d)' % (os.path.relpath(dest, ROOT), sheet.size[0], sheet.size[1]))
-    print('  %d/%d tam co diem >= 40 (vien do) — dang ngo co chu in san.' % (len(hot), len(rated)))
+    print('  %d tam, xep theo diem giam dan. Diem chi de XEP THU TU, khong de loc.' % len(rated))
     print('\n  Diem cao nhat:')
     for s, p, size, nbytes in rated[:12]:
         print('    %3d  %s' % (s, os.path.relpath(p, ROOT)))

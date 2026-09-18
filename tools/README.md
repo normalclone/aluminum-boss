@@ -98,6 +98,13 @@ tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--on
 cùng là mốc **trước Task 10**, còn dùng lối đặt đường dẫn cũ — so với nó thì cả 15 trang đều báo
 lệch, và đó không phải hồi quy.
 
+> Các lệnh trên viết theo lối **đang đứng trong `tools/`**. Chạy từ gốc kho thì đường dẫn mốc là
+> `tools/baseline/task23`. Trước đây gõ thiếu `tools/` thì cả 15 trang báo *"KHAC byte — khong chay
+> duoc python"* — câu đó gửi người đọc đi kiểm tra Python trong khi lỗi chỉ là thiếu một thư mục.
+> Nay `parity.js` chặn ngay từ đầu: **`Khong co thu muc moc: <đường dẫn tuyệt đối>`**, kèm gợi ý
+> `tools/baseline/<tên>` nếu chỗ đó có thật. Thiếu đúng một tấm mốc thì báo **`KHONG CO anh moc: <tên
+> tệp>`** cho riêng trang đó.
+
 **Khác byte không phải câu hỏi.** Công cụ tự đếm pixel lệch quá 32/255 khi hai ảnh khác byte,
 rồi mới kết luận. Trước đó nó báo "KHÁC — chạy compare.py" và để người tự làm; trong một buổi
 chiều, cách đó báo động giả ba lần liền trên những trang không lệch một pixel nào.
@@ -471,6 +478,10 @@ Máy này không có tesseract. `images-text.py` chấm điểm bằng mật đ�
 lô này nó **sai**: tấm điểm cao nhất (`manual-steel-shutters`, 27 điểm) là bản vẽ kỹ thuật sạch
 không một chữ, còn `rebrand-to-bossgroup` — gần như toàn chữ — chỉ 25 điểm. Ngưỡng 40 bắt được
 **0/79 tấm**.
+
+Vì thế **ngưỡng 40 đã bị gỡ khỏi công cụ**, cả viền đỏ trên tờ liên ảnh lẫn dòng đếm "dang ngo" ở
+cuối. Một con số không phân biệt được gì mà vẫn vẽ về một phần lô thì tệ hơn là không vẽ:
+nó bảo người nhìn rằng phần còn lại đã được xem hộ. Điểm nay chỉ còn **xếp thứ tự** tờ liên ảnh.
 
 Nên công cụ này **không tuyên bố là nó đọc được chữ**. Nó ghép tất cả vào một tờ liên ảnh và
 người nhìn quyết định. Kết quả nhìn nằm ở `import/media/co-chu.json` — tệp duy nhất trong
