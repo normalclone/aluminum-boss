@@ -124,3 +124,36 @@ sau này biết cái gì là lựa chọn có cân nhắc.
 | Ảnh | **Tải ảnh xong mới nhập** | Đợt 3 chạy trước đợt 5 |
 | Cách xuất bản | **Nhập xong báo, CHƯA push** | Gửi ảnh chụp để xem trước; anh gật thì mới push, lúc ấy mới lên web |
 | Năm hoàn thành 2 dự án | **Anh sẽ cho hai con số** | Masteri Nam An Khánh, Delta River Tower — chưa viết, chờ số |
+
+## 9. Đợt ảnh, và một sự thật về nguồn — 18/09/2026
+
+Anh chốt "tải ảnh xong mới nhập". Đã chạy đúng thứ tự đó. Nhưng đợt ảnh lộ ra một điều đáng nói
+hơn cả kết quả:
+
+**Thư viện ảnh của bossdoor.vn phần lớn là tranh quảng cáo tiếng Việt, không phải ảnh chụp sản
+phẩm.** Qua ba vòng nhìn tận mắt, **23 trong 74 mục không có lấy một tấm dùng được** trên bản
+tiếng Anh. Những mục ấy để `image` rỗng và `AB.ph()` vẽ ô giữ chỗ.
+
+Vì sao chọn ô giữ chỗ chứ không phải "tấm nào cũng được":
+
+1. Một dòng chữ tiếng Việt trên trang tiếng Anh nói với khách nước ngoài rằng trang này là bản
+   dịch vội của một trang khác.
+2. Phép lui "tấm này có chữ thì lấy tấm kế tiếp" đập **tám bài** xuống cùng một tấm ảnh nhà
+   400×224. Tám thẻ tin cùng một tấm thì trang nhìn như hỏng — tệ hơn hẳn tám ô giữ chỗ.
+
+**Đây là chỗ anh giúp được nhiều nhất.** Nếu có ảnh chụp nhà máy, sản phẩm, công trình thì bỏ
+vào một manifest cho `tools/ingest-images.py` là xong — danh sách 23 mục đang thiếu nằm ở
+`import/media/co-chu.json`, mục `bo-han`.
+
+**Một tấm cần anh quyết riêng:** `choosing-a-shutter-operator.jpg` có dòng "Thương hiệu thuộc
+Tân Trường Sơn Group" ở góc — dùng **tên thương hiệu cũ** mà bản tiếng Anh đã chủ định bỏ (mục 8).
+Chưa bỏ tấm ấy, chờ anh. Tám tấm khác chỉ có dấu chìm "BossDoor" — không phải câu tiếng Việt,
+nhưng là nhãn cửa cuốn trong nước đặt trên trang xuất khẩu nhôm; cũng chờ anh.
+
+### Ba lỗi cũ lộ ra nhờ đợt này
+
+| Lỗi | Vì sao không ai thấy trước đó |
+|---|---|
+| Bản ghi đè **xoá** dữ liệu đang có (`image:""` xoá mất `hero-door-accessory.jpg`) | Không báo lỗi. Chỉ là trang họ sản phẩm mất ảnh đầu trang, và phải nhìn ảnh chụp mới thấy. Đã sửa ở gốc: `merge-bossdoor.js` không để một ô rỗng đè lên ô có giá trị, và in ra đã giữ lại những gì |
+| `ingest-images.py` không tìm được sản phẩm | `products.json` giữ sản phẩm sâu hơn một tầng. Thông báo lỗi **đúng** về mảng được hỏi, **sai** về cái đang thực sự đi tìm |
+| Trang sản phẩm **không bao giờ** đọc trường `image` | Lỗi có trước đợt nhập. Nó không lộ ra vì trước đây chưa có tấm ảnh sản phẩm nào để mà thiếu |

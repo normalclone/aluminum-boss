@@ -435,6 +435,71 @@ bấm. Sau `--apply` **bắt buộc** chạy `parity.js` **và** `states.js`.
 
 ---
 
+---
+
+## `images-bossdoor.js` + `images-text.py` — đợt tải ảnh
+
+```bash
+node images-bossdoor.js                                        # chỉ liệt kê
+node images-bossdoor.js --fetch --reject ../import/media/co-chu.json
+python images-text.py                                          # tờ liên ảnh
+python ingest-images.py manifests/bossdoor.json                # đưa vào site
+```
+
+`images-bossdoor.js` tải ảnh nguồn, `images-text.py` xếp chúng thành **một tờ liên ảnh** để
+nhìn, `ingest-images.py` (đã có sẵn) chuyển mã và trỏ dữ liệu vào.
+
+### Kết quả, và nó không phải kết quả tôi mong đợi
+
+**Thư viện ảnh của bossdoor.vn phần lớn là tranh quảng cáo tiếng Việt**, không phải ảnh chụp sản
+phẩm. 23 trong 74 mục không có lấy một tấm dùng được — để `image` rỗng, `AB.ph()` vẽ ô giữ chỗ.
+
+Ba lỗi trong bộ trích xuất, **mỗi lỗi đều báo một con số nhỏ mà không báo lỗi**:
+
+| Lỗi | Triệu chứng | Sự thật |
+|---|---|---|
+| Chỉ đọc `src`, không đọc `data-src` | 51 ảnh cho 64 trang sản phẩm; 24 trang mô tơ "không có ảnh nào" | Trang dùng lazy-load, thẻ thật là `<img class="lazy" data-src="…">`. Ảnh nằm ngay đó |
+| Quét ảnh trong khối mô tả | Thiếu ảnh sản phẩm | Ảnh sản phẩm nằm **ngoài** khối mô tả, ở `itemprop="image"`. Quét cả trang thì lại dính ảnh "sản phẩm liên quan" — tức là ảnh của **mục khác** |
+| Chỉ lấy bản `/original/` | 30 tấm 404 | Bản `/original/` mà chính trang trỏ tới thì 404 trên máy chủ thật; bản `/large/` trả 200 |
+
+Và một lỗi trong bộ tải: `encodeURI()` mã hoá cả dấu `%`, nên URL đã có `%20` sẵn thành `%2520`.
+Chỉ được mã hoá ký tự ngoài ASCII.
+
+### Vì sao không có bộ lọc chữ tự động
+
+Máy này không có tesseract. `images-text.py` chấm điểm bằng mật độ biên × độ phẳng màu, và trên
+lô này nó **sai**: tấm điểm cao nhất (`manual-steel-shutters`, 27 điểm) là bản vẽ kỹ thuật sạch
+không một chữ, còn `rebrand-to-bossgroup` — gần như toàn chữ — chỉ 25 điểm. Ngưỡng 40 bắt được
+**0/79 tấm**.
+
+Nên công cụ này **không tuyên bố là nó đọc được chữ**. Nó ghép tất cả vào một tờ liên ảnh và
+người nhìn quyết định. Kết quả nhìn nằm ở `import/media/co-chu.json` — tệp duy nhất trong
+`import/media/` được commit, vì nó là thứ không máy nào sinh lại được.
+
+> **Một luật tự động thì đã thêm**, vì mắt suýt bỏ qua: **bỏ ảnh trùng nội dung**. Phép lui "tấm
+> này có chữ thì lấy tấm kế tiếp" đập 8 mục xuống cùng một tấm ảnh nhà 400×224 — tấm thẻ tin nào
+> cũng một tấm thì trang nhìn như hỏng. Bấm mã md5 sau khi tải, mục đầu giữ, các mục sau để trống.
+
+---
+
+## `shots.js` — chụp trang để gửi duyệt
+
+```bash
+node shots.js                                   # 6 trang chính, 1440
+node shots.js --width 390 --pages /,/news/      # điện thoại
+node shots.js --full                            # cả trang (đọc cảnh báo dưới)
+```
+
+> **Trên Git Bash phải đặt `MSYS_NO_PATHCONV=1`** khi truyền `--pages`. Git Bash đổi một tham số
+> bắt đầu bằng `/` thành đường dẫn Windows, nên `/products/` đến tay Node dưới dạng
+> `C:/Program Files/Git/products/`.
+
+**Khung thật là mặc định, và đó là một quyết định.** Ảnh chụp cả trang không nói đúng sự thật về
+trang có `loading="lazy"`: Chrome kéo khung nhìn lên hết chiều cao trang rồi chụp một lần, nên
+ảnh dưới màn hình đầu chưa kịp tải và ô ảnh ra trống trơn. Trang tin dài 14.863px chụp kiểu đó
+ra một mảng ô trắng — tôi đã tưởng trang hỏng, trong khi người dùng thật không bao giờ thấy cảnh
+ấy. `--full` vẫn có, nhưng phải tự gõ ra.
+
 ## `states.js` — chụp những trạng thái ảnh tĩnh không bao giờ thấy
 
 ```bash
