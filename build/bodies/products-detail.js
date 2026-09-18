@@ -17,7 +17,17 @@
 
     // Split into two columns on a sentence boundary. Halving by character count reads as a
     // fault - the left column ends mid-clause and the right one starts with a lower-case word.
-    var sentences = c.blurb.match(/[^.!?]+[.!?]+(\s|$)/g) || [c.blurb];
+    //
+    // A full stop BETWEEN TWO DIGITS is not the end of a sentence. Without the guard below the
+    // regex cannot match from the start of the text at all once a decimal appears - it skips
+    // forward and starts the first "sentence" in the middle of a number, so a blurb reading
+    // "... to 2.5 mm for a 10.5 m industrial span." put the words "5 m industrial span." alone
+    // in the left column. Every blurb written so far happened to avoid decimals; the first one
+    // that used them broke the page, and nothing failed loudly.
+    var guarded = c.blurb.replace(/(\d)\.(\d)/g, '$1\u0001$2');
+    var sentences = (guarded.match(/[^.!?]+[.!?]+(\s|$)/g) || [guarded]).map(function (s) {
+      return s.replace(/\u0001/g, '.');
+    });
     var half = c.blurb.length / 2, run = 0, at = sentences.length;
     for (var s = 0; s < sentences.length; s++) {
       run += sentences[s].length;

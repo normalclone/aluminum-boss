@@ -66,10 +66,17 @@
     if (i === at || !items[i]) return;
     at = i;
     var c = items[i];
-    // A family with a photograph uses it; the rest fall back to the plain grey field. No label
-    // on the placeholder: at full bleed its caption lands in the middle of the screen and reads
-    // as content, and the caption below already names what is selected.
-    var src = c.image ? AB.root() + '_media/' + c.image : AB.ph(1920, 1080, '');
+    // A family with a photograph uses it; the rest fall back to a plain grey field.
+    //
+    // Khong dung AB.ph() o day. Y dinh ghi tu dau la "khong nhan tren o giu cho" - o toan man
+    // hinh, chu cua no roi vao giua trang va doc nhu noi dung - va truyen mot nhan rong da co
+    // ve dung. Nhung AB.ph() con ve MOT DONG THU HAI, "1920x1080 · 16:9", bat ke nhan la gi.
+    // Khong ai thay, vi cho toi hom nay ca sau ho san pham deu co anh. Ho thu bay chua co anh
+    // thi hero hien dung dong do, chu cao gan 140px, giua man hinh.
+    var FIELD = 'data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="9">' +
+      '<rect width="16" height="9" fill="#d9d6d1"/></svg>');
+    var src = c.image ? AB.root() + '_media/' + c.image : FIELD;
     bg.style.backgroundImage = 'url("' + src + '")';
     // The six words still land on whatever the photograph puts under them - that part of the
     // concept holds, because the fade down the left guarantees it. The caption bottom-right has
