@@ -30,14 +30,29 @@ const OUT = path.join(ROOT, (argv.indexOf('--json') > -1
 const ENTITIES = {
   amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', ndash: '–', mdash: '—',
   hellip: '…', rsquo: '’', lsquo: '‘', ldquo: '“', rdquo: '”',
-  middot: '·', bull: '•', deg: '°', times: '×', laquo: '«', raquo: '»',
+  middot: '·', bull: '•', deg: '°', laquo: '«', raquo: '»',
+  // Bon ten duoi day do chinh phep dem cuoi tep nay chi ra, va ba trong so do nam trong
+  // BANG THONG SO san pham: ≤ (day nan tu <=), Φ (duong kinh truc), ² (m²).
+  // Bo qua thi "Φ ≤ 76mm" thanh "&Phi; &le; 76mm" - kich thuoc mat nghia chu khong chi mat dau.
+  le: '≤', ge: '≥', Phi: 'Φ', phi: 'φ', reg: '®', trade: '™', copy: '©',
+  sup2: '²', sup3: '³', frac12: '½', plusmn: '±', minus: '−',
 };
+
+// Bang Latin-1 (U+00C0..U+00FF, dung thu tu chuan HTML4). Trang du an va trang tinh cua
+// bossdoor.vn ma hoa dau tieng Viet bang TEN thuc the - "Th&ocirc;ng tin c&#432; bản" - con
+// trang tin thi ghi UTF-8 thang. Thieu bang nay thi cong cu doc dung nhung tra ve chu vo nghia,
+// va khong co gi bao: 5 du an va 7 trang tinh da ra nhu vay mot lan roi.
+'Agrave Aacute Acirc Atilde Auml Aring AElig Ccedil Egrave Eacute Ecirc Euml Igrave Iacute Icirc Iuml ETH Ntilde Ograve Oacute Ocirc Otilde Ouml times Oslash Ugrave Uacute Ucirc Uuml Yacute THORN szlig agrave aacute acirc atilde auml aring aelig ccedil egrave eacute ecirc euml igrave iacute icirc iuml eth ntilde ograve oacute ocirc otilde ouml divide oslash ugrave uacute ucirc uuml yacute thorn yuml'.split(/\s+/).forEach((n, i) => { ENTITIES[n] = String.fromCodePoint(192 + i); });
 
 function decode(s) {
   return s
     .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
     .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
-    .replace(/&([a-z]+);/gi, (m, n) => (n.toLowerCase() in ENTITIES ? ENTITIES[n.toLowerCase()] : m));
+    // Ten co chu so (&sup2; &frac12;) va ten phan biet hoa thuong (&Phi; la Φ, &phi; la φ).
+    // Tra dung ten truoc, ha chu chi khi khong co - de &Phi; khong lang le thanh φ.
+    .replace(/&([a-zA-Z][a-zA-Z0-9]{1,9});/g, (m, n) =>
+      n in ENTITIES ? ENTITIES[n]
+      : n.toLowerCase() in ENTITIES ? ENTITIES[n.toLowerCase()] : m);
 }
 
 /** Chu tran trong mot doan HTML: bo the, giai ma thuc the, gop khoang trang. */
@@ -183,10 +198,36 @@ const SHAPE = { news, products: product, projects: project, static: staticPage }
 
 /* ---- chay ---------------------------------------------------------------------------------- */
 
-// Nhom bai SEO dia phuong: tieu de gan nhu trung nhau, khac moi ten dia danh. Co nghia voi
-// Google tieng Viet, khong co nghia gi voi nguoi doc tieng Anh. Danh dau o day de dot 4 chon,
-// KHONG bo o day: mot bo loc tu dong bo nham mot bai that thi khong ai biet.
-const LOCAL = /(quận|huyện|tỉnh|thành phố|tại\s+[A-ZÀ-ỹ])/i;
+/**
+ * Mot bai co thuoc ve site hien tai khong, cham theo diem.
+ *
+ * Ke hoach doan sai cho nay, va doan sai theo mot cach dang ghi lai: no cho rang trong 247 bai
+ * co "60-80 bai SEO dia phuong" con lai la dung duoc. Lan viet dau tien cua cong cu nay theo
+ * doan do - mot co "localSeo: true/false" do tieu de xem co chua "quan/huyen/tinh" - va tra ve
+ * 29. Ca hai con so deu vo nghia, VI CUNG MOT LY DO: "SEO dia phuong" khong phai nhom that.
+ *
+ * Nhom that la: bossdoor.vn viet cho CHU NHA VIET NAM mua cua cuon, con site nay ban NHOM DINH
+ * HINH cho khach B2B xuat khau. Do la hai thu khac nhau, va khong bo loc nao chua duoc chuyen
+ * do. Nen thay vi mot cai co dung/sai, ghi han mot DIEM: bao nhieu dau hieu "thuoc ve day"
+ * (billet, dun ep, xuat khau, nha may, chung nhan, ky ket) tru bao nhieu dau hieu "ban le cho
+ * khach Viet" (bao gia, hotline, gia re, quan/huyen, nha pho).
+ *
+ * Diem nam trong extracted.json de ai cung doi duoc nguong va xem lai lua chon, thay vi phai
+ * tin vao mot cai co da bi quyet ho.
+ */
+const PRO = /billet|đùn ép|extrusion|xuất khẩu|thị trường châu|quốc tế|nhà máy|dây chuyền|công suất|tấn\/|iso 9001|qualicoat|anodi|sơn tĩnh điện|hợp tác chiến lược|ký kết|bằng độc quyền|kỷ lục|giải thưởng|thương hiệu quốc gia/gi;
+const CON = /báo giá|giá bao nhiêu|liên hệ hotline|tư vấn miễn phí|đặt hàng|quận|huyện|nhà phố|gia đình|chủ nhà|khuyến mãi|giá rẻ/gi;
+
+const flat = b => b.map(x => x.type === 'list' ? x.items.join(' ')
+                           : x.type === 'table' ? x.rows.map(r => r.join(' ')).join(' ')
+                           : x.text).join(' ');
+
+function b2b(item) {
+  const t = item.title + ' ' + flat(item.blocks);
+  const pro = (t.match(PRO) || []).length;
+  const con = (t.match(CON) || []).length;
+  return { pro, con, score: pro - con };
+}
 
 const index = JSON.parse(fs.readFileSync(path.join(IMPORT, 'index.json'), 'utf8'));
 const items = { news: [], products: [], projects: [], static: [] };
@@ -201,7 +242,7 @@ for (const [url, info] of Object.entries(index.pages)) {
   out.url = url;
   out.id = (/\/([^/]+)\.html$/.exec(url) || [, 'x'])[1];
   out.wordsVi = words(out.blocks);
-  if (info.kind === 'news') out.localSeo = LOCAL.test(out.title);
+  out.b2b = b2b(out);
   // Khong co tieu de = cong cu boc sai khuon. Co tieu de ma than bai rong la chuyen khac han:
   // da kiem tay mot truong hop (regina-hai-phong-dpj23) va khoi noi dung tren bossdoor.vn rong
   // that. Gop hai thu vao mot bang thi moi lan cham them mot trang rong lai trong nhu loi o day.
@@ -218,9 +259,9 @@ for (const [kind, list] of Object.entries(items)) {
   if (!list.length) { rows.push([kind, 0, 0, 0, 0, '']); continue; }
   const w = list.reduce((n, x) => n + x.wordsVi, 0);
   const img = new Set(list.flatMap(x => x.images)).size;
-  const local = list.filter(x => x.localSeo).length;
+  const strong = list.filter(x => x.b2b.score > 5).length;
   rows.push([kind, list.length, w.toLocaleString('en-US'), Math.round(w / list.length), img,
-             local ? local + ' bai SEO dia phuong' : '']);
+             `${strong} muc diem B2B > 5`]);
 }
 
 heading('Boc noi dung bossdoor.vn');
@@ -244,6 +285,23 @@ const totalWords = Object.values(items).flat().reduce((n, x) => n + x.wordsVi, 0
 console.log('\n  %d muc, %s tu tieng Viet. Ket qua o %s',
             total, totalWords.toLocaleString('en-US'), path.relative(ROOT, OUT).replace(/\\/g, '/'));
 console.log('  Dot 4 chon tu day; dot 3 tai anh cua nhung muc duoc chon.');
+console.log('  Diem B2B nam tren tung muc (b2b.pro / b2b.con / b2b.score) - doi nguong duoc.');
+
+// Thuc the con sot: bang ENTITIES la mot danh sach tay, nen no se thieu. Cau hoi khong phai
+// "co thieu khong" ma "thieu cai nao" - va cau tra loi phai tu hien ra, khong doi ai di doc
+// 275 nghin tu de phat hien "Th&ocirc;ng tin".
+const left = {};
+for (const list of Object.values(items)) for (const it of list)
+  for (const m of JSON.stringify(it).matchAll(/&([a-zA-Z][a-zA-Z0-9]{1,9});/g))
+    left[m[1]] = (left[m[1]] || 0) + 1;
+const names = Object.entries(left).sort((a, b) => b[1] - a[1]);
+if (names.length) {
+  console.log('\n  THUC THE CHUA GIAI MA (%d ten): %s', names.length,
+              names.slice(0, 12).map(([n, c]) => `&${n}; x${c}`).join(', '));
+  console.log('  Them vao ENTITIES roi chay lai - chu nhung cho nay dang vo nghia.');
+} else {
+  console.log('  Khong con thuc the HTML nao chua giai ma.');
+}
 
 // Nguong: mot phan hai muoi la vai trang la khuon; nhieu hon la khuon doc sai.
 verdict(total > 0 && broken.length <= total / 20,
