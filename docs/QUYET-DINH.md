@@ -42,10 +42,23 @@ Bật lại bất cứ lúc nào khi có bản dịch. Không xoá mã, chỉ th
 
 ## 5. Giao diện chép từ theme Cosentino
 
-**Chốt: thay hết. Viết lại toàn bộ bằng CSS của mình, giữ nguyên hình thức.**
+~~**Chốt: thay hết. Viết lại toàn bộ bằng CSS của mình, giữ nguyên hình thức.**~~
 
-208 tệp CSS/JS trong `_assets/theme/.../b2c-child/`. Việc lớn, cần kế hoạch riêng và đo pixel
-từng trang — `parity.js` với mốc `baseline/task22` là thứ chứng minh "giữ nguyên hình thức".
+**ĐỔI QUYẾT ĐỊNH 18/09/2026: không viết lại nữa. Chỉ rà soát và bỏ phần CSS không dùng.**
+
+Lý do đổi thì anh Phúc không nói, nhưng đánh đổi thì rõ và đáng ghi: viết lại 2 MB CSS là
+nhiều tuần, còn bỏ phần không dùng là một công cụ chạy một lệnh. Cái mất là site vẫn mang cấu
+trúc lớp của theme WordPress cũ — tên lớp vẫn là `vc_row`, `wpb_column`; ai sửa giao diện sau
+này vẫn phải đọc theme đó. Cái được là phần lớn khối lượng biến mất mà hình thức không đổi
+một pixel.
+
+Công cụ: `tools/css-unused.js`. Nó **hỏi trình duyệt thật**, không dò chữ trong HTML — DOM của
+site này do JavaScript dựng lúc chạy nên một lớp chỉ xuất hiện sau khi `app.js` vẽ xong sẽ
+không có trong tệp HTML nào. Chạy trên 15 trang × 3 khung màn hình, cắt bỏ giả lớp trạng thái
+(`:hover`, `:focus`) trước khi hỏi, và **không chắc thì giữ**.
+
+Chỗ công cụ này không nhìn thấy được, phải nói thẳng: phần tử chỉ sinh ra khi bấm nút. Vì vậy
+sau `--apply` **bắt buộc** chạy `parity.js` — một pixel đổi là có quy tắc bị bỏ nhầm.
 
 ## 6. Hình thức
 
@@ -68,3 +81,26 @@ từng trang — `parity.js` với mốc `baseline/task22` là thứ chứng min
 tệp, một lần nhập 300+ mục sẽ ăn hết, nên **không lùi được từ giao diện**. Cách bù rẻ nhất, làm
 luôn: commit sạch ngay trước khi nhập, để `git` là đường lùi. Một dòng trong kế hoạch, không tốn
 thêm đợt nào.
+
+---
+
+## 8. Nhập bossdoor — vòng quyết định thứ hai, 18/09/2026
+
+Sau khi cào và đo thật, mười một câu hỏi nữa. Ghi cả câu trả lời lẫn thứ tôi đã cảnh báo, để
+sau này biết cái gì là lựa chọn có cân nhắc.
+
+| | Chốt | Ghi chú |
+|---|---|---|
+| Số bài tin | **Đủ 30–40 như đã chốt** | Tôi đã nêu: chỉ 8 bài đạt ngưỡng B2B, muốn 30–40 phải hạ ngưỡng gần 0, tức đưa bài bán lẻ cho khách Việt lên site xuất khẩu. Anh giữ quyết định → làm đủ |
+| Tên khách hàng (Aeon Mall, Cát Bi, Coteccons, FHome) | **Giữ cả ba dự án** | Đây là dòng rủi ro nhất trong cả lần nhập |
+| Nhãn mô tơ bên thứ ba | **Giữ tên, bỏ ký hiệu ®** | Không viết câu nào khẳng định quan hệ phân phối |
+| Con số kiểm chứng được | **Bỏ hết** | Guinness, 250 sáng chế, ISO 9001:2008, bảo hành 10/20 năm, "đầu tiên và duy nhất" |
+| Tên công ty | **Giữ cả Tân Trường Sơn** | Ghi "Böss Group (Tân Trường Sơn Group)" ở những chỗ nguồn có nói |
+| Barie / cổng điện / cửa kính tự động | **Chưa nhập, để sau** | Nội dung đã cào về, không mất |
+| Trang giới thiệu tập đoàn | **Sửa lại 6 chương About đang có** | Là ghi đè chứ không phải thêm → đề xuất từng câu để anh duyệt trước |
+| Bảo hành + quy chuẩn lắp đặt PC66 | **Sinh PDF thật rồi đưa vào Documents** | Vì mỗi mục tài liệu vẽ một nút Download PDF trỏ vào tệp thật |
+| Dòng sản phẩm thứ 7 | **KHÔNG thêm. Chốt 6 dòng** | Câu "Six product families" nhờ đó vẫn đúng, không phải sửa |
+| 9 mẫu cửa cuốn | **Cho vào Door's Accessory** | Tôi đã nêu: thân cửa nằm trong mục "phụ kiện cửa" là sai phân loại và khách đi tìm sẽ không thấy. Anh chọn vậy → Door's Accessory thành 5 → 40 mục |
+| Ảnh | **Tải ảnh xong mới nhập** | Đợt 3 chạy trước đợt 5 |
+| Cách xuất bản | **Nhập xong báo, CHƯA push** | Gửi ảnh chụp để xem trước; anh gật thì mới push, lúc ấy mới lên web |
+| Năm hoàn thành 2 dự án | **Anh sẽ cho hai con số** | Masteri Nam An Khánh, Delta River Tower — chưa viết, chờ số |

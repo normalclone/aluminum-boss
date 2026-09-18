@@ -103,17 +103,55 @@ const bodyWords = blocks => (blocks || [])
 
 const data = JSON.parse(fs.readFileSync(IN, 'utf8'));
 const items = data.items;
+
+/**
+ * Hai dia chi, mot bai.
+ *
+ * bossdoor.vn dang cung mot bai duoi nhieu duong dan khac nhau (mot cach lam SEO cu): bai
+ * "Cua cuon tu dong la gi?" nam ca o /cua-cuon-tu-dong-n37 lan /thiet-ke-cua-cuon-n172, giong
+ * nhau tung chu. Khong chan o day thi trang tin cua site moi co hai the giong het nhau, va
+ * chi phat hien khi co nguoi ngoi doc.
+ *
+ * Nhan dang bang tieu de + so tu, khong bang noi dung: re hon, va hai bai khac nhau ma trung
+ * ca hai thu thi cung dang xem lai bang tay.
+ *
+ * Giu ban co dia chi NGAN NHAT - thuong la duong dan goc, truoc khi nhan ban de rai tu khoa.
+ */
+function markDuplicates(list) {
+  const by = new Map();
+  for (const it of list) {
+    const key = it.title.trim().toLowerCase() + '|' + it.wordsVi;
+    if (!by.has(key)) by.set(key, []);
+    by.get(key).push(it);
+  }
+  const drop = new Map();
+  for (const group of by.values()) {
+    if (group.length < 2) continue;
+    const keep = group.slice().sort((a, b) => a.url.length - b.url.length)[0];
+    for (const it of group) {
+      if (it !== keep) drop.set(it.url, keep.url);
+    }
+  }
+  return drop;
+}
+const DUP = {
+  news: markDuplicates(items.news),
+  products: markDuplicates(items.products),
+  projects: markDuplicates(items.projects),
+};
 const pick = { news: [], products: [], projects: [], static: [] };
 
 // --- tin tuc ---------------------------------------------------------------------------------
 for (const it of items.news) {
   const s = it.b2b.score;
+  const dupOf = DUP.news.get(it.url);
   pick.news.push({
     id: it.id, url: it.url, title: it.title, date: it.date, wordsVi: it.wordsVi,
     images: it.images.length, score: s,
-    state: s >= NEWS_MIN ? 'giu' : 'bo',
-    target: s >= NEWS_MIN ? 'news.items' : '-',
-    why: s >= NEWS_MIN ? `diem B2B ${s} (nha may / xuat khau / chung nhan / hop tac)`
+    state: dupOf ? 'bo' : s >= NEWS_MIN ? 'giu' : 'bo',
+    target: !dupOf && s >= NEWS_MIN ? 'news.items' : '-',
+    why: dupOf ? `trung tung chu voi ${dupOf} - bossdoor.vn dang mot bai o hai dia chi`
+       : s >= NEWS_MIN ? `diem B2B ${s} (nha may / xuat khau / chung nhan / hop tac)`
                        : `diem B2B ${s} - ban le cua cuon cho khach Viet, khac dong san pham va khac khach`,
   });
 }
@@ -128,7 +166,11 @@ for (const it of items.products) {
   };
   const body = bodyWords(it.blocks);
   row.wordsBody = body;
-  if (it.wordsVi === 0) Object.assign(row, {
+  const dupOf = DUP.products.get(it.url);
+  if (dupOf) Object.assign(row, {
+    state: 'bo', target: '-', why: `trung tung chu voi ${dupOf}`,
+  });
+  else if (it.wordsVi === 0) Object.assign(row, {
     state: 'bo', target: '-',
     why: 'trang nguon chi co ten va anh, khong co chu nao de viet lai - can khach cung cap mo ta',
   });

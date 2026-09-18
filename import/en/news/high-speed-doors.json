@@ -1,0 +1,17 @@
+{
+ "id": "high-speed-doors",
+ "src": "/tin-moi/cua-cuon-nhanh-n147.html",
+ "title": "High-speed doors: the specification is the clock",
+ "date": "2021-07-30",
+ "author": "Böss Group",
+ "tags": [
+  "Industrial",
+  "Product"
+ ],
+ "excerpt": "A high-speed door is not a fast shutter. It is a boundary that has to be closed most of the time, which makes cycle time the whole specification.",
+ "body": [
+  "A high-speed door exists to keep a boundary closed. Between a chilled store and a dispatch bay, or a clean production hall and a general one, the door is open for the few seconds a forklift takes to pass and shut the rest of the time.",
+  "That makes cycle time the specification rather than a feature. Everything else follows from it: the curtain is light because it has to accelerate, the drive is sized for starts rather than for load, and the safety sensing has to work at speed.",
+  "What the boundary buys is measurable — temperature held, dust and insects kept out, and conditioning energy that is not being spent on the yard. On a food line it is also a hygiene control, and the door becomes part of the HACCP case rather than part of the building."
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "ups-explained",
+ "src": "/tin-moi/ups-la-thiet-bi-gi-n333.html",
+ "title": "What a UPS does for a powered door",
+ "date": "2023-02-13",
+ "author": "Böss Group",
+ "tags": [
+  "Product"
+ ],
+ "excerpt": "An uninterruptible supply for a shutter is not the same product as one for a computer. The load is a motor, and motors fail differently.",
+ "body": [
+  "A UPS — uninterruptible power supply — holds a load up when the mains goes. Hospitals, data centres and control systems use them; so does a powered door, for a simpler reason. A shutter without power is a shutter that cannot be opened.",
+  "The load is what makes a door UPS a different product. A computer draws a steady few hundred watts; a shutter motor draws a large current for a second or two at the start of every cycle and almost nothing in between. A unit sized on average draw will trip on the start.",
+  "So the specification is by motor capacity, not by wattage: a unit rated for motors to 400 kg, or to 800 kg, with standby measured in tens of hours rather than minutes. A door may need to cycle two or three times across a two-day outage, which is a very different duty from holding a server up for fifteen minutes.",
+  "Battery chemistry is the other decision. Lithium iron phosphate is rated for around 2,000 charge cycles against roughly 500 for lead-acid, and holds above 80% of rated capacity at the end of them."
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "operator-role",
+ "src": "/tin-moi/vai-tro-cua-bo-toi-trong-he-cua-cuon-trai-tim-quyet-dinh-su-van-hanh-on-dinh-n412.html",
+ "title": "The operator is the part that decides the door",
+ "date": "2026-07-01",
+ "author": "Böss Group",
+ "tags": [
+  "Product"
+ ],
+ "excerpt": "Most of a shutter specification goes into the slat. Most of the failures come from the operator — and almost always from one of three decisions made when it was chosen.",
+ "body": [
+  "A shutter specification usually goes into the curtain: slat profile, gauge, finish, perforation. The part that decides how the door behaves for the next decade is the operator.",
+  "Three things separate operators, and none of them is price. Capacity, matched to weighed curtain mass rather than opening area. Duty, which is how many cycles a day it will run before heat becomes the limit. And what happens when the power fails — a chain hand-drive, a DC unit that lifts by hand, or a battery back-up sized to the motor.",
+  "Three ways to get it wrong, in the order they show up on service calls: buying on price alone; fitting a small operator to a large curtain, which works on the first day and shortens from there; and never servicing it, because an operator that is never inspected fails at the brake rather than at the motor.",
+  "Industrial operators add an automatic brake and safety sensing. On a door that runs all day, the brake is the part doing the real work."
+ ]
+}

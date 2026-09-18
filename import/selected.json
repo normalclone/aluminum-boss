@@ -1,7 +1,7 @@
 {
- "at": "2026-09-18T03:18:32.419Z",
+ "at": "2026-09-18T05:40:07.660Z",
  "nguong": {
-  "newsB2bMin": 5
+  "newsB2bMin": 1
  },
  "ghiChu": "Ba trang thai: giu / cho-quyet-dinh / bo. Doi --news roi chay lai de keo rong luoi tin tuc.",
  "chon": {
@@ -110,9 +110,9 @@
     "wordsVi": 970,
     "images": 24,
     "score": 4,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 4 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "ups-la-thiet-bi-gi-n333",
@@ -122,9 +122,9 @@
     "wordsVi": 805,
     "images": 22,
     "score": 4,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 4 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "huong-dan-su-dung-ups-santak-n325",
@@ -134,9 +134,9 @@
     "wordsVi": 907,
     "images": 22,
     "score": 4,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 4 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-rong-10m-n146",
@@ -146,9 +146,9 @@
     "wordsVi": 1117,
     "images": 22,
     "score": 4,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 4 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-dang-luoi-n123",
@@ -158,9 +158,9 @@
     "wordsVi": 1095,
     "images": 21,
     "score": 4,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 4 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "vai-tro-cua-bo-toi-trong-he-cua-cuon-trai-tim-quyet-dinh-su-van-hanh-on-dinh-n412",
@@ -170,9 +170,9 @@
     "wordsVi": 1318,
     "images": 21,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cac-loai-cua-cuon-pho-bien-hien-nay-nen-lua-chon-loai-nao-cho-cong-trinh-cua-ban--n408",
@@ -182,9 +182,9 @@
     "wordsVi": 1101,
     "images": 21,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "hoan-thien-cong-trinh-chon-an-yen-cung-cua-cuon-bossdoor-n358",
@@ -194,9 +194,9 @@
     "wordsVi": 524,
     "images": 23,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-sieu-sang-thoi-hon-cho-khong-gian-song-n352",
@@ -206,9 +206,9 @@
     "wordsVi": 989,
     "images": 22,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-mien-nam-gia-tot-n54",
@@ -218,9 +218,9 @@
     "wordsVi": 952,
     "images": 24,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "thiet-ke-cua-cuon-n172",
@@ -232,7 +232,7 @@
     "score": 3,
     "state": "bo",
     "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "why": "trung tung chu voi /tin-moi/cua-cuon-tu-dong-n37.html - bossdoor.vn dang mot bai o hai dia chi"
    },
    {
     "id": "cua-cuon-tu-dong-n37",
@@ -242,9 +242,9 @@
     "wordsVi": 3558,
     "images": 27,
     "score": 3,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 3 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 3 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-sat-cuon-keo-tay-n339",
@@ -254,9 +254,9 @@
     "wordsVi": 817,
     "images": 30,
     "score": 2,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 2 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 2 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-rong-8m-n156",
@@ -266,9 +266,9 @@
     "wordsVi": 1264,
     "images": 22,
     "score": 2,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 2 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 2 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-mau-ghi-n153",
@@ -278,9 +278,9 @@
     "wordsVi": 885,
     "images": 22,
     "score": 2,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 2 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 2 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-nhanh-n147",
@@ -290,9 +290,9 @@
     "wordsVi": 420,
     "images": 20,
     "score": 2,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 2 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 2 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cach-nhan-biet-cua-cuon-bossdoor-chinh-hang-n138",
@@ -302,9 +302,9 @@
     "wordsVi": 1182,
     "images": 21,
     "score": 2,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 2 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 2 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "tuoi-tho-cua-cuon-phu-thuoc-vao-dieu-gi-8-yeu-to-quyet-dinh-do-ben-cua-he-cua-n415",
@@ -314,9 +314,9 @@
     "wordsVi": 1172,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "nhung-sai-lam-khi-mua-cua-cuon-10-dieu-can-tranh-de-khong-tien-mat-tat-mang--n413",
@@ -326,9 +326,9 @@
     "wordsVi": 1137,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "tap-doan-bossgroup-to-chuc-thanh-cong-hoi-nghi-khach-hang-va-ra-mat-san-pham-moi-2025-n380",
@@ -338,9 +338,9 @@
     "wordsVi": 428,
     "images": 56,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cong-bo-chinh-thuc-ve-su-chuyen-doi-thuong-hieu-tu-tan-truong-son-group-den-bossgroup-mot-thuong-hieu-hop-nhat-mot-tam-nhin-thong-nhat-n381",
@@ -350,9 +350,9 @@
     "wordsVi": 666,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-bossdoor-giai-phap-an-toan-vuot-troi-qua-mua-mua-bao-n377",
@@ -362,9 +362,9 @@
     "wordsVi": 798,
     "images": 22,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "top-3-mau-cua-cuon-bossdoor-duoc-yeu-thich-nhat-hien-nay-n373",
@@ -374,9 +374,9 @@
     "wordsVi": 470,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-sieu-truong-cd100-giai-phap-an-toan-hoan-hao-cho-cua-kich-thuoc-lon-n356",
@@ -386,9 +386,9 @@
     "wordsVi": 494,
     "images": 23,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-nghe-thuat-boss-elegant-tham-my-khac-biet-n354",
@@ -398,9 +398,9 @@
     "wordsVi": 712,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-bossdoor-la-chan-thep-an-toan-va-chat-luong-n353",
@@ -410,9 +410,9 @@
     "wordsVi": 793,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "thay-binh-ac-quy-cho-bo-luu-dien-cua-cuon-n314",
@@ -422,9 +422,9 @@
     "wordsVi": 1394,
     "images": 24,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "sao-chep-dieu-khien-cua-cuon-n313",
@@ -434,9 +434,9 @@
     "wordsVi": 892,
     "images": 21,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "mua-cua-cuon-tuyen-quang-n292",
@@ -446,9 +446,9 @@
     "wordsVi": 780,
     "images": 22,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "ray-cua-cuon-n219",
@@ -458,9 +458,9 @@
     "wordsVi": 1395,
     "images": 24,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "dat-cua-hom-nay-nhan-qua-lien-tay-n207",
@@ -470,9 +470,9 @@
     "wordsVi": 536,
     "images": 20,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-chong-chay-n130",
@@ -482,9 +482,9 @@
     "wordsVi": 2767,
     "images": 27,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "cua-cuon-truot-tran-n116",
@@ -494,9 +494,9 @@
     "wordsVi": 882,
     "images": 22,
     "score": 1,
-    "state": "bo",
-    "target": "-",
-    "why": "diem B2B 1 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "state": "giu",
+    "target": "news.items",
+    "why": "diem B2B 1 (nha may / xuat khau / chung nhan / hop tac)"
    },
    {
     "id": "nhung-loi-cua-cuon-thuong-gap-va-cach-phong-tranh-hieu-qua-|-bossdoor-n426",
@@ -1852,7 +1852,7 @@
     "score": -4,
     "state": "bo",
     "target": "-",
-    "why": "diem B2B -4 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "why": "trung tung chu voi /tin-moi/cua-cuon-gia-re-binh-duong-n64.html - bossdoor.vn dang mot bai o hai dia chi"
    },
    {
     "id": "cua-cuon-gia-re-binh-duong-n64",
@@ -2536,7 +2536,7 @@
     "score": -12,
     "state": "bo",
     "target": "-",
-    "why": "diem B2B -12 - ban le cua cuon cho khach Viet, khac dong san pham va khac khach"
+    "why": "trung tung chu voi /tin-moi/so-sanh-cac-loai-cua-cuon-n92.html - bossdoor.vn dang mot bai o hai dia chi"
    },
    {
     "id": "cua-cuon-tam-ky-quang-nam-gia-re-n57",

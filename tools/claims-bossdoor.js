@@ -40,16 +40,21 @@ const GROUPS = [
   {
     key: 'nhan-hieu', label: 'Nhãn hiệu của bên thứ ba',
     ask: 'Còn dùng nhà cung cấp / vật liệu này không? Nếu đã đổi thì bỏ tên khỏi bản tiếng Anh.',
-    terms: ['Somfy', 'Kasankie', 'Robust', 'Xingfa', 'HOPO', 'Shinto Toa', 'Jotun', 'AkzoNobel',
+    // Robust va BossRM da bi xep nham vao day mot lan. Chinh bai cong bo doi thuong hieu
+    // (2025-10-31) liet ke "BossDoor, BossWindow, Robust, BossG" la cac nhan cua chinh tap
+    // doan - tuc Robust khong phai ben thu ba, va cau hoi danh cho no la cau hoi khac han.
+    // Bai hoc: mot ten nghe nhu nuoc ngoai khong co nghia la cua nguoi khac.
+    terms: ['Somfy', 'Kasankie', 'YH', 'Xingfa', 'HOPO', 'Shinto Toa', 'Jotun', 'AkzoNobel',
             'Nippon', 'Dulux', 'Bosch', 'Siemens', 'Schneider', 'Panasonic', 'Mitsubishi',
-            'Hyundai', 'Posco', 'Alcoa', 'Sapa', 'Qualicoat', 'Seaside'],
+            'Hyundai', 'Posco', 'Alcoa', 'Sapa', 'Qualicoat', 'Santak'],
   },
   {
     key: 'nhan-hieu-cua-minh', label: 'Tên gọi của chính công ty',
     ask: 'Bản tiếng Anh dùng tên nào? Site hiện tại viết "Böss Group"; nguồn viết "BossDoor", '
        + '"BossGroup", "Tân Trường Sơn Group". Ba tên trên cùng một trang sẽ thành ba công ty.',
     terms: ['BossDoor', 'BossGroup', 'Boss Group', 'Tân Trường Sơn', 'BossMatic', 'Boss Standard',
-            'Boss Elegant', 'SBright', 'S-Bright', 'Boss Premium'],
+            'Boss Elegant', 'SBright', 'S-Bright', 'Boss Strong', 'BossWindow', 'BossG',
+            'Robust', 'BossRM'],
   },
   {
     key: 'khach-hang', label: 'Tên khách hàng và dự án',

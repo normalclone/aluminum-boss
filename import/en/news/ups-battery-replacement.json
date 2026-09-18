@@ -1,0 +1,17 @@
+{
+ "id": "ups-battery-replacement",
+ "src": "/tin-moi/thay-binh-ac-quy-cho-bo-luu-dien-cua-cuon-n314.html",
+ "title": "Replacing the battery, not the unit",
+ "date": "2023-01-05",
+ "author": "Böss Group",
+ "tags": [
+  "Product"
+ ],
+ "excerpt": "When a door back-up stops holding charge, the electronics are almost always fine. Five steps, and three precautions that matter more than the steps.",
+ "body": [
+  "A back-up unit that no longer holds charge usually has nothing wrong with its electronics. The battery is a consumable; the unit is not.",
+  "The sequence is short: isolate and remove the unit from its mounting, open the front cover, disconnect the battery leads noting polarity, fit the replacement and reconnect in the same order, then refit the cover and remount before restoring power.",
+  "The precautions matter more than the steps. Match the replacement on voltage and capacity, not on physical size — a battery that fits the space but not the charger will be ruined by it. Never short the terminals with a tool, because the fault current from even a small sealed battery is enough to weld one. And dispose of the old cell through a collection point rather than with waste.",
+  "Afterwards, charge fully before the first cycle on battery, and leave the unit powered. A back-up that spends its life switched off at the wall is being worn out by being stored, not by being used."
+ ]
+}

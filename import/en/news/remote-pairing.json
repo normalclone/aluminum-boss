@@ -1,0 +1,17 @@
+{
+ "id": "remote-pairing",
+ "src": "/tin-moi/sao-chep-dieu-khien-cua-cuon-n313.html",
+ "title": "Copying a handset, and why rolling code cannot be copied",
+ "date": "2023-01-04",
+ "author": "Böss Group",
+ "tags": [
+  "Product"
+ ],
+ "excerpt": "Fixed-code handsets can be cloned in a shop in two minutes. That is convenient, and it is exactly the property rolling code exists to remove.",
+ "body": [
+  "Two kinds of handset are in use on shutters, and they behave completely differently when you try to duplicate one.",
+  "A fixed-code handset sends the same code every time, set by DIP switches or learned from another handset. Duplicating one takes a blank and two minutes: hold the two together, press, and the blank has the code. Convenient — and it means anyone who can capture the transmission, or borrow the handset, has a working key.",
+  "A rolling-code handset cannot be duplicated that way, by design. Each press retires the code it just used and issues the next from a very large sequence, and the receiver tracks where in that sequence it is. A captured transmission is already spent. Adding a handset means pairing it at the control box, which requires physical access to the box.",
+  "That is the trade, and it is the right one: a handset that can be copied in a shop is a key that can be copied in a shop."
+ ]
+}
