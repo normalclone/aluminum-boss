@@ -444,6 +444,72 @@ bấm. Sau `--apply` **bắt buộc** chạy `parity.js` **và** `states.js`.
 
 ---
 
+## Vòng 3 — `--khao-sat`, `images-text.py --gom`, `pick-images.py`, `lib/dhash.py`
+
+Vòng 1 kết luận "23 mục không có ảnh dùng được" **sau khi thử tối đa 6 phương án mỗi mục**. Đếm
+lại thì 21/23 mục vẫn còn ảnh chưa ai mở ra. Bốn thứ dưới đây là để lần sau không dừng sớm như vậy.
+
+```bash
+node images-bossdoor.js --fetch --khao-sat --ids @../import/media/danh-sach-vong3.txt --max 10
+python images-text.py --gom --dir ../import/media/vong3     # tờ liên ảnh, MỖI MỤC MỘT HÀNG
+# <nhìn tờ liên ảnh, viết import/media/chon-vong3.json>
+python pick-images.py ../import/media/chon-vong3.json --dry
+python pick-images.py ../import/media/chon-vong3.json
+python ingest-images.py manifests/vong3.json
+```
+
+**`--khao-sat`** tải HẾT ứng viên của riêng những mục được gọi tên, vào `import/media/vong3/`,
+đặt tên `<id>__<số>`, và **không ghi manifest**. Lần chạy đầu nó có ghi, và ghi đè manifest 47
+dòng bằng một tệp rỗng — không báo lỗi, chỉ mất lựa chọn của vòng trước. `git checkout` lấy lại
+được vì tệp đó nằm trong kho, nhưng một công cụ không được đưa việc đó cho may mắn.
+
+**`--ids`** nhận danh sách phẩy hoặc `@tệp`. Khi đã gọi đích danh một mục thì nhóm `bo-han` của
+vòng trước **không còn chặn** — gọi tên chính là đang mở lại kết luận ấy.
+
+**Lọc ảnh khung trang.** `SKIP` bắt theo *tên tệp*, nên nó chỉ bắt được những cái đã được đặt tên
+tử tế. Trên bossdoor.vn còn 19 tấm nằm ở chân **mọi** bài — các `artboard-N_1787…png` chẳng hạn —
+không có chữ nào trong tên để bắt. Chúng lộ ra ở chỗ khác: chúng xuất hiện trên cả 227 bài. Luật
+mới là *ảnh có mặt trên hơn 20 trang nguồn thì là khung trang*, và nó bỏ 117/217 ứng viên.
+
+**`images-text.py --gom`** xếp mỗi mục một hàng, đọc ngang là các ứng viên của riêng mục đó. Tờ
+phẳng trả lời "tấm nào đáng ngờ nhất cả lô"; khi đang chọn ảnh cho từng mục thì câu hỏi là "trong
+năm tấm của mục này, tấm nào dùng được" — và tờ phẳng trả lời câu đó rất tệ, vì năm tấm nằm rải
+rác ở năm chỗ.
+
+**`pick-images.py`** đọc tệp lựa chọn, **cắt dải chữ** nếu có, chép vào `import/media/<loại>/` và
+sinh manifest. `cat` là bốn số `[trái, trên, phải, dưới]` theo **tỉ lệ** 0..1 — `[0,0,0,0.16]` đọc
+là "bỏ 16% dưới". Dùng tỉ lệ vì cùng một dải quảng cáo xuất hiện trên nhiều cỡ ảnh. Cắt chỉ dùng
+được khi dải nằm **gọn ở một cạnh**; cắt vào giữa thì hỏng bố cục, lúc đó phải bỏ tấm.
+
+Tệp `import/media/chon-vong3.json` **được commit**, cùng lý do với `co-chu.json`: nó là bản ghi
+duy nhất nói ai đã chọn tấm nào và vì sao. Không máy nào sinh lại được.
+
+### `lib/dhash.py` — bắt ảnh trùng mà md5 không thấy
+
+`images-bossdoor.js` đã có bước bỏ ảnh trùng bằng md5, và nó bắt được 8 mục dùng chung một tấm
+ảnh nhà 400×224. Nhưng md5 chỉ thấy được hai tệp **giống nhau từng byte**, nên nó để lọt
+`high-speed-doors.png` và `industrial-shutters.jpg`: **cùng một tấm ảnh nhà kho**, khác khung cắt
+và khác định dạng. Hai thẻ tin cạnh nhau trên trang danh sách, cùng một ảnh.
+
+dHash thu ảnh về 9×8 xám rồi so mỗi điểm với điểm bên phải nó, được 64 bit. Cặp nhà kho lệch 1
+bit. `pick-images.py` gọi nó trước khi ghi, so các tấm vừa chọn **với nhau** và **với 64 tấm đã
+xuất bản** — và ngay lần chạy đầu nó chặn được hai lỗi: ảnh chọn cho `rebrand-to-bossgroup` và
+`customer-conference-2025` là cùng một tấm (0 bit — hai bài cùng viết về một sự kiện), còn ảnh
+chọn cho `spotting-counterfeits` chính là `guide-rails.jpg` đã nằm trên trang (0 bit).
+
+> **Nó cũng báo nhầm, và chỗ báo nhầm đáng kể hơn chỗ báo đúng.** Bốn mặt cắt nan
+> `rs-bo57`/`rs-bo5816`/`rs-bo68s`/`rs-cd80` lệch nhau 1..3 bit, trong khi mở ra nhìn thì bốn nan
+> khác hẳn — lỗ bầu dục, lỗ chữ nhật, lưới hở, nan đặc cong. Chúng giống nhau ở **dáng nhìn**:
+> cùng góc chụp, cùng nền, cùng bóng. dHash thu về 8×8 xám nên nó đang dùng đúng cái giống nhau ấy
+> để so. Hạ ngưỡng xuống 0 vẫn báo nhầm. Đây là giới hạn thật của phép băm, không phải một con số
+> cần chỉnh lại — cùng loại với `textScore`: nó cho một **danh sách ngắn để nhìn**, không cho một
+> kết luận.
+
+Ghi chú đầu `dhash.py` lúc đầu còn nói "không có gì nằm giữa 8 và 19 bit" — tôi viết trước khi đo.
+Đo thật thì phân bố liên tục: 0, 0, 1, 1, 3, 4, 6, 6, 6, 6, 7, 7, 8, 8, 9, 9, 9, 10… Đã sửa.
+
+---
+
 ## `images-bossdoor.js` + `images-text.py` — đợt tải ảnh
 
 ```bash

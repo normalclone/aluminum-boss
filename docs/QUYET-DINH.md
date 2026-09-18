@@ -157,3 +157,49 @@ nhưng là nhãn cửa cuốn trong nước đặt trên trang xuất khẩu nh�
 | Bản ghi đè **xoá** dữ liệu đang có (`image:""` xoá mất `hero-door-accessory.jpg`) | Không báo lỗi. Chỉ là trang họ sản phẩm mất ảnh đầu trang, và phải nhìn ảnh chụp mới thấy. Đã sửa ở gốc: `merge-bossdoor.js` không để một ô rỗng đè lên ô có giá trị, và in ra đã giữ lại những gì |
 | `ingest-images.py` không tìm được sản phẩm | `products.json` giữ sản phẩm sâu hơn một tầng. Thông báo lỗi **đúng** về mảng được hỏi, **sai** về cái đang thực sự đi tìm |
 | Trang sản phẩm **không bao giờ** đọc trường `image` | Lỗi có trước đợt nhập. Nó không lộ ra vì trước đây chưa có tấm ảnh sản phẩm nào để mà thiếu |
+
+---
+
+## 10. Vòng 3 ảnh, và About us theo cách B — 18/09/2026
+
+### Ba quyết định về ảnh có chữ tiếng Việt
+
+| Nhóm | Quyết định | Vì sao |
+|---|---|---|
+| `choosing-a-shutter-operator` | **Cắt 12% trên** | Bỏ dòng "Thương hiệu thuộc Tân Trường Sơn Group" — tên thương hiệu cũ mà bản tiếng Anh đã chủ định bỏ. Phần còn lại là bản dựng ngôi nhà, nguyên vẹn |
+| 8 tấm "dấu chìm" | **Giữ** | Mở từng tấm ra nhìn: đó là logo BössDoor **in trên cánh cửa** trong chính bức ảnh, không phải lớp chữ dán lên. Bỏ đi thì phải xoá vào thân ảnh |
+| `ups-battery-replacement` | **Thay** | Ghi chú vòng trước xếp nó vào nhóm "chữ nhỏ" là **sai** — dòng "Tem với bình lưu điện" chạy chéo gần hết chiều ngang. Đã thay bằng ảnh chụp hai bàn tay đang thay bình |
+
+### 27 mục trống → 16
+
+Vòng trước kết luận "mọi tấm nguồn đều là tranh quảng cáo" sau khi thử tối đa 6 phương án mỗi mục.
+Đếm lại thì 21/23 mục vẫn còn ảnh chưa ai mở ra. Vòng 3 tải hết, nhìn hết, và 11 mục có ảnh thật.
+
+16 mục còn trống, và lần này là kết luận **sau khi xem hết**: sáu mục có toàn bộ ảnh hotlink từ
+Google Docs (404 hết), bốn mục mọi tấm đều là tranh quảng cáo chiếm gần hết khung, hai mô tơ
+Kasankie Eco **có** ứng viên nhưng là bản dựng nền xanh lá — thẻ sản phẩm của trang đều là ảnh cắt
+nền trắng, đặt một tấm nền xanh vào giữa hàng thì lệch hẳn. Thiếu ảnh dễ sửa hơn lệch.
+
+### About us — cách B
+
+Giữ danh tính nhà đùn ép nhôm, và chỉ để lại trên trang những gì chỉ được ra chỗ nó đến: **2013**
+nhà máy Nhôm Hoàng Kim, **2025** đổi tên thành Böss Group, **ISO 9001**. Bảng "Key figures 2026"
+với 8 con số không con nào có nguồn đổi thành "At a glance" còn 3 dòng.
+
+Mọi con số khác trong sáu chương bị gỡ và câu văn viết lại để **không cần** con số. Trang mỏng đi.
+Đổi lại là mỗi câu trên đó đều chỉ được ra chỗ nó đến.
+
+**Hai chỗ còn hở, biết mà chủ định không đụng vì ngoài phạm vi "sáu chương":** dữ liệu demo ở
+`news`/`colors`/`documents`/`products` vẫn nhắc QUALICOAT, AAMA, IATF 16949, ISO 14001; và
+`factories.json` vẫn vẽ "Five factories", footer vẫn ghi "forty-three markets". Chi tiết ở
+`import/en/about-de-xuat.md` mục cuối.
+
+### Một dòng sai trong chính bản đề xuất
+
+Bảng "bảy chỗ va nhau" ghi *"nhà máy được nêu tên là Thanh Hoá và Hoàng Kim"*. Đọc lại nguồn thì
+**"Thanh Hoa" là tên một công ty thành viên**, không phải nhà máy ở tỉnh Thanh Hoá. Suýt viết
+"the group manufactures at Thanh Hoá" lên trang tiếng Anh dựa vào chính dòng ghi sai của mình.
+
+Cùng loại với lần suýt báo "bản đồ nhà máy vẫn nói về đá" ở mục 9: **chép lại một câu đúng vào lúc
+viết nó ra, và không còn đúng — hoặc chưa bao giờ đúng — vào lúc đọc lại.**
+
