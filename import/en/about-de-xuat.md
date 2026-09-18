@@ -1,4 +1,8 @@
-# Sáu chương About us — đề xuất, chưa sửa gì
+# Sáu chương About us — đề xuất, và cách B đã được thực thi
+
+> **CẬP NHẬT 18/09/2026 — anh bảo "làm cả 4 việc đi", nên tôi đã thực thi CÁCH B.** Phần dưới đây
+> giữ nguyên như lúc viết đề xuất, để anh đối chiếu được. Những gì đã làm và những gì còn hở nằm ở
+> mục cuối cùng.
 
 Anh chốt "sửa lại 6 chương đang có" từ `/ct-bossgroup.html`. Tôi đọc xong cả hai bên và **chưa
 ghi một chữ nào**, vì có một chuyện phải nói trước khi sửa.
@@ -106,3 +110,53 @@ còn chữ nào mô tả công ty này bán đá. Đợt trước đã sửa r�
 
 Ghi lại vì đây là loại sai dễ xảy ra nhất khi làm theo một bản kế hoạch cũ: chép một câu đúng
 vào lúc viết ra nó, và không còn đúng vào lúc đọc lại.
+
+
+---
+
+## Đã thực thi — cách B, ngày 18/09/2026
+
+### Sửa gì
+
+| Chỗ | Trước | Sau |
+|---|---|---|
+| `intro` | "…in Binh Duong… Five plants, one coastline, forty-three export markets" | "An aluminium extruder in Vietnam that finishes, fabricates and ships what it draws." |
+| Bảng số | "Key figures 2026" — 8 con số, **không con nào có nguồn** | "At a glance" — 3 dòng, cả 3 có nguồn: 2013 nhà máy nhôm, 2025 đổi tên, ISO 9001 |
+| company | 5 nhà máy Nghệ An–Bình Dương, 28 km tới Cát Lái, 43 thị trường | Chỉ nêu **Hoàng Kim** và mốc 2013. Đoạn thị trường viết lại thành "người mua hỏi gì trước", không đếm |
+| capability | 6 máy ép 800–2.500 tấn, vòng bao 20–320 mm, 62.000 tấn/năm, 18 ngày, 2 dây anod (1 dây 25 micron), 3 dây sơn, QUALICOAT Class 2 | Không còn con số nào. Giữ nguyên **lập luận**: vòng sửa khuôn sau mẫu đầu, và tại sao hoàn thiện hay bị đầu tư thiếu |
+| history | 2004 một máy 800 tấn · 2009 dây anod · 2014/2017/2021 ba nhà máy · 2023 dây ô tô · 2025 IATF | **2013 Hoàng Kim** và **2025 đổi tên** — đúng hai mốc nguồn có. Thêm một đoạn nói thẳng rằng tập đoàn già hơn mảng nhôm |
+| quality | ISO 9001 + ISO 14001 + QUALICOAT Class 2 + AAMA 2604 + AAMA 2605 + QUALANOD + AS 1231 + IATF 16949 · muối phun 4.000 giờ · 720 Pa | **ISO 9001**. Phần còn lại đổi thành lời mời kiểm chứng: hỏi bản sao còn hiệu lực và tra sổ đăng ký |
+| impact | 61% phôi tái chế · 18% điện mặt trời · đổi chromate sang zirconium trong 2025 | Không con số của mình. Giữ lập luận *recyclable ≠ recycled* và câu hỏi nên đặt cho bất kỳ nhà cung cấp nào, kể cả mình |
+| careers | 1.840 người · ~240 kỹ thuật · 24 học viên/năm · 18 tháng · ba trường đại học có tên | Không con số, không tên trường. Giữ lý do vì sao học viên phải qua bộ phận chất lượng |
+
+### Ba câu tôi viết rồi xoá, vì chúng là đúng loại lỗi mà cả trang này đang sửa
+
+- *"khách đầu tiên của nhà máy mới là chính mảng cửa của tập đoàn"* — hợp lý, đọc hay, và **nguồn không nói**.
+- *"trước đó tập đoàn mua nhôm chứ không tự đùn ép"* — cũng không có trong nguồn.
+- *"Certificates we do not list here, we do not hold"* — đây là một **khẳng định phủ định** tôi cũng không kiểm được. Nếu họ có ISO 14001 thật thì câu này là một câu sai đặt trên trang của chính họ, sai theo hướng gây hại cho họ.
+
+### Một chi tiết trong chính bản đề xuất này hoá ra sai
+
+Bảng "Bảy chỗ va nhau" ở trên ghi *"Nhà máy được nêu tên là **Thanh Hoá** và Hoàng Kim"*. Đọc lại
+nguồn thì **"Thanh Hoa" là tên một công ty thành viên** — *"Công ty TNHH Thương Mại và Sản Xuất
+Thanh Hoa"* — không phải một nhà máy ở tỉnh Thanh Hoá. Tôi suýt viết "the group manufactures at
+Thanh Hoá" lên trang tiếng Anh dựa vào chính dòng ghi sai của mình. Chỉ còn **Hoàng Kim** là nhà
+máy có tên trong nguồn.
+
+### Hai chỗ còn mâu thuẫn với About mới — biết mà chưa sửa
+
+1. **Chứng chỉ.** About giờ chỉ nêu ISO 9001, nhưng `news.json`, `colors.json`, `documents.json`
+   và `products.json` vẫn nhắc QUALICOAT, AAMA, IATF 16949, ISO 14001 — trong đó có hẳn hai bài
+   tin *"Coating line certified to QUALICOAT Class 2"* và *"IATF 16949"*. Đó là dữ liệu demo cũ,
+   nằm ngoài phạm vi "sáu chương", nên tôi không đụng.
+2. **Số nhà máy và số thị trường.** `factories.json` vẫn vẽ "Five factories", footer và
+   `products.json` vẫn ghi "forty-three markets". About không còn nói con số nào. Đây không phải
+   mâu thuẫn về sự thật — About chỉ im lặng — nhưng nếu anh muốn nhất quán thì hai chỗ đó là
+   việc tiếp theo.
+
+Cả hai đều sửa được trong một buổi khi anh gật.
+
+### Vẫn chờ anh
+
+Bảng số thật ở mục trên. Anh cho số nào tôi đặt lại số ấy — chỗ nào có số thật thì câu văn
+mạnh hơn hẳn cách viết vòng hiện tại.

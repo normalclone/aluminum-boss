@@ -39,7 +39,11 @@ const HEIGHT = +arg('height', 950);
 const FULL = process.argv.includes('--full');
 const PAGES = arg('pages', '/,/news/,/products/,/projects/,/documents/,/contact/').split(',');
 
-const name = p => (p.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home') + '-' + WIDTH + (FULL ? '-full' : '') + '.png';
+// Trang chi tiet cua site nay co dang `/about-us/detail/?id=history`. Dau `?` va `=` khong dat
+// duoc trong ten tep tren Windows: page.screenshot nem ENOENT va ca lenh chay do giua chung,
+// sau khi da chup xong may trang dau. Doi moi ky tu khong phai chu/so thanh gach ngang.
+const name = p => (p.replace(/^\/|\/$/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'home')
+  + '-' + WIDTH + (FULL ? '-full' : '') + '.png';
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });

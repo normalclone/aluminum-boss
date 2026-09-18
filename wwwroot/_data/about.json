@@ -1,49 +1,29 @@
 {
   "section": "About us",
   "lede": "We are Böss Group",
-  "intro": "An aluminium extruder in Binh Duong that finishes, fabricates and ships what it draws. Five plants, one coastline, forty-three export markets.",
+  "intro": "An aluminium extruder in Vietnam that finishes, fabricates and ships what it draws.",
   "figures": {
-    "title": "Key figures 2026",
+    "title": "At a glance",
     "tabs": [
       {
-        "label": "Production",
+        "label": "Milestones",
         "rows": [
           [
-            "Extrusion capacity",
-            "62,000 t / year"
+            "Aluminium plant in operation",
+            "2013"
           ],
           [
-            "Presses",
-            "6"
-          ],
-          [
-            "Anodising lines",
-            "2"
-          ],
-          [
-            "Powder coating lines",
-            "3"
+            "Group renamed Böss Group",
+            "2025"
           ]
         ]
       },
       {
-        "label": "Company",
+        "label": "Certification",
         "rows": [
           [
-            "People",
-            "1,840"
-          ],
-          [
-            "Export markets",
-            "43"
-          ],
-          [
-            "Plants",
-            "5"
-          ],
-          [
-            "Founded",
-            "2004"
+            "Quality management",
+            "ISO 9001"
           ]
         ]
       }
@@ -54,12 +34,12 @@
       "id": "company",
       "name": "Company",
       "image": "",
-      "title": "One origin, four markets",
+      "title": "Drawn, finished and packed in one place",
       "lede": "Everything we sell is drawn, finished and packed in Vietnam. That is a commercial position, not a sentiment.",
       "body": [
-        "Böss Group extrudes, finishes and fabricates aluminium at five plants between Nghe An and Binh Duong. The largest is at Binh Duong, twenty-eight kilometres from the export packing halls at Cat Lai, which is where most of what we make leaves the country.",
-        "Keeping extrusion, anodising, powder coating and fabrication under one roof is unusual at our size and it is the reason a customer can order a complete window system rather than a bundle of bars. It also means that when a colour has to be matched two years after the first delivery, the matching is done on the line that made the original, against a retained sample, rather than negotiated between three subcontractors.",
-        "We sell into forty-three markets. The four that matter by volume are the European Union, North America, Australia and our ASEAN neighbours, and they want different things: the EU asks first about thermal performance and recycled content, North America about AAMA classes and lead time, Australia about cyclonic ratings and coastal exposure, ASEAN about price and how fast a truck can get there."
+        "Böss Group extrudes, finishes and fabricates aluminium in Vietnam. The aluminium plant, Hoàng Kim, has been in operation since 2013, and aluminium door and facade systems have been part of the range since it opened.",
+        "Keeping extrusion, anodising, powder coating and fabrication under one roof is the reason a customer can order a complete window system rather than a bundle of bars. It also means that when a colour has to be matched two years after the first delivery, the matching is done on the line that made the original, against a retained sample, rather than negotiated between three subcontractors.",
+        "Export buyers do not all ask the same question first. European enquiries tend to open on thermal performance and recycled content; Australian ones on cyclonic rating and coastal exposure; buyers closer to home ask about price and how fast a truck can get there. The specification that follows is different in each case, and it is cheaper to say so at the enquiry than at the first delivery."
       ]
     },
     {
@@ -67,24 +47,23 @@
       "name": "Capability",
       "image": "",
       "title": "What the plants can actually do",
-      "lede": "Six presses, 62,000 tonnes a year, and the finishing capacity to keep up with them — which is the part that usually does not keep up.",
+      "lede": "Extrusion, then the finishing capacity to keep up with it — which is the part that usually does not keep up.",
       "body": [
-        "Extrusion runs on six presses from 800 to 2,500 tonnes, covering circumscribing circles from 20 to 320 millimetres. Dies are cut and corrected in house; first samples from a new die take eighteen days, and the correction loop that follows is the difference between a section that holds tolerance across a full billet and one that holds it for the first three metres.",
-        "Finishing is where most extruders under-invest. We run two anodising lines, one of them a 25-micron marine line, and three powder lines including a vertical line certified to QUALICOAT Class 2. Coating capacity was sized against the presses rather than against last year's order book, so a finished order does not wait behind an unfinished one.",
-        "Fabrication covers cutting, CNC machining, punching, friction-stir welding and assembly. Facade units are glazed and water-tested before they ship, which moves the difficult work off the scaffold and into a building where it can be repeated."
+        "Presses run across a range of tonnages, and that range is what sets both the largest section a plant can draw and the smallest it can draw economically. Dies are cut and corrected in house. The correction loop after the first sample is the difference between a section that holds tolerance across a full billet and one that holds it for the first three metres, and it is work that cannot be bought in by the hour.",
+        "Finishing is where most extruders under-invest. We run anodising and powder coating on site, sized against the presses rather than against last year's order book, so a finished order does not wait behind an unfinished one.",
+        "Fabrication covers cutting, CNC machining, punching, welding and assembly. Facade units are glazed and water-tested before they ship, which moves the difficult work off the scaffold and into a building where it can be repeated."
       ]
     },
     {
       "id": "history",
       "name": "History",
       "image": "",
-      "title": "2004 to now",
-      "lede": "A single 800-tonne press in Binh Duong, and a decision early on to finish what we drew.",
+      "title": "2013 to now",
+      "lede": "The aluminium business starts at one plant in 2013. The group it belongs to is older than that, and was making something else.",
       "body": [
-        "The company started in 2004 with one 800-tonne press serving the domestic window trade. For the first four years everything was sold mill-finish or sent out for coating, which is the normal way to start and the normal ceiling to run into.",
-        "The first anodising line went in during 2009. It was too big for the order book at the time and that was the point: it changed what we could be asked for. Export enquiries followed within eighteen months, first to Cambodia and Laos by road, then to Australia by sea.",
-        "The Nghe An and Thanh Hoa plants opened in 2014 and 2017 to serve the north and to shorten the road leg to the Chinese border crossings. Quy Nhon followed in 2021 for central-region projects and coastal work.",
-        "The automotive line was commissioned in 2023 and certified to IATF 16949 in 2025. It is a different business from architectural extrusion — different tolerances, different paperwork, different customers — and it was built as a separate line for that reason."
+        "The Hoàng Kim aluminium plant went into operation in 2013. That is where this business starts, and aluminium door systems and curtain walling entered the range with it.",
+        "The group itself goes back much further and grew up in doors and shutters rather than in extrusion. It is worth saying plainly, because a founding date on an About page is usually read as the date the people in the photographs started doing the thing they are photographed doing, and here those are two different dates.",
+        "In 2025 the group took a single name, Böss Group, in place of the separate marks its businesses had traded under. The plant kept doing what it had been doing; what changed was the name on the paperwork."
       ]
     },
     {
@@ -94,9 +73,9 @@
       "title": "What we are certified to, and what that means",
       "lede": "Certification is not a claim about our products. It is a claim that we can prove what happened to them.",
       "body": [
-        "The plants hold ISO 9001 and ISO 14001. The powder line is certified to QUALICOAT Class 2 and AAMA 2604, with a PVDF line to AAMA 2605. Anodising is to QUALANOD and AS 1231. The automotive line holds IATF 16949.",
-        "Behind the certificates is the part that took the longest to build: traceability. A finished profile resolves to its billet lot, its alloy certificate, its die history, its coating batch and the test results for that batch. Most of the work of the IATF programme was this, not the parts.",
-        "Testing is done on site. Salt spray to 4,000 hours, accelerated weathering, coating thickness and adhesion, and water penetration testing at 720 Pa for facade units. Where a project requires third-party witness testing we arrange it rather than substituting our own results for it."
+        "The group holds ISO 9001. That is the certification listed on this page; for anything your specification names, ask us for a current copy and check it against the issuing body's register. A certificate named on a website and a certificate current in the register are two different things, and the second is the one that matters when a project is audited.",
+        "Behind any certificate is the part that takes longest to build: traceability. A finished profile should resolve to its billet lot, its alloy certificate, its die history, its coating batch and the test results for that batch. That chain is what a quality system is for; the certificate is only the evidence that someone checked the chain.",
+        "Testing is done on site — salt spray, accelerated weathering, coating thickness and adhesion, and water penetration on facade units. Send us the hold points and acceptance criteria your specification needs and we will tell you which we run in house and which we would arrange. Where a project requires third-party witness testing we arrange it rather than substituting our own results for it."
       ]
     },
     {
@@ -104,12 +83,12 @@
       "name": "Impact",
       "image": "",
       "title": "Aluminium is recyclable; that is not the same as recycled",
-      "lede": "Remelting aluminium takes about five per cent of the energy of making it from ore. What matters is how much of what we draw came from remelt.",
+      "lede": "Remelting aluminium takes about five per cent of the energy of making it from ore. What matters is how much of what you are buying actually came from remelt.",
       "body": [
-        "Billet across the group ran at 61 per cent recycled content in 2025, most of it post-industrial: our own extrusion scrap, offcuts returned from fabricators, and reclaimed sections from demolition where the alloy can be verified.",
-        "The two anodising lines discharge to an on-site treatment plant with closed-loop rinse recovery. Pretreatment on the powder lines moved from chromate to chrome-free zirconium during 2025, which removes a hazardous waste stream rather than treating it.",
-        "Rooftop solar across the five plants covers about 18 per cent of electrical demand. That figure will not go much higher without storage, because extrusion load is heaviest on night shifts.",
-        "We publish the numbers annually and we publish the ones that did not improve. Scope 3 remains the weak part of the picture, dominated by primary billet purchased when remelt supply is short."
+        "Recyclability is a property of the metal, and every extruder in the world can claim it. Recycled content is a property of a particular billet lot, and it moves from lot to lot depending on what scrap was available that month. The two get used interchangeably in marketing, and a specification that asks for the first has asked for nothing.",
+        "The useful question to put to any supplier, including us, is narrower: what was the recycled content of the billet in this order, was it post-industrial or post-consumer, and what document says so. Post-industrial scrap — extrusion offcuts returned and remelted — is the easy half. Post-consumer is the hard half, because the alloy has to be verified before it can go back into a structural section.",
+        "We quote recycled content per order, against the mill certificate for that billet, rather than as a group average. An average is the one number guaranteed not to describe the delivery in front of you.",
+        "Anodising rinse water and coating pretreatment are the other two places where an aluminium plant either spends money or moves a problem downstream. Ask what happens to both; the answer is specific to a plant and to a year, which is why it belongs in a reply to an enquiry rather than on a page that stays up."
       ]
     },
     {
@@ -119,9 +98,9 @@
       "title": "Work with us",
       "lede": "Die design, metallurgy, coating chemistry, facade engineering. The people we struggle to hire are the ones who have done it on a line, not only on a drawing.",
       "body": [
-        "The group employs 1,840 people. Around 240 are in engineering and technical roles across die design, metallurgy, coating chemistry, quality and facade engineering.",
-        "Our apprentice programme takes twenty-four people a year across extrusion, finishing and fabrication, on a two-year rotation that includes six months in quality. Putting apprentices through quality is deliberate: someone who has measured coating thickness for six months operates a coating line differently afterwards.",
-        "Engineering graduates join on an eighteen-month programme rotating through three plants. We recruit from Ho Chi Minh City University of Technology, Hanoi University of Science and Technology and Da Nang, and we sponsor final-year projects on die correction and on extrusion of high-recycled-content billet, which is where our own open problems are."
+        "The technical roles are die design, metallurgy, coating chemistry, quality and facade engineering. Extrusion is unusual in that the drawing and the line are the same problem: a die that is elegant on screen and slow to correct on the press costs more than a plain one that runs.",
+        "Apprentices rotate through extrusion, finishing and fabrication, and the rotation includes a spell in quality. Putting apprentices through quality is deliberate: someone who has measured coating thickness for a few months operates a coating line differently afterwards, and no amount of instruction produces the same effect.",
+        "Engineering graduates rotate through more than one part of the plant before they settle. We sponsor final-year projects on die correction and on extrusion of high-recycled-content billet, which is where our own open problems are — the sponsorship is not outreach, it is us buying attention on something we have not solved."
       ]
     }
   ]
