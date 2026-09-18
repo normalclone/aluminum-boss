@@ -1,0 +1,167 @@
+{
+  "_": "Vong 3, 18/09/2026. Ket qua NHIN BANG MAT to tools/out/lien-anh-gom.png (87 ung vien cua 21 muc, do images-bossdoor.js --khao-sat tai ve). Doc bang tools/pick-images.py.",
+  "_luat-chon": [
+    "Nhan mot tam khi no la ANH CHUP hoac ban dung san pham, va phan tieng Viet (neu co) nam GON O MOT CANH nen cat di duoc ma khong hong bo cuc.",
+    "Loai khi chu tieng Viet la NOI DUNG CHINH cua tam (tranh quang cao), hoac khi cat xong con lai khong du dung.",
+    "Dau chim / logo BossDoor in TREN SAN PHAM trong anh chup thi giu — do la nhan hieu cua chinh mon do trong anh, khong phai lop chu dan len.",
+    "The san pham phai dong bo voi nhung the da co: anh cat nen trang hoac nen sang. Mot ban dung quang cao nen xanh la tech se lech han ca hang — nen hai mo to Kasankie Eco bi loai du chung co ung vien."
+  ],
+  "chon": [
+    {
+      "id": "rebrand-to-bossgroup",
+      "loai": "news",
+      "tep": "import/media/vong3/news/rebrand-to-bossgroup__02.jpg",
+      "vi-sao": "Anh chup that le cong bo doi ten. Man hinh san khau co chu 'CHUYEN MINH' nhung do la canh that duoc chup, khong phai lop chu dan len anh."
+    },
+    {
+      "id": "customer-conference-2025",
+      "loai": "news",
+      "tep": "import/media/vong3/news/customer-conference-2025__05.jpg",
+      "vi-sao": "Anh tap the truoc phong nen BossGroup. Hai lua chon tot hon deu bi loai: __03 la CUNG MOT TAM voi anh cua rebrand-to-bossgroup (dHash lech 0 bit - hai bai cung viet ve mot su kien nen anh trung nhau la chuyen de xay ra), con __02 co man hinh san khau chiem het khung voi dong 'SUC MANH CUA NGUOI DAN DAU' co chu rat lon."
+    },
+    {
+      "id": "aluminium-to-europe",
+      "loai": "news",
+      "tep": "import/media/vong3/news/aluminium-to-europe__04.jpg",
+      "cat": [
+        0,
+        0,
+        0,
+        0.22
+      ],
+      "vi-sao": "Container MSC tren xe keo, chup ban dem. Dung cai bai noi den. Cat 16% duoi de bo dai 'XUAT KHAU NHOM CAO CAP SANG THI TRUONG CHAU AU'. Lan cat dau (dai hep hon) van de sot mot vien mau o canh — do lai tren anh da cat roi moi chot con so nay."
+    },
+    {
+      "id": "ed-coating-agreement",
+      "loai": "news",
+      "tep": "import/media/vong3/news/ed-coating-agreement__01.png",
+      "cat": [
+        0,
+        0,
+        0,
+        0.2
+      ],
+      "vi-sao": "Anh bat tay hai ben ky ket. Cat 17% duoi de bo hai dong tieng Viet ten le ky. Lan cat dau (dai hep hon) van de sot mot vien mau o canh — do lai tren anh da cat roi moi chot con so nay."
+    },
+    {
+      "id": "korean-australian-partners",
+      "loai": "news",
+      "tep": "import/media/vong3/news/korean-australian-partners__05.jpg",
+      "cat": [
+        0.33,
+        0.41,
+        0.09,
+        0.13
+      ],
+      "vi-sao": "Tam nay la mot tranh quang cao CO CHUA mot anh chup that long o giua. Cat lay dung phan anh chup: ba nguoi trong phong hop. Phan tieng Viet 'MO RONG HOP TAC QUOC TE' nam o mang trai, bo het. Lan cat dau (dai hep hon) van de sot mot vien mau o canh — do lai tren anh da cat roi moi chot con so nay."
+    },
+    {
+      "id": "what-is-an-automatic-shutter",
+      "loai": "news",
+      "tep": "import/media/vong3/news/what-is-an-automatic-shutter__03.png",
+      "vi-sao": "Anh chup nha co cua cuon nan thoang. Chi co mot huy hieu BossDoor goc phai duoi - dau chim tren anh chup, giu theo luat tren."
+    },
+    {
+      "id": "warehouse-shutters-brief",
+      "loai": "news",
+      "tep": "import/media/vong3/news/warehouse-shutters-brief__03.jpg",
+      "vi-sao": "Day nha cong nghiep voi cua cuon xam. Khong mot chu nao tren anh."
+    },
+    {
+      "id": "wide-span-openings",
+      "loai": "news",
+      "tep": "import/media/vong3/news/warehouse-shutters-brief__05.jpg",
+      "vi-sao": "Hai cua cuon lon trong nha khung thep - dung nghia khau do lon. Lay tu lo anh cua warehouse-shutters-brief vi trang nguon cua wide-span khong con tam nao sach."
+    },
+    {
+      "id": "storm-resistance",
+      "loai": "news",
+      "tep": "import/media/vong3/news/storm-resistance__03.jpg",
+      "cat": [
+        0,
+        0,
+        0,
+        0.25
+      ],
+      "vi-sao": "Ban dung ngoi nha trong mua bao. Cat 25% duoi de bo dai 'NGAI GI MUA BAO'."
+    },
+    {
+      "id": "shutter-types",
+      "loai": "news",
+      "tep": "import/media/vong3/news/shutter-types__01.jpg",
+      "cat": [
+        0,
+        0,
+        0,
+        0.2
+      ],
+      "vi-sao": "Phong khach voi mot manh cua cuon nan trang tri - hop voi bai noi ve cac dong nan. Cat 15% duoi de bo dai 'BAO VE AN TOAN CHO MAI AM CUA BAN'. Lan cat dau (dai hep hon) van de sot mot vien mau o canh — do lai tren anh da cat roi moi chot con so nay."
+    },
+    {
+      "id": "rs-bo602",
+      "loai": "products",
+      "tep": "import/media/vong3/products/rs-bo602__04.png",
+      "vi-sao": "Ban dung mat cat nan va thanh noi, nen xanh rat nhat. Trung khuon voi rs-bo57 / rs-bo5816 da co tren trang."
+    },
+    {
+      "id": "industrial-shutters",
+      "loai": "news",
+      "tep": "import/media/vong3/news/warehouse-shutters-brief__07.jpg",
+      "vi-sao": "THAY tam cu. Tam dang dung cho industrial-shutters va tam cua high-speed-doors la CUNG MOT anh nha kho, chi khac khung cat va dinh dang - md5 khong thay duoc, dHash lech 1 bit. Hai the tin canh nhau cung mot anh."
+    },
+    {
+      "id": "ups-battery-replacement",
+      "loai": "news",
+      "tep": "import/media/vong3/news/ups-battery-replacement__02.jpg",
+      "vi-sao": "THAY tam cu. Tam dang dung la mot tranh quang cao co dong chu tieng Viet lon chay cheo trang ('Tem voi binh luu dien') - ghi chu vong truoc xep no vao nhom 'chu nho' la xep sai, no la chu chinh cua tam. Tam moi la anh chup that hai ban tay dang thay binh trong may luu dien, dung noi dung bai, khong mot chu nao."
+    },
+    {
+      "id": "choosing-a-shutter-operator",
+      "loai": "news",
+      "tep": "import/media/news/choosing-a-shutter-operator.png",
+      "cat": [
+        0,
+        0.12,
+        0,
+        0
+      ],
+      "vi-sao": "GIU tam cu, CAT 12% tren de bo dong 'Thuong hieu thuoc Tan Truong Son Group' - ten thuong hieu cu ma ban tieng Anh da chu dinh bo (import/en/ghi-chu.md muc 1). Logo BossDoor in tren canh cua trong ban dung thi giu: do la nhan hieu cua chinh mon do trong anh."
+    }
+  ],
+  "bo-han-vong-3": {
+    "_": "Da mo lai va van khong co tam nao dung duoc. Day la ket luan sau khi xem HET ung vien cua trang nguon, khong phai sau khi thu 6 tam dau.",
+    "ids": [
+      "operator-role",
+      "service-life",
+      "specification-mistakes",
+      "rolling-code-and-latch",
+      "three-ranges",
+      "cd100-wide-span",
+      "warranty-label",
+      "boss-elegant",
+      "s-bright-daylight",
+      "shopfront-security",
+      "fire-shutters",
+      "da-motor-kasankie-eco-300",
+      "da-motor-kasankie-eco-500",
+      "da-ups-bs2550",
+      "da-ups-bs2580",
+      "spotting-counterfeits"
+    ],
+    "vi-sao-tung-nhom": {
+      "boss-elegant, cd100-wide-span, fire-shutters, s-bright-daylight, shopfront-security, warranty-label": "Toan bo anh trong bai la anh hotlink tu Google Docs (lh7-rt.googleusercontent.com). Tat ca deu 404 bay gio. Trang nguon coi nhu khong con anh.",
+      "operator-role, three-ranges, specification-mistakes, service-life": "Moi tam deu la tranh quang cao tieng Viet chiem gan het khung - cat di thi khong con gi.",
+      "rolling-code-and-latch": "Nam tam, tam nao cung co mot dai chu tieng Viet VA mot bang thong so tieng Viet long trong anh. Cat dai duoi van con bang chu o giua.",
+      "da-motor-kasankie-eco-300, da-motor-kasankie-eco-500": "Co ung vien, nhung tat ca la ban dung quang cao nen xanh la. The san pham cua trang deu la anh cat nen trang - dat mot tam nen xanh vao giua hang se lech han. Thieu anh de hon la lech.",
+      "da-ups-bs2550, da-ups-bs2580": "Tranh quang cao tieng Viet, va tam 02 con mang logo Tan Truong Son Group - dung ten thuong hieu ma ban tieng Anh da bo.",
+      "spotting-counterfeits": "Hai ung vien. __01 la CUNG MOT TAM voi guide-rails.jpg da xuat ban tren trang (dHash lech 0 bit) - dua vao la hai the tin canh nhau cung mot anh. __02 la anh ghep mot nguoi lap dat dung tro tay vao ban dung ngoi nha: khong co chu tieng Viet nhung la tranh quang cao ro rang, dat canh anh chup that cua cac bai khac thi lech."
+    },
+    "_can-gi": "Anh that. Neu anh Phuc co anh chup san pham / cong trinh thi 16 muc nay la cho can nhat. Bo vao mot manifest cho tools/ingest-images.py la xong."
+  },
+  "trung-anh-da-ra-soat": {
+    "_": "Sau khi nhap, chay lai dHash tren ca 64 anh da xuat ban. Con 5 nhom bi bao trung. Da mo tung nhom ra nhin.",
+    "da-sua": "high-speed-doors == industrial-shutters (lech 1 bit). Cung MOT tam anh nha kho, khac khung cat va khac dinh dang nen md5 khong thay. Hai the tin canh nhau tren trang danh sach. Da thay anh cho industrial-shutters.",
+    "bao-nham": "rs-bo57 == rs-bo5816 == rs-bo68s == rs-cd80 (lech 1..3 bit). KHONG phai trung: mo ra nhin thi bon mat cat nan khac han nhau - bo57 co lo bau duc nho, bo5816 co lo chu nhat, bo68s la nan luoi ho, cd80 la nan dac cong. Chung giong nhau o DANG NHIN: cung goc chup, cung nen xanh nhat, cung bong. dHash thu ve 8x8 xam nen dung cai giong nhau ay de so, va khong con thay cai khac nhau. Day la gioi han that cua phep bam, khong phai mot con so can chinh lai - ha nguong xuong 0 van bao nham cap rs-bo57/rs-bo5816 vi chung lech 1 bit.",
+    "de-nguyen": "da-motor-ac == da-motor-bossrm-500, da-motor-bossrm-300 == da-motor-bossrm-700, da-motor-dc-hv == da-motor-robust-dc-twin, da-motor-robust-400 == da-motor-robust-eco-400. Day la trung that, nhung la anh mot mo to cua cung mot ho chi khac suc nang - vo ngoai giong nhau nen trang nguon dung mot tam cho ca ho. Khac han truong hop tam anh nha kho: o do la hai bai bao khong lien quan. De nguyen, cho anh that neu anh Phuc co."
+  }
+}

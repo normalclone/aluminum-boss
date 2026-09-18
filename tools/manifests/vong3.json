@@ -1,0 +1,129 @@
+[
+  {
+    "src": "../../import/media/news/rebrand-to-bossgroup.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "rebrand-to-bossgroup",
+    "field": "image",
+    "as": "rebrand-to-bossgroup.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/customer-conference-2025.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "customer-conference-2025",
+    "field": "image",
+    "as": "customer-conference-2025.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/aluminium-to-europe.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "aluminium-to-europe",
+    "field": "image",
+    "as": "aluminium-to-europe.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/ed-coating-agreement.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ed-coating-agreement",
+    "field": "image",
+    "as": "ed-coating-agreement.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/korean-australian-partners.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "korean-australian-partners",
+    "field": "image",
+    "as": "korean-australian-partners.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/what-is-an-automatic-shutter.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "what-is-an-automatic-shutter",
+    "field": "image",
+    "as": "what-is-an-automatic-shutter.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/warehouse-shutters-brief.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "warehouse-shutters-brief",
+    "field": "image",
+    "as": "warehouse-shutters-brief.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/wide-span-openings.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "wide-span-openings",
+    "field": "image",
+    "as": "wide-span-openings.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/storm-resistance.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "storm-resistance",
+    "field": "image",
+    "as": "storm-resistance.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/shutter-types.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "shutter-types",
+    "field": "image",
+    "as": "shutter-types.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/products/rs-bo602.jpg",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo602",
+    "field": "image",
+    "as": "rs-bo602.jpg",
+    "from": "bossdoor.vn",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/news/industrial-shutters.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "industrial-shutters",
+    "field": "image",
+    "as": "industrial-shutters.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/ups-battery-replacement.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ups-battery-replacement",
+    "field": "image",
+    "as": "ups-battery-replacement.jpg",
+    "from": "bossdoor.vn"
+  },
+  {
+    "src": "../../import/media/news/choosing-a-shutter-operator.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "choosing-a-shutter-operator",
+    "field": "image",
+    "as": "choosing-a-shutter-operator.jpg",
+    "from": "bossdoor.vn"
+  }
+]

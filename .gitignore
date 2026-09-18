@@ -98,3 +98,7 @@ import/extracted.json
 # in san), khong may nao sinh lai duoc, va mat no thi phai ngoi nhin lai 74 tam anh.
 import/media/*
 !import/media/co-chu.json
+# chon-vong3.json cung vay: no la ket qua NHIN to lien anh cua vong 3 — tam nao duoc chon,
+# tam nao bi loai va vi sao. Khong may nao sinh lai duoc.
+!import/media/chon-vong3.json
+!import/media/danh-sach-vong3.txt

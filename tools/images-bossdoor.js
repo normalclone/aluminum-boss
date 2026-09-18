@@ -38,6 +38,27 @@ const MEDIA = path.join(ROOT, 'import', 'media');
 const ORIGIN = 'https://bossdoor.vn';
 const FETCH = process.argv.includes('--fetch');
 const ALL = process.argv.includes('--all');
+
+/** Gia tri cua mot co `--ten <gia tri>`, hoac null. */
+const flag = n => { const i = process.argv.indexOf('--' + n); return i < 0 ? null : process.argv[i + 1]; };
+
+// --- che do KHAO SAT --------------------------------------------------------------------------
+// Lan chay dau lay MOT tam dan moi muc va lui toi da 10 phuong an. Voi 27 muc con trong, moi tam
+// da thu deu la tranh quang cao tieng Viet - nhung trang nguon VAN CON anh chua ai mo ra. Che do
+// nay tai HET ung vien cua rieng nhung muc duoc goi ten, vao mot thu muc rieng, va KHONG dong
+// vao manifest. Muc dich la de nhin, khong phai de xuat ban.
+//
+//   node tools/images-bossdoor.js --fetch --khao-sat --ids @danh-sach.txt --max 10
+//   <nhin to lien anh>
+//   node tools/images-bossdoor.js --chon import/media/chon-vong3.json
+const KHAO_SAT = process.argv.includes('--khao-sat');
+const MAX = +(flag('max') || 0) || Infinity;
+const ONLY = (() => {
+  const v = flag('ids');
+  if (!v) return null;
+  const raw = v.startsWith('@') ? fs.readFileSync(path.join(ROOT, v.slice(1)), 'utf8') : v;
+  return new Set(raw.split(/[\s,]+/).map(x => x.trim()).filter(Boolean));
+})();
 let BLANK = new Set();   // id cua muc chu dinh KHONG co anh (moi tam nguon deu la tranh quang cao)
 const REJECT = (() => {
   const i = process.argv.indexOf('--reject');
@@ -120,6 +141,18 @@ function get(url, dest, redirects = 0) {
 (async () => {
   const ex = JSON.parse(fs.readFileSync(path.join(ROOT, 'import', 'extracted.json'), 'utf8')).items;
 
+  // --- anh KHUNG TRANG -------------------------------------------------------------------------
+  // SKIP o tren bat theo TEN tep, nen no chi bat duoc nhung cai da duoc dat ten tu te. Tren
+  // bossdoor.vn con 19 tam nam o chan moi bai - cac `artboard-N_1787…png` chang han - khong co
+  // chu nao trong ten de bat. Chung lo ra o mot cho khac: chung xuat hien tren CA 227 bai.
+  // Mot tam anh noi dung khong bao gio lam duoc the. Nguong 20 la de rong rai; that ra khoang
+  // cach o day la 19 tam tren 227 trang va tam ke tiep chi tren 6 trang, khong co gi o giua.
+  const dem = new Map();
+  for (const g of Object.keys(ex))
+    for (const it of ex[g])
+      for (const u of new Set(it.images || [])) dem.set(u, (dem.get(u) || 0) + 1);
+  const KHUNG = new Set([...dem].filter(([, n]) => n > 20).map(([u]) => u));
+
   const rows = [];
   const manifest = [];
   const missing = [];
@@ -132,7 +165,7 @@ function get(url, dest, redirects = 0) {
     const byTail = new Map(src.map(x => [tail(x.url), x]));
     const dir = path.join(EN, k.dir);
     if (!fs.existsSync(dir)) continue;
-    const out = path.join(MEDIA, k.dir);
+    const out = path.join(MEDIA, KHAO_SAT ? 'vong3' : '', k.dir);
     if (FETCH) fs.mkdirSync(out, { recursive: true });
 
     for (const f of fs.readdirSync(dir).filter(n => n.endsWith('.json')).sort()) {
@@ -141,19 +174,25 @@ function get(url, dest, redirects = 0) {
       const item = byUrl.get(d.src) || byTail.get(tail(d.src));
       if (!item) { missing.push([id, 'khong tim thay trang nguon', d.src || '(khong co src)']); continue; }
 
-      if (BLANK.has(id)) { blanked.push([id, 'moi tam nguon deu la tranh quang cao tieng Viet', 'de o giu cho']); continue; }
+      if (ONLY && !ONLY.has(id)) continue;
+      // `bo-han` la ket luan cua mot vong nhin truoc do. Khi goi dich danh mot muc bang --ids
+      // thi dung la dang MO LAI ket luan ay, nen khong duoc chan o day nua.
+      if (!ONLY && BLANK.has(id)) { blanked.push([id, 'moi tam nguon deu la tranh quang cao tieng Viet', 'de o giu cho']); continue; }
 
-      const usable = (item.images || []).filter(u => !SKIP.test(u));
+      const usable = (item.images || []).filter(u => !SKIP.test(u) && !KHUNG.has(u));
       if (!usable.length) { missing.push([id, 'trang nguon khong co anh dung duoc', String((item.images || []).length) + ' anh bi loai']); continue; }
 
-      const take = ALL ? usable : usable.slice(0, 1);
+      const take = KHAO_SAT ? usable.slice(0, MAX) : ALL ? usable : usable.slice(0, 1);
       for (let i = 0; i < take.length; i++) {
         // Khi tam dau hong thi thu tam ke tiep cua CUNG MUC do. Trang san pham liet ke ban
         // /original/ truoc ban /large/, va ban /original/ hay 404 — mot lan chay khong co buoc
         // lui nay mat 30/74 tam va bao "nguon khong co anh", mot cau tra loi sai.
-        const alts = ALL ? [take[i]] : usable.slice(0, 10);
+        const alts = (ALL || KHAO_SAT) ? [take[i]] : usable.slice(0, 10);
         let url = (alts[0].startsWith('http') ? alts[0] : ORIGIN + alts[0]);
-        const name = id + (i ? '-' + (i + 1) : '') + ext(url);
+        // Khao sat dat ten `<id>__<n>` de to lien anh gom duoc theo muc, va de mot tam khao sat
+        // khong bao gio bi nham voi tam da xuat ban (`<id>.jpg`).
+        const name = KHAO_SAT ? id + '__' + String(i + 1).padStart(2, '0') + ext(url)
+                              : id + (i ? '-' + (i + 1) : '') + ext(url);
         const dest = path.join(out, name);
         want++;
         let note = '';
@@ -174,7 +213,7 @@ function get(url, dest, redirects = 0) {
         rows.push([k.dir, id, name, note || 'chua tai', url.replace(ORIGIN, '')]);
         // Chi ghi vao manifest tam THAT SU nam tren dia. Mot dong manifest tro toi tep khong co
         // se lam ingest-images.py dung giua chung, sau khi da chep mot nua so anh sang hai cay.
-        if (i === 0 && (!FETCH || (fs.existsSync(dest) && fs.statSync(dest).size > 0))) {
+        if (!KHAO_SAT && i === 0 && (!FETCH || (fs.existsSync(dest) && fs.statSync(dest).size > 0))) {
           const entry = { src: path.relative(ROOT, dest).replace(/\\/g, '/'),
                           doc: k.doc, array: k.array, id, field: 'image',
                           as: id + '.jpg', from: 'bossdoor.vn ' + url.replace(ORIGIN, '') };
@@ -218,7 +257,14 @@ function get(url, dest, redirects = 0) {
 
   console.log('\n  %d tam can tai%s.', want, FETCH ? `, ${got} xong, ${failed} hong, ${(bytes / 1024 / 1024).toFixed(1)} MB` : '');
 
-  if (FETCH && got) {
+  // Khao sat KHONG duoc dong vao manifest. Lan chay dau da ghi de manifest 47 dong bang mot tep
+  // rong - khong bao loi, chi mat lua chon cua vong truoc. `git checkout` lay lai duoc vi tep nay
+  // co trong kho, nhung mot cong cu khong duoc dua viec do cho may man.
+  if (KHAO_SAT) {
+    console.log('');
+    console.log('  Khao sat: %d tam trong import/media/vong3/, KHONG ghi manifest.', got);
+    console.log('  Tiep theo: python tools/images-text.py --gom --dir import/media/vong3');
+  } else if (FETCH && got) {
     const mf = path.join(ROOT, 'tools', 'manifests', 'bossdoor.json');
     fs.mkdirSync(path.dirname(mf), { recursive: true });
     // ingest-images.py giai duong dan tuong doi voi CHINH TEP MANIFEST, khong voi goc kho. Ghi

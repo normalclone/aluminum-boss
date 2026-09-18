@@ -94,6 +94,58 @@ def label_font(size):
     return ImageFont.load_default()
 
 
+
+def sheet_gom(rated):
+    """To lien anh GOM THEO MUC: moi muc mot hang, doc ngang la cac ung vien cua rieng muc do.
+
+    To phang (xep theo diem) tra loi cau "tam nao dang ngo nhat trong ca lo". Khi dang CHON anh
+    cho tung muc thi cau hoi khac han: "trong nam tam cua muc nay, tam nao dung duoc". To phang
+    tra loi cau do rat te — nam tam cua mot muc nam rai rac o nam cho khac nhau tren to.
+
+    Ten tep quy uoc `<id>__<so>.<duoi>`, do --khao-sat cua images-bossdoor.js dat ra.
+    """
+    from collections import OrderedDict
+    groups = OrderedDict()
+    for s, p, size, nbytes in rated:
+        key = os.path.basename(p).split('__')[0]
+        groups.setdefault(key, []).append((s, p, size, nbytes))
+    for g in groups.values():
+        g.sort(key=lambda r: os.path.basename(r[1]))
+
+    wide = max(len(g) for g in groups.values())
+    LBL = 230                                    # cot trai ghi ten muc
+    sheet = Image.new('RGB', (LBL + wide * CELL, len(groups) * (CELL + PAD)), (250, 249, 247))
+    draw = ImageDraw.Draw(sheet)
+    font = label_font(13)
+    big = label_font(16)
+
+    for r, (key, g) in enumerate(groups.items()):
+        cy = r * (CELL + PAD)
+        draw.rectangle([0, cy, sheet.size[0], cy + 1], fill=(225, 222, 217))
+        draw.text((8, cy + 10), key, fill=(30, 29, 27), font=big)
+        draw.text((8, cy + 32), '%d ung vien' % len(g), fill=(130, 128, 124), font=font)
+        for i, (s, p, size, nbytes) in enumerate(g):
+            cx = LBL + i * CELL
+            try:
+                with Image.open(p) as im:
+                    im = im.convert('RGB')
+                    im.thumbnail((CELL - 8, CELL - 8), Image.LANCZOS)
+                    sheet.paste(im, (cx + (CELL - im.size[0]) // 2, cy + (CELL - im.size[1]) // 2))
+            except Exception:
+                pass
+            num = os.path.basename(p).split('__')[-1].rsplit('.', 1)[0]
+            draw.text((cx + 6, cy + CELL + 2), '%s   %dx%d  %d KB' % (num, size[0], size[1], nbytes // 1024),
+                      fill=(40, 40, 40), font=font)
+
+    os.makedirs(OUT, exist_ok=True)
+    dest = os.path.join(OUT, 'lien-anh-gom.png')
+    sheet.save(dest)
+    print('')
+    print('  To lien anh gom theo muc: %s  (%dx%d)' % (os.path.relpath(dest, ROOT), sheet.size[0], sheet.size[1]))
+    print('  %d muc, moi muc mot hang, toi da %d ung vien mot hang.' % (len(groups), wide))
+    return 0
+
+
 def main():
     src = os.path.join(ROOT, arg('dir', 'import/media'))
     files = []
@@ -117,6 +169,9 @@ def main():
             print('  HONG  %s: %s' % (os.path.relpath(p, ROOT), e))
 
     rated.sort(key=lambda r: -r[0])
+
+    if '--gom' in sys.argv:
+        return sheet_gom(rated)
 
     os.makedirs(OUT, exist_ok=True)
     cols = COLS

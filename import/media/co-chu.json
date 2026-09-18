@@ -53,7 +53,8 @@
       "import/media/news/warranty-label.jpg",
       "import/media/news/grille-shutters.png",
       "import/media/news/spotting-counterfeits.jpg"
-    ]
+    ],
+    "_quyet-dinh": "GIU. Mo tung tam ra nhin: cai goi la 'dau chim' thuc ra la logo BossDoor IN TREN CANH CUA trong chinh buc anh — nhu tren anh nha kho, hai canh cua deu mang logo vi do la san pham cua ho. Do la nhan hieu cua mon do trong anh, khong phai mot lop chu dan len sau. Bo di thi phai xoa vao than anh. Danh sach 5/8 tep duoi day khong con ton tai: chung da bi buoc bo anh trung xoa di tu lan chay truoc."
   },
   "_ghi-chu-ve-diem-so": "images-text.py cham diem bang mat do bien x do phang mau. Tren lo nay no SAI: tam diem cao nhat (manual-steel-shutters.jpg, 27 diem) la mot ban ve ky thuat sach khong mot chu, con rebrand-to-bossgroup.jpg — gan nhu toan chu — chi 25 diem. Nguong 40 bat duoc 0/79 tam. Giu lai diem vi no xep anh do hoa len dau to lien anh va nhin mot to xep san nhanh hon nhin mot thu muc, nhung KHONG duoc dung no lam bo loc tu dong.",
   "bo-han": {
@@ -91,6 +92,8 @@
     "files": {
       "import/media/news/choosing-a-shutter-operator.jpg": "Goc trai co dong \"Thuong hieu thuoc Tan Truong Son Group\" — dung TEN THUONG HIEU CU ma ban tieng Anh da chu dinh bo (xem import/en/ghi-chu.md muc 1). Day la tam dang lo nhat trong ca lo.",
       "import/media/news/ups-battery-replacement.jpg": "Goc trai co dong \"Cam nang binh luu dien\" nho."
-    }
-  }
+    },
+    "_quyet-dinh": "Ca hai muc trong nhom nay deu da duoc xu ly, va mot trong hai duoc XEP SAI o vong truoc:\n- choosing-a-shutter-operator: ten tep ghi .jpg nhung tep that la .png. Da CAT 12% tren de bo dong 'Thuong hieu thuoc Tan Truong Son Group'. Phan con lai la ban dung ngoi nha, nguyen ven.\n- ups-battery-replacement: ghi 'chu tieng Viet NHO' la SAI. Nhin lai thi dong 'Tem voi binh luu dien' chay cheo gan het chieu ngang tam, day la tranh quang cao chu khong phai anh co chu nho. Da THAY bang mot anh chup that hai ban tay dang thay binh trong may luu dien, khong mot chu nao."
+  },
+  "_ket-luan-vong-3": "18/09/2026 — da mo lai toan bo. Ket qua va ly do tung muc nam o import/media/chon-vong3.json. Ba cho tep NAY ghi sai, sua lai o day:"
 }
