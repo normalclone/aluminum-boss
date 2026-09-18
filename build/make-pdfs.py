@@ -106,12 +106,28 @@ if __name__ == '__main__':
     data = json.load(io.open(os.path.join(ROOT, '_data', 'documents.json'), encoding='utf-8'))
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
+    # BO QUA cac muc da co tai lieu THAT.
+    #
+    # Tep nay ghi de MOI muc trong documents.json. build/make-real-pdfs.py sinh tai lieu nhieu
+    # trang co noi dung that tu build/docs/<id>.json; neu tep nay chay sau no thi mot tai lieu
+    # bon trang bien thanh mot trang bia "ban mau" - khong loi, khong ai thay. Dung loai loi ma
+    # ban ghi de bossdoor da xoa mat hero-door-accessory.jpg.
+    real = set()
+    docs_dir = os.path.join(HERE, 'docs')
+    if os.path.isdir(docs_dir):
+        real = {f[:-5] for f in os.listdir(docs_dir) if f.endswith('.json')}
+
     n = 0
     sizes = {}
     for cat in data['categories']:
         for doc in cat['items']:
+            if doc['id'] in real:
+                continue
             size = build(doc, cat['name'], os.path.join(OUT, doc['id'] + '.pdf'))
             sizes[doc['id']] = size
             n += 1
     print('viet %d file PDF vao site/_docs/' % n)
     print('nho nhat %d B, lon nhat %d B' % (min(sizes.values()), max(sizes.values())))
+    if real:
+        print('bo qua %d muc co tai lieu that (build/docs/): %s'
+              % (len(real), ', '.join(sorted(real))))

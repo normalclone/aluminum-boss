@@ -1,0 +1,41 @@
+{
+  "_nguon": "/ct-bao-hanh-cua-cuon-bossdoor.html tren bossdoor.vn.",
+  "_ba-dieu-da-quyet": [
+    "KHONG co thoi han bao hanh trong tai lieu nay, vi NGUON KHONG CO. Trang nguon noi ve tem bao hanh dien tu va cach kich hoat, khong noi mot con so nam nao. Dung voi quyet dinh 'bo het con so' cua anh Phuc (import/en/ghi-chu.md muc 1) ma khong phai danh doi gi - hai ben trung nhau.",
+    "Nen tai lieu nay ten la 'Warranty Label and Activation', KHONG phai 'Warranty Policy'. Muc corp-warranty trong documents.json van la ban mau, cho tai lieu dieu khoan that.",
+    "KHONG bê so hotline 1900 636 007 sang ban tieng Anh. Do la so tong dai noi dia Viet Nam, dat tren mot tai lieu xuat khau thi vua sai doi tuong vua la mot dau lien he that bi mang di cho khac. Mo ta tem la co 'a service telephone number', va huong nguoi doc ve trang lien he cua chinh site."
+  ],
+  "id": "corp-warranty-label",
+  "section": "Corporate",
+  "title": "Warranty Label and Activation",
+  "blurb": "What the electronic warranty label carries, how a product is registered against it, and the two things that invalidate a claim.",
+  "edition": "Rev 1",
+  "lang": "English",
+  "blocks": [
+    { "type": "para", "text": "Cover is registered electronically. Every matched BossDoor shutter set leaves the plant with a warranty label on it, and the label is what ties a specific product to a specific registration. This sheet says what is on the label and what has to stay readable for a claim to be accepted." },
+
+    { "type": "heading", "text": "1. What the label carries" },
+    { "type": "list", "items": [
+      "The BossDoor mark.",
+      "A service telephone number.",
+      "A QR code, which opens the registration page directly.",
+      "Short activation instructions.",
+      "The product serial number.",
+      "A scratch-off panel covering the registration code."
+    ]},
+
+    { "type": "heading", "text": "2. Registering a product" },
+    { "type": "para", "text": "Scan the QR code, or open the registration page and enter the serial number. Remove the silver coating over the panel and enter the code underneath. The same two numbers are what a later enquiry is looked up by, so record them before the door is handed over." },
+
+    { "type": "heading", "text": "3. Keeping the cover" },
+    { "type": "para", "text": "Two things invalidate a claim, and both are about the label rather than the door:" },
+    { "type": "list", "items": [
+      "A torn or illegible serial number.",
+      "A registration code that has faded, been rubbed away, or been removed before the product was registered."
+    ]},
+    { "type": "para", "text": "The label is the record. Keep it intact and unpainted, and do not scratch the panel until the product is being registered." },
+
+    { "type": "heading", "text": "4. Enquiries" },
+    { "type": "para", "text": "Claims and questions about a registration go to the office the order was placed through. The addresses and direct numbers are on the Contact page of this site; the export desk handles orders shipped outside Vietnam." }
+  ]
+}

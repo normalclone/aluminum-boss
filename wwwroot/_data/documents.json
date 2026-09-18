@@ -196,6 +196,14 @@
           "edition": "Rev 6",
           "lang": "Tiếng Việt",
           "pages": 68
+        },
+        {
+          "id": "inst-shutter-sizes",
+          "title": "Roller Shutter Installation Limits",
+          "blurb": "Safe installation sizes by shutter range, operator selection by door area, barrel diameters, flange thicknesses and shaft wall thicknesses.",
+          "edition": "Rev 1",
+          "lang": "English",
+          "pages": 4
         }
       ]
     },
@@ -235,6 +243,14 @@
           "edition": "2026",
           "lang": "English",
           "pages": 9
+        },
+        {
+          "id": "corp-warranty-label",
+          "title": "Warranty Label and Activation",
+          "blurb": "What the electronic warranty label carries, how a product is registered against it, and the two things that invalidate a claim.",
+          "edition": "Rev 1",
+          "lang": "English",
+          "pages": 2
         }
       ]
     }
