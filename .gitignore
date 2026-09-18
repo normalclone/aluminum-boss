@@ -60,9 +60,12 @@ tools/baseline/task15/
 # Moc nen sau Task 20: khoi "New" tren trang chu doi chu.
 tools/baseline/task19/
 
-# Moc nen sau khi sau tam banner cua khach vao trang: hero va o san pham tren trang chu, va
-# bang dau sau trang chi tiet dong san pham. Day la moc de dung tu nay.
+# Moc nen sau khi sau tam banner cua khach vao trang.
 tools/baseline/task22/
+
+# Moc nen sau khi an nut EN/VI: dau trang doi tren CA 15 trang, nen task22 khong dung lai duoc.
+# Day la moc de dung tu nay.
+tools/baseline/task23/
 
 # Ban tinh sinh tu may chu bang tools/publish-static.js. 369 tep tai nguyen chep sang cong 105
 # trang - tat ca deu sinh lai duoc trong mot phut, va khong cai nao la nguon.

@@ -26,13 +26,24 @@ SITE = os.path.join(ROOT, 'site')
 
 
 def wanted():
-    """{duong-dan-tuong-doi: file khuon} cho moi muc co trang rieng."""
+    """{duong-dan-tuong-doi: file khuon} cho moi muc co trang rieng.
+
+    Muc da AN thi KHONG co thu muc. May chu tra 404 cho duong dan cua mot muc an - SlugsFor di
+    qua Arr() nen no khong con trong bang duong dan nua - va ban tinh phai tra loi giong he. Bo
+    qua cho nay thi an mot bai chi lam no bien khoi danh sach, con trang rieng cua no van song
+    va van duoc Google giu trong chi muc.
+
+    fanout.py don luon thu muc thua, nen an mot muc roi chay lai la thu muc ay bien mat; hien
+    lai thi no quay ve.
+    """
     out = {}
     for seg, doc, pick in SECTIONS:
         template = os.path.join(SITE, seg, 'detail', 'index.html')
         if not os.path.exists(template):
             continue
         for item in pick(load(doc)):
+            if item.get('visible') is False:
+                continue
             slug = item.get('slug') or item['id']
             out['%s/%s/index.html' % (seg, slug)] = template
     return out

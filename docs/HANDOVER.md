@@ -29,9 +29,14 @@ Năm màn hình, mỗi cái làm một việc:
 2. **Bấm thẳng vào đoạn chữ trong khung xem thử bên phải** — ô nhập của nó sẽ được cuộn tới và
    sáng lên ở cột trái. (Cách kia: cuộn cột trái tìm ô có tên tương ứng.)
 3. Gõ. Chữ trong khung bên phải đổi ngay theo từng phím.
-4. Bấm **Save changes**. Trang thật đổi ngay lập tức — không phải chờ build, không phải deploy.
+4. Bấm **Save changes**. Trang trên **máy chủ** đổi ngay lập tức — không phải chờ build.
 
 > Chưa bấm Save thì chưa có gì được ghi. Đóng tab lúc đang sửa dở, trình duyệt sẽ hỏi lại.
+
+> **Chừng nào trang công khai còn là bản GitHub Pages** (hiện tại là vậy: khu quản trị chưa được
+> dựng lên máy chủ nào), thì Save **chưa** đưa thay đổi ra internet. Nó ghi vào cả hai cây trên
+> máy đang chạy; ra tới khách thì cần một lần `git push`, và GitHub Pages tự dựng lại trong
+> khoảng một phút. Khi bản .NET đã lên VPS thì câu này hết đúng và Save là xong.
 
 **Lần đặt tên đầu tiên cũng đặt luôn địa chỉ.** Một mục vừa thêm mang một cái tên máy sinh
 (`new-3f9a2c`). Ngay khi bạn gõ tiêu đề cho nó và bấm Save, địa chỉ của nó thành tiêu đề ấy:
@@ -124,6 +129,12 @@ Cách làm việc vì thế là hai bước: **đăng bài vào kho trước, r�
 > hai tiêu đề khác nhau ở hai chỗ, và không có gì giữ cho chúng khớp nhau. Ba khối còn lại thì
 > ngược lại: chúng tự chọn bằng một quy tắc viết trong mã, và khách không đổi được gì.
 
+### Nút EN / VI đã ẩn
+
+Bản tiếng Việt chưa có, nên nút chuyển ngữ ở đầu trang đã được ẩn (18/09/2026) — trước đó bấm vào
+chỉ hiện một dòng "chưa sẵn sàng". Mã vẫn còn nguyên. Muốn bật lại: mở `wwwroot/_app/app.css`,
+tìm `.abh-locale { display: none; }` và xoá đúng dòng ấy, rồi chép sang `site/_app/app.css`.
+
 ### Thêm, ẩn, đổi thứ tự
 
 Vào **Content**, chọn loại, rồi:
@@ -135,6 +146,8 @@ Vào **Content**, chọn loại, rồi:
 - **↑ ↓** — đổi thứ tự. Thứ tự trong bảng này chính là thứ tự trang hiển thị.
 - **Shown / Hidden** — bấm để tạm ẩn. Mục bị ẩn biến khỏi mọi danh sách, khỏi mọi con số đếm, và
   trang riêng của nó trả về "không tìm thấy". **Nó vẫn còn nguyên** — bấm lại là hiện lại.
+  Đúng như vậy trên **cả hai** bản kể từ 18/09/2026; trước đó bản GitHub Pages không lọc gì cả,
+  nên một mục đã ẩn vẫn công khai ở đó. Kiểm lại bất cứ lúc nào: `node tools/hidden.js`.
 - **Delete** — bấm lần một sẽ báo còn chỗ nào đang trỏ tới mục đó; bấm lần hai mới xoá thật.
 
 > Muốn giấu tạm thì **ẩn**, đừng xoá. Xoá thì chỉ lấy lại được qua History.

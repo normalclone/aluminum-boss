@@ -94,7 +94,7 @@ tới chỉ tốn bốn phút mỗi vòng. **Trong Git Bash đừng viết `--on
 > **Đã ký duyệt:** port từ bản clone tĩnh vào app .NET · dời cả cây lên một cấp · mọi lần đổi
 > nội dung kể từ đó.
 
-**Mốc nền đang dùng: `baseline/task22`** (trước đó là `task19`). Thư mục `baseline/` ở cấp trên
+**Mốc nền đang dùng: `baseline/task23`** (trước đó `task22`, `task19`). Thư mục `baseline/` ở cấp trên
 cùng là mốc **trước Task 10**, còn dùng lối đặt đường dẫn cũ — so với nó thì cả 15 trang đều báo
 lệch, và đó không phải hồi quy.
 
@@ -268,6 +268,29 @@ python trees.py
 File dữ liệu và script phải giống **từng byte**. File HTML so sau khi giải mã thực thể và bỏ
 khoảng trắng cạnh thẻ, vì bản tĩnh viết `Böss` còn khuôn viết `B&ouml;ss`, và bộ ghép nối các
 dòng bằng `<br>` không xuống dòng.
+
+---
+
+## `hidden.js` — ẩn một mục có thật sự biến mất trên bản tĩnh không
+
+```bash
+node hidden.js            # bài tin đầu tiên
+node hidden.js products   # hoặc products / projects
+```
+
+Ẩn thật một mục, phục vụ `site/` **đúng như GitHub Pages phục vụ nó** (một máy chủ tệp tĩnh dựng
+ngay trong công cụ), đếm thẻ, kiểm thư mục trang riêng, rồi trả lại nguyên văn.
+
+> **Đã bắt được:** không một script danh sách nào trong hai mươi tệp của bản tĩnh nhìn vào
+> `visible`. Máy chủ lọc đúng từ lâu (`Arr()`), nên hai bản nói hai chuyện khác nhau: khách ẩn
+> một sản phẩm trong Content, nó vẫn công khai trên Pages. Sửa bằng cách lọc **ở cửa** —
+> `AB.load()` lược bỏ mọi mục `visible:false` ở mọi độ sâu — chứ không phải ở hai mươi chỗ đọc,
+> vì hai mươi chỗ là hai mươi chỗ để quên, và các danh sách lồng (sản phẩm trong một dòng, tài
+> liệu trong một nhóm) chính là những chỗ bị quên. `fanout.py` cũng thôi trải thư mục cho mục đã
+> ẩn, nên đường dẫn riêng của nó trả 404 giống máy chủ.
+
+**Không tìm thấy thẻ nào là BỘ CHỌN sai, không phải "danh sách rỗng".** Công cụ chặn ở đó và báo
+KHÔNG ĐẠT — nếu không thì `0 → 0` sẽ lặng lẽ đi qua phép so `now === was - 1` vào một ngày nào đó.
 
 ---
 

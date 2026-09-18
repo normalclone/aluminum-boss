@@ -125,16 +125,52 @@
     return new Array((d ? +d.getAttribute('data-depth') : 2) + 1).join('../');
   }
 
+  /**
+   * A document, with everything the owner has hidden taken out of it first.
+   *
+   * Hiding is not deleting: a product out of stock this quarter, an article held until Monday.
+   * The Content screen promises that a hidden item "biến khỏi mọi danh sách", and on the server
+   * that promise is kept in one place - Arr() filters visible:false before anything is drawn.
+   *
+   * This file is the other half of the site, the one GitHub Pages serves, and it kept no such
+   * promise: measured, not one of the twenty listing scripts looked at "visible" at all, so an
+   * item hidden in the admin went on being public. Filtering at the door rather than at each of
+   * the twenty readers is the same decision the server made, for the same reason - twenty places
+   * is twenty places to forget, and the nested lists (a product inside a family, a document
+   * inside a group) are the ones that get forgotten.
+   */
   function load(name) {
     return fetch(root() + '_data/' + name + '.json', { cache: 'no-cache' })
       .then(function (r) {
         if (!r.ok) throw new Error(name + '.json: HTTP ' + r.status);
         return r.json();
-      });
+      })
+      .then(prune);
   }
 
-  // Whatever is published. Absent means yes, the same rule the server's Arr() applies, and the
-  // same one every list on this site is filtered by.
+  // Drops every hidden object, at every depth, and leaves everything else exactly as it was.
+  // Absent means shown - which is what all but a handful of items say by saying nothing.
+  function prune(node) {
+    if (Array.isArray(node)) {
+      var out = [];
+      for (var i = 0; i < node.length; i++) {
+        var v = node[i];
+        if (v && typeof v === 'object' && !Array.isArray(v) && v.visible === false) continue;
+        out.push(prune(v));
+      }
+      return out;
+    }
+    if (node && typeof node === 'object') {
+      var copy = {};
+      for (var k in node) if (Object.prototype.hasOwnProperty.call(node, k)) copy[k] = prune(node[k]);
+      return copy;
+    }
+    return node;
+  }
+
+  // Whatever is published. Absent means yes. Redundant now that load() prunes - and kept, because
+  // a caller holding a list from somewhere else still needs the rule, and because one line saying
+  // what "published" means is cheaper to read than working it out from prune().
   function keep(list) {
     return (list || []).filter(function (x) { return x && x.visible !== false; });
   }
@@ -184,5 +220,6 @@
   }
 
   w.AB = { ph: ph, esc: esc, qs: qs, href: href, itemId: itemId,
-         load: load, keep: keep, shelf: shelf, root: root, fail: fail, title: title };
+         load: load, keep: keep, prune: prune, shelf: shelf, root: root,
+         fail: fail, title: title };
 }(window));

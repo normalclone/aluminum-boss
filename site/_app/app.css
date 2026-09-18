@@ -90,7 +90,12 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .abh-nav a:hover { border-bottom-color: #cdc9c3; }
 .abh-nav a.is-on { border-bottom-color: #1d1d1b; }
 
-.abh-locale { display: flex; align-items: center; gap: 7px; margin-left: auto; flex: none; }
+/* Nut EN / VI, an di 18/09/2026.
+   Ban tieng Viet chua co, va nut bam vao chi hien mot dong "chua san sang" - mot nut trong
+   dat tren dau moi trang cua mot cong ty Viet. Bat lai khi co ban dich: xoa dung mot dong
+   "display: none" ngay duoi day. Ma trong header.js de nguyen, no khong ton gi. */
+.abh-locale { display: none; }
+.abh-locale--on { display: flex; align-items: center; gap: 7px; margin-left: auto; flex: none; }
 .abh-locale button {
   display: inline-flex; align-items: center; gap: 6px; background: none; border: 0;
   cursor: pointer; font-family: var(--ab-font); font-weight: 700; font-stretch: 125%;
@@ -194,11 +199,36 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .abhero-words a:focus-visible { outline: 2px solid #1d1d1b; outline-offset: 3px; }
 
 /* Bottom left, under the words and aligned with them, where the floor is pale. It began on the
-   right and wrapped over the sofa, which is both busy and dark. */
+   right and wrapped over the sofa, which is both busy and dark.
+
+   Hao quang chu, them 18/09/2026. Cho nay khong con la san nha nhat nua: nen hero gio la anh
+   cua khach, va anh nao thi khach chon chu khong phai chung ta. Tren tam Facade dong chu nay
+   roi dung vao phan kinh phan chieu toa nha - gan nhu khong doc duoc.
+
+   Ba cach da thu, va hai cach dau sai:
+     - Mot dai toi tran ngang: dung cho Facade, SAI cho nam tam con lai vi ca nam deu nen sang.
+     - Mot vet radial-gradient trang: van HIEN THANH O tren tam Profile (nen kim loai xam vua),
+       nhin ra ngay mot hinh chu nhat mo khong thuoc ve buc anh. Da chup ra xem va bo.
+     - Hao quang trang quanh chu: khong co hinh khoi, nhung chu van la mau gan den tren nen gan
+       den - hao quang chi ve duong vien, khong lam tang tuong phan giua chu va nen.
+
+   Cach dung: DO sang/toi cua manh anh nam duoi dong chu, roi doi mau chu. home.js lam viec do.
+   Do duoc tren sau tam banner: Facade 22, Door's Accessory 95, con lai 148-240 - hai nhom tach
+   nhau rat ro, nguong 128 khong nam gan tam nao. Uu diem thuc su: nam tam sang KHONG DOI MOT
+   PIXEL nao, chi tam nao thuc su toi moi doi.
+
+   Chi ap dung tu 861px tro len. Duoi do bo cuc xep anh tren, chu duoi tren nen trang - dong
+   chu khong nam tren anh nua. */
 .abhero-caption {
   position: absolute; right: 2.5vw; bottom: 4.5%; margin: 0; max-width: 40ch; text-align: right;
   font-family: var(--ab-font); font-size: clamp(11px, .78vw, 16px); line-height: 1.5;
   color: rgba(29,29,27,.78);
+}
+@media (min-width: 861px) {
+  .abhero.is-dark .abhero-caption {
+    color: rgba(255,255,255,.95);
+    text-shadow: 0 1px 2px rgba(0,0,0,.5), 0 0 14px rgba(0,0,0,.4);
+  }
 }
 .abhero-caption strong { font-stretch: 125%; font-weight: 700; }
 
