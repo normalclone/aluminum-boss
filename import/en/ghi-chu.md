@@ -47,6 +47,36 @@ khó thấy hơn — và cả bốn đều nói về **công trình thật hoặ
 
 ---
 
+## 1c. Đợt rà thứ hai — chín chỗ nữa trong 28 bài viết sau
+
+Bốn câu ở mục 1b là đợt rà đầu, làm trên 8 bài đầu tiên. Sau khi viết thêm 28 bài, tôi chạy lại
+đúng bộ lọc đó trên cả 36 bài. Ra thêm chín chỗ — **cùng một loại lỗi**, chỉ khác là lần này
+phần lớn không nói về công trình mà nói về *thế giới nói chung*:
+
+**Bốn câu về sự kiện và công ty có thật:**
+
+| Bài | Đã viết | Nguồn thật nói gì |
+|---|---|---|
+| `rebrand-to-bossgroup` | "The legal entity and the plants are **unchanged**" | Nguồn nói đổi "tên gọi và nhận diện thương hiệu". Không một chữ nào về pháp nhân hay nhà máy. Tôi tự thêm một lời bảo đảm pháp lý |
+| `customer-conference-2025` | cải tiến "**mostly in the hardware and the control side rather than the sections**" | Nguồn nói "cải tiến về công nghệ, tính năng và thiết kế" — không chỉ ra ở đâu. Tôi bịa ra độ chính xác. Câu mới dùng đúng phạm vi nguồn, và thêm nhà máy Thanh Hoá **vì nhà máy đó có trong nguồn** |
+| `wide-span-openings` | `date: 2021-08-02` | Trang nguồn `n146` ghi **2021-07-30**. Sai ngày là sai dữ kiện, dù không ai để ý |
+| `fire-shutters` | "which is where **most of them** fail an inspection" | Một con số thống kê không có nguồn. Đổi thành "where an installation fails inspection" — cùng ý, không giả vờ đếm được |
+
+**Năm câu thống kê trong bài hướng dẫn:** `operator-role` ("Most of the failures come from the
+operator"), `ups-operation` (hai chỗ "most of them… replaced early"), `rolling-code-and-latch`
+("how most of them are actually opened" — về cách kẻ trộm mở cửa), `grille-shutters` ("the
+**only** curtain type that does both").
+
+Các bài hướng dẫn được phép khái quát — "usually", "often" là giọng đúng của thể loại. Nhưng
+**"most" và "only" đứng trần thì đọc như một con số đã đếm**, mà không ai đếm cả. Tôi giữ nguyên
+ý, đổi cách nói: từ một thống kê giả thành một lý do kỹ thuật.
+
+**Một chỗ tôi kiểm rồi để nguyên:** "The first vented shutter came off the line in 1998" —
+nguồn `n375` viết "kể từ năm 1998 khi chiếc cửa cuốn lỗ thoáng đầu tiên ra đời". Khớp, kể cả
+chữ "lỗ thoáng".
+
+---
+
 ## 2. Ba sản phẩm không viết, vì là trang trùng
 
 Bộ lọc giữ chúng (có chữ, đúng họ), nhưng đọc ra thì cùng một thứ:

@@ -1,18 +1,18 @@
 {
- "id": "fire-shutters",
- "src": "/tin-moi/cua-cuon-chong-chay-n130.html",
- "title": "Fire shutters: four parts, all of them rated",
- "date": "2021-07-26",
- "author": "Quality Assurance",
- "tags": [
-  "Industrial",
-  "Product"
- ],
- "excerpt": "A fire shutter holds a compartment line for a rated period. Every part of it is part of that rating — including the guide fixings, which is where most of them fail an inspection.",
- "body": [
-  "A fire shutter closes a compartment line and holds it for a rated period. Unlike every other shutter, its specification is a performance one: the assembly is rated, not the slat.",
-  "Four parts carry that rating. The curtain, in a section built for it. The bottom rail, which has to seal against the floor while hot. The guides, which have to hold the curtain in place as it expands. And the operator, with a release that lets the door close on signal and stay closed without power.",
-  "The guides are where installations fail inspection. A rated curtain in guides fixed at the wrong centres, or into the wrong substrate, is not a rated assembly — and the drawing rarely says so as clearly as the test report does.",
-  "Placement follows the compartment strategy: openings between a warehouse and its offices, between a mall unit and the concourse, and between a plant room and everything else. Pricing follows area and rating, not slat cost."
- ]
+  "id": "fire-shutters",
+  "src": "/tin-moi/cua-cuon-chong-chay-n130.html",
+  "title": "Fire shutters: four parts, all of them rated",
+  "date": "2021-07-26",
+  "author": "Quality Assurance",
+  "tags": [
+    "Industrial",
+    "Product"
+  ],
+  "excerpt": "A fire shutter holds a compartment line for a rated period. Every part of it is part of that rating — including the guide fixings, which is where an installation fails inspection.",
+  "body": [
+    "A fire shutter closes a compartment line and holds it for a rated period. Unlike every other shutter, its specification is a performance one: the assembly is rated, not the slat.",
+    "Four parts carry that rating. The curtain, in a section built for it. The bottom rail, which has to seal against the floor while hot. The guides, which have to hold the curtain in place as it expands. And the operator, with a release that lets the door close on signal and stay closed without power.",
+    "The guides are where installations fail inspection. A rated curtain in guides fixed at the wrong centres, or into the wrong substrate, is not a rated assembly — and the drawing rarely says so as clearly as the test report does.",
+    "Placement follows the compartment strategy: openings between a warehouse and its offices, between a mall unit and the concourse, and between a plant room and everything else. Pricing follows area and rating, not slat cost."
+  ]
 }
