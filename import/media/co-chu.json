@@ -1,0 +1,96 @@
+{
+  "_": "Anh co CHU TIENG VIET in thang len anh. Doc BANG MAT tu tools/out/lien-anh.png, hai vong, 18/09/2026. Diem `text` cua images-text.py khong dung duoc lam bo loc (xem ghi chu cuoi tep).",
+  "_dung-the-nao": "node tools/images-bossdoor.js --fetch --reject import/media/co-chu.json — bo cac URL nay va lay tam ke tiep cua cung trang nguon. Loai theo URL chu khong theo ten tep, vi ten tep duoc dat lai theo id muc nen mot ten co the tro toi hai tam khac nhau qua hai lan chay.",
+  "vong-1": {
+    "_": "Tam dan dau tien cua moi muc, doc lan dau.",
+    "urls": [
+      "/upload_images/images/2025/10/31/2025_10_31_07_12_071.jpg",
+      "/upload_images/images/2025/12/08/z7295251877927_49bcf151bfe9236ae1a48bd14e252c75.jpg",
+      "/upload_images/images/2021/07/24/cua-cuon-lo-thoang-1.png",
+      "/images/news/2026/08/25/resized/artboard-12_1787626094.png",
+      "/upload_images/images/2025/12/03/anh4_900(1).png",
+      "/upload_images/images/2026/07/03/9x9-4.jpg",
+      "/upload_images/images/2026/03/14/2026_03_14_07_22_002.jpg",
+      "/upload_images/images/2026/07/03/9x9-1.jpg",
+      "/upload_images/images/2026/07/03/aa-1.jpg",
+      "/upload_images/images/2025/09/03/2025_09_03_15_35_011.png",
+      "/upload_images/images/2026/08/25/anh-sang.jpg",
+      "/images/news/2026/08/25/resized/artboard-11_1787625824.png",
+      "/upload_images/images/2026/07/03/bai%203-01.jpg",
+      "/upload_images/images/2021/08/02/cua-cuon-mau-ghi-1.jpg",
+      "/images/products/2023/06/07/large/bo-toi-kasankie-eco-cua-cuon-bossdoor-1_1686128960.png",
+      "/images/products/2023/06/07/large/bo-toi-kasankie-eco-cua-cuon-bossdoor-1_1686130246.png",
+      "/images/products/2025/03/29/large/z6196199194096_607825e372a80639f0509efd76080f32_1743218448.jpg",
+      "/images/products/2025/03/29/large/z6196199194032_edb7dc7e4f0b46cbd4dcfc3a16eabe50_1743219162.jpg"
+    ]
+  },
+  "vong-2": {
+    "_": "Tam THAY THE cua vong 1 — va day moi la phat hien dang ke: phan lon tam thay the cung la tranh quang cao. Thu vien anh cua bossdoor.vn phan lon la anh do hoa tieng Viet, khong phai anh chup san pham.",
+    "urls": [
+      "/upload_images/images/2025/12/08/z7295251904803_76eb6a46358ea1c2b20e6d8e8c2a4333.jpg",
+      "/images/news/2026/08/25/resized/artboard-1_1787626328.png",
+      "/upload_images/images/2025/12/03/anh1_900.png",
+      "/upload_images/images/2026/03/14/2026_03_14_07_22_001.jpg",
+      "/upload_images/images/2026/07/03/9x9-4%20(2).jpg",
+      "/upload_images/images/2026/07/03/9x9-1%20(2).jpg",
+      "/upload_images/images/2026/07/03/aa.jpg",
+      "/upload_images/images/2025/09/03/2025_09_03_15_35_022.png",
+      "/upload_images/images/2026/07/03/1782793361410_7032779909901103868_7032779909901103868_888fa5f04e850cb56aefdbb2578a332e(1).jpg",
+      "/images/products/2023/06/07/large/bo-toi-kasankie-eco-cua-cuon-bossdoor-11_1686128960.png",
+      "/images/products/2023/06/07/large/bo-toi-kasankie-eco-cua-cuon-bossdoor-11_1686130246.png",
+      "/images/products/2025/03/29/original/z6196199194096_607825e372a80639f0509efd76080f32_1743218448.jpg",
+      "/images/products/2025/03/29/original/z6196199194032_edb7dc7e4f0b46cbd4dcfc3a16eabe50_1743219162.jpg"
+    ]
+  },
+  "dau-chim": {
+    "_": "Chi co dau chim 'BossDoor' hoac mot dong dia chi web o goc — khong phai cau tieng Viet. La nhan hieu cua dong cua cuon trong nuoc dat tren trang xuat khau nhom: de lai thi khong sai, bo di thi sach hon. KHONG bo tu dong; cho anh Phuc quyet.",
+    "files": [
+      "import/media/news/high-speed-doors.png",
+      "import/media/news/industrial-shutters.jpg",
+      "import/media/news/shopfront-security.jpg",
+      "import/media/news/warehouse-shutters-brief.jpg",
+      "import/media/news/wide-span-openings.jpg",
+      "import/media/news/warranty-label.jpg",
+      "import/media/news/grille-shutters.png",
+      "import/media/news/spotting-counterfeits.jpg"
+    ]
+  },
+  "_ghi-chu-ve-diem-so": "images-text.py cham diem bang mat do bien x do phang mau. Tren lo nay no SAI: tam diem cao nhat (manual-steel-shutters.jpg, 27 diem) la mot ban ve ky thuat sach khong mot chu, con rebrand-to-bossgroup.jpg — gan nhu toan chu — chi 25 diem. Nguong 40 bat duoc 0/79 tam. Giu lai diem vi no xep anh do hoa len dau to lien anh va nhin mot to xep san nhanh hon nhin mot thu muc, nhung KHONG duoc dung no lam bo loc tu dong.",
+  "bo-han": {
+    "_": "Cac muc ma MOI tam anh cua trang nguon deu la tranh quang cao tieng Viet. Doc bang mat qua ba vong, 18/09/2026. Khong tai anh cho chung: de image rong, AB.ph() ve o giu cho — mot o giu cho sach hon mot dong chu tieng Viet tren trang tieng Anh, va sach hon tam anh nha thu tam duoc dung chung cho tam bai.",
+    "_can-gi": "Anh that. Neu anh Phuc co anh chup nha may / san pham / cong trinh thi day la cho can nhat. Bo vao mot manifest cho tools/ingest-images.py la xong.",
+    "ids": [
+      "operator-role",
+      "rebrand-to-bossgroup",
+      "rolling-code-and-latch",
+      "what-is-an-automatic-shutter",
+      "shutter-types",
+      "korean-australian-partners",
+      "aluminium-to-europe",
+      "three-ranges",
+      "service-life",
+      "storm-resistance",
+      "customer-conference-2025",
+      "boss-elegant",
+      "cd100-wide-span",
+      "ed-coating-agreement",
+      "fire-shutters",
+      "s-bright-daylight",
+      "shopfront-security",
+      "specification-mistakes",
+      "warranty-label",
+      "da-motor-kasankie-eco-300",
+      "da-motor-kasankie-eco-500",
+      "da-ups-bs2550",
+      "da-ups-bs2580"
+    ]
+  },
+  "_anh-trung": "Cong cu tu bo anh TRUNG NOI DUNG: sau khi tai, bam ma moi tep; hai muc cung ma thi chi muc dau giu. Lan chay 18/09/2026 bat duoc 8 muc dung chung mot tam anh nha 400x224 — cung mot tam tren tam the tin thi trang nhin nhu hong.",
+  "chu-nho": {
+    "_": "Chu tieng Viet NHO, khong phai noi dung chinh cua tam. Van dung duoc, nhung nen cat cup hoac thay khi co anh that. KHONG bo tu dong.",
+    "files": {
+      "import/media/news/choosing-a-shutter-operator.jpg": "Goc trai co dong \"Thuong hieu thuoc Tan Truong Son Group\" — dung TEN THUONG HIEU CU ma ban tieng Anh da chu dinh bo (xem import/en/ghi-chu.md muc 1). Day la tam dang lo nhat trong ca lo.",
+      "import/media/news/ups-battery-replacement.jpg": "Goc trai co dong \"Cam nang binh luu dien\" nho."
+    }
+  }
+}

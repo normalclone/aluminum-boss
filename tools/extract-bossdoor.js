@@ -114,9 +114,27 @@ const words = b => b.reduce((n, x) => {
   return n + (s.trim() ? s.trim().split(/\s+/).length : 0);
 }, 0);
 
+/**
+ * Anh trong mot khoi HTML.
+ *
+ * PHAI doc ca `data-src`, khong chi `src`. bossdoor.vn dung lazy-load: the that la
+ * `<img class="lazy" data-src="...">` va thuoc tinh `src` khong ton tai. Ban dau chi doc `src`
+ * ra 51 anh cho 64 trang san pham, va 24 trang mo to "khong co anh nao" - trong khi anh nam
+ * ngay do. Mot con so nho nhin nhu mot nguon ngheo anh chu khong nhin nhu mot loi.
+ *
+ * Bo `src` cua the lazy: no la anh giu cho trong suot, khong phai anh that.
+ */
 const imagesIn = html => [...new Set(
-  [...String(html || '').matchAll(/<img[^>]+src=["']([^"']+)["']/gi)].map(m => m[1])
-    .filter(u => !/^data:/.test(u)))];
+  [...String(html || '').matchAll(/<img\b([^>]*)>/gi)].flatMap(m => {
+    const tag = m[1];
+    const lazy = /\bclass=["'][^"']*\blazy\b/i.test(tag);
+    const at = n => (new RegExp(n + '=["\']([^"\']+)["\']', 'i').exec(tag) || [, ''])[1];
+    // data-srcset o day luon la mot URL don (khong co phan mo ta be rong), nen lay thang.
+    return [at('data-src'), at('data-srcset'), lazy ? '' : at('src')];
+  })
+    .map(u => u.trim())
+    .filter(u => u && !/^data:/.test(u) && !/\.webp$/i.test(u)
+                 && !/^https?:\/\/[^/]+\/?$/.test(u)))];   // "https://bossdoor.vn/" rong
 
 /** Mot khoi HTML giua mot the mo va the dong tuong ung, dem long nhau. */
 function slice(html, openRe) {
@@ -157,14 +175,45 @@ function news(html, url) {
   };
 }
 
+/**
+ * Anh CHINH CHU cua mot trang san pham.
+ *
+ * Khong dung imagesIn() tren ca trang: phia duoi moi trang san pham la mot bang "san pham lien
+ * quan" toan the lazy tro toi anh cua MUC KHAC. Quet ca trang thi mo to 1000 kg se mang anh cua
+ * mo to 2000 kg, va khong co gi bao loi - chi la mot tam anh sai.
+ *
+ * Dau hieu dung la itemprop="image", schema.org danh cho dung viec nay. Uu tien `longdesc` vi
+ * no tro toi ban /original/, con `src` la ban /large/ hoac /small/ da bi thu nho san.
+ */
+const productImages = html => [...new Set(
+  [...String(html).matchAll(/<img\b[^>]*itemprop=["']image["'][^>]*>/gi)].flatMap(m => {
+    const tag = m[0];
+    const at = n => (new RegExp(n + '=["\']([^"\']+)["\']', 'i').exec(tag) || [, ''])[1];
+    // Ca hai, ban /original/ truoc. Ban /original/ thuong 404 tren may chu that du chinh trang
+    // tro toi no — kiem 18/09/2026: .../original/cd80_1747284624.png -> 404, .../large/... -> 200.
+    // Phai giu ban /large/ lam phuong an hai, khong thi mat 30 tam ma khong hieu vi sao.
+    return [at('longdesc'), at('src')];
+  }).filter(Boolean))];
+
 function product(html, url) {
   const body = slice(html, /<div class="box_conten_linfo_inner"/i) || '';
+  // Anh trong phan mo ta la anh thong so ky thuat; anh itemprop la anh san pham. Can ca hai,
+  // anh san pham dung truoc vi do la tam se thanh `image` tren the.
   return {
     title: first(html, /<h1 itemprop="name"[^>]*>([\s\S]*?)<\/h1>/i),
     blocks: blocks(body),
-    images: imagesIn(body),
+    images: [...new Set([...productImages(html), ...imagesIn(body)])],
   };
 }
+
+/**
+ * Anh cua trang du an: cung nam ngoai khoi noi dung, nhung khong co itemprop.
+ * Dau hieu la `longdesc` tro toi ban /original/ duoi /images/projects/ — dung mot lan cho dung
+ * tam anh cua du an nay, khong dinh logo o dau trang hay anh du an khac o cuoi trang.
+ */
+const projectImages = html => [...new Set(
+  [...String(html).matchAll(/<img\b[^>]*longdesc=["']([^"']*\/images\/projects\/[^"']+)["'][^>]*>/gi)]
+    .flatMap(m => [m[1], m[1].replace('/original/', '/large/')]))];
 
 function project(html, url) {
   const body = slice(html, /<div id="prodetails_tab1"/i) || '';
@@ -172,7 +221,7 @@ function project(html, url) {
     title: first(html, /<h1 class="product_name"[^>]*>([\s\S]*?)<\/h1>/i),
     summary: first(html, /<div class="summary"[^>]*>([\s\S]*?)<\/div>/i),
     blocks: blocks(body),
-    images: imagesIn(body),
+    images: [...new Set([...projectImages(html), ...imagesIn(body)])],
   };
 }
 

@@ -88,3 +88,13 @@ tools/out/
 # luot anh nao) va no nho. Mat no thi khong biet da cao gi.
 import/raw/
 import/extracted.json
+
+# import/media/ la anh tho tai ve tu bossdoor.vn (25 MB, 51 tam). Cung ly do: sinh lai duoc
+# bang `node tools/images-bossdoor.js --fetch --reject import/media/co-chu.json`, va KHONG phai
+# dich den. Dich den la wwwroot/_media/ va site/_media/ — anh da chuyen ma, thu ve 2000px, do
+# tools/ingest-images.py chep sang, VA duoc commit.
+#
+# import/media/co-chu.json THI CO COMMIT: do la ket qua doc bang mat (tam nao co chu tieng Viet
+# in san), khong may nao sinh lai duoc, va mat no thi phai ngoi nhin lai 74 tam anh.
+import/media/*
+!import/media/co-chu.json
