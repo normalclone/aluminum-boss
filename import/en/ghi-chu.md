@@ -23,8 +23,27 @@ nguyên tắc nào thì tôi sửa lại phần tương ứng — mỗi mục m�
 **Thông số kỹ thuật thì giữ nguyên** — mác nhôm 6063-T5/T6, độ dày, kích thước lắp đặt, sức
 nâng, dung lượng pin, kích thước vỏ. Đó là số đo, không phải lời hứa.
 
-**Bỏ thời hạn bảo hành và nước sản xuất khỏi dòng `spec` của mô tơ.** Cả hai là điều khoản
-thương mại, đổi theo nhà cung cấp. Giữ lại: sức nâng, diện tích cửa, và những gì có trong hộp.
+**Bỏ thời hạn bảo hành và nước sản xuất khỏi dòng `spec` của từng mô tơ.** Trên một thẻ sản
+phẩm, "Bảo hành 1 năm · Đài Loan" đọc như một cam kết đứng mãi, mà cả hai đều đổi theo nhà cung
+cấp. Giữ lại: sức nâng, diện tích cửa, và những gì có trong hộp.
+
+Riêng bài *Choosing a shutter operator* **có** nêu nước sản xuất của bốn dòng mô tơ — vì đó
+chính là nội dung bài: nguồn không đưa ra điểm khác biệt nào khác giữa chúng. Một bài báo ghi
+"hiện nhập từ Nhật" khác với một thẻ sản phẩm ghi thế: bài có ngày tháng trên đầu.
+
+---
+
+## 1b. Bốn câu tôi đã viết rồi xoá đi
+
+Ghi lại vì chúng là cùng một loại lỗi với việc bịa thông số, chỉ khác là nằm trong câu văn nên
+khó thấy hơn — và cả bốn đều nói về **công trình thật hoặc sự kiện thật**:
+
+| Đã viết | Vì sao sai |
+|---|---|
+| "shipping **from Binh Duong** to Europe" | Nguồn không nói nơi nào. Bình Dương là dữ liệu của bản demo hiện tại, còn chính bài kia nói nhà máy cửa cuốn ở **miền Bắc** |
+| "partners **visit the plant** … spent time on the plant floor" | Nguồn viết "buổi làm việc và trao đổi". Tôi biến một cuộc họp thành một chuyến tham nhà xưởng |
+| Aeon Mall: "delivered to the main contractor rather than to a fabricator, so the sections arrived **cut to the site schedule**" | Nguồn không nói một chữ nào về cách giao hàng |
+| Cát Bi: "leaves the facade **carrying its own weight only**" | Suy luận kết cấu của tôi, phát biểu như dữ kiện, về một nhà ga có thật |
 
 ---
 
