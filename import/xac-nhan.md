@@ -1,6 +1,6 @@
 # Cần anh Phúc xác nhận trước khi dịch
 
-Sinh tự động bởi `tools/claims-bossdoor.js` — 2026-09-18. Quét **52 mục** đã chọn để nhập (`import/selected.json`, trạng thái `giu`).
+Sinh tự động bởi `tools/claims-bossdoor.js` — 2026-09-18. Quét **51 mục** đã chọn để nhập (`import/selected.json`, trạng thái `giu`).
 
 Ba loại dưới đây không phải việc dịch, mà là việc **cam kết**: sau khi nhập, chúng nằm
 trên trang tiếng Anh như lời của công ty với khách nước ngoài. Nên không tự quyết —

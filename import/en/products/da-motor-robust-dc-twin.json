@@ -1,0 +1,9 @@
+{
+ "id": "da-motor-robust-dc-twin",
+ "family": "door-accessory",
+ "src": "/phu-kien-cua-cuon/bo-toi-cua-cuon-dc-robust-doi-p36.html",
+ "name": "Robust DC Twin Operator",
+ "spec": "Openings 12–30 m² · hand lift on power failure · motor, two controls, receiver",
+ "text": "A twin DC operator for single-skin curtains between 12 and 30 m². On a power failure the curtain lifts by hand without a release to find first.",
+ "image": ""
+}

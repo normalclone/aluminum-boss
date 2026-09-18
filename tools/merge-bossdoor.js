@@ -162,12 +162,19 @@ if (!APPLY) {
 }
 
 // --- ghi ----------------------------------------------------------------------------------
-/** Them hoac thay mot mon trong mang theo id, giu nguyen thu tu khi la ban cap nhat. */
+/**
+ * Them hoac thay mot mon trong mang theo id, giu nguyen thu tu khi la ban cap nhat.
+ *
+ * `src` la dia chi trang goc tren bossdoor.vn. No nam trong import/en/ co chu dich - de mot
+ * nam sau con doi chieu duoc mot muc voi nguon cua no - nhung KHONG duoc di vao _data: do la
+ * tep noi dung cua site, moi khoa trong do se hien ra trong trinh soan cua khach.
+ */
 function put(arr, item) {
   const at = arr.findIndex(x => x.id === item.id);
   const clean = { ...item };
   delete clean.__update;
   delete clean.family;
+  delete clean.src;
   if (at >= 0) arr[at] = { ...arr[at], ...clean };
   else arr.push(clean);
 }

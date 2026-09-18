@@ -1,0 +1,17 @@
+{
+ "id": "rolling-code-and-latch",
+ "src": "/tin-moi/cua-cuon-viet-nam-chinh-phuc-thi-truong-quoc-te-cong-nghe-lam-nen-khac-biet-n375.html",
+ "title": "Two parts that do the security work: the code and the latch",
+ "date": "2025-09-03",
+ "author": "Böss Group",
+ "tags": [
+  "Product"
+ ],
+ "excerpt": "The first vented shutter came off the line in 1998. Almost everything added since has gone into two parts a buyer never sees — the rolling code in the handset and the latch at the bottom rail.",
+ "body": [
+  "The first vented roller shutter came off the line in 1998. The curtain has changed since, but most of the engineering has gone somewhere else: into the code that opens the door and the latch that holds it shut.",
+  "The handset uses ARC rolling code. Each cycle retires the code it just used and issues the next from a very large space, so a code captured off the air will not open the door a second time. This is the difference between a shutter and a gate with a fixed-code fob, and it is invisible until someone tries.",
+  "The latch is the mechanical half. It throws as the curtain lands and withdraws as it lifts, drawing no power of its own — so it still holds through a cut, and it still holds if the headbox floods. A mechanical key withdraws the bolt when the door has to be raised by hand. Without it, a closed shutter can be levered up at the bottom rail, which is how most of them are actually opened.",
+  "Around those two sit the alarms: forced-entry, fire, power loss and flooding, all reported at the control box. They are the cheap part. The code and the latch are what the door stands on."
+ ]
+}

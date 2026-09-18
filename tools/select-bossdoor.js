@@ -83,6 +83,24 @@ const STATIC = {
   '/': { state: 'bo', target: '-', why: 'Trang chu bossdoor.vn - khong co noi dung rieng de nhap.' },
 };
 
+/**
+ * So tu THAN BAI, khong tinh tieu de.
+ *
+ * `wordsVi` cua buoc boc dem het moi khoi, ke ca heading. Ba trang lot qua vi the:
+ * "Bo dieu khien tu xa" chi co dung mot dong "## Hinh anh bo dieu khien tu xa moi", va
+ * "Khoa cua cuon tu dong" chi co bon dong tieu de anh - deu la trang thu vien anh, khong phai
+ * trang san pham. Chung khong rong (wordsVi > 0) nhung cung khong co gi de viet lai.
+ *
+ * Nguong 25 tu: du de loai trang chi co tieu de, con thap hon mot doan van that su ngan nhat
+ * trong 39 san pham (bo-toi-cua-cuon-ac co 61 tu).
+ */
+const BODY_MIN = 25;
+const bodyWords = blocks => (blocks || [])
+  .filter(b => b.type !== 'heading')
+  .reduce((n, b) => n + (b.type === 'list' ? b.items.join(' ')
+                       : b.type === 'table' ? b.rows.map(r => r.join(' ')).join(' ')
+                       : b.text).trim().split(/\s+/).filter(Boolean).length, 0);
+
 const data = JSON.parse(fs.readFileSync(IN, 'utf8'));
 const items = data.items;
 const pick = { news: [], products: [], projects: [], static: [] };
@@ -108,9 +126,16 @@ for (const it of items.products) {
     id: it.id, url: it.url, title: it.title, wordsVi: it.wordsVi, images: it.images.length,
     family: hit ? hit[1] : null, familyLabel: hit ? hit[2] : '-',
   };
+  const body = bodyWords(it.blocks);
+  row.wordsBody = body;
   if (it.wordsVi === 0) Object.assign(row, {
     state: 'bo', target: '-',
     why: 'trang nguon chi co ten va anh, khong co chu nao de viet lai - can khach cung cap mo ta',
+  });
+  else if (body < BODY_MIN) Object.assign(row, {
+    state: 'bo', target: '-',
+    why: `than bai chi ${body} tu (${it.wordsVi} tu ke ca tieu de) - la trang thu vien anh, `
+       + 'khong phai trang san pham',
   });
   else if (NO_HOME.test(it.url)) Object.assign(row, {
     state: 'cho-quyet-dinh', target: 'chua co ho',

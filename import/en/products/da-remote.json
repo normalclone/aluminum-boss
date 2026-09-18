@@ -1,0 +1,9 @@
+{
+ "id": "da-remote",
+ "family": "door-accessory",
+ "src": "/phu-kien-cua-cuon/dieu-khien-remote-cua-cuon-p246.html",
+ "name": "Rolling-Code Handset",
+ "spec": "Rolling code (ARC) · paired to the control box · replaceable on site",
+ "text": "Every cycle retires the code it just used and issues the next one, so a captured transmission will not open the door twice. Handsets pair to the control box, not to the motor, so a lost handset is cleared without opening the headbox.",
+ "image": ""
+}

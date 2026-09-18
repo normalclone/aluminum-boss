@@ -194,6 +194,26 @@ function staticPage(html, url) {
   };
 }
 
+/**
+ * Cat chan trang khoi than bai.
+ *
+ * Khoi noi dung cua bossdoor.vn khong dong lai truoc chan trang, nen moi bai boc ra deu keo
+ * theo menu cuoi trang: "Doi tac cua chung toi", "Ve chung toi", "Du an", "Tin moi", "He thong
+ * cua hang"... Lap lai 227 lan. Hai hau qua, va hau qua thu hai moi la cai dang lo:
+ *
+ *   1. So tu bi thoi len khoang 2% - kho chiu chu khong sai lech gi lon.
+ *   2. Diem B2B cham tren than bai, ma chan trang chua "Du an" va "He thong cua hang" - tuc la
+ *      MOI bai deu duoc cong cung mot luong nhieu nhu nhau. Mot cai nhieu deu thi khong doi
+ *      thu tu, nhung no lam nguong mat y nghia: "diem 5" khong con la "co 5 dau hieu".
+ *
+ * Moc "Doi tac cua chung toi" la dong dau tien cua chan trang tren moi trang - cat tu do tro di.
+ */
+const FOOTER = /^(Đối tác của chúng tôi|Về chúng tôi)$/;
+const trimFooter = list => {
+  const at = list.findIndex(b => b.type === 'para' && FOOTER.test((b.text || '').trim()));
+  return at >= 0 ? list.slice(0, at) : list;
+};
+
 const SHAPE = { news, products: product, projects: project, static: staticPage };
 
 /* ---- chay ---------------------------------------------------------------------------------- */
@@ -239,6 +259,7 @@ for (const [url, info] of Object.entries(index.pages)) {
   if (!fs.existsSync(file)) { broken.push([url, info.kind, 'khong co tep']); continue; }
   const html = fs.readFileSync(file, 'utf8');
   const out = SHAPE[info.kind](html, url);
+  out.blocks = trimFooter(out.blocks);
   out.url = url;
   out.id = (/\/([^/]+)\.html$/.exec(url) || [, 'x'])[1];
   out.wordsVi = words(out.blocks);

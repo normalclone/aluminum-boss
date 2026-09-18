@@ -1,0 +1,9 @@
+{
+ "id": "da-motor-dc-hv",
+ "family": "door-accessory",
+ "src": "/phu-kien-cua-cuon/bo-toi-cua-cuon-dc-sieu-truong-hv-p80.html",
+ "name": "HV Wide-Span DC Operator",
+ "spec": "Openings above 25 m² · hand lift on power failure · motor, two controls, receiver",
+ "text": "The DC operator for hand-lift single-skin curtains past 25 m², where the standard DC unit runs out of travel rather than out of torque.",
+ "image": ""
+}

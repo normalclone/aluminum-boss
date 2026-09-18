@@ -1,0 +1,9 @@
+{
+ "id": "da-motor-ac",
+ "family": "door-accessory",
+ "src": "/phu-kien-cua-cuon/bo-toi-cua-cuon-ac-p81.html",
+ "name": "AC Shutter Operator",
+ "spec": "Single-skin curtains · capacity matched to curtain weight",
+ "text": "The AC operator for single-skin curtains. Capacity is chosen against the weighed curtain rather than the opening area, because weight is what actually loads the motor.",
+ "image": ""
+}
