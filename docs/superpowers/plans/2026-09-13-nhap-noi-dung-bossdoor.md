@@ -1,6 +1,7 @@
 # Nhập nội dung từ bossdoor.vn sang site hiện tại
 
-> **Trạng thái: BẢN KẾ HOẠCH — chưa thực thi.** Có ba quyết định phải chốt trước (mục 4).
+> **Trạng thái: ĐANG THỰC THI từ 18/09/2026.** Ba quyết định đã chốt — xem mục 4 và
+> `docs/QUYET-DINH.md`. Tiến độ ở mục 5.
 
 **Yêu cầu:** *"Cho 1 agent khác cào nội dung của trang bossdoor.vn, convert sang tiếng anh, và
 fill vào trang hiện tại theo các danh mục của trang hiện tại."*
@@ -97,7 +98,18 @@ Agent chỉ mở 2 ảnh nên chưa biết tỷ lệ; phải đếm trong đợt
 
 ---
 
-## 4. Ba quyết định của anh
+## 4. Ba quyết định của anh — ĐÃ CHỐT 18/09/2026
+
+| | Chốt |
+|---|---|
+| 4.1 Dịch | **Chọn lọc rồi viết lại**, ~60–80k từ |
+| 4.2 Tin tức | **Giữ ~30–40 bài**, bỏ nhóm SEO địa phương |
+| 4.3 Nơi nhập | **Đổ thẳng** vào `wwwroot/_data` |
+
+Về 4.3: đi ngược đề xuất bên dưới, và lý do đề xuất vẫn đúng — History giữ 50 bản mỗi tệp nên
+một lần nhập hàng loạt sẽ ăn hết, tức **không lùi được từ giao diện**. Bù bằng git: commit sạch
+ngay trước khi chạy script nhập, và để bước nhập thành một commit riêng, để `git revert` là một
+lệnh. Ghi ở đây để đợt 5 không quên.
 
 ### 4.1 Dịch nguyên văn, hay viết lại?
 
@@ -133,7 +145,7 @@ bằng History (History giữ 50 bản cho mỗi tệp, một lần nhập hàng
 | Đợt | Việc | Xong thì có gì |
 |---|---|---|
 | **0** | Chốt ba quyết định ở mục 4 | Biết phải làm bao nhiêu |
-| **1** | `tools/crawl-bossdoor.js` — đi theo phân trang, lưu HTML thô + ảnh vào `import/raw/` (gitignore). Có `--resume`, có giới hạn tốc độ. | 331 trang trên đĩa, cào một lần |
+| **1** ✅ | `tools/crawl-bossdoor.js` — đi theo phân trang, lưu HTML thô vào `import/raw/` (gitignore). Chạy lại an toàn, 1 request/giây. | HTML trên đĩa, cào một lần |
 | **2** | `tools/extract-bossdoor.js` — bóc HTML thành JSON thô: tiêu đề, ngày, bảng thông số, thân bài, danh sách ảnh. Báo cáo số mục và số từ. | Dữ liệu có cấu trúc, kiểm đếm được |
 | **3** | Ảnh: chuyển WebP, cạnh dài ≤ 2000 px (đúng quy tắc đã ghi trên màn hình Choose picture), **đánh dấu ảnh có chữ tiếng Việt** để vẽ lại | `wwwroot/_media/` nhẹ, có danh sách ảnh phải làm lại |
 | **4** | Dịch/viết lại theo lô, mỗi lô một agent, **dùng lại 16 bản EN đã có** | Nội dung tiếng Anh |
@@ -142,6 +154,31 @@ bằng History (History giữ 50 bản cho mỗi tệp, một lần nhập hàng
 
 **Đợt 1–2 là phần máy làm được và cào một lần là xong. Đợt 4 là phần tốn nhất và là phần cần
 người đọc lại.**
+
+### Ba chỗ lệch so với kế hoạch, phát hiện khi chạy đợt 1
+
+1. **Máy chủ trả 403 cho mọi request không mang đủ header trình duyệt.** `robots.txt` ghi
+   `Allow: /`; đây là WAF lọc theo header, không phải chặn bot. Bộ header nằm một chỗ trong
+   `crawl-bossdoor.js`. Bẫy kèm theo: trang 403 của WAF **cũng là HTML** nên rất dễ lưu vào đĩa
+   mà không biết — công cụ nhận ra nó bằng chính `<title>403 Forbidden` và báo ra.
+2. **Link bài viết trong trang danh sách là TUYỆT ĐỐI** (`https://bossdoor.vn/tin-moi/…`). Bộ
+   lọc đầu tiên chỉ tìm `href` bắt đầu bằng `/` nên đọc ra **0 bài** trên một trang có 11 bài —
+   và đọc ra không lỗi, không báo gì.
+3. **Không cào ảnh ở đợt 1.** ~1.500 lượt ảnh, có tấm 1,44 MB; tải hết là vài GB mà tới đợt 4
+   mới biết giữ bài nào. Đợt 1 chỉ ghi URL ảnh vào `import/index.json`; đợt 3 tải đúng những
+   ảnh còn dùng.
+
+### Số đếm thật (đợt 1, 18/09/2026)
+
+| | Kế hoạch ước | Đếm thật |
+|---|---|---|
+| Tin | 247 | **227** |
+| Sản phẩm | 64 | **64** |
+| Dự án | 9 | **9** |
+| Trang tĩnh | ~10 | **7** (lấy từ menu trang chủ) |
+
+227 là số bài đi được qua 25 trang phân trang. Chênh 20 bài so với ước tính cũ — ước tính cũ
+cộng ba chuyên mục, có thể trùng nhau, hoặc có bài mồ côi không nằm trong phân trang.
 
 ---
 

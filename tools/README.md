@@ -271,6 +271,49 @@ dòng bằng `<br>` không xuống dòng.
 
 ---
 
+## `crawl-bossdoor.js` + `extract-bossdoor.js` — lấy nội dung từ bossdoor.vn
+
+bossdoor.vn là site của cùng một nhà (BossGroup / Tân Trường Sơn) nhưng là một dòng sản phẩm
+khác: cửa cuốn hoàn chỉnh. Kế hoạch nhập ở
+`docs/superpowers/plans/2026-09-13-nhap-noi-dung-bossdoor.md`.
+
+```bash
+node crawl-bossdoor.js                  # cào, bỏ qua trang đã có trên đĩa
+node crawl-bossdoor.js --limit 3        # ba mục mỗi loại, để thử
+node crawl-bossdoor.js --fresh          # cào lại từ đầu
+node extract-bossdoor.js                # bóc HTML thành import/extracted.json
+```
+
+**Bốn thứ đo được trước khi viết, và cả bốn đều đổi cách viết:**
+
+1. **Máy chủ trả 403 cho `curl` trần.** `robots.txt` ghi `Allow: /` — đây là WAF lọc theo
+   header, không phải chặn bot. Bộ header trình duyệt đầy đủ thì 200. Bẫy kèm theo: **trang 403
+   của WAF cũng là HTML**, nên rất dễ lưu vào đĩa mà không biết; công cụ nhận ra nó bằng chính
+   `<title>403 Forbidden` và báo ra.
+2. **Link bài viết trong trang danh sách là TUYỆT ĐỐI.** Bộ lọc đầu tiên chỉ tìm `href` bắt đầu
+   bằng `/` đọc ra **0 bài** trên một trang có 11 bài — không lỗi, không báo gì.
+3. **Đường dẫn dài hơn giới hạn của Windows.** Họ có bài mà *cả đoạn mở đầu* bị nhét vào slug,
+   dài 286 ký tự; Windows từ chối mở đường dẫn quá 260. Đợt cào đầu chết đứng ở đó **sau 113
+   trang**. Giờ tên tệp cắt còn 100 ký tự + một mã băm, và một chỗ không ghi được không làm đổ cả
+   đợt cào — nó vào bảng "chỗ không đọc được".
+4. **Không dùng `sitemap.xml`.** Nó có 442 URL nhưng mọi `lastmod` đều là 2023-02-08 và thiếu hết
+   nội dung 2025–2026. Đi theo phân trang, đọc số trang từ chính link `last-page` của họ.
+
+**Không cào ảnh.** ~1.500 lượt ảnh, có tấm 1,44 MB; tải hết là vài GB mà tới đợt 4 mới biết giữ
+bài nào. Đợt 1 chỉ ghi URL ảnh vào `import/index.json`.
+
+**`extract-bossdoor.js` tách hai loại thất bại, và đó là điểm chính của nó:** *"không đọc được
+tiêu đề"* là công cụ bóc sai khuôn; *"trang nguồn không có nội dung"* là một phát hiện về
+bossdoor.vn. Gộp hai thứ vào một bảng thì mỗi lần chạm thêm một trang rỗng lại trông như lỗi ở
+đây. (Đã kiểm tay một trường hợp: `regina-hai-phong-dpj23` — khối nội dung trên bossdoor.vn rỗng
+thật.)
+
+Thân bài ra thành **khối** (đoạn, tiêu đề, gạch đầu dòng, bảng) chứ không ra một cục chữ: site
+hiện tại lưu bài viết dưới dạng mảng đoạn văn, và một cục chữ thì tới đợt 5 lại phải cắt ra —
+lúc ấy không còn thẻ HTML nào để biết chỗ nào hết đoạn.
+
+---
+
 ## `hidden.js` — ẩn một mục có thật sự biến mất trên bản tĩnh không
 
 ```bash

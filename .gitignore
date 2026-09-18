@@ -77,3 +77,14 @@ App_Data/enquiries.jsonl
 # Phim huong dan sinh ra boi tools/guide-video.js. Quay lai duoc bat cu luc nao, va mot tep mp4
 # vai megabyte trong git la thu khong ai diff duoc.
 tools/out/
+
+# Noi dung cao ve tu bossdoor.vn.
+#
+# raw/ la 78 MB HTML tho cua mot site khac; extracted.json la 2,85 MB chu tieng Viet boc ra tu
+# no. Ca hai deu sinh lai duoc (crawl-bossdoor.js roi extract-bossdoor.js) va KHONG cai nao la
+# nguon cua du an nay - nguon la ban tieng Anh sau khi dich, nam trong wwwroot/_data/*.json.
+#
+# import/index.json THI CO COMMIT: no la bien ban cua dot cao (cao luc nao, 307 muc nao, 1240
+# luot anh nao) va no nho. Mat no thi khong biet da cao gi.
+import/raw/
+import/extracted.json
