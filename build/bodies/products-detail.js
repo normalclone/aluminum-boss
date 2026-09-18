@@ -38,7 +38,8 @@
 
     var cards = c.items.map(function (it) {
       return '<article class="ab-card" id="' + AB.esc(it.id) + '">' +
-               '<img src="' + AB.ph(400, 300, it.name) + '" width="400" height="300" alt="' +
+               '<img src="' + (it.image ? AB.root() + '_media/' + it.image
+                                        : AB.ph(400, 300, it.name)) + '" width="400" height="300" alt="' +
                  AB.esc(it.name) + '" loading="lazy">' +
                '<h3>' + AB.esc(it.name) + '</h3>' +
                '<p class="ab-card-spec">' + AB.esc(it.spec) + '</p>' +
@@ -53,7 +54,8 @@
         '<p class="ab-tagline">' + AB.esc(c.tagline) + '</p>' +
       '</div>' +
       '<div class="ab-wrap"><div class="ab-hero">' +
-        '<img src="' + AB.ph(1280, 520, c.name) + '" width="1280" height="520" alt="' +
+        '<img src="' + (c.image ? AB.root() + '_media/' + c.image
+                                 : AB.ph(1280, 520, c.name)) + '" width="1280" height="520" alt="' +
           AB.esc(c.name) + '">' +
       '</div></div>' +
       '<div class="ab-wrap"><div class="ab-body">' +

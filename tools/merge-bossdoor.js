@@ -175,9 +175,32 @@ function put(arr, item) {
   delete clean.__update;
   delete clean.family;
   delete clean.src;
-  if (at >= 0) arr[at] = { ...arr[at], ...clean };
+  if (at >= 0) arr[at] = { ...arr[at], ...keepFilled(arr[at], clean) };
   else arr.push(clean);
 }
+
+/**
+ * Bo khoi ban ghi de nhung truong RONG de len mot truong DANG CO GIA TRI.
+ *
+ * Mot tep trong import/en/ luon mang du bo khoa, va cac khoa chua viet thi de "" hoac []. Neu
+ * ghi de thang thi mot tep chi dinh sua mot dong tagline se lang le xoa mat anh, anh gallery,
+ * moi thu no khong noi gi ve.
+ *
+ * Da xay ra: import/en/families/door-accessory.json mang image:"" va no xoa mat
+ * hero-door-accessory.jpg khoi products.json. Khong loi, khong canh bao - chi la trang ho san
+ * pham mat anh dau trang, va phai nhin anh chup moi thay.
+ *
+ * Muon xoa that thi xoa tay trong _data. Mot cong cu nhap KHONG duoc phep xoa cai no khong biet.
+ */
+const EMPTY = v => v === '' || v === null || v === undefined || (Array.isArray(v) && !v.length);
+function keepFilled(old, next) {
+  const out = { ...next };
+  for (const k of Object.keys(out)) {
+    if (EMPTY(out[k]) && !EMPTY(old[k])) { delete out[k]; kept.push(`${old.id}.${k}`); }
+  }
+  return out;
+}
+const kept = [];
 
 const docs = { news: load('news'), projects: load('projects'), products: load('products') };
 
@@ -185,7 +208,8 @@ for (const { data } of incoming.families) {
   const at = docs.products.categories.findIndex(c => c.id === data.id);
   const body = { id: data.id, name: data.name, tagline: data.tagline,
                  image: data.image || '', blurb: data.blurb };
-  if (at >= 0) docs.products.categories[at] = { ...docs.products.categories[at], ...body };
+  if (at >= 0) docs.products.categories[at] =
+    { ...docs.products.categories[at], ...keepFilled(docs.products.categories[at], body) };
   else docs.products.categories.push({ ...body, items: [] });
 }
 for (const { data } of incoming.products) {
@@ -212,6 +236,11 @@ for (const tree of TREES) {
 
 heading('Da ghi');
 table(['tep'], written.map(f => [f]));
+if (kept.length) {
+  console.log('\n  %d truong GIU NGUYEN vi ban nhap de rong ma _data dang co gia tri:', kept.length);
+  console.log('    ' + kept.join(', '));
+  console.log('  Muon xoa that thi xoa tay trong _data — cong cu nhap khong xoa cai no khong biet.');
+}
 console.log('\n  Con hai viec nua, theo dung thu tu:');
 console.log('    python tools/fanout.py        trai lai trang rieng cho muc moi');
 console.log('    python tools/slugs.py         kiem id va duong dan');

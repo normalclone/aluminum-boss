@@ -72,8 +72,14 @@ def fit(src, dst, dry=False):
     return was, im.size, os.path.getsize(dst) / 1024.0
 
 
-def point(tree, doc, array, item_id, field, value, dry=False):
-    """Ghi ten tep vao dung muc. Tra ve gia tri cu, hoac nem neu khong tim thay muc."""
+def point(tree, doc, array, item_id, field, value, dry=False, nested=None):
+    """Ghi ten tep vao dung muc. Tra ve gia tri cu, hoac nem neu khong tim thay muc.
+
+    `nested` cho phep tim sau mot tang: products.json giu san pham o
+    categories[].items[] chu khong phai o categories[]. Khong co no thi 30 tam anh
+    san pham bao 'khong co muc nao mang id …' - dung ve mang duoc hoi, sai ve
+    cai dang thuc su di tim.
+    """
     path = os.path.join(tree, '_data', doc + '.json')
     data = json.load(io.open(path, encoding='utf-8'))
 
@@ -81,16 +87,29 @@ def point(tree, doc, array, item_id, field, value, dry=False):
     if not isinstance(items, list):
         raise KeyError('%s.json khong co mang "%s"' % (doc, array))
 
-    for it in items:
-        if isinstance(it, dict) and it.get('id') == item_id:
-            before = it.get(field)
-            if not dry:
-                it[field] = value
-                text = json.dumps(data, ensure_ascii=False, indent=2) + '\n'
-                io.open(path, 'w', encoding='utf-8', newline='\n').write(text)
-            return before
+    def walk(seq):
+        for it in seq:
+            if not isinstance(it, dict):
+                continue
+            if it.get('id') == item_id:
+                return it
+            if nested and isinstance(it.get(nested), list):
+                hit = walk(it[nested])
+                if hit is not None:
+                    return hit
+        return None
 
-    raise KeyError('%s.json: %s khong co muc nao mang id "%s"' % (doc, array, item_id))
+    found = walk(items)
+    if found is not None:
+        before = found.get(field)
+        if not dry:
+            found[field] = value
+            text = json.dumps(data, ensure_ascii=False, indent=2) + '\n'
+            io.open(path, 'w', encoding='utf-8', newline='\n').write(text)
+        return before
+
+    where = '%s[].%s[]' % (array, nested) if nested else array
+    raise KeyError('%s.json: %s khong co muc nao mang id "%s"' % (doc, where, item_id))
 
 
 def main(argv):
@@ -127,7 +146,8 @@ def main(argv):
 
             before = None
             for tree in TREES:
-                before = point(tree, row['doc'], row['array'], row['id'], row['field'], name, dry)
+                before = point(tree, row['doc'], row['array'], row['id'], row['field'], name, dry,
+                               row.get('nested'))
         except Exception as e:                       # noqa: BLE001 - bao ra, dung dung ca lo
             out.append([name, 'KHONG DAT', str(e)])
             bad += 1

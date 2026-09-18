@@ -328,7 +328,7 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-tile .ab-thumb { background: var(--ab-wash); overflow: hidden; }
 /* A real photograph and a placeholder have different shapes; without a fixed ratio the tile
    carrying the photograph sat shorter than the rest of the row. */
-.ab-tile img { width: 100%; aspect-ratio: 17 / 15; object-fit: cover;
+.ab-tile img { width: 100%; aspect-ratio: 17 / 15; object-fit: contain;
                transition: transform .5s cubic-bezier(.2,.7,.3,1); }
 .ab-tile:hover img { transform: scale(1.04); }
 .ab-tile h3 { font-size: 16px; font-weight: 500; margin: 14px 0 4px; }
@@ -352,6 +352,11 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-items { padding: 8px 0 80px; }
 .ab-items h2 { font-size: 26px; font-weight: 500; margin: 0 0 24px; }
 .ab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 34px 24px; }
+/* Anh san pham that co du ty le: mot tam vuong canh mot tam 4:3 lam ca hang the lech chan.
+   Khoa khung dung ty le cua o giu cho (400x300) va dung `contain` chu khong `cover` - day la
+   anh chup san pham tren nen phang, cat mat mot dau mo to te hon la de vien. */
+.ab-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain;
+               background: var(--ab-wash); display: block; }
 .ab-card h3 { font-size: 17px; font-weight: 500; margin: 14px 0 6px; }
 .ab-card .ab-card-spec { font-size: 13px; color: var(--ab-mute); line-height: 1.5; margin: 0 0 8px; }
 .ab-card p { font-size: 14px; line-height: 1.55; margin: 0; }

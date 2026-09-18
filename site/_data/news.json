@@ -21,6 +21,69 @@
       "image": ""
     },
     {
+      "id": "operator-role",
+      "title": "The operator is the part that decides the door",
+      "date": "2026-07-01",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Most of a shutter specification goes into the slat. The failures that bring an installer back come from the operator — and almost always from one of three decisions made when it was chosen.",
+      "body": [
+        "A shutter specification usually goes into the curtain: slat profile, gauge, finish, perforation. The part that decides how the door behaves for the next decade is the operator.",
+        "Three things separate operators, and none of them is price. Capacity, matched to weighed curtain mass rather than opening area. Duty, which is how many cycles a day it will run before heat becomes the limit. And what happens when the power fails — a chain hand-drive, a DC unit that lifts by hand, or a battery back-up sized to the motor.",
+        "Three ways to get it wrong, in the order they show up on service calls: buying on price alone; fitting a small operator to a large curtain, which works on the first day and shortens from there; and never servicing it, because an operator that is never inspected fails at the brake rather than at the motor.",
+        "Industrial operators add an automatic brake and safety sensing. On a door that runs all day, the brake is the part doing the real work."
+      ]
+    },
+    {
+      "id": "service-life",
+      "title": "What actually decides how long a shutter lasts",
+      "date": "2026-07-01",
+      "author": "Quality Assurance",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Service life is usually treated as a property of the brand. It is a property of eight things, and three of them are decided on site after the door is bought.",
+      "body": [
+        "Service life is usually discussed as though it were a property of the product. It is closer to a property of the installation.",
+        "Five of the eight factors are specification: slat material, operator capacity against curtain mass, guide quality, the safety sensing, and the control box. These are settled at the quotation, and a shortfall in any of them is permanent.",
+        "Three are decided afterwards. Installation, because a curtain that is out of square wears one guide and not the other. Environment — a coastal site is a corrosion case, a dusty site is an abrasion case, and an industrial site is a duty-cycle case. And maintenance, which on a shutter means the brake and the guide seals rather than the motor.",
+        "The single most common shortening of service life is an operator chosen one size down. It works on the first day, and every cycle after that is a cycle at the limit."
+      ]
+    },
+    {
+      "id": "shutter-types",
+      "title": "Which shutter type suits which opening",
+      "date": "2026-07-01",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Vented, single-skin, wide-span, grille, high-speed and fire shutters answer different problems. Five questions settle which one an opening needs.",
+      "body": [
+        "Six shutter types cover almost every opening, and they are not interchangeable.",
+        "Vented slat is the default on a shophouse or a residential frontage: perforations pass light and air with the door shut. Single-skin curtains are rolled from wide sheet with no joint, which keeps dust out and suits a garage or a lock-up. Wide-span slat in 6063-T5 and T6 closes warehouse and factory openings past 8 m, where wind load rather than curtain weight is the governing case.",
+        "The three specialist types answer specific problems. Grille shutters keep a shopfront visible when closed. High-speed doors cycle in seconds to hold a temperature or a clean-air boundary. Fire shutters hold a compartment line for a rated period.",
+        "Five questions settle the choice, in this order: what the door is protecting, how wide the opening is, how many cycles a day it will run, what has to be true when the power fails, and what the budget is. Answering them in that order tends to produce a door that lasts; answering the last one first tends not to."
+      ]
+    },
+    {
+      "id": "specification-mistakes",
+      "title": "Ten ways a shutter order goes wrong",
+      "date": "2026-07-01",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Most shutter problems are traceable to the order rather than the door. Ten of them, in the order they cost money.",
+      "body": [
+        "Almost every shutter complaint traces back to the order rather than to the product. Ten recurring ones, roughly in order of what they cost.",
+        "Buying on headline price, which buys a thinner slat and a smaller motor together. Not establishing the door type before pricing it. Sizing the operator on opening area instead of weighed curtain mass. Leaving out the back-up, then discovering what a powered door does in a power cut. Mixing slat, guide and operator from different suppliers, so nothing was tested against anything.",
+        "Then the ones that surface later. No allowance for the duty cycle the door will actually see. Guides fixed into a substrate that will not hold them. No maintenance plan, so the first service call is also the first inspection. A finish chosen without reference to the environment. And an order placed without the installation drawing, so the opening and the door are measured twice by two people who never spoke."
+      ]
+    },
+    {
       "id": "qualicoat-class-2",
       "title": "Coating line certified to QUALICOAT Class 2",
       "date": "2026-06-30",
@@ -72,6 +135,22 @@
       "image": ""
     },
     {
+      "id": "korean-australian-partners",
+      "title": "Meetings with Korean and Australian partners",
+      "date": "2026-03-14",
+      "author": "Marketing",
+      "tags": [
+        "Market",
+        "Events"
+      ],
+      "excerpt": "Two partner delegations, from Korea and Australia, met us this month to go through production capacity, the plants, the process and the main product ranges.",
+      "body": [
+        "Two partner delegations met us this month, one from Korea and one from Australia. Both sessions covered the same ground: production capacity, the plants, the process, and the product ranges we lead with.",
+        "A conversation of this kind is a capacity question before it is a commercial one. What a distributor needs to establish is not the range but the line behind it: what can be held on colour, and how long a repeat order takes to come round again.",
+        "Both conversations are continuing, on product development and on distribution in their markets."
+      ]
+    },
+    {
       "id": "vietbuild-2026",
       "title": "Böss Group at Vietbuild Ho Chi Minh City 2026",
       "date": "2026-02-18",
@@ -105,6 +184,72 @@
       "image": ""
     },
     {
+      "id": "aluminium-to-europe",
+      "title": "First architectural aluminium shipments to Europe",
+      "date": "2025-12-08",
+      "author": "Böss Group",
+      "tags": [
+        "Market",
+        "Finishing"
+      ],
+      "excerpt": "Architectural profile is now shipping to European customers. The qualifying work was in three places: the ED coating, the alloy, and a dimensional check on every bar rather than on a sample from the batch.",
+      "body": [
+        "Architectural profile is now shipping to customers in Europe. It is a market that buys on paperwork before it buys on price: durability, load, surface treatment and corrosion resistance all have to be evidenced, and the environmental and safety rules sit on top of that.",
+        "Three things carried the qualification. The ED coating gives adhesion and corrosion resistance across a whole section rather than only on the faces a spray gun reaches. The alloy was specified for hardness and load rather than for ease of extrusion. And the dimensional check moved from a sample per batch to every bar — section, wall thickness and surface, checked before packing.",
+        "The last of those is the expensive one and the reason the others hold. A European fabricator is cutting to a shop drawing with no allowance for a bar that is half a millimetre out, and finds out at assembly rather than at goods-in.",
+        "The work now is capacity and range: more sections qualified to the same checks, and the same standard applied to the markets that come after this one."
+      ]
+    },
+    {
+      "id": "ed-coating-agreement",
+      "title": "ED coating agreement signed with Shinto Toa Vietnam",
+      "date": "2025-12-03",
+      "author": "Finishing",
+      "tags": [
+        "Finishing",
+        "Plant"
+      ],
+      "excerpt": "An agreement signed in Hanoi on 2 December brings electrodeposition coating to the premium profile range — a bath process that reaches the inside of a hollow section, which a spray line does not.",
+      "body": [
+        "An agreement signed in Hanoi on 2 December 2025 with Shinto Toa Vietnam brings electrodeposition coating to the premium profile range.",
+        "ED is a bath process, not a spray one. The section is immersed and the coating is drawn to it electrically, so it builds evenly on faces a gun cannot see: the inside of a hollow, the back of a return, the root of a groove. On an architectural section those are exactly the surfaces that start corroding first, because they are the ones that stay wet.",
+        "What that buys, in order of how much it matters on site: corrosion and oxidation resistance across the whole section; colour that holds because film thickness is even rather than heavy on the front and thin at the edges; adhesion that survives fabrication after coating; and a smoother finished face.",
+        "The two sides have set out a longer programme — new premium sections built around the process, a standardised production sequence, and further sections to follow."
+      ]
+    },
+    {
+      "id": "rebrand-to-bossgroup",
+      "title": "Tân Trường Sơn Group becomes Böss Group",
+      "date": "2025-10-31",
+      "author": "Böss Group",
+      "tags": [
+        "Market"
+      ],
+      "excerpt": "From 2025 the group trades under one name. BossDoor, BossWindow, Robust and BossG were separate marks under Tân Trường Sơn Group; they now sit under a single identity.",
+      "body": [
+        "From 2025 the group trades as Böss Group. The announcement covers the name and the brand identity: one name now stands where four product marks stood.",
+        "Customers knew the group through its product marks — BossDoor for roller shutters, BossWindow for window systems, Robust for operators, BossG for the accessory range — each built separately and each recognised in its own corner of the market. Read from outside, and particularly from outside Vietnam, four marks under a holding name read as four suppliers.",
+        "Consolidating them is a commercial decision rather than a design one. An export customer specifying a facade and the shutters behind it should be able to see that both came off the same presses and the same coating line, and should have one commercial relationship rather than several.",
+        "Tân Trường Sơn Group remains the name on the contracts and the history; Böss Group is the name on the product."
+      ]
+    },
+    {
+      "id": "customer-conference-2025",
+      "title": "Customer conference and 2025 range launch",
+      "date": "2025-10-30",
+      "author": "Marketing",
+      "tags": [
+        "Events",
+        "Product"
+      ],
+      "excerpt": "The annual distributor conference launched the 2025 aluminium door and shutter ranges and set out the distribution plan for the year.",
+      "body": [
+        "The annual conference for distributors, dealers and partners launched the 2025 aluminium door and roller shutter ranges.",
+        "The 2025 ranges were presented as improvements in technology, features and design. The technical session also covered the Thanh Hoa plant and the engineering behind the new lines.",
+        "The board also set out the year’s distribution plan — growth through the existing dealer network rather than around it, and closer work with the partners already carrying the range."
+      ]
+    },
+    {
       "id": "solar-rail-supply",
       "title": "Three-year supply agreement for solar mounting rail",
       "date": "2025-10-02",
@@ -122,6 +267,53 @@
       "image": ""
     },
     {
+      "id": "storm-resistance",
+      "title": "A shutter in a storm",
+      "date": "2025-09-30",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Storm loading arrives at the guides, not at the curtain. Four things decide whether a door stays in its opening, and one of them is what happens when the power goes.",
+      "body": [
+        "A shutter on a street elevation takes the storm directly. What fails is rarely the slat: it is the curtain coming out of the guides under pressure, or water driving through a gap the door was never sealed against.",
+        "Four things decide the outcome. A curtain and guides specified as one set rather than assembled from two sources, so the slat ends sit in a channel cut for them. Slat gauge and section stiffness, which is what resists the pressure. Guide fixing centres and substrate — the load path out of the door and into the building. And sealing at the bottom rail and the guides, which is what keeps water out once the wind is driving it sideways.",
+        "The fourth consideration is power. A storm and a power cut arrive together, so a door that cannot be closed without mains is a door that will be open at exactly the wrong time. That is what the battery back-up and the DC hand lift are for."
+      ]
+    },
+    {
+      "id": "rolling-code-and-latch",
+      "title": "Two parts that do the security work: the code and the latch",
+      "date": "2025-09-03",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "The first vented shutter came off the line in 1998. Almost everything added since has gone into two parts a buyer never sees — the rolling code in the handset and the latch at the bottom rail.",
+      "body": [
+        "The first vented roller shutter came off the line in 1998. The curtain has changed since, but most of the engineering has gone somewhere else: into the code that opens the door and the latch that holds it shut.",
+        "The handset uses ARC rolling code. Each cycle retires the code it just used and issues the next from a very large space, so a code captured off the air will not open the door a second time. This is the difference between a shutter and a gate with a fixed-code fob, and it is invisible until someone tries.",
+        "The latch is the mechanical half. It throws as the curtain lands and withdraws as it lifts, drawing no power of its own — so it still holds through a cut, and it still holds if the headbox floods. A mechanical key withdraws the bolt when the door has to be raised by hand. Without it, a closed shutter can be levered up at the bottom rail, which is the opening a forced entry looks for first.",
+        "Around those two sit the alarms: forced-entry, fire, power loss and flooding, all reported at the control box. They are the cheap part. The code and the latch are what the door stands on."
+      ]
+    },
+    {
+      "id": "three-ranges",
+      "title": "The three shutter ranges, and what each is for",
+      "date": "2025-09-03",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Böss Strong for spans, Böss S-Bright for daylight, Boss Elegant for finish. The three ranges answer three different questions about the same opening.",
+      "body": [
+        "The shutter range splits three ways, and the split is by what the opening needs rather than by price.",
+        "Böss Strong is the wide-span range: CD.140NT, CD.100, CD.80 and BO.90A, closing the openings on factories, depots, hydro plant and vehicle bays. These are the sections where the specification is about load and fixing rather than appearance.",
+        "Böss S-Bright is the daylight range. The slat is drawn to pass as much light as an aluminium curtain can while keeping its section stiff — a shopfront that has to look open when it is shut.",
+        "Boss Elegant is the finish range, where the colour and the face profile are the specification. It exists because a shutter on a street elevation is part of the elevation, and a standard light grey is not always the right answer."
+      ]
+    },
+    {
       "id": "iatf-16949",
       "title": "Automotive line certified to IATF 16949",
       "date": "2025-07-15",
@@ -137,6 +329,408 @@
         "Certification does not win programmes on its own. It removes the reason a tier-one buyer stops reading at the first page, which had been the practical position until now."
       ],
       "image": ""
+    },
+    {
+      "id": "cd100-wide-span",
+      "title": "CD.100: what is inside the slat end",
+      "date": "2025-01-06",
+      "author": "Böss Group",
+      "tags": [
+        "Product",
+        "Industrial"
+      ],
+      "excerpt": "The largest section in the range closes a 10.5 m opening. The detail that makes that possible is not the slat — it is the three-layer cap on the end of it.",
+      "body": [
+        "CD.100 is the largest slat in the range, rolled from imported billet in 6063-T5 and 6063-T6 and closing an opening up to 10.5 m wide.",
+        "The part that makes a curtain that wide survive is the end of each slat. The cap is built in three layers — a PA outer, a plated steel core, a PA inner — so the load path from slat into guide passes through steel while the bearing surfaces stay polymer. A single-material cap either wears through or transmits every movement into the guide as noise.",
+        "The slat itself is vented, which on a door this size matters for pressure as much as for light: a sealed curtain across a 10.5 m opening has to carry the full wind load, while a perforated one bleeds part of it.",
+        "Security on the large sections is the same set as the rest of the range: rolling-code handsets, the automatic latch, forced-entry alerting, and storm fixings where the site needs them."
+      ]
+    },
+    {
+      "id": "warranty-label",
+      "title": "The electronic warranty label",
+      "date": "2025-01-06",
+      "author": "Quality Assurance",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A paper warranty slip is lost within a year of handover. Registering the door instead of the paperwork makes the record survive the occupier.",
+      "body": [
+        "A warranty on a building product usually fails administratively rather than technically: the slip is handed to a contractor, the contractor hands over the building, and two years later nobody can say which door was fitted or when.",
+        "An electronic label moves the record off the paper. The label on the curtain resolves to the installation record — section, batch, finish, date, installer — so the door carries its own history regardless of who owns the building now.",
+        "It also settles the counterfeit question at the same time. A label that resolves is a curtain that came off the line; a label that does not is a conversation worth having before the door is accepted.",
+        "For a distributor the useful consequence is a service call that starts with the right parts. Knowing the exact section and batch before the van leaves is the difference between one visit and two."
+      ]
+    },
+    {
+      "id": "boss-elegant",
+      "title": "Boss Elegant: the shutter as part of the elevation",
+      "date": "2024-11-13",
+      "author": "Finishing",
+      "tags": [
+        "Product",
+        "Finishing"
+      ],
+      "excerpt": "A shutter on a street frontage is a large flat surface at eye level. The Elegant range treats that as a finish problem rather than a hardware one.",
+      "body": [
+        "A closed shutter on a street elevation is one of the largest flat surfaces on the building, and it sits at eye level. Treated as hardware it is grey; treated as elevation it is a colour decision.",
+        "The Elegant range is built for that: imported billet, the same section work as the rest of the range, and powder coating on the automatic line across a much wider palette — including the warm, low-saturation tones that read as architecture rather than as a security product.",
+        "Nothing else changes. The curtain, the latch and the operator are specified exactly as they would be on any other shutter of the same size; the range is a finish specification, not a different door."
+      ]
+    },
+    {
+      "id": "s-bright-daylight",
+      "title": "Daylight through a closed shutter",
+      "date": "2024-11-13",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A vented slat trades stiffness for light. The S-Bright section is an attempt to give back most of the stiffness without closing the aperture.",
+      "body": [
+        "Every perforation in a slat is material removed from the section, and a section with material removed is less stiff. That is the whole design problem in a daylight shutter.",
+        "The S-Bright range answers it at the slat profile rather than at the hole: the aperture is opened up, and the section is redrawn around it so the remaining material carries more of the bending. The result passes noticeably more daylight than a standard vented slat at a comparable span.",
+        "It matters most on a narrow urban frontage, where the shutter is often the only opening in the elevation and the ground floor is dark whenever the door is down. A shop can trade with the door shut; a workshop can work."
+      ]
+    },
+    {
+      "id": "shopfront-security",
+      "title": "What a shopfront shutter is actually protecting against",
+      "date": "2024-11-13",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A shopfront shutter is attacked in three predictable ways. The parts that resist each of them are small, cheap, and usually left off the quotation.",
+      "body": [
+        "A shopfront shutter is attacked in three ways, and each has a part that answers it.",
+        "Levering at the bottom rail is the common one, and the answer is the automatic latch: it throws as the curtain lands, draws no power, and holds through a cut or a flood. Code capture is the second, and the answer is a rolling-code handset that retires each code as it uses it. Forcing the curtain itself is the third, and the answer is slat gauge and the end-cap detail rather than anything electronic.",
+        "The parts that do this work are small and rarely itemised: the latch, the self-stopping contact strip inside the bottom rail, the felt and rubber seals in the guides. The contact strip is worth naming because it is the one that stops the door on anything in its path — a person, a vehicle, a pallet — and it is inside the rail where nobody sees it.",
+        "Retail stock peaks before a holiday and staff attention is elsewhere; that is when the door is tested. It is worth checking the latch throws and the sensing stops the curtain before the season rather than during it."
+      ]
+    },
+    {
+      "id": "manual-steel-shutters",
+      "title": "Hand-operated steel shutters",
+      "date": "2023-02-20",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A hand-pulled steel shutter is a different product from a motorised aluminium one, and it is chosen for reasons that have nothing to do with budget.",
+      "body": [
+        "A hand-operated steel shutter is rolled steel on a barrel, lifted by hand or by chain. It is often assumed to be the cheap version of a motorised door. Sometimes it is; more often it is chosen for a reason.",
+        "Those reasons are specific: an opening with no power at it, a store or kiosk opened and closed once a day, a site where a motor would be the first thing stolen, or a door that has to work through a power failure with no back-up to maintain.",
+        "Steel is heavier than aluminium and it corrodes where aluminium does not, so it needs coating and it needs the coating maintained. Against that, it takes impact that would deform an aluminium slat, which is why it survives in yards and loading bays."
+      ],
+      "image": "manual-steel-shutters.jpg"
+    },
+    {
+      "id": "ups-explained",
+      "title": "What a UPS does for a powered door",
+      "date": "2023-02-13",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "An uninterruptible supply for a shutter is not the same product as one for a computer. The load is a motor, and motors fail differently.",
+      "body": [
+        "A UPS — uninterruptible power supply — holds a load up when the mains goes. Hospitals, data centres and control systems use them; so does a powered door, for a simpler reason. A shutter without power is a shutter that cannot be opened.",
+        "The load is what makes a door UPS a different product. A computer draws a steady few hundred watts; a shutter motor draws a large current for a second or two at the start of every cycle and almost nothing in between. A unit sized on average draw will trip on the start.",
+        "So the specification is by motor capacity, not by wattage: a unit rated for motors to 400 kg, or to 800 kg, with standby measured in tens of hours rather than minutes. A door may need to cycle two or three times across a two-day outage, which is a very different duty from holding a server up for fifteen minutes.",
+        "Battery chemistry is the other decision. Lithium iron phosphate is rated for around 2,000 charge cycles against roughly 500 for lead-acid, and holds above 80% of rated capacity at the end of them."
+      ],
+      "image": "ups-explained.jpg"
+    },
+    {
+      "id": "ups-operation",
+      "title": "Running a door UPS so it lasts",
+      "date": "2023-01-20",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Door back-up units are commonly replaced early, and usually for one of three reasons that have nothing to do with the unit.",
+      "body": [
+        "A door back-up unit is switched on once and then ignored for years, which is why they tend to be replaced earlier than they should be.",
+        "Three habits account for most of it. Leaving the unit switched off at the wall, so the battery sits discharged and sulphates — a battery kept flat is a battery being destroyed slowly. Undersizing, so every cycle runs the unit at its limit. And siting: a unit above a shutter head sits in the hottest, dustiest part of the opening, and heat is what shortens a battery.",
+        "The operating sequence is worth following rather than improvising. Mains on before the unit; unit on before the door is used; and on shutdown the reverse, so the motor is never switched by removing its supply. A monthly cycle on battery — close and open the door once with the mains off — tells you the unit still works, which is otherwise something you discover during the storm."
+      ],
+      "image": "ups-operation.jpg"
+    },
+    {
+      "id": "ups-battery-replacement",
+      "title": "Replacing the battery, not the unit",
+      "date": "2023-01-05",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "When a door back-up stops holding charge, the electronics are almost always fine. Five steps, and three precautions that matter more than the steps.",
+      "body": [
+        "A back-up unit that no longer holds charge usually has nothing wrong with its electronics. The battery is a consumable; the unit is not.",
+        "The sequence is short: isolate and remove the unit from its mounting, open the front cover, disconnect the battery leads noting polarity, fit the replacement and reconnect in the same order, then refit the cover and remount before restoring power.",
+        "The precautions matter more than the steps. Match the replacement on voltage and capacity, not on physical size — a battery that fits the space but not the charger will be ruined by it. Never short the terminals with a tool, because the fault current from even a small sealed battery is enough to weld one. And dispose of the old cell through a collection point rather than with waste.",
+        "Afterwards, charge fully before the first cycle on battery, and leave the unit powered. A back-up that spends its life switched off at the wall is being worn out by being stored, not by being used."
+      ],
+      "image": "ups-battery-replacement.jpg"
+    },
+    {
+      "id": "remote-pairing",
+      "title": "Copying a handset, and why rolling code cannot be copied",
+      "date": "2023-01-04",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Fixed-code handsets can be cloned in a shop in two minutes. That is convenient, and it is exactly the property rolling code exists to remove.",
+      "body": [
+        "Two kinds of handset are in use on shutters, and they behave completely differently when you try to duplicate one.",
+        "A fixed-code handset sends the same code every time, set by DIP switches or learned from another handset. Duplicating one takes a blank and two minutes: hold the two together, press, and the blank has the code. Convenient — and it means anyone who can capture the transmission, or borrow the handset, has a working key.",
+        "A rolling-code handset cannot be duplicated that way, by design. Each press retires the code it just used and issues the next from a very large sequence, and the receiver tracks where in that sequence it is. A captured transmission is already spent. Adding a handset means pairing it at the control box, which requires physical access to the box.",
+        "That is the trade, and it is the right one: a handset that can be copied in a shop is a key that can be copied in a shop."
+      ],
+      "image": "remote-pairing.jpg"
+    },
+    {
+      "id": "choosing-a-shutter-operator",
+      "title": "Choosing a shutter operator",
+      "date": "2022-12-04",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "The most common question about operators has an unhelpful answer: the best one is the one specified with the curtain. Here is what actually separates the four ranges we fit.",
+      "body": [
+        "Asked which shutter operator is best, the honest answer is the one that was specified against the curtain it will lift. The motor is sized on weighed curtain mass, and the control box, limits and handset are set to that motor. A better motor on the wrong curtain is a worse door.",
+        "That said, the four ranges we fit are not interchangeable. Robust and Robust ECO are made in Vietnam across a wide spread of capacities, which is what makes them the default on a domestic opening. Kasankie DC and AC are imported from Japan and sit at the top of the range on refinement. BossRM is built in Taiwan on a German line and covers the widest capacity spread, from 300 kg to a 2,000 kg three-phase unit. YH, also from Taiwan, runs from 300 kg to 1,300 kg.",
+        "All four ship the same four parts — motor, two controls, two flanges, receiver — so the decision is not what is in the box. It is capacity, phase, and whether the door has to lift by hand when the power goes.",
+        "That last one is worth deciding early. A DC operator with hand lift needs no release mechanism found in the dark; an AC operator on a large curtain needs a battery back-up sized to the motor, which is a second unit and a place to put it."
+      ],
+      "image": "choosing-a-shutter-operator.jpg"
+    },
+    {
+      "id": "shutter-plant-overview",
+      "title": "Twelve years of the shutter plant, in the order things were built",
+      "date": "2022-03-03",
+      "author": "Böss Group",
+      "tags": [
+        "Plant",
+        "Product"
+      ],
+      "excerpt": "The BössDoor line opened in 2010 and the plant has been rebuilt around three changes since: the multipoint lock in 2013, phone control and the automatic powder line in 2015, and a slat range that now runs from single-skin to 10.5 m spans.",
+      "body": [
+        "The BössDoor shutter line opened in 2010 at the northern plant, on a little over 3,000 m² of floor. What it made then was one thing: a vented aluminium slat, cut and assembled to order. Everything since has been added around that.",
+        "The first addition, in 2013, was the lock. A shutter is only as good as the point where the bottom rail meets the floor, and a barrel bolt is the part a thief goes for. The multipoint lock replaced it, and felt and rubber seals went into the guides at the same time — not for weather, but because a slat running dry against an aluminium guide is the loudest part of the door.",
+        "In 2015 two things happened that still set how the plant works. A trial put shutter control on a phone, with fault alerts going to the owner rather than waiting to be noticed. And the powder line went in: one automatic coating plant for every slat the factory makes, rather than finishing bought in from outside. Coating in house is what lets a colour be held across a repeat order two years apart.",
+        "The range now splits three ways. Single-skin curtains are rolled from wide sheet with no joint between slats, which is what a garage or a lock-up shop wants. Vented slats carry oval, rectangular or elliptical perforations, so a closed shutter still passes light and air. Wide-span slats in 6063-T5 and T6 close warehouse and factory openings up to 10.5 m, where the load is no longer the curtain but the wind behind it.",
+        "Sections are set at the plant rather than on site, which is the point of making the whole set in one place: the fitter is hanging parts that were measured against each other, not matching a slat to a guide from two suppliers."
+      ],
+      "image": "shutter-plant-overview.jpg"
+    },
+    {
+      "id": "guide-rails",
+      "title": "The guide is not an accessory",
+      "date": "2021-11-23",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Guides are quoted as a line item and treated as trim. They set the friction, the noise and the wind resistance of the whole door.",
+      "body": [
+        "The guide is the channel the curtain runs in at each side of the opening. It appears on a quotation as a line item alongside brackets and fixings, which understates what it does.",
+        "Three things depend on it. Friction, because every cycle of the door drags the slat ends along that channel, and friction is load on the operator. Noise, because a slat running dry in a metal channel is the loudest thing about a shutter — which is why the guides carry felt and rubber seals. And wind resistance, because the guide is what holds a closed curtain in the opening when the pressure comes.",
+        "Guides are profiled for the curtain they carry: a single-skin curtain and a vented one present different slat ends and need different channel depths. A guide matched to the curtain also coats with it, so the door leaves the plant one colour."
+      ],
+      "image": "guide-rails.jpg"
+    },
+    {
+      "id": "standard-grey",
+      "title": "Why light grey is the stock colour",
+      "date": "2021-08-02",
+      "author": "Finishing",
+      "tags": [
+        "Finishing",
+        "Product"
+      ],
+      "excerpt": "Every wide-span section is held in one colour. That is a manufacturing decision with a practical side effect: grey is the finish that ages best on a door at street level.",
+      "body": [
+        "The wide-span sections are held in a single stock colour, a light grey. Holding one colour is what makes a same-week replacement slat possible on a door fitted four years ago; a wider stock palette would mean either longer lead times or a colour that no longer matches.",
+        "It happens to be the right default for other reasons. Grey is the finish that hides the dust and rain streaking a door at street level collects, and it is neutral against almost any elevation material — rendered, glazed, brick or steel.",
+        "Anything outside the stock colour is a coated-to-order item on the same line, with the lead time that implies. That is a real choice on a frontage, and a poor one on an industrial door where a damaged slat has to be replaced quickly."
+      ],
+      "image": "standard-grey.jpg"
+    },
+    {
+      "id": "high-speed-doors",
+      "title": "High-speed doors: the specification is the clock",
+      "date": "2021-07-30",
+      "author": "Böss Group",
+      "tags": [
+        "Industrial",
+        "Product"
+      ],
+      "excerpt": "A high-speed door is not a fast shutter. It is a boundary that has to be closed most of the time, which makes cycle time the whole specification.",
+      "body": [
+        "A high-speed door exists to keep a boundary closed. Between a chilled store and a dispatch bay, or a clean production hall and a general one, the door is open for the few seconds a forklift takes to pass and shut the rest of the time.",
+        "That makes cycle time the specification rather than a feature. Everything else follows from it: the curtain is light because it has to accelerate, the drive is sized for starts rather than for load, and the safety sensing has to work at speed.",
+        "What the boundary buys is measurable — temperature held, dust and insects kept out, and conditioning energy that is not being spent on the yard. On a food line it is also a hygiene control, and the door becomes part of the HACCP case rather than part of the building."
+      ],
+      "image": "high-speed-doors.jpg"
+    },
+    {
+      "id": "wide-span-openings",
+      "title": "Openings at 8 m and 10 m",
+      "date": "2021-07-30",
+      "author": "Böss Group",
+      "tags": [
+        "Industrial",
+        "Product"
+      ],
+      "excerpt": "Past about 8 m the governing load stops being the curtain and becomes the wind behind it. What changes in the specification, and what does not.",
+      "body": [
+        "Wide-span shutters close the openings a warehouse, a workshop or a vehicle bay actually needs: 8.5 m by 8 m on the CD.80 section, 10.5 m by 10 m on CD.100.",
+        "Past roughly 8 m the governing load changes. On a domestic opening the curtain’s own weight is what the door has to handle; on a wide span it is wind pressure across the closed face, and that load arrives at the guides rather than at the barrel. Guide fixing centres, bracket design and the end caps on each slat all become specification items rather than standard details.",
+        "The slat thickens accordingly — 1.4 to 2.0 mm on CD.80, 1.5 to 2.5 mm on CD.100 — and the end caps are built in three layers, because a slat end on a door this size takes the wear first.",
+        "What does not change is the rule about the operator: it is still sized on the weighed curtain. A 10 m curtain is simply a heavy one, which past about 40 m² puts it into three-phase territory."
+      ]
+    },
+    {
+      "id": "spotting-counterfeits",
+      "title": "Telling a genuine curtain from a copy",
+      "date": "2021-07-28",
+      "author": "Quality Assurance",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Counterfeit slat is sold as the real section at close to the real price. Three checks separate them, and only one of them needs a phone.",
+      "body": [
+        "Roller shutter slat is copied, and the copy is not sold cheap — it is sold as the original at close to the original price. The difference shows up two years later as a curtain that has faded, or a slat end that has worn through.",
+        "Three checks. The label carries a code that resolves against the manufacturer’s record, which is the only check that is conclusive on its own. By eye: a genuine section has clean edges with no flash at the extrusion line, consistent wall thickness along the slat, and end caps that sit flush rather than proud. And the paperwork — a genuine curtain is sold with its warranty registered against the installation, not handed over as a generic slip.",
+        "For a distributor the practical rule is simpler: buy the curtain, the guides and the operator as one order from one source. A copied slat reaches a site because someone bought the parts separately and the cheapest slat won."
+      ]
+    },
+    {
+      "id": "fire-shutters",
+      "title": "Fire shutters: four parts, all of them rated",
+      "date": "2021-07-26",
+      "author": "Quality Assurance",
+      "tags": [
+        "Industrial",
+        "Product"
+      ],
+      "excerpt": "A fire shutter holds a compartment line for a rated period. Every part of it is part of that rating — including the guide fixings, which is where an installation fails inspection.",
+      "body": [
+        "A fire shutter closes a compartment line and holds it for a rated period. Unlike every other shutter, its specification is a performance one: the assembly is rated, not the slat.",
+        "Four parts carry that rating. The curtain, in a section built for it. The bottom rail, which has to seal against the floor while hot. The guides, which have to hold the curtain in place as it expands. And the operator, with a release that lets the door close on signal and stay closed without power.",
+        "The guides are where installations fail inspection. A rated curtain in guides fixed at the wrong centres, or into the wrong substrate, is not a rated assembly — and the drawing rarely says so as clearly as the test report does.",
+        "Placement follows the compartment strategy: openings between a warehouse and its offices, between a mall unit and the concourse, and between a plant room and everything else. Pricing follows area and rating, not slat cost."
+      ]
+    },
+    {
+      "id": "grille-shutters",
+      "title": "Grille shutters: closed and still visible",
+      "date": "2021-07-23",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A shopping mall unit has to be secure overnight and legible from the concourse. A grille shutter is the curtain type built to do both at once.",
+      "body": [
+        "A grille shutter is a curtain of linked rod rather than a curtain of slat. Closed, it secures the opening and still shows what is behind it.",
+        "That single property decides where it is used: mall units and concourse frontages, where the landlord needs the unit readable after hours, and display frontages where a solid shutter would turn the street face into a blank panel.",
+        "Two builds are in normal use. Stainless link is the higher specification and the one to use where the shutter is seen close up or where the atmosphere is corrosive. Powder-coated steel link costs less and is the ordinary choice for an internal mall opening.",
+        "The trade against a slat curtain is honest: a grille gives up weather sealing and most of the acoustic separation. It is the right door for an internal frontage and the wrong one for an external wall."
+      ],
+      "image": "grille-shutters.jpg"
+    },
+    {
+      "id": "ceiling-slide-doors",
+      "title": "Ceiling-slide doors, for when there is no headroom",
+      "date": "2021-07-21",
+      "author": "Böss Group",
+      "tags": [
+        "Industrial",
+        "Product"
+      ],
+      "excerpt": "A rolled curtain needs a barrel above the opening. Where the structure will not give up that space, the curtain runs back across the ceiling instead.",
+      "body": [
+        "A conventional shutter stores its curtain on a barrel above the opening, and that barrel needs headroom — usually a few hundred millimetres of it, sometimes more.",
+        "A ceiling-slide door removes the barrel. The curtain is drawn up the guides and then back along a horizontal track under the ceiling, so the only space it needs is space that is already there.",
+        "It is the answer in a low-clearance warehouse, an under-croft car park, or any bay where a beam sits directly over the opening. It also runs quieter than a rolled curtain, because nothing is being wound.",
+        "The trade is track: the door needs a clear run inside the building roughly as long as the opening is tall, and that run has to be kept clear of services for the life of the building."
+      ],
+      "image": "ceiling-slide-doors.jpg"
+    },
+    {
+      "id": "industrial-shutters",
+      "title": "Industrial shutters: seven parts, and the three that decide the job",
+      "date": "2021-07-20",
+      "author": "Böss Group",
+      "tags": [
+        "Industrial",
+        "Product"
+      ],
+      "excerpt": "A warehouse shutter is seven assemblies. Three of them — the slat, the balance spring and the operator — decide whether the door survives its duty cycle; the other four are fitting work.",
+      "body": [
+        "An industrial shutter closes an opening a warehouse or a factory has to use all day, which makes duty cycle the specification that matters rather than the size of the hole.",
+        "It is seven assemblies: the slat curtain, the bottom rail, aluminium guides with their brackets, the barrel, the balance springs, the operator with its control box and clutch, and a mechanical cross lock for when there is no power. Four of those are fitting work. Three decide the job.",
+        "The slat sets the span. Wide-span sections in 6063-T5 and T6 run from 1.4 mm up to 2.5 mm, closing openings from 8.5 m to 10.5 m wide, and the ends are capped in three layers because the end cap is the joint that takes the wear on a curtain this size.",
+        "The balance springs carry the curtain, not the motor. Wound correctly, the motor only starts and stops it; wound to the wrong mass, the motor carries the difference on every cycle. And the operator is sized against the weighed curtain — past about 40 m² that means a three-phase unit, because a single-phase motor on an industrial duty cycle runs hot long before it runs out of torque.",
+        "Aluminium is one of three curtain materials in normal use; the others are PVC, where a door has to be fast and light, and stainless link, where it has to be seen through. Aluminium is the one that takes a coating, which is what decides how the door looks in year ten."
+      ],
+      "image": "industrial-shutters.jpg"
+    },
+    {
+      "id": "warehouse-shutters-brief",
+      "title": "Briefing a warehouse shutter",
+      "date": "2021-07-20",
+      "author": "Böss Group",
+      "tags": [
+        "Industrial"
+      ],
+      "excerpt": "The information a supplier actually needs to quote an industrial door, and the three items usually missing from the enquiry.",
+      "body": [
+        "An industrial shutter enquiry is usually a width, a height and a request for a price. Three items decide the quotation, and they are almost never in the enquiry.",
+        "Cycles per day. A door opened four times a day and a door opened four hundred times are different products with the same dimensions — the second needs a duty-rated operator and a maintenance interval, and pricing the first against the second is why quotations diverge.",
+        "What is on the other side of the opening. Temperature, dust, corrosive atmosphere and clean-air boundaries each change the curtain, the finish and sometimes the door type entirely.",
+        "And what has to be true in a power cut. Hand lift, chain drive, battery back-up or nothing — this decides the operator family before capacity is even calculated.",
+        "Supply the three and a quotation becomes a specification. Leave them out and it becomes a price for a door that may not suit the opening."
+      ]
+    },
+    {
+      "id": "what-is-an-automatic-shutter",
+      "title": "What an automatic shutter is made of",
+      "date": "2021-03-11",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "Six assemblies, and the price of a shutter is mostly decided by two of them. A working note on what is actually in a quotation.",
+      "body": [
+        "An automatic roller shutter is six assemblies: the slat curtain, the operator, the battery back-up, the flange drive that couples motor to barrel, the obstruction cut-out, and the barrel with its guides and brackets.",
+        "A quotation is dominated by two of them. Curtain area sets the slat cost and, because the operator is sized on curtain mass, it sets the motor as well. The rest — flanges, cut-out, control box, handsets — moves comparatively little between a small door and a large one.",
+        "That is worth knowing before comparing two quotations. A cheaper price on the same opening usually means a thinner slat, and a thinner slat means a lighter curtain, which means a smaller motor: the saving compounds down the specification and lands as a door that cycles slower and wears faster.",
+        "Shutters are classified four ways in ordinary use: by slat form (single-skin, vented, wide-span), by function (domestic, industrial, fire), by drive (hand, DC with hand lift, AC, three-phase), and by where the barrel sits (in the head, above the ceiling, on the face)."
+      ]
+    },
+    {
+      "id": "what-ships-with-a-shutter",
+      "title": "What ships with a shutter, and why it ships together",
+      "date": "2020-10-21",
+      "author": "Böss Group",
+      "tags": [
+        "Product"
+      ],
+      "excerpt": "A shutter leaves the plant as a set: slat, guide, barrel, spring, operator, latch and control. The reason is not convenience. Parts specified against each other hold a cycle count that parts bought separately do not.",
+      "body": [
+        "A shutter is quoted and shipped as a set — slat, bottom rail, guides and brackets, barrel, balance springs, operator with its control box, and the latch. Not because it is tidier to buy in one order, but because the numbers only hold that way.",
+        "Take the operator. Its capacity is matched to the weighed curtain, not to the area of the opening, because weight is what loads a motor. Change the slat gauge after the motor is chosen and the figure stops meaning anything. The same goes for the springs: they are wound against a curtain of known mass, and a heavier slat on the same spring puts the extra load through the motor every cycle for the life of the door.",
+        "Billet is bought in, and the slat, the guide and the bottom rail come off the same alloy and the same coating line. A guide from one supplier and a slat from another will fit; they will also wear at different rates, and the door will start to sound wrong about a year before anything actually fails.",
+        "The parts that carry the engineering are the ones nobody sees: the automatic latch that throws as the curtain lands and needs no supply of its own, the rolling-code handset, and the felt and rubber seals in the guides. All three are specified with the curtain rather than added to it."
+      ],
+      "image": "what-ships-with-a-shutter.jpg"
     }
   ]
 }

@@ -6,7 +6,8 @@
       var tiles = c.items.map(function (it) {
         return '<a class="ab-tile" href="detail/?id=' + encodeURIComponent(c.id) +
                '#' + encodeURIComponent(it.id) + '">' +
-                 '<span class="ab-thumb"><img src="' + AB.ph(340, 300, it.name) +
+                 '<span class="ab-thumb"><img src="' +
+                 (it.image ? AB.root() + '_media/' + it.image : AB.ph(340, 300, it.name)) +
                    '" width="340" height="300" alt="' + AB.esc(it.name) + '" loading="lazy"></span>' +
                  '<h3>' + AB.esc(it.name) + '</h3>' +
                  '<p>' + AB.esc(it.spec) + '</p>' +

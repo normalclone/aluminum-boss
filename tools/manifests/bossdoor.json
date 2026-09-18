@@ -1,0 +1,455 @@
+[
+  {
+    "src": "../../import/media/news/ceiling-slide-doors.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ceiling-slide-doors",
+    "field": "image",
+    "as": "ceiling-slide-doors.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/01/04/cau-tao-cua-cuon-truot-tran.jpg"
+  },
+  {
+    "src": "../../import/media/news/choosing-a-shutter-operator.png",
+    "doc": "news",
+    "array": "items",
+    "id": "choosing-a-shutter-operator",
+    "field": "image",
+    "as": "choosing-a-shutter-operator.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/09/08/mo-to-cua-cuon-loai-nao-tot-4.png"
+  },
+  {
+    "src": "../../import/media/news/grille-shutters.png",
+    "doc": "news",
+    "array": "items",
+    "id": "grille-shutters",
+    "field": "image",
+    "as": "grille-shutters.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/07/23/cua-cuon-dang-luoi-4.png"
+  },
+  {
+    "src": "../../import/media/news/guide-rails.png",
+    "doc": "news",
+    "array": "items",
+    "id": "guide-rails",
+    "field": "image",
+    "as": "guide-rails.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/11/23/ray-cua-cuon-7.png"
+  },
+  {
+    "src": "../../import/media/news/high-speed-doors.png",
+    "doc": "news",
+    "array": "items",
+    "id": "high-speed-doors",
+    "field": "image",
+    "as": "high-speed-doors.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/07/30/cua-cuon-nha-xuong.png"
+  },
+  {
+    "src": "../../import/media/news/industrial-shutters.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "industrial-shutters",
+    "field": "image",
+    "as": "industrial-shutters.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/07/20/cua-cuon-nha-xuong-1.jpg"
+  },
+  {
+    "src": "../../import/media/news/manual-steel-shutters.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "manual-steel-shutters",
+    "field": "image",
+    "as": "manual-steel-shutters.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/02/20/cua-sat-cuon-keo-tay-0.jpg"
+  },
+  {
+    "src": "../../import/media/news/remote-pairing.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "remote-pairing",
+    "field": "image",
+    "as": "remote-pairing.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/01/04/sao-chep-dieu-khien-cua-cuon-3.jpg"
+  },
+  {
+    "src": "../../import/media/news/shutter-plant-overview.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "shutter-plant-overview",
+    "field": "image",
+    "as": "shutter-plant-overview.jpg",
+    "from": "bossdoor.vn /upload_images/images/nha-may-san-xuat-cua-cuon-1.jpg"
+  },
+  {
+    "src": "../../import/media/news/standard-grey.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "standard-grey",
+    "field": "image",
+    "as": "standard-grey.jpg",
+    "from": "bossdoor.vn /upload_images/images/2021/08/02/cua-cuon-mau-ghi-6.jpg"
+  },
+  {
+    "src": "../../import/media/news/ups-battery-replacement.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ups-battery-replacement",
+    "field": "image",
+    "as": "ups-battery-replacement.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/01/05/huong-dan-thay-binh-ac-quy-cho-bo-luu-dien-cua-cuon.jpg"
+  },
+  {
+    "src": "../../import/media/news/ups-explained.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ups-explained",
+    "field": "image",
+    "as": "ups-explained.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/02/13/ups-la-thiet-bi-gi.jpg"
+  },
+  {
+    "src": "../../import/media/news/ups-operation.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "ups-operation",
+    "field": "image",
+    "as": "ups-operation.jpg",
+    "from": "bossdoor.vn /upload_images/images/2023/01/20/huong-dan-su-dung-ups-santak-2.jpg"
+  },
+  {
+    "src": "../../import/media/news/what-ships-with-a-shutter.jpg",
+    "doc": "news",
+    "array": "items",
+    "id": "what-ships-with-a-shutter",
+    "field": "image",
+    "as": "what-ships-with-a-shutter.jpg",
+    "from": "bossdoor.vn /upload_images/images/2020/10/21/15%20ly%20do%20ban%20nen%20cho%20cua%20cuon%20bossdoor%20(3)(1).jpg"
+  },
+  {
+    "src": "../../import/media/products/da-latch-auto-g3.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-latch-auto-g3",
+    "field": "image",
+    "as": "da-latch-auto-g3.jpg",
+    "from": "bossdoor.vn /images/products/2020/12/18/original/khoa-chot-tu-dong-cua-cuon-bossdoor_1608267147.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-ac.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-ac",
+    "field": "image",
+    "as": "da-motor-ac.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-ac_1601004854.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-bossrm-1000.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-bossrm-1000",
+    "field": "image",
+    "as": "da-motor-bossrm-1000.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-bossrm®-1000-kg_1601009098.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-bossrm-2000.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-bossrm-2000",
+    "field": "image",
+    "as": "da-motor-bossrm-2000.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-bossrm®-2000-kg-3-pha-_1601009461.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-bossrm-300.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-bossrm-300",
+    "field": "image",
+    "as": "da-motor-bossrm-300.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-boss-rm-300kg_1601009208.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-bossrm-500.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-bossrm-500",
+    "field": "image",
+    "as": "da-motor-bossrm-500.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-bossrm®-500-kg_1601009162.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-bossrm-700.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-bossrm-700",
+    "field": "image",
+    "as": "da-motor-bossrm-700.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-bossrm®-700-kg_1601009128.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-dc-hv.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-dc-hv",
+    "field": "image",
+    "as": "da-motor-dc-hv.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-dc-sieu-truong-hv_1601005582.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-kasankie-300.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-kasankie-300",
+    "field": "image",
+    "as": "da-motor-kasankie-300.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-kasankie®-dc-500-kg_1601009396.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-kasankie-400.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-kasankie-400",
+    "field": "image",
+    "as": "da-motor-kasankie-400.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-kasankie®-dc-400-kg_1601009427.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-1000.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-1000",
+    "field": "image",
+    "as": "da-motor-robust-1000.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-robust@-1000-kg_1601020934.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-400.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-400",
+    "field": "image",
+    "as": "da-motor-robust-400.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-robust®-400-kg_1601008872.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-600.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-600",
+    "field": "image",
+    "as": "da-motor-robust-600.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-robust®-600-kg_1601009315.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-dc-single.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-dc-single",
+    "field": "image",
+    "as": "da-motor-robust-dc-single.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-dc-robust-don_1601005630.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-dc-twin.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-dc-twin",
+    "field": "image",
+    "as": "da-motor-robust-dc-twin.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-dc-sieu-truong-hv_1601005606.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-eco-400.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-eco-400",
+    "field": "image",
+    "as": "da-motor-robust-eco-400.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-robust®-eco-400-kg_1601008910.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-robust-eco-600.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-robust-eco-600",
+    "field": "image",
+    "as": "da-motor-robust-eco-600.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/20/original/bo-toi-cua-cuon-robust-eco-600-kg_1600600310.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-yh-1300.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-yh-1300",
+    "field": "image",
+    "as": "da-motor-yh-1300.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-yh®-1300-kg-3-pha-_1601008943.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-yh-300.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-yh-300",
+    "field": "image",
+    "as": "da-motor-yh-300.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-yh®-300-kg_1601009046.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-yh-400.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-yh-400",
+    "field": "image",
+    "as": "da-motor-yh-400.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-yh®-400-kg_1601009014.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-motor-yh-500.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-motor-yh-500",
+    "field": "image",
+    "as": "da-motor-yh-500.jpg",
+    "from": "bossdoor.vn /images/products/2020/09/25/original/bo-toi-cua-cuon-yh®-500-kg_1601008978.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/da-remote.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "da-remote",
+    "field": "image",
+    "as": "da-remote.jpg",
+    "from": "bossdoor.vn /images/products/2021/03/22/original/tay-dieu-khien-cua-cuon-tu-dong-bossdoor-00_1616405884.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-bo57.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo57",
+    "field": "image",
+    "as": "rs-bo57.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/bo57_1747292687.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-bo5816.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo5816",
+    "field": "image",
+    "as": "rs-bo5816.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/bo5816_1747293269.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-bo601.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo601",
+    "field": "image",
+    "as": "rs-bo601.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/bo601-602-photoroom_1747293929.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-bo68s.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo68s",
+    "field": "image",
+    "as": "rs-bo68s.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/bo68s_1747282790.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-bo90a.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-bo90a",
+    "field": "image",
+    "as": "rs-bo90a.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/bo9a_1747284788.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-cd100.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-cd100",
+    "field": "image",
+    "as": "rs-cd100.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/cd100_1747283360.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-cd140nt.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-cd140nt",
+    "field": "image",
+    "as": "rs-cd140nt.jpg",
+    "from": "bossdoor.vn /images/products/2021/10/13/original/cd-140_1634099307.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/products/rs-cd80.png",
+    "doc": "products",
+    "array": "categories",
+    "id": "rs-cd80",
+    "field": "image",
+    "as": "rs-cd80.jpg",
+    "from": "bossdoor.vn /images/products/2025/05/15/original/cd80_1747284624.png",
+    "nested": "items"
+  },
+  {
+    "src": "../../import/media/projects/aeon-mall-long-bien.png",
+    "doc": "projects",
+    "array": "albums",
+    "id": "aeon-mall-long-bien",
+    "field": "image",
+    "as": "aeon-mall-long-bien.jpg",
+    "from": "bossdoor.vn /images/projects/2020/09/21/original/aeon-mall-long-bien-moi_1600653200.png"
+  },
+  {
+    "src": "../../import/media/projects/cat-bi-airport.jpg",
+    "doc": "projects",
+    "array": "albums",
+    "id": "cat-bi-airport",
+    "field": "image",
+    "as": "cat-bi-airport.jpg",
+    "from": "bossdoor.vn /images/projects/2020/09/24/original/san-bay-cat-bi-hai-phong_1600940439.jpg"
+  },
+  {
+    "src": "../../import/media/projects/fhome-da-nang.png",
+    "doc": "projects",
+    "array": "albums",
+    "id": "fhome-da-nang",
+    "field": "image",
+    "as": "fhome-da-nang.jpg",
+    "from": "bossdoor.vn /images/projects/2020/09/21/original/fhome-da-nang-moi_1600653150.png"
+  }
+]

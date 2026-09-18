@@ -137,8 +137,8 @@
     {
       "id": "door-accessory",
       "name": "Door's Accessory",
-      "tagline": "Hardware and gaskets that ship with the system",
-      "blurb": "Hardware is sold with the profile it was tested against. A system that passes a 25,000-cycle test only holds that number with the hinge and gasket it was tested on, so the two travel together.",
+      "tagline": "Shutter curtain, hardware and gaskets that ship with the system",
+      "blurb": "Hardware is sold with the profile it was tested against. A system that passes a 25,000-cycle test only holds that number with the hinge and gasket it was tested on, so the two travel together. The same rule puts the roller shutter range here: a shutter is quoted as a set, because the operator is sized against the weight of the curtain it lifts rather than against the size of the opening.",
       "items": [
         {
           "id": "door-hinge-3d",
@@ -174,6 +174,251 @@
           "image": "",
           "spec": "EN 2–4 · in-leaf · hold-open option",
           "text": "Closer housed inside the leaf, invisible when the door is shut. Force is adjustable across EN 2 to 4 without removing the door."
+        },
+        {
+          "id": "da-latch-auto-g3",
+          "name": "Automatic Latch, 3rd Generation",
+          "image": "da-latch-auto-g3.jpg",
+          "spec": "Throws on close · anti-lift · no supply of its own · mechanical key release",
+          "text": "The bolt throws as the curtain lands and withdraws as it lifts, drawing no power, so it still holds through a cut or a flood. A mechanical key releases it when the door has to be raised by hand."
+        },
+        {
+          "id": "da-motor-ac",
+          "name": "AC Shutter Operator",
+          "image": "da-motor-ac.jpg",
+          "spec": "Single-skin curtains · capacity matched to curtain weight",
+          "text": "The AC operator for single-skin curtains. Capacity is chosen against the weighed curtain rather than the opening area, because weight is what actually loads the motor."
+        },
+        {
+          "id": "da-motor-bossrm-1000",
+          "name": "BossRM 1000 Shutter Operator",
+          "image": "da-motor-bossrm-1000.jpg",
+          "spec": "1,000 kg · openings 35–40 m² · motor, two controls, two flanges, receiver",
+          "text": "For wide-span curtains of 35 to 40 m². Supplied with both flanges, since an operator this size is usually set out on the barrel before the curtain is hung."
+        },
+        {
+          "id": "da-motor-bossrm-2000",
+          "name": "BossRM 2000 Shutter Operator, three phase",
+          "image": "da-motor-bossrm-2000.jpg",
+          "spec": "2,000 kg · three phase · openings above 40 m² · motor, two controls, two flanges, receiver",
+          "text": "Reference BRM.2000. The three-phase operator for industrial curtains past 40 m², which is where a single-phase motor starts running hot on a duty cycle."
+        },
+        {
+          "id": "da-motor-bossrm-300",
+          "name": "BossRM 300 Shutter Operator",
+          "image": "da-motor-bossrm-300.jpg",
+          "spec": "300 kg · openings 15–20 m² · motor, two controls, receiver",
+          "text": "The entry operator in the BossRM range, for a domestic opening of 15 to 20 m². Supplied with the control box and receiver it was tuned against."
+        },
+        {
+          "id": "da-motor-bossrm-500",
+          "name": "BossRM 500 Shutter Operator",
+          "image": "da-motor-bossrm-500.jpg",
+          "spec": "500 kg · openings 20–25 m² · motor, two controls, receiver",
+          "text": "For openings of 20 to 25 m². The motor body and the control box are one item: the limits are set at the box, not on the motor, so a service call does not need the curtain dropped."
+        },
+        {
+          "id": "da-motor-bossrm-700",
+          "name": "BossRM 700 Shutter Operator",
+          "image": "da-motor-bossrm-700.jpg",
+          "spec": "700 kg · openings 25–35 m² · motor, two controls, receiver",
+          "text": "The step between the domestic and the wide-span operators, covering 25 to 35 m². Single phase, so it fits a unit without a three-phase supply at the door."
+        },
+        {
+          "id": "da-motor-dc-hv",
+          "name": "HV Wide-Span DC Operator",
+          "image": "da-motor-dc-hv.jpg",
+          "spec": "Openings above 25 m² · hand lift on power failure · motor, two controls, receiver",
+          "text": "The DC operator for hand-lift single-skin curtains past 25 m², where the standard DC unit runs out of travel rather than out of torque."
+        },
+        {
+          "id": "da-motor-kasankie-300",
+          "name": "Kasankie DC 300 Shutter Operator",
+          "image": "da-motor-kasankie-300.jpg",
+          "spec": "300 kg · motor, two controls, two flanges, receiver",
+          "text": "The 300 kg unit in the Kasankie DC range. Several power steps share one mounting, so a door that gains weight in refurbishment takes the next motor up without new flanges."
+        },
+        {
+          "id": "da-motor-kasankie-400",
+          "name": "Kasankie DC 400 Shutter Operator",
+          "image": "da-motor-kasankie-400.jpg",
+          "spec": "400 kg · openings 15–20 m² · motor, two controls, two flanges, receiver",
+          "text": "The 400 kg unit, covering openings of 15 to 20 m² on the same mounting as the 300."
+        },
+        {
+          "id": "da-motor-kasankie-eco-300",
+          "name": "Kasankie Eco 300 Shutter Operator",
+          "image": "",
+          "spec": "300 kg · brake housing turns through 360° · left or right hand",
+          "text": "The brake housing rotates through a full turn, so one part number handles a left-hand and a right-hand installation instead of two."
+        },
+        {
+          "id": "da-motor-kasankie-eco-500",
+          "name": "Kasankie Eco 500 Shutter Operator",
+          "image": "",
+          "spec": "500 kg · brake housing turns through 360° · left or right hand",
+          "text": "The 500 kg unit in the Eco range, on the same rotating brake housing as the 300."
+        },
+        {
+          "id": "da-motor-robust-1000",
+          "name": "Robust 1000 Shutter Operator",
+          "image": "da-motor-robust-1000.jpg",
+          "spec": "1,000 kg · openings 35–40 m² · motor, two controls, two flanges, receiver",
+          "text": "The largest single-phase unit in the Robust range, for curtains of 35 to 40 m²."
+        },
+        {
+          "id": "da-motor-robust-400",
+          "name": "Robust 400 Shutter Operator",
+          "image": "da-motor-robust-400.jpg",
+          "spec": "400 kg · openings to 15 m² · motor, two controls, two flanges, receiver",
+          "text": "The 400 kg operator for openings up to 15 m² — a house, a garage or a showroom front. Paired to the handset at the control box."
+        },
+        {
+          "id": "da-motor-robust-600",
+          "name": "Robust 600 Shutter Operator",
+          "image": "da-motor-robust-600.jpg",
+          "spec": "600 kg · openings 20–25 m² · motor, two controls, two flanges, receiver",
+          "text": "For openings of 20 to 25 m², one step above the 400 on the same mounting."
+        },
+        {
+          "id": "da-motor-robust-dc-single",
+          "name": "Robust DC Single Operator",
+          "image": "da-motor-robust-dc-single.jpg",
+          "spec": "Single-skin curtains · hand lift on power failure · motor, two controls, receiver",
+          "text": "The single version of the same DC operator, for a smaller single-skin curtain. Same hand lift on a power failure."
+        },
+        {
+          "id": "da-motor-robust-dc-twin",
+          "name": "Robust DC Twin Operator",
+          "image": "da-motor-robust-dc-twin.jpg",
+          "spec": "Openings 12–30 m² · hand lift on power failure · motor, two controls, receiver",
+          "text": "A twin DC operator for single-skin curtains between 12 and 30 m². On a power failure the curtain lifts by hand without a release to find first."
+        },
+        {
+          "id": "da-motor-robust-eco-400",
+          "name": "Robust ECO 400 Shutter Operator",
+          "image": "da-motor-robust-eco-400.jpg",
+          "spec": "400 kg · motor, two controls, two flanges, receiver",
+          "text": "The economy build of the 400 kg operator. Same capacity and the same remote pairing; fewer options at the control box."
+        },
+        {
+          "id": "da-motor-robust-eco-600",
+          "name": "Robust ECO 600 Shutter Operator",
+          "image": "da-motor-robust-eco-600.jpg",
+          "spec": "600 kg · openings 20–25 m² · motor, two controls, two flanges, receiver",
+          "text": "The economy build at 600 kg, covering openings of 20 to 25 m²."
+        },
+        {
+          "id": "da-motor-yh-1300",
+          "name": "YH 1300 Shutter Operator, three phase",
+          "image": "da-motor-yh-1300.jpg",
+          "spec": "1,300 kg · three phase · openings 40–45 m² · motor, two controls, two flanges, receiver",
+          "text": "The three-phase unit for curtains of 40 to 45 m², supplied with the control box and receiver as one set."
+        },
+        {
+          "id": "da-motor-yh-300",
+          "name": "YH 300 Shutter Operator",
+          "image": "da-motor-yh-300.jpg",
+          "spec": "300 kg · openings to 15 m² · motor, two controls, two flanges, receiver",
+          "text": "The 300 kg operator for openings up to 15 m², on the same four-part pack as the rest of the range."
+        },
+        {
+          "id": "da-motor-yh-400",
+          "name": "YH 400 Shutter Operator",
+          "image": "da-motor-yh-400.jpg",
+          "spec": "400 kg · openings 15–20 m² · motor, two controls, two flanges, receiver",
+          "text": "For openings of 15 to 20 m² — house, garage or showroom fronts."
+        },
+        {
+          "id": "da-motor-yh-500",
+          "name": "YH 500 Shutter Operator",
+          "image": "da-motor-yh-500.jpg",
+          "spec": "500 kg · openings 20–25 m² · motor, two controls, two flanges, receiver",
+          "text": "For openings of 20 to 25 m², one step above the 400 on the same mounting."
+        },
+        {
+          "id": "da-remote",
+          "name": "Rolling-Code Handset",
+          "image": "da-remote.jpg",
+          "spec": "Rolling code (ARC) · paired to the control box · replaceable on site",
+          "text": "Every cycle retires the code it just used and issues the next one, so a captured transmission will not open the door twice. Handsets pair to the control box, not to the motor, so a lost handset is cleared without opening the headbox."
+        },
+        {
+          "id": "da-ups-bs2550",
+          "name": "BS-2550 Battery Back-up",
+          "image": "",
+          "spec": "600 VA · 150–250 V in, 220 V out · 8 × 3.2 V / 6 Ah LiFePO₄ · motors to 400 kg",
+          "text": "Lithium iron phosphate rather than lead-acid: 2,000 charge cycles against 500, and above 80% of rated capacity at the end of them. Standby is 32 to 48 hours. Case 281 × 195 × 58 mm, with overload and short-circuit protection."
+        },
+        {
+          "id": "da-ups-bs2580",
+          "name": "BS-2580 Battery Back-up",
+          "image": "",
+          "spec": "1,200 VA · 150–250 V in, 220 V out · 8 × 3.2 V / 15 Ah LiFePO₄ · motors to 800 kg",
+          "text": "The larger of the two back-up units, for motors up to 800 kg and a standby of 48 to 72 hours. Case 295 × 252 × 63 mm, with overload and short-circuit protection."
+        },
+        {
+          "id": "rs-bo57",
+          "name": "BO57.0325 Vented Slat",
+          "image": "rs-bo57.jpg",
+          "spec": "6063-T5 · 1.0–1.6 mm ±5% · opening to 6.0 × 5.5 m",
+          "text": "The heavy end of the standard vented range. Perforations run the length of the slat, so a closed shutter still moves air across a shopfront that trades with the front down."
+        },
+        {
+          "id": "rs-bo5816",
+          "name": "BO5816.0325 Vented Slat",
+          "image": "rs-bo5816.jpg",
+          "spec": "6063-T5 · vented · two-way felt seal",
+          "text": "Hooks and load points were redrawn on this section and the guide carries a two-way felt seal. Both changes are about noise on the way down rather than about strength."
+        },
+        {
+          "id": "rs-bo601",
+          "name": "BO601.0325 Vented Slat",
+          "image": "rs-bo601.jpg",
+          "spec": "6063-T5 · 1.0–1.2 mm ±5% · opening to 5.0 × 5.0 m",
+          "text": "The 2025 revision of the standard vented slat. It holds the same opening range as the section it replaces on a thinner gauge and a tighter thickness tolerance."
+        },
+        {
+          "id": "rs-bo602",
+          "name": "BO602.0325 Vented Slat",
+          "image": "",
+          "spec": "6063-T5 · 0.8–1.1 mm ±5% · opening to 4.5 × 4.5 m",
+          "text": "The lightest slat in the range, for openings up to 4.5 m square. Vented on the standard pitch and held in light grey as the stock finish."
+        },
+        {
+          "id": "rs-bo68s",
+          "name": "BO68S.0325 Clear-View Slat",
+          "image": "rs-bo68s.jpg",
+          "spec": "Clear-view slat · gauge and finish to order",
+          "text": "An open slat for a shopfront that has to stay visible when it is shut. Gauge and finish are set against the opening rather than held as a stock combination."
+        },
+        {
+          "id": "rs-bo90a",
+          "name": "BO90A.0325 Wide-Span Slat",
+          "image": "rs-bo90a.jpg",
+          "spec": "Wide-span section · anti-lift latch · obstacle reverse",
+          "text": "The wide-span section for openings past the domestic range. The latch engages as the curtain lands, so a closed door cannot be levered up at the bottom rail."
+        },
+        {
+          "id": "rs-cd100",
+          "name": "CD.100 Wide-Span Slat",
+          "image": "rs-cd100.jpg",
+          "spec": "6063-T5/T6 · 1.5–2.5 mm ±5% · opening to 10.5 × 10.0 m",
+          "text": "The largest section in the range, closing an opening up to 10.5 m wide. Slat ends are capped in three layers, which is the joint that takes the wear on a door this size."
+        },
+        {
+          "id": "rs-cd140nt",
+          "name": "CD.140NT Wide-Span Slat",
+          "image": "rs-cd140nt.jpg",
+          "spec": "6063-T5/T6 · curved face · removable translucent vent inserts",
+          "text": "A wide-span slat with a curved face and oversized vents. The inserts are translucent and come out, so the same door runs closed and lit, or closed and open to the air."
+        },
+        {
+          "id": "rs-cd80",
+          "name": "CD.80 Wide-Span Slat",
+          "image": "rs-cd80.jpg",
+          "spec": "6063-T5/T6 · 1.4–2.0 mm ±5% · opening to 8.5 × 8.0 m",
+          "text": "The middle wide-span slat, thickened in 2020 over the section it replaced. Powder coated on the automatic line; light grey is the stock colour."
         }
       ],
       "image": "hero-door-accessory.jpg"
