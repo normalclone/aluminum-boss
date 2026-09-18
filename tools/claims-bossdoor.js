@@ -38,29 +38,29 @@ const OUT = path.join(ROOT, 'import', 'xac-nhan.md');
  */
 const GROUPS = [
   {
-    key: 'nhan-hieu', label: 'Nhan hieu ben thu ba',
-    ask: 'Con dung nha cung cap / vat lieu nay khong? Neu doi roi thi bo ten khoi ban tieng Anh.',
+    key: 'nhan-hieu', label: 'Nhãn hiệu của bên thứ ba',
+    ask: 'Còn dùng nhà cung cấp / vật liệu này không? Nếu đã đổi thì bỏ tên khỏi bản tiếng Anh.',
     terms: ['Somfy', 'Kasankie', 'Robust', 'Xingfa', 'HOPO', 'Shinto Toa', 'Jotun', 'AkzoNobel',
             'Nippon', 'Dulux', 'Bosch', 'Siemens', 'Schneider', 'Panasonic', 'Mitsubishi',
             'Hyundai', 'Posco', 'Alcoa', 'Sapa', 'Qualicoat', 'Seaside'],
   },
   {
-    key: 'nhan-hieu-cua-minh', label: 'Nhan hieu cua chinh cong ty',
-    ask: 'Ban tieng Anh dung ten nao? Site hien tai la "Boss Group"; nguon viet "BossDoor", '
-       + '"BossGroup", "Tan Truong Son". Ba ten nay tren cung mot trang se thanh ba cong ty.',
+    key: 'nhan-hieu-cua-minh', label: 'Tên gọi của chính công ty',
+    ask: 'Bản tiếng Anh dùng tên nào? Site hiện tại viết "Böss Group"; nguồn viết "BossDoor", '
+       + '"BossGroup", "Tân Trường Sơn Group". Ba tên trên cùng một trang sẽ thành ba công ty.',
     terms: ['BossDoor', 'BossGroup', 'Boss Group', 'Tân Trường Sơn', 'BossMatic', 'Boss Standard',
             'Boss Elegant', 'SBright', 'S-Bright', 'Boss Premium'],
   },
   {
-    key: 'khach-hang', label: 'Ten khach hang va du an',
-    ask: 'Duoc neu ten cong khai khong? Nhieu hop dong cam - can nguoi ky hop dong xac nhan.',
+    key: 'khach-hang', label: 'Tên khách hàng và dự án',
+    ask: 'Được nêu tên công khai không? Nhiều hợp đồng cấm — cần người ký hợp đồng xác nhận.',
     terms: ['Aeon Mall', 'Aeon', 'Vincom', 'Vingroup', 'Cát Bi', 'FHome', 'F Home', 'Masteri',
             'Delta River', 'Regina', 'Novaland', 'Coteccons', 'Sun Group', 'FLC', 'Phú Mỹ Hưng',
             'Nam An Khánh', 'Ecopark', 'Mường Thanh', 'Hòa Bình', 'Him Lam'],
   },
   {
-    key: 'con-so', label: 'Con so va tuyen bo kiem chung duoc',
-    ask: 'Con dung nam 2026 khong? Con so cu tren ban tieng Anh la cam ket voi khach nuoc ngoai.',
+    key: 'con-so', label: 'Con số và tuyên bố kiểm chứng được',
+    ask: 'Còn đúng năm 2026 không? Con số cũ đặt trên bản tiếng Anh là một cam kết với khách nước ngoài.',
     terms: ['Guinness', 'kỷ lục', 'bằng độc quyền', 'độc quyền', 'sáng chế', 'ISO', 'PC66',
             'TCVN', 'bảo hành 10 năm', 'bảo hành 5 năm', 'hơn 20 năm', '20 năm', 'số 1',
             'hàng đầu', 'duy nhất', 'lớn nhất', 'đầu tiên', 'tấn/năm', 'giải thưởng',
@@ -107,6 +107,34 @@ function findTerm(term) {
   return { where, example };
 }
 
+/**
+ * Tu tim nhan hieu, thay vi tin vao danh sach tay o tren.
+ *
+ * Danh sach tay tim ra Kasankie va Robust, roi bo sot "YH®" - mot hang mo to co ten trong
+ * tieu de cua bay san pham. Do dung la cach mot danh sach tay hong: no chi tim duoc cai nguoi
+ * viet no da biet. Ky hieu ® va ™ thi khong can biet truoc - chinh nguon danh dau ho.
+ *
+ * Nen: quet moi ten dung ngay truoc ® hoac ™, va bao cao ten nao chua co trong nhom nao.
+ */
+function discover() {
+  const seen = new Map();
+  // Ten nhan hieu la ASCII hoa. Lan dau viet la [A-ZÀ-ỹ] cho "rong rai", nhung day À-ỹ
+  // chua ca chu THUONG tieng Viet, nen "cửa cuốn ROBUST®" boc ra thanh "ốn ROBUST".
+  const re = /\b([A-Z][A-Za-z0-9'’-]{1,20}(?:\s+[A-Z][A-Za-z0-9'’-]{1,20})?)\s*[®™]/g;
+  const known = new Set(GROUPS.flatMap(g => g.terms.map(t => t.toLowerCase())));
+  for (const it of scope) {
+    for (const m of it.text.matchAll(re)) {
+      const name = m[1].trim();
+      if (known.has(name.toLowerCase())) continue;
+      if (!seen.has(name)) seen.set(name, 0);
+      seen.set(name, seen.get(name) + 1);
+    }
+  }
+  return [...seen.keys()];
+}
+const DISCOVERED = discover();
+if (DISCOVERED.length) GROUPS[0].terms.push(...DISCOVERED);
+
 const found = [];
 for (const g of GROUPS) {
   for (const term of g.terms) {
@@ -152,7 +180,8 @@ for (const g of GROUPS) {
     const by = {};
     for (const w of r.where) by[w.kind] = (by[w.kind] || 0) + 1;
     const spread = Object.entries(by).map(([k, n]) => n + ' ' + (kindLabel[k] || k)).join(', ');
-    out.push('- [ ] **' + r.term + '** — ' + spread);
+    const auto = DISCOVERED.includes(r.term) ? ' `tự tìm thấy qua dấu ®`' : '';
+    out.push('- [ ] **' + r.term + '**' + auto + ' — ' + spread);
     out.push('  - ví dụ: *' + r.example.replace(/\*/g, '') + '*');
     out.push('  - mục: ' + r.where.slice(0, 4).map(w => '`' + w.id + '`').join(', ')
            + (r.where.length > 4 ? ' và ' + (r.where.length - 4) + ' mục nữa' : ''));

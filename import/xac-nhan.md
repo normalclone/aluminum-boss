@@ -9,23 +9,29 @@ mỗi dòng cần một chữ **giữ** hoặc **bỏ**.
 Cách dùng: đánh dấu `[x]` vào ô của dòng nào được giữ, gạch bỏ dòng nào không. Dòng
 nào chưa rõ thì để trống — tôi sẽ **bỏ** khi viết lại, vì bỏ sót an toàn hơn giữ sai.
 
-## Nhan hieu ben thu ba (3)
+## Nhãn hiệu của bên thứ ba (5)
 
-> Con dung nha cung cap / vat lieu nay khong? Neu doi roi thi bo ten khoi ban tieng Anh.
+> Còn dùng nhà cung cấp / vật liệu này không? Nếu đã đổi thì bỏ tên khỏi bản tiếng Anh.
 
 - [ ] **Robust** — 1 tin, 9 san pham
   - ví dụ: *…tốt nhất? TOP 4 loại mô tơ cửa cuốn tốt nhất thị trường hiện nayMô tơ ROBUST ECO & ROBUST Mô tơ cửa cuốn KASANKIE DC&AC Mô tơ cửa cuốn BossRM Mô t…*
   - mục: `mo-to-cua-cuon-loai-nao-tot-n297`, `bo-toi-cua-cuon-ac-p81`, `bo-toi-cua-cuon-dc-robust-doi-p36`, `bo-toi-cua-cuon-dc-robust-don-p35` và 6 mục nữa
+- [ ] **BossRM** `tự tìm thấy qua dấu ®` — 1 tin, 6 san pham
+  - ví dụ: *…ô tơ ROBUST ECO & ROBUST Mô tơ cửa cuốn KASANKIE DC&AC Mô tơ cửa cuốn BossRM Mô tơ cửa cuốn YH Kết luận Bạn thắc mắc mô tơ cửa cuốn nào tốt nhất…*
+  - mục: `mo-to-cua-cuon-loai-nao-tot-n297`, `bo-toi-cua-cuon-ac-p81`, `bo-toi-cua-cuon-boss-rm-300kg-p52`, `bo-toi-cua-cuon-bossrm-500-kg-p53` và 3 mục nữa
 - [ ] **Kasankie** — 1 tin, 5 san pham
   - ví dụ: *…tốt nhất thị trường hiện nayMô tơ ROBUST ECO & ROBUST Mô tơ cửa cuốn KASANKIE DC&AC Mô tơ cửa cuốn BossRM Mô tơ cửa cuốn YH Kết luận Bạn thắc mắc…*
   - mục: `mo-to-cua-cuon-loai-nao-tot-n297`, `bao-gia-bo-toi-kasankie-eco-nhat-ban-p263`, `bo-toi-cua-cuon-kasankie-dc-300-kg-p43`, `bo-toi-cua-cuon-kasankie-dc-400-kg-p42` và 2 mục nữa
+- [ ] **YH** `tự tìm thấy qua dấu ®` — 1 tin, 4 san pham
+  - ví dụ: *…ST Mô tơ cửa cuốn KASANKIE DC&AC Mô tơ cửa cuốn BossRM Mô tơ cửa cuốn YH Kết luận Bạn thắc mắc mô tơ cửa cuốn nào tốt nhất hiện nay. Các thươ…*
+  - mục: `mo-to-cua-cuon-loai-nao-tot-n297`, `bo-toi-cua-cuon-yh-1300-kg-3-pha-p59`, `bo-toi-cua-cuon-yh-300-kg-p56`, `bo-toi-cua-cuon-yh-400-kg-p57` và 1 mục nữa
 - [ ] **Shinto Toa** — 1 tin
   - ví dụ: *BossGroup ký kết hợp tác với Shinto Toa Việt Nam: Ứng dụng công nghệ sơn ED cho dòng nhôm cao cấp Nội dung b…*
   - mục: `bossgroup-ky-ket-hop-tac-voi-shinto-toa-viet-nam-ung-dung-cong-nghe-son-ed-cho-dong-nhom-cao-cap-n385`
 
-## Nhan hieu cua chinh cong ty (5)
+## Tên gọi của chính công ty (5)
 
-> Ban tieng Anh dung ten nao? Site hien tai la "Boss Group"; nguon viet "BossDoor", "BossGroup", "Tan Truong Son". Ba ten nay tren cung mot trang se thanh ba cong ty.
+> Bản tiếng Anh dùng tên nào? Site hiện tại viết "Böss Group"; nguồn viết "BossDoor", "BossGroup", "Tân Trường Sơn Group". Ba tên trên cùng một trang sẽ thành ba công ty.
 
 - [ ] **BossDoor** — 5 tin, 26 san pham, 1 du an
   - ví dụ: *Các thông tin cơ bản về nhà máy sản xuất cửa cuốn BossDoor Nội dung bài viết 1. Lịch sử hình thành nhà máy sản xuất cửa cuốn Bo…*
@@ -43,9 +49,9 @@ nào chưa rõ thì để trống — tôi sẽ **bỏ** khi viết lại, vì b
   - ví dụ: *BOSS GROUP VƯƠN TẦM QUỐC TẾ: KHẲNG ĐỊNH VỊ THẾ QUA CÁC MỐI QUAN HỆ HỢP TÁC CHIẾN…*
   - mục: `boss-group-vuon-tam-quoc-te-khang-dinh-vi-the-qua-cac-moi-quan-he-hop-tac-chien-luoc-n395`
 
-## Ten khach hang va du an (8)
+## Tên khách hàng và dự án (8)
 
-> Duoc neu ten cong khai khong? Nhieu hop dong cam - can nguoi ky hop dong xac nhan.
+> Được nêu tên công khai không? Nhiều hợp đồng cấm — cần người ký hợp đồng xác nhận.
 
 - [ ] **Coteccons** — 2 du an
   - ví dụ: *…Delta river tower Hình ảnh tòa cao ốc Delta river tower được nhà thầu Coteccons, một trong những nhà thầu lớn và uy tín đã từ lâu nay luôn tin tưởng…*
@@ -72,9 +78,9 @@ nào chưa rõ thì để trống — tôi sẽ **bỏ** khi viết lại, vì b
   - ví dụ: *Masteri Nam An Khánh Mác Nhôm 6063.T6 - Bảo hành bề mặt sơn 10 năm Thông tin cơ bản về Mas…*
   - mục: `masteri-nam-an-khanh-dpj22`
 
-## Con so va tuyen bo kiem chung duoc (16)
+## Con số và tuyên bố kiểm chứng được (16)
 
-> Con dung nam 2026 khong? Con so cu tren ban tieng Anh la cam ket voi khach nuoc ngoai.
+> Còn đúng năm 2026 không? Con số cũ đặt trên bản tiếng Anh là một cam kết với khách nước ngoài.
 
 - [ ] **độc quyền** — 4 tin, 6 san pham
   - ví dụ: *…h hoạt, tạo điều kiện thuận lợi nhất cho khách hàng. Đại lý phân phối độc quyền trải dài trên toàn quốc. Tập đoàn Tân Trường Sơn có nhà máy sản xuất…*
