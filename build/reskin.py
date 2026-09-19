@@ -65,8 +65,9 @@ SITE = 'Boss Group'
 # to the page title.
 BLURB = {
     '': 'Aluminium extrusion, finishing and fabrication in Vietnam. Profile, facade, furniture, '
-        'door and car accessories, and honeycomb panels, drawn and finished in Vietnam.',
-    'about-us': 'Who we are, what the plants can do, and what we are certified to.',
+        'door and car accessories, and honeycomb panels, shipped to four export regions.',
+    'about-us': 'Who we are: five plants from Yen Bai to Binh Duong, what they can do, and '
+                'what we are certified to.',
     'products': 'Six product families: profile systems, facade systems, furniture profiles, '
                 'door and car accessories, and honeycomb panels.',
     'colors': 'Anodised, powder coated, wood grain, PVDF and mechanical finishes, all applied on '
