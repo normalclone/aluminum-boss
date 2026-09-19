@@ -58,7 +58,11 @@ const KINDS = {
     need: ['id', 'year', 'title', 'location', 'client', 'scope', 'note'],
     check(x) {
       const e = [];
-      if (!(x.year >= 1990 && x.year <= 2100)) e.push('year phai la so nam');
+      // `year` rong = KHONG BIET nam hoan thanh. Hai du an cua bossdoor.vn khong ghi nam o bat
+      // ky dau, va doan mot nam cho mot cong trinh that thi te hon la noi thang. Trang danh sach
+      // gom chung vao mot nhom rieng nam cuoi.
+      if (x.year !== '' && !(x.year >= 1990 && x.year <= 2100))
+        e.push("year phai la so nam, hoac chuoi rong neu khong biet");
       if (!Array.isArray(x.products)) e.push('products phai la mang ten he nhom');
       if (!Array.isArray(x.photos)) e.push('photos phai la mang {c, image}');
       return e;
@@ -105,6 +109,9 @@ for (const kind of Object.keys(KINDS)) {
     const e = [];
     for (const f of K.need) {
       const v = data[f];
+      // `projects.year` la truong DUY NHAT ma chuoi rong la mot cau tra loi, khong phai mot cho
+      // bo quen: "khong biet nam hoan thanh". Moi truong con lai de rong van la thieu.
+      if (kind === 'projects' && f === 'year' && v === '') continue;
       if (v === undefined || v === null || v === '' || (Array.isArray(v) && !v.length))
         e.push('thieu ' + f);
     }

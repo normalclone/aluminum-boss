@@ -476,6 +476,33 @@
         }
       ],
       "image": "aeon-mall-long-bien.jpg"
+    },
+    {
+      "id": "delta-river-tower",
+      "year": "",
+      "title": "Delta River Tower",
+      "location": "Ho Chi Minh City, Vietnam",
+      "client": "Coteccons (main contractor)",
+      "scope": "System aluminium and glazing profile",
+      "products": [
+        "System profile",
+        "Unitised facade"
+      ],
+      "note": "Twenty-seven storeys over four basement levels on the Saigon River: a banking hall at ground level, more than twenty floors of Grade A offices glazed on every elevation, and apartments on the upper floors with their own lobby, lifts and parking. The office floors are full-height glass to the river on all sides, so the aluminium carrying them is visible from inside every tenancy rather than hidden behind a spandrel.",
+      "photos": []
+    },
+    {
+      "id": "masteri-nam-an-khanh",
+      "year": "",
+      "title": "Masteri Nam An Khanh",
+      "location": "Hoai Duc, Hanoi, Vietnam",
+      "client": "Not recorded",
+      "scope": "6063-T6 extrusion",
+      "products": [
+        "System profile"
+      ],
+      "note": "A 24.2-hectare development of villas, terraced houses and shophouses west of Hanoi, at Nam An Khanh in Hoai Duc, laid out around planted ground and a retention lake. Aluminium for the scheme is 6063-T6, drawn at the group's own plant so that alloy and finish are consistent across the whole development rather than matched between suppliers.",
+      "photos": []
     }
   ]
 }

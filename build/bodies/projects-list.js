@@ -8,7 +8,14 @@
     // asked for, so it is a heading in the page rather than a filter you have to discover.
     var years = {};
     d.albums.forEach(function (a) { (years[a.year] = years[a.year] || []).push(a); });
-    var order = Object.keys(years).sort(function (a, b) { return b - a; });
+    // Mot du an co the KHONG BIET nam hoan thanh: nguon khong ghi, va doan mot nam thi te hon
+    // la noi thang. `year` rong la gia tri hop le, va nhom do luon nam cuoi - sau nam cu nhat -
+    // vi thu tu cua trang nay la moi truoc cu sau, ma "khong ro" thi khong dung o dau trong day.
+    var order = Object.keys(years).sort(function (a, b) {
+      if (!a) return 1;
+      if (!b) return -1;
+      return b - a;
+    });
 
     el.innerHTML = order.map(function (y) {
       var n = years[y].length;
@@ -27,7 +34,7 @@
       }).join('');
       return '<section class="ab-year">' +
                '<div class="ab-year-head">' +
-                 '<h2>' + AB.esc(y) + '</h2>' +
+                 '<h2>' + AB.esc(y || 'Year not recorded') + '</h2>' +
                  '<span>' + n + (n === 1 ? ' album' : ' albums') + '</span>' +
                '</div>' +
                '<div class="ab-albums">' + cards + '</div>' +

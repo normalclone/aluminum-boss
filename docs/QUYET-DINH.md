@@ -217,3 +217,36 @@ Bảng "bảy chỗ va nhau" ghi *"nhà máy được nêu tên là Thanh Hoá v
 Cùng loại với lần suýt báo "bản đồ nhà máy vẫn nói về đá" ở mục 9: **chép lại một câu đúng vào lúc
 viết nó ra, và không còn đúng — hoặc chưa bao giờ đúng — vào lúc đọc lại.**
 
+---
+
+## 11. "Không rõ năm" là một giá trị hợp lệ — 19/09/2026
+
+Hai dự án cuối của bossdoor.vn — **Masteri Nam An Khánh** và **Delta River Tower** — có nội dung
+thật nhưng **trang nguồn không ghi năm nào**. Không phải tôi bỏ sót: quét cả hai trang không có
+một chuỗi bốn chữ số nào.
+
+Trang Dự án **nhóm theo năm hoàn thành**, và năm là cách trang đó tổ chức, nên không viết vòng
+được như bên About. Ba đường: đoán một năm, bỏ hai dự án, hoặc để trang biết cách nói "không rõ".
+Anh Phúc chọn đường thứ ba.
+
+**Quy ước:** `projects[].year = ""` nghĩa là **không biết năm hoàn thành**. Đây là trường duy nhất
+trong cả bộ dữ liệu mà chuỗi rỗng là một câu trả lời chứ không phải một chỗ bỏ quên — mọi trường
+khác để rỗng vẫn là thiếu, và `merge-bossdoor.js` vẫn chặn.
+
+Bốn chỗ phải sửa cho quy ước này chạy đúng, và **cái thứ ba là chỗ sẽ hỏng âm thầm nếu quên**:
+
+| Chỗ | Trước | Sau |
+|---|---|---|
+| Nhóm trên trang danh sách | `Object.keys(years).sort((a,b) => b-a)` — khoá `''` làm `'' - 2016` ra `NaN`, thứ tự thành không xác định | Nhóm rỗng luôn xuống cuối, tiêu đề **"Year not recorded"** |
+| Ô thông số trên trang chi tiết | `['Year', a.year]` → `<dd>` rỗng, nhìn như trang lỗi | Ô rỗng **bất kỳ** in ra "Not recorded" |
+| Sắp xếp "Other albums" | `y.year - x.year` → `NaN`, ba thẻ liên quan xếp lung tung | `(+y.year \|\| 0) - (+x.year \|\| 0)` |
+| Vụn đường dẫn | `Projects / ` rồi bỏ lửng | Bỏ hẳn đoạn năm khi không có |
+
+Chỗ thứ ba không hiện ra ở trang nào tôi mở đầu tiên — nó chỉ hỏng trên trang chi tiết của dự án
+**khác**, nơi hai dự án không năm lọt vào danh sách "Other albums". Cùng loại với những lỗi khác
+trong tài liệu này: **một giá trị mới đi qua một phép tính không ai nghĩ nó sẽ đi qua.**
+
+Hai bài viết theo đúng luật cũ: giữ thông số kỹ thuật (mác nhôm 6063-T6), giữ tên nhà thầu
+(Coteccons), **bỏ hai con số bảo hành** mà nguồn có — "bảo hành bề mặt sơn 10 năm" và "độ bền bề
+mặt nhôm 20 năm" — theo quyết định bỏ hết thời hạn bảo hành khỏi bản tiếng Anh.
+
