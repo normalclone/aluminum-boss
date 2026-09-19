@@ -105,7 +105,7 @@
         {
           "id": "cert-iso-9001",
           "title": "ISO 9001:2015 Certificate",
-          "blurb": "Quality management, all five plants. Issued by the certification body named on the document.",
+          "blurb": "Quality management, group-wide. Issued by the certification body named on the document.",
           "edition": "2026",
           "lang": "English",
           "pages": 2
@@ -113,7 +113,7 @@
         {
           "id": "cert-iso-14001",
           "title": "ISO 14001:2015 Certificate",
-          "blurb": "Environmental management, all five plants.",
+          "blurb": "Environmental management, group-wide.",
           "edition": "2026",
           "lang": "English",
           "pages": 2

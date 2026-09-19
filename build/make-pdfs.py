@@ -13,6 +13,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
 OUT = os.path.join(ROOT, '_docs')
 
+# Cong cu nay truoc day chi ghi vao site/_docs/. wwwroot/_docs/ phai chep tay, va khong co gi
+# nhac - hai cay lech nhau im lang cho toi khi ai do mo may chu admin ra va thay mot ban PDF cu.
+# trees.py khong bat duoc vi no doi chieu _data, khong doi chieu _docs. make-real-pdfs.py da ghi
+# ca hai cay tu dau; gio cong cu nay cung vay.
+CAY_KIA = os.path.normpath(os.path.join(HERE, '..', 'wwwroot', '_docs'))
+
 W, H = 595, 842            # A4 at 72 dpi
 
 
@@ -126,7 +132,20 @@ if __name__ == '__main__':
             size = build(doc, cat['name'], os.path.join(OUT, doc['id'] + '.pdf'))
             sizes[doc['id']] = size
             n += 1
-    print('viet %d file PDF vao site/_docs/' % n)
+    # Chep sang cay thu hai. Chep ca nhung muc bi bo qua o tren (PDF that) de hai cay luon khop,
+    # ke ca khi mot trong hai ban da bi sua tay.
+    import shutil
+    os.makedirs(CAY_KIA, exist_ok=True)
+    chep = 0
+    for nm in sorted(os.listdir(OUT)):
+        if not nm.endswith('.pdf'):
+            continue
+        dich = os.path.join(CAY_KIA, nm)
+        a = io.open(os.path.join(OUT, nm), 'rb').read()
+        if not os.path.exists(dich) or io.open(dich, 'rb').read() != a:
+            shutil.copyfile(os.path.join(OUT, nm), dich)
+            chep += 1
+    print('viet %d file PDF vao site/_docs/, chep %d file sang wwwroot/_docs/' % (n, chep))
     print('nho nhat %d B, lon nhat %d B' % (min(sizes.values()), max(sizes.values())))
     if real:
         print('bo qua %d muc co tai lieu that (build/docs/): %s'

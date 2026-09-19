@@ -16,7 +16,7 @@ endobj
 <</Type/Font/Subtype/Type1/BaseFont/Helvetica-Bold>>
 endobj
 6 0 obj
-<</Length 1119>>stream
+<</Length 1114>>stream
 0.11 0.11 0.10 rg
 BT /F2 20 Tf 56 764 Td (AluminumBoss) Tj ET
 0.85 0.84 0.82 RG 1 w 56 746 m 539 746 l S
@@ -25,7 +25,7 @@ BT /F1 10 Tf 56 702 Td (CERTIFICATES) Tj ET
 0.11 0.11 0.10 rg
 BT /F2 26 Tf 56 652 Td (ISO 14001:2015 Certificate) Tj ET
 0.44 0.42 0.38 rg
-BT /F1 11 Tf 56 600 Td (Environmental management, all five plants.) Tj ET
+BT /F1 11 Tf 56 600 Td (Environmental management, group-wide.) Tj ET
 0.85 0.84 0.82 RG 56 557 m 539 557 l S
 0.44 0.42 0.38 rg BT /F1 9 Tf 56 531 Td (REFERENCE) Tj ET
 0.11 0.11 0.10 rg BT /F1 12 Tf 170 531 Td (CERT-ISO-14001) Tj ET
@@ -53,5 +53,5 @@ xref
 trailer
 <</Size 7/Root 1 0 R>>
 startxref
-1531
+1526
 %%EOF

@@ -143,7 +143,7 @@ Thanh Hoa"* — không phải một nhà máy ở tỉnh Thanh Hoá. Tôi suýt 
 Thanh Hoá" lên trang tiếng Anh dựa vào chính dòng ghi sai của mình. Chỉ còn **Hoàng Kim** là nhà
 máy có tên trong nguồn.
 
-### Hai chỗ còn mâu thuẫn với About mới — biết mà chưa sửa
+### Hai chỗ còn mâu thuẫn với About mới — đã xử lý 19/09/2026
 
 1. **Chứng chỉ.** About giờ chỉ nêu ISO 9001, nhưng `news.json`, `colors.json`, `documents.json`
    và `products.json` vẫn nhắc QUALICOAT, AAMA, IATF 16949, ISO 14001 — trong đó có hẳn hai bài
@@ -154,7 +154,36 @@ máy có tên trong nguồn.
    mâu thuẫn về sự thật — About chỉ im lặng — nhưng nếu anh muốn nhất quán thì hai chỗ đó là
    việc tiếp theo.
 
-Cả hai đều sửa được trong một buổi khi anh gật.
+**Đã làm (19/09/2026), và không làm giống nhau cho cả hai:**
+
+**Chỗ 1 — chứng chỉ: để nguyên.** Kiểm lại kỹ hơn thì chỗ hở này nhỏ hơn tôi báo. Footer đã ghi
+sẵn *"Demonstration site — photography and documents are specimens"*; About viết *"That is the
+certification listed on this page"* — đúng nguyên văn, không phủ nhận cái gì; và phần lớn cái tôi
+đếm trong `colors.json` là **tên tiêu chuẩn mà một lớp sơn được làm theo** (AAMA 2604, QUALICOAT
+Class 2), đó là cách ngành này mô tả một lớp phủ, không phải lời khẳng định đang giữ giấy phép.
+Ba bài tin công bố chứng chỉ là đồ demo nằm sau một nhãn demo. Gỡ chúng đi là sửa quá tay.
+
+**Chỗ 2 — con số: đã gỡ.** Bốn chỗ nói con số bằng giọng của chính công ty:
+
+| Chỗ | Trước | Sau |
+|---|---|---|
+| Footer (mọi trang, 167 tệp) | "Five plants in Vietnam, forty-three export markets." | "Drawn, finished and packed in Vietnam." |
+| `products.json` intro | "Six product families, extruded and finished in **Binh Duong** and shipped from Ho Chi Minh City to **43 markets**." | "Six product families, extruded and finished in Vietnam." |
+| `documents.json` ×2 | "Quality management, **all five plants**." | "…group-wide." |
+| Thẻ mô tả SEO trang chủ + About (`reskin.py`) | "shipped to **forty-three markets**" · "five plants between **Nghe An and Binh Duong**" | Không còn con số, không còn tỉnh |
+
+Giữ lại **"Six product families"** vì nó **đếm được ngay trên trang** — mở Products ra là sáu thẻ.
+Một con số người đọc tự kiểm được trong ba giây thì không cùng loại với "1.840 người".
+
+**`factories.json` thì KHÔNG đụng.** Đó là bản đồ canvas: năm nhà máy có toạ độ, năm hoạt động,
+sản lượng, tông màu. Cách B **giữ danh tính nhà đùn ép nhôm theo chủ ý**, và bản đồ chính là danh
+tính ấy. Rút xuống một nhà máy là gỡ mất một khối lớn của trang chủ; đổi tên các nhà máy cho khớp
+About thì phải bịa toạ độ cho Hoàng Kim. Câu "Five factories take billet to finished profile" mô tả
+đúng cái bản đồ ngay bên dưới nó — nhất quán với chính nó, và nằm sau nhãn demo.
+
+**Ranh giới, nói một lần cho rõ:** bản đồ nhà máy, quả địa cầu và các con số sản xuất là **phần
+demo đã dán nhãn**; About là **phần dựng từ nguồn thật**. Hai phần khác nhau về mức chắc chắn, và
+footer đã nói điều đó trên mọi trang.
 
 ### Vẫn chờ anh
 

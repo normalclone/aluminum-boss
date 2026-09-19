@@ -189,10 +189,24 @@ với 8 con số không con nào có nguồn đổi thành "At a glance" còn 3 
 Mọi con số khác trong sáu chương bị gỡ và câu văn viết lại để **không cần** con số. Trang mỏng đi.
 Đổi lại là mỗi câu trên đó đều chỉ được ra chỗ nó đến.
 
-**Hai chỗ còn hở, biết mà chủ định không đụng vì ngoài phạm vi "sáu chương":** dữ liệu demo ở
-`news`/`colors`/`documents`/`products` vẫn nhắc QUALICOAT, AAMA, IATF 16949, ISO 14001; và
-`factories.json` vẫn vẽ "Five factories", footer vẫn ghi "forty-three markets". Chi tiết ở
-`import/en/about-de-xuat.md` mục cuối.
+**Hai chỗ hở — xử lý 19/09/2026, và không giống nhau.**
+
+*Chứng chỉ: để nguyên.* Kiểm kỹ hơn thì chỗ này nhỏ hơn tôi báo lần đầu. Footer đã ghi sẵn
+"Demonstration site — photography and documents are specimens"; About viết "That is the
+certification listed on this page", đúng nguyên văn và không phủ nhận gì; còn `colors.json` phần
+lớn là **tên tiêu chuẩn mà một lớp sơn được làm theo**, không phải lời khẳng định đang giữ giấy
+phép. Gỡ đi là sửa quá tay.
+
+*Con số: đã gỡ ở bốn chỗ nói bằng giọng công ty* — footer trên cả 167 trang, `products.json`
+intro, hai dòng `documents.json`, và thẻ mô tả SEO trong `reskin.py`. Giữ "Six product families"
+vì nó **đếm được ngay trên trang**; một con số người đọc tự kiểm trong ba giây không cùng loại với
+"1.840 người".
+
+*`factories.json` không đụng.* Cách B giữ danh tính nhà đùn ép nhôm theo chủ ý, và bản đồ canvas
+năm nhà máy chính là danh tính ấy. Ranh giới: **bản đồ và quả địa cầu là phần demo đã dán nhãn;
+About là phần dựng từ nguồn thật.**
+
+Chi tiết ở `import/en/about-de-xuat.md` mục cuối.
 
 ### Một dòng sai trong chính bản đề xuất
 
