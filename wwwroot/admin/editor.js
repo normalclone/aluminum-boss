@@ -228,6 +228,30 @@
     history.replaceState(null, '', '?page=' + encodeURIComponent(path));
   }
 
+  /**
+   * Khung xem truoc tu di sang trang khac - nguoi dung bam mot lien ket trong do.
+   *
+   * `show()` la duong di mot chieu: no DAT src cho khung. Duong nay la chieu nguoc lai, va no
+   * chi duoc cap nhat nhung gi noi "dang o trang nao" - KHONG duoc dat lai frame.src, vi khung
+   * da o dung cho roi; dat lai la tai trang hai lan va vut mat cuon trang cua nguoi ta.
+   *
+   * O chon trang cung phai doi theo. Neu trang moi khong co trong danh sach (mot bai tin le
+   * chang han) thi de o chon trong: noi sai ten trang dang mo con te hon la khong noi gi.
+   */
+  function moved_to(path) {
+    if (!path || path === root.getAttribute('data-ed-page')) return;
+    root.setAttribute('data-ed-page', path);
+    urlOut.textContent = path;
+    document.querySelector('.ed-open').setAttribute('href', path);
+    inputs = {};
+    var has = false;
+    for (var i = 0; i < picker.options.length; i++) {
+      if (picker.options[i].value === path) { has = true; break; }
+    }
+    picker.value = has ? path : '';
+    history.replaceState(null, '', '?page=' + encodeURIComponent(path));
+  }
+
   function note(text) {
     var p = document.createElement('p');
     p.className = 'ed-empty';
@@ -703,7 +727,7 @@
 
   window.addEventListener('message', function (e) {
     if (e.origin !== location.origin || !e.data) return;
-    if (e.data.type === 'ab:ready') build(e.data.fields || []);
+    if (e.data.type === 'ab:ready') { moved_to(e.data.url); build(e.data.fields || []); }
     else if (e.data.type === 'ab:pick') reveal(e.data.address);
   });
 

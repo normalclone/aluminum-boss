@@ -858,6 +858,36 @@ markup. Giống hệt khuôn nghĩa là đã rơi về khuôn.
 
 ---
 
+## `editor-clicks.js` — khung xem trước còn dùng được như một trang web không
+
+```bash
+node editor-clicks.js          # cần máy chủ .NET đang chạy ở :5199
+```
+
+Từ 21/09/2026 khung xem trước đổi luật: **giữ Ctrl rồi bấm = chọn để sửa, bấm thường = trang chạy
+y như thật**. Lý do đổi: lập luận cũ là *"liên kết sẽ đưa khung đi chỗ mà cột trái không biết;
+danh sách trang là cách để đi"* — đúng về kỹ thuật và sai về cái người dùng đang làm. Họ đang xem
+một **trang web**. Bấm vào menu thì phải chuyển trang; không thì không biết cái vừa sửa trông thế
+nào ở những trạng thái khác của trang.
+
+Sáu phép kiểm là sáu cách việc đó hỏng, và **từng cái đều đã hỏng thật một lần trong lúc làm**:
+
+| Kiểm | Hỏng thì ra sao |
+|---|---|
+| bấm thường không chọn | luật cũ còn sót ở một nhánh nào đó |
+| Ctrl+bấm vẫn chọn được | sửa quá tay, mất hẳn đường sửa |
+| cột trái hiện đúng ô | chọn được nhưng không ai thấy ô đâu |
+| liên kết giữ lại `?edit=1` | khung đi mất tham số → cầu nối đứt, cột trái đứng im, **không báo gì** |
+| thanh địa chỉ và ô chọn trang đổi theo | khung ở trang mới, phần còn lại chỉ trang cũ |
+| cột trái nạp trường của trang mới | đi được nhưng không sửa được gì ở đó |
+
+> **Một cái bẫy khi viết phép kiểm này:** khung xem trước bị thu nhỏ bằng CSS `transform`, nên
+> Playwright tính ra phần tử *"nằm ngoài khung nhìn"* và `click()` hết giờ sau 30 giây — dù phần
+> tử hiện rõ. Bản thử phát sự kiện thẳng vào phần tử; nó vẫn đi qua đúng các handler ở
+> `edit-bridge.js`, là thứ đang cần kiểm.
+
+---
+
 ## `publish-static.js` — bản tĩnh, và bằng chứng nó giống máy chủ
 
 Trả lời một câu hỏi thật: nếu ngày mai không còn máy chủ nữa thì còn lại gì. Câu trả lời phải là

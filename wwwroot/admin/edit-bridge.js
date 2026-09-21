@@ -161,7 +161,7 @@
     // Only the editor, and only from this same site.
     if (e.origin !== w.location.origin || !e.data) return;
 
-    if (e.data.type === 'ab:list') { send({ type: 'ab:ready', fields: fields() }); return; }
+    if (e.data.type === 'ab:list') { send({ type: 'ab:ready', url: w.location.pathname, fields: fields() }); return; }
     if (e.data.type !== 'ab:text' && e.data.type !== 'ab:img') return;
 
     var value = e.data.type === 'ab:img' ? e.data.file : e.data.value;
@@ -170,10 +170,19 @@
     });
   });
 
-  // Clicking text selects it in the editor instead of following the link it sits in. Links would
-  // take the frame somewhere the left column knows nothing about; the page list is how you move,
-  // and it is right there. A click on anything without an address behaves normally.
+  // CTRL DE CHON, BAM THUONG DE DUNG THU TRANG.
+  //
+  // Truoc day moi cu bam trong khung xem truoc deu bi bat lai de chon o soan, va lap luan cu la
+  // "lien ket se dua khung di cho ma cot trai khong biet; danh sach trang la cach de di". Dung
+  // ve ky thuat va sai ve cai nguoi dung dang lam: ho dang xem mot TRANG WEB. Bam vao menu thi
+  // phai chuyen trang, bam vao mot tab thi phai doi tab. Khong lam duoc thi khong biet cai minh
+  // vua sua trong nhung trang thai khac cua trang trong nhu the nao.
+  //
+  // Nen: giu Ctrl (hoac Cmd) roi bam = chon de sua. Bam thuong = trang chay dung nhu that.
+  function held(e) { return e.ctrlKey || e.metaKey; }
+
   d.addEventListener('click', function (e) {
+    if (!held(e)) return;              // de trang tu xu ly: chuyen trang, doi tab, mo dong...
     var el = e.target;
     while (el && el !== d.body) {
       var a = attr(el);
@@ -188,6 +197,44 @@
     }
   }, true);
 
+  // Di sang trang khac ma van con o soan.
+  //
+  // Bo ghep chi gan tep nay vao trang khi duoc hoi kem ?edit=1. Mot lien ket thuong se dua khung
+  // toi mot trang KHONG co tham so do, va cau noi im lang: khung van hien trang dung, con cot
+  // trai dung lai o trang truoc va khong ai biet vi sao. Nen giu tham so lai khi di trong cung
+  // mot site.
+  //
+  // Lien ket ra ngoai thi mo tab moi. Do khong phai "y nhu web that" mot cach may moc, nhung neu
+  // de khung di ra mot site khac thi ca trinh soan bien mat, va chang ai co y dinh do khi bam.
+  d.addEventListener('click', function (e) {
+    if (held(e) || e.defaultPrevented || e.button !== 0 || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.hasAttribute('download') || a.getAttribute('target')) return;
+
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#') return;                 // neo trong trang: de nguyen
+
+    var u;
+    try { u = new w.URL(a.href, d.baseURI); } catch (err) { return; }
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return;   // mailto:, tel:, ...
+
+    e.preventDefault();
+    if (u.origin !== w.location.origin) { w.open(u.href, '_blank', 'noopener'); return; }
+    u.searchParams.set('edit', '1');
+    w.location.href = u.href;
+  }, true);
+
+  // Trong luc giu Ctrl thi moi ve vien quanh thu sua duoc — khong thi nguoi dung khong doan noi
+  // cho nao bam duoc. Nha phim ra la vien tat, ke ca khi cua so mat tieu diem giua chung (giu
+  // Ctrl roi Alt-Tab di thi keyup khong bao gio toi).
+  function pickable(on) {
+    if (on) d.documentElement.setAttribute('data-ab-pickable', '');
+    else d.documentElement.removeAttribute('data-ab-pickable');
+  }
+  d.addEventListener('keydown', function (e) { if (held(e)) pickable(true); });
+  d.addEventListener('keyup', function (e) { if (!held(e)) pickable(false); });
+  w.addEventListener('blur', function () { pickable(false); });
+
   var marked = null;
   function mark(el) {
     if (marked) marked.removeAttribute('data-ab-on');
@@ -198,20 +245,26 @@
   // The outline is the only thing this file adds to the page's appearance, and it is only ever
   // in the frame - a visitor who types ?edit=1 gets the script, but nothing draws until the
   // editor sends a message, and there is no editor.
+  //
+  // Moi bo chon duoi day deu bat dau bang [data-ab-pickable]: vien chi ve TRONG LUC giu Ctrl.
+  // Truoc day vien ve moi luc di chuot qua, va no dung: luc ay bam la chon. Gio bam thuong la
+  // dung thu trang, nen mot vien "sua duoc" ve san suot ca buoi la mot loi hua sai.
   var style = d.createElement('style');
   style.textContent =
-    '[data-ab-t]:hover,[data-ab-lead]:hover,[data-ab-lines]:hover,[data-ab-pick]:hover' +
+    '[data-ab-pickable] [data-ab-t]:hover,[data-ab-pickable] [data-ab-lead]:hover,' +
+    '[data-ab-pickable] [data-ab-lines]:hover,[data-ab-pickable] [data-ab-pick]:hover' +
     '{outline:1px dashed rgba(31,106,68,.55);outline-offset:2px;cursor:text}' +
     // A picture gets a solid outline and a pointer, not a text cursor: you are not going to
     // type into it, you are going to choose one.
-    '[data-ab-img]:hover{outline:2px solid rgba(31,106,68,.8);outline-offset:2px;cursor:pointer}' +
+    '[data-ab-pickable] [data-ab-img]:hover' +
+    '{outline:2px solid rgba(31,106,68,.8);outline-offset:2px;cursor:pointer}' +
     '[data-ab-on]{outline:2px solid #1f6a44 !important;outline-offset:2px}';
   d.head.appendChild(style);
 
   // The editor may be listening before this runs or after; say hello, and answer ab:list too.
   if (d.readyState === 'loading') {
-    d.addEventListener('DOMContentLoaded', function () { send({ type: 'ab:ready', fields: fields() }); });
+    d.addEventListener('DOMContentLoaded', function () { send({ type: 'ab:ready', url: w.location.pathname, fields: fields() }); });
   } else {
-    send({ type: 'ab:ready', fields: fields() });
+    send({ type: 'ab:ready', url: w.location.pathname, fields: fields() });
   }
 }(window));
