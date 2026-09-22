@@ -9,13 +9,23 @@
   display: grid;
   grid-template-columns: 380px minmax(0, 1fr);
   height: calc(100vh - 57px);      /* the top bar */
+  /* Hang phai bi RANG BUOC vao chieu cao do, khong thi no cao theo noi dung.
+     `height` tren hop luoi khong tu bo hang lai: hang mac dinh la `auto` nen no cao bang noi
+     dung roi tran ra ngoai hop. Hau qua khong nam o cho de doan: cot trai khong con la mot khung
+     CUON nua (no cao bang noi dung), nen `position: sticky` cua thanh luu bam vao day mot cai hop
+     cao gap doi man hinh - tuc la khong bam vao dau ca, va nut Save troi lo lung giua cot. */
+  grid-template-rows: minmax(0, 1fr);
 }
 
 /* ---- left: what to change ---- */
 .ed-side {
   border-right: 1px solid var(--ad-line);
   overflow-y: auto;
-  padding: 18px 20px 60px;
+  /* Khong co dem duoi. Thanh luu ben duoi la `position: sticky; bottom: 0`, va sticky bam vao
+     day cua HOP DEM chu khong phai day cua khung cuon - 60px dem o day lam ca thanh luu do treo
+     lo lung cach day 60px, con noi dung thi cuon qua BEN DUOI no. Dem can cho khoang tho cuoi
+     danh sach thi dat vao chinh danh sach (.ed-fields), khong dat vao khung cuon. */
+  padding: 18px 20px 0;
   background: #fff;
 }
 
@@ -40,6 +50,8 @@
   color: var(--ad-mute); font-size: 13px; line-height: 1.5;
   margin: 16px 0 20px; padding-left: 11px; border-left: 2px solid var(--ad-line);
 }
+
+.ed-fields { padding-bottom: 18px; }
 
 .ed-empty { color: var(--ad-mute); font-size: 13px; }
 
@@ -134,7 +146,11 @@
 
 /* ---- saving ---- */
 .ed-save {
-  position: sticky; bottom: 0; margin-top: 18px; padding: 12px 0;
+  position: sticky; bottom: 0; margin-top: 18px;
+  /* Keo ra sat hai mep cot roi dem lai vao trong: khung cuon co dem ngang 20px, nen mot thanh
+     nam gon trong dem se de ho hai rach 20px moi ben - va noi dung cuon qua thay ro o do, dung
+     canh mot thanh dang le phai chan het. */
+  margin-left: -20px; margin-right: -20px; padding: 12px 20px;
   background: #fff; border-top: 1px solid var(--ad-line);
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
 }

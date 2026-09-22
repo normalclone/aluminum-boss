@@ -102,6 +102,37 @@ const { signIn } = require('./lib/admin');
   say('khung tu sang /colors/ -> dong do doi theo',
       /Add, reorder or remove: Colors/.test(await p.locator('#ed-lists').innerText()), true);
 
+  // 6. Thanh luu phai DINH SAT DAY cot trai, khong troi lo lung giua chung.
+  //
+  // Cho nay hong theo mot duong vong: `.ed` la luoi co `height`, nhung hang cua luoi mac dinh la
+  // `auto` nen no cao bang noi dung roi tran ra ngoai hop. Cot trai vi the khong con la mot khung
+  // CUON, va `position: sticky` cua thanh luu bam vao day mot cai hop cao gap doi man hinh - tuc
+  // la khong bam vao dau. Do chieu cao that chu khong nhin bang mat: mot cai hop cao 1433px
+  // trong khung nhin 800px van ve ra dung, chi la nut Save nam o cho khong ai voi toi.
+  await p.setViewportSize({ width: 1400, height: 800 });
+  await p.goto('http://localhost:5199/Admin?page=%2F', { waitUntil: 'networkidle' });
+  await wait(1800);
+  await p.locator('.ed-side').evaluate(el => (el.scrollTop = 500));
+  await wait(400);
+  const dolayout = await p.evaluate(() => {
+    const side = document.querySelector('.ed-side'), bar = document.querySelector('.ed-save');
+    const s = side.getBoundingClientRect(), r = bar.getBoundingClientRect();
+    return {
+      vuaKhungNhin: Math.abs(s.height - (window.innerHeight - 57)) <= 1,
+      cotCuonDuoc: side.scrollHeight > side.clientHeight,
+      dinhDay: Math.round(s.bottom - r.bottom) === 0,
+      trongKhungNhin: r.bottom <= window.innerHeight + 1,
+      kinHetBeNgang: Math.abs(r.width - s.width) <= 2,
+      trangKhongCuon: document.documentElement.scrollHeight <= window.innerHeight + 1,
+    };
+  });
+  say('cot trai cao dung mot khung nhin', dolayout.vuaKhungNhin, true);
+  say('cot trai la khung cuon that', dolayout.cotCuonDuoc, true);
+  say('thanh luu dinh sat day cot', dolayout.dinhDay, true);
+  say('thanh luu nam trong khung nhin', dolayout.trongKhungNhin, true);
+  say('thanh luu kin het be ngang cot', dolayout.kinHetBeNgang, true);
+  say('ca trang khong tu cuon', dolayout.trangKhongCuon, true);
+
   console.log('');
   for (const [n, r, g] of ok) console.log('  ' + r.padEnd(5) + n.padEnd(46) + g);
   console.log('');
