@@ -226,6 +226,7 @@
     inputs = {};
     frame.src = path + '?edit=1';
     history.replaceState(null, '', '?page=' + encodeURIComponent(path));
+    listsFor(path);
   }
 
   /**
@@ -250,6 +251,43 @@
     }
     picker.value = has ? path : '';
     history.replaceState(null, '', '?page=' + encodeURIComponent(path));
+    listsFor(path);
+  }
+
+  /**
+   * "Danh sach nay con them/bot duoc o dau" - mot dong duoi o chon trang.
+   *
+   * Man hinh nay sua CAI MOT MUC NOI. Them mot muc, bo mot muc, doi thu tu la viec cua man hinh
+   * Content, va do la mot chia tach hop ly: mot cai la bien tap, mot cai la quan ly danh sach.
+   * Nhung nguoi dang dung mau o day khong co cach nao doan ra man hinh kia ton tai - ho nhin mot
+   * trang Colors day mau va khong thay cho nao them mau. Nen noi ra, ngay o cho ho dang dung.
+   *
+   * Tinh lai moi lan doi trang chu khong ve mot lan luc dung trang: khung xem truoc gio tu di
+   * sang trang khac duoc, va cau tra loi doi theo trang.
+   */
+  var KINDS = (function () {
+    var el = document.getElementById('ed-kinds');
+    try { return el ? JSON.parse(el.textContent) : []; } catch (e) { return []; }
+  }());
+  var lists = document.getElementById('ed-lists');
+
+  function listsFor(path) {
+    if (!lists) return;
+    // Trang chu la trang cua NHIEU danh sach (bon ke tren trang chu, thu vien anh, cac tab...).
+    // Cac trang khac thi khop theo tien to: /colors/an-dark-bronze/ van la mot mau.
+    var hit = KINDS.filter(function (k) {
+      return k.add && (k.page === '/' ? path === '/' : path.indexOf(k.page) === 0);
+    });
+    if (!hit.length) { lists.hidden = true; return; }
+    lists.hidden = false;
+    lists.innerHTML = 'Add, reorder or remove: ' + hit.map(function (k) {
+      return '<a href="/Admin/Collection/Items?id=' + encodeURIComponent(k.key) + '">' +
+             esc(k.label) + '</a>';
+    }).join(', ');
+  }
+
+  function esc(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function note(text) {
@@ -781,6 +819,9 @@
       fit();
     });
   });
+
+  // Lan dau khong di qua show(): khung da mang san src tu markup. Ve mot lan o day.
+  listsFor(root.getAttribute('data-ed-page'));
 
   window.addEventListener('resize', fit);
   frame.addEventListener('load', function () {

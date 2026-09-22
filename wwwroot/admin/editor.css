@@ -28,6 +28,14 @@
   border: 1px solid var(--ad-line); border-radius: 3px; background: #fff;
 }
 
+/* "Them/bot muc o dau" - dat ngay duoi o chon trang, tren dong huong dan, vi no tra loi mot cau
+   hoi nguoi dung co TRUOC khi ho bat dau sua: danh sach nay them duoc mot cai nua khong. */
+.ed-lists {
+  font-size: 13px; line-height: 1.5; margin: 14px 0 0; color: var(--ad-mute);
+}
+.ed-lists a { color: inherit; }
+.ed-lists a:hover { color: var(--ad-ink, inherit); }
+
 .ed-note {
   color: var(--ad-mute); font-size: 13px; line-height: 1.5;
   margin: 16px 0 20px; padding-left: 11px; border-left: 2px solid var(--ad-line);

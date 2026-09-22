@@ -79,6 +79,29 @@ const { signIn } = require('./lib/admin');
   say('doi ho -> dia chi doi theo', await bg.getAttribute('data-ab-img'),
       'products.categories.3.image');
 
+  // 5. Dong "them/bot muc o dau" - va no phai bam theo khi khung tu doi trang.
+  //
+  // Man hinh nay sua cai MOT MUC noi; them mot muc la viec cua man hinh Content. Chia tach thi
+  // hop ly, nhung nguoi dang dung mau khong co cach nao doan ra man hinh kia ton tai.
+  await p.goto('http://localhost:5199/Admin?page=%2Fcolors%2F', { waitUntil: 'networkidle' });
+  await wait(1200);
+  say('trang Colors -> co dong "them/bot o dau"',
+      /Colors/.test(await p.locator('#ed-lists').innerText()), true);
+  await p.goto('http://localhost:5199/Admin?page=%2Fcontact%2F', { waitUntil: 'networkidle' });
+  await wait(1200);
+  say('trang khong phai danh sach -> an dong do', await p.locator('#ed-lists').isHidden(), true);
+
+  // khung tu di sang mot trang co danh sach: dong do phai hien ra
+  await p.goto('http://localhost:5199/Admin?page=%2F', { waitUntil: 'networkidle' });
+  await wait(1500);
+  await p.frames()[1].evaluate(() => {
+    document.querySelector('a[data-nav="colors"]')
+      .dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+  });
+  await wait(2500);
+  say('khung tu sang /colors/ -> dong do doi theo',
+      /Add, reorder or remove: Colors/.test(await p.locator('#ed-lists').innerText()), true);
+
   console.log('');
   for (const [n, r, g] of ok) console.log('  ' + r.padEnd(5) + n.padEnd(46) + g);
   console.log('');

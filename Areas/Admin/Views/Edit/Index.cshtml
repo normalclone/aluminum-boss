@@ -30,6 +30,11 @@
             </select>
         </div>
 
+        @* The lists this page's items belong to. Drawn by editor.js, because the page in the
+           frame can change without this view being rendered again. *@
+        <script type="application/json" id="ed-kinds">@Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["Kinds"]))</script>
+        <p class="ed-lists" id="ed-lists" hidden></p>
+
         <p class="ed-note">
             <strong>Ctrl-click</strong> any text or picture in the preview to find it here.
             A plain click works the page instead &mdash; links, tabs and menus behave as they

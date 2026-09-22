@@ -49,6 +49,15 @@ public class EditController : Controller
         ViewData["Pages"] = pages;
         ViewData["Page"] = pages.Any(p => p.Path == page) ? page : pages[0].Path;
         ViewData["Title"] = "Edit pages";
+        // Which lists a page belongs to, so the editor can offer "add one" from the page itself.
+        //
+        // This screen edits what an item SAYS; adding, removing and reordering live on the
+        // Content screen, and a client looking at the Colors page had no way to learn that from
+        // here. Sending the map rather than one answer: the frame can now move between pages on
+        // its own, so the answer has to be recomputed there.
+        ViewData["Kinds"] = CollectionController.Kinds
+            .Select(k => new { key = k.Key, label = k.Label, page = k.Page, one = k.One, add = k.CanAdd })
+            .ToList();
         return View();
     }
 
