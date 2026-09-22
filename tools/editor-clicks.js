@@ -55,6 +55,30 @@ const { signIn } = require('./lib/admin');
   const nhan2 = await p.locator('#ed-fields').innerText();
   say('cot trai nap truong cua trang moi', /Product family/i.test(nhan2), true);
 
+  // 4. Ctrl+bam vao ANH NEN cua hero: mo dung o anh cua ho san pham dang duoc chon.
+  //
+  // Hai cho de hong rieng cho nay: dia chi chi duoc dat SAU khi home.js doc xong products.json
+  // (tuc la sau ab:ready dau tien), va anh ve bang CSS chu khong phai the <img>.
+  await p.goto('http://localhost:5199/Admin?page=%2F', { waitUntil: 'networkidle' });
+  await wait(2000);
+  const fr2 = p.frameLocator('iframe');
+  const bg = fr2.locator('#abhero-bg');
+  say('hero co dia chi anh sau khi trang chay', await bg.getAttribute('data-ab-img'),
+      'products.categories.0.image');
+  await bg.click({ modifiers: ['Control'], position: { x: 900, y: 120 } });
+  await wait(1200);
+  const nhan3 = await p.locator('#ed-fields').innerText();
+  say('Ctrl+bam anh nen -> hien o chon anh', /Product family #1 image/i.test(nhan3), true);
+
+  // ... va khi doi sang ho khac thi dia chi doi theo
+  await p.frames()[1].evaluate(() => {
+    document.querySelectorAll('#abhero-words a')[3]
+      .dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  });
+  await wait(900);
+  say('doi ho -> dia chi doi theo', await bg.getAttribute('data-ab-img'),
+      'products.categories.3.image');
+
   console.log('');
   for (const [n, r, g] of ok) console.log('  ' + r.padEnd(5) + n.padEnd(46) + g);
   console.log('');

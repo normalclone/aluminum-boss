@@ -61,12 +61,24 @@
     return null;
   }
 
+  /**
+   * Duong dan anh cua mot phan tu ve anh bang CSS. Tra ve chuoi rong neu khong co.
+   *
+   * Doc `el.style.backgroundImage` chu khong doc getComputedStyle: mot tam nen dat bang bang mau
+   * trong stylesheet khong phai mot o noi dung, va lay nham no vao day thi trinh soan bay ra mot
+   * o "chon anh" cho mot thu khong ai dinh sua.
+   */
+  function cssUrl(el) {
+    var m = /url\(\s*["']?([^"')]+)["']?\s*\)/.exec(el.style.backgroundImage || '');
+    return m ? m[1] : '';
+  }
+
   /** The value at an address, read back the same way it was written. */
   function read(el, kind) {
     // A picture's value is the file's name, not the src: an empty field draws a placeholder,
     // whose src is a data: URI several kilobytes long and means "there is no picture here".
     if (kind === 'img') {
-      var src = el.tagName === 'IMG' ? el.getAttribute('src') || '' : '';
+      var src = el.tagName === 'IMG' ? el.getAttribute('src') || '' : cssUrl(el);
       var cut = src.indexOf('_media/');
       return cut < 0 ? '' : src.slice(cut + 7);
     }
@@ -87,10 +99,15 @@
 
   function write(el, kind, value) {
     if (kind === 'img') {
-      // Only an <img> can be shown the new picture without re-rendering. A finish with no
-      // photograph is drawn as a coloured square, and turning that into a picture is the
-      // server's job - the editor reloads the frame after saving, which settles both cases.
-      if (el.tagName === 'IMG' && value) el.setAttribute('src', root() + '_media/' + value);
+      // Hai cach mot tam anh nam tren trang, va ca hai deu phai doi duoc ngay khi chon anh moi.
+      // Mot tam ve bang CSS thi khong co gi de sua src, nhung backgroundImage thi co - va do
+      // chinh la anh nen cua hero trang chu.
+      //
+      // Mot o anh RONG duoc ve thanh mot o mau, va bien no thanh anh that la viec cua may chu -
+      // trinh soan tai lai khung sau khi luu, cho nay giai quyet ca hai truong hop.
+      if (!value) return;
+      if (el.tagName === 'IMG') el.setAttribute('src', root() + '_media/' + value);
+      else el.style.backgroundImage = 'url("' + root() + '_media/' + value + '")';
       return;
     }
     if (kind === 't' || kind === 'pick') { el.textContent = value; return; }

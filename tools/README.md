@@ -880,6 +880,30 @@ Sáu phép kiểm là sáu cách việc đó hỏng, và **từng cái đều đ
 | liên kết giữ lại `?edit=1` | khung đi mất tham số → cầu nối đứt, cột trái đứng im, **không báo gì** |
 | thanh địa chỉ và ô chọn trang đổi theo | khung ở trang mới, phần còn lại chỉ trang cũ |
 | cột trái nạp trường của trang mới | đi được nhưng không sửa được gì ở đó |
+| hero mang địa chỉ ảnh sau khi trang chạy | ảnh nền hero không Ctrl-bấm được, y như trước khi sửa |
+| Ctrl-bấm ảnh nền hiện ô chọn ảnh | địa chỉ có nhưng cột trái không biết nó → **bấm vào không thấy gì xảy ra**, không phân biệt được với hỏng |
+| đổi họ thì địa chỉ đổi theo | sửa nhầm ảnh của họ khác, và không ai thấy cho tới khi mở trang thật |
+
+### Ảnh nền hero — ba chỗ phải sửa cho một thao tác
+
+Hero **không có ảnh của riêng nó**: nó mượn ảnh của họ sản phẩm đang được chọn. Nên "sửa ảnh
+hero" không phải một trường; nó là sáu trường, và đúng cái nào thì tuỳ chữ nào đang sáng.
+
+1. **`home.js`** đặt `data-ab-img="products.categories.N.image"` lên `#abhero-bg` mỗi lần đổi lựa
+   chọn. Địa chỉ viết **đầy đủ**, không dùng dạng rút gọn `.categories…` — dạng rút gọn cần một
+   thẻ cha mang `data-ab-doc`, mà hero nằm ngoài mọi khối đó.
+2. **`edit-bridge.js`** đọc và ghi ảnh vẽ bằng **CSS** chứ không chỉ thẻ `<img>`. Đọc từ
+   `el.style.backgroundImage`, không đọc `getComputedStyle`: một tấm nền đặt bằng bảng màu trong
+   stylesheet không phải một ô nội dung, lấy nhầm nó vào thì trình soạn bày ra ô "chọn ảnh" cho
+   một thứ không ai định sửa.
+3. **`editor.js`** — `reveal()` gặp địa chỉ lạ thì **hỏi lại trang một lần** rồi làm tiếp. Địa chỉ
+   này chỉ xuất hiện *sau* khi `home.js` đọc xong `products.json`, tức là sau `ab:ready`, và còn
+   **đổi** khi người xem bấm sang họ khác. Trước đây `reveal()` gặp địa chỉ lạ là `return` im
+   lặng — từ phía người dùng đó là "bấm vào không thấy gì xảy ra".
+
+> Dựng lại danh sách giữa chừng **không** làm mất thay đổi chưa lưu: `dirty` giữ riêng theo địa
+> chỉ và `build()` không đụng vào, còn giá trị hiện trong ô thì đọc từ chính trang — mà trang đã
+> mang sẵn thay đổi đang gõ.
 
 > **Một cái bẫy khi viết phép kiểm này:** khung xem trước bị thu nhỏ bằng CSS `transform`, nên
 > Playwright tính ra phần tử *"nằm ngoài khung nhìn"* và `click()` hết giờ sau 30 giây — dù phần

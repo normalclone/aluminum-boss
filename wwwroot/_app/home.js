@@ -78,6 +78,14 @@
       '<rect width="16" height="9" fill="#d9d6d1"/></svg>');
     var src = c.image ? AB.root() + '_media/' + c.image : FIELD;
     bg.style.backgroundImage = 'url("' + src + '")';
+    // Trong trinh soan, tam anh nen nay LA mot o sua duoc - va la o cua HO SAN PHAM dang duoc
+    // chon, chu khong phai mot truong "anh hero" rieng. Hero khong co anh cua rieng no: no muon
+    // anh cua ho nao dang sang. Dia chi doi theo lua chon, nen Ctrl+bam vao dung tam dang nhin
+    // se mo dung o anh cua ho do.
+    //
+    // Dia chi viet DAY DU ("products.categories.N.image") chu khong phai dang rut gon ".categories..."
+    // - dang rut gon can mot the cha mang data-ab-doc, ma hero nam ngoai moi khoi do.
+    bg.setAttribute('data-ab-img', 'products.categories.' + i + '.image');
     // The six words still land on whatever the photograph puts under them - that part of the
     // concept holds, because the fade down the left guarantees it. The caption bottom-right has
     // no fade under it, so it asks the picture what colour to be. See tone() and .abhero.is-dark.

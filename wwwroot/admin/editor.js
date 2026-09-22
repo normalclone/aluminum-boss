@@ -707,9 +707,26 @@
     }
   }
 
+  // Mot dia chi chi xuat hien SAU khi trang chay xong.
+  //
+  // Anh nen cua hero la mot vi du: no khong co trong markup, home.js dat dia chi len no sau khi
+  // doc xong products.json va chon ho dau tien - tuc la sau ab:ready. Dia chi con DOI khi nguoi
+  // xem bam sang ho khac. Truoc day reveal() gap mot dia chi la len thi `return` im lang, va tu
+  // phia nguoi dung thi do la "bam vao khong thay gi xay ra" - khong the phan biet voi hong.
+  //
+  // Nen: hoi lai trang mot lan, roi lam tiep. Dung lai danh sach o giua chung khong lam mat thay
+  // doi chua luu - `dirty` giu rieng theo dia chi va khong bi build() dong vao, con gia tri hien
+  // trong o thi doc tu chinh trang, ma trang da mang san thay doi dang go.
+  var chotim = null;
   function reveal(address) {
     var input = inputs[address];
-    if (!input) return;
+    if (!input) {
+      if (chotim === address) { chotim = null; return; }   // hoi roi van khong co: thoi
+      chotim = address;
+      frame.contentWindow.postMessage({ type: 'ab:list' }, location.origin);
+      return;
+    }
+    chotim = null;
     var group = input.closest('details');
     if (group) group.open = true;
 
@@ -727,7 +744,11 @@
 
   window.addEventListener('message', function (e) {
     if (e.origin !== location.origin || !e.data) return;
-    if (e.data.type === 'ab:ready') { moved_to(e.data.url); build(e.data.fields || []); }
+    if (e.data.type === 'ab:ready') {
+      moved_to(e.data.url);
+      build(e.data.fields || []);
+      if (chotim) reveal(chotim);
+    }
     else if (e.data.type === 'ab:pick') reveal(e.data.address);
   });
 
