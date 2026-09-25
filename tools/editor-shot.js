@@ -87,8 +87,14 @@ async function open(page, path) {
         address + ' = "' + inFrame.trim() + '"');
   await shot('2-typed');
 
-  // 3 - bam chu trong khung xem thu -> o nhap duoc chon
-  await frame(page).locator('[data-ab-t]').nth(3).click();
+  // 3 - CTRL+bam chu trong khung xem thu -> o nhap duoc chon
+  //
+  // Ctrl chu khong phai bam thuong. Tu 21/09/2026 khung xem truoc doi luat: bam thuong de trang
+  // chay y nhu that (chuyen trang, doi tab), chi Ctrl+bam moi la chon de sua. Phep thu nay van
+  // bam thuong cho toi 25/09/2026 nen no HONG co dinh - va mot phep thu luon do khong con canh
+  // duoc gi: no chi day cai bang ket qua xuong "KHONG DAT" moi lan chay, cho toi luc khong ai
+  // doc no nua.
+  await frame(page).locator('[data-ab-t]').nth(3).click({ modifiers: ['Control'] });
   await wait(400);
   const focused = await page.evaluate(() =>
     document.activeElement && document.activeElement.getAttribute('data-address'));

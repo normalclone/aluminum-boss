@@ -10,6 +10,49 @@
     "Applebot-Extended": true,
     "Bytespider": false
   },
+  "seo": {
+    "_": "Tieu de va mo ta cua 8 trang danh sach, khoa la doan dau cua duong dan (trang chu la \"home\", vi mot khoa rong khong viet duoc thanh dia chi). Chep nguyen van tu trang da dung ngay 25/09/2026, khong chep tu reskin.py: mot so tieu de den tu the <title> co san chu khong tu bang TITLE. Tieu de la tieu de DAY DU - khong co gi duoc ghep them o dau ca. build/reskin.py va Content/PageComposer cung doc tep nay.",
+    "home": {
+      "title": "Boss Group - Vietnam's Leading Aluminum Exporter",
+      "description": "Aluminium extrusion, finishing and fabrication in Vietnam. Profile, facade, furniture, door and car accessories, and honeycomb panels, shipped to four export regions.",
+      "image": ""
+    },
+    "about-us": {
+      "title": "About us | AluminumBoss",
+      "description": "Who we are: five plants from Yen Bai to Binh Duong, what they can do, and what we are certified to.",
+      "image": ""
+    },
+    "products": {
+      "title": "Products | AluminumBoss",
+      "description": "Six product families: profile systems, facade systems, furniture profiles, door and car accessories, and honeycomb panels.",
+      "image": ""
+    },
+    "colors": {
+      "title": "Colors | AluminumBoss",
+      "description": "Anodised, powder coated, wood grain, PVDF and mechanical finishes, all applied on our own lines.",
+      "image": ""
+    },
+    "documents": {
+      "title": "Documents | AluminumBoss",
+      "description": "Catalogues, technical data sheets, certificates and installation guides.",
+      "image": ""
+    },
+    "projects": {
+      "title": "Projects | AluminumBoss",
+      "description": "Buildings and programmes our aluminium went into, by year of completion.",
+      "image": ""
+    },
+    "news": {
+      "title": "News | AluminumBoss",
+      "description": "Plant, product and market news from Boss Group.",
+      "image": ""
+    },
+    "contact": {
+      "title": "Contact | AluminumBoss",
+      "description": "Request a quotation, order finish samples, ask an engineer, or apply to distribute.",
+      "image": ""
+    }
+  },
   "wordmark": {
     "lead": "Aluminum",
     "tail": "Böss"

@@ -367,6 +367,21 @@ public sealed class SectionRenderer
         return doc is null ? null : Pick(section, doc, itemId);
     }
 
+    /// <summary>
+    /// Where an item lives, written the way the editor addresses it: <c>news.items.3</c>.
+    ///
+    /// The composer needs it for the SEO boxes, which are the only fields on the page that no
+    /// renderer drew - the item's title and picture got their addresses from the markup around
+    /// them, but nothing on a page shows its own search title, so there is no element to hang an
+    /// address on and one has to be built.
+    /// </summary>
+    public string? AddressOf(string section, JsonNode item)
+    {
+        if (DocumentFor(section) is not { } name) return null;
+        var path = PathOf(item);
+        return path.Length == 0 ? null : name + "." + path;
+    }
+
     /// <summary>The markup for a named section, or null when the name is not one we render.</summary>
     public string? Render(string section, string rootPrefix, string? itemId = null)
     {

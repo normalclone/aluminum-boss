@@ -141,6 +141,18 @@ public sealed class StructuredData
         ["item"] = url,
     };
 
+    /// <summary>
+    /// The item as a thing a machine can read.
+    ///
+    /// NOTHING HERE READS <c>seoTitle</c>, and that is deliberate rather than an oversight - the
+    /// question became askable on 25/09/2026, when the editor first gave a client a way to write
+    /// one. A search title is what to show in a RESULT, and it is allowed to differ from the
+    /// headline printed on the page; the <c>&lt;title&gt;</c> tag follows it for exactly that
+    /// reason. Structured data is not that. It is a claim about what is on the page, and a
+    /// headline in the JSON-LD that no heading on the page matches is the specific thing search
+    /// engines treat as misrepresentation. So the name here stays the item's real title even
+    /// when the search title says something else, and the two disagreeing is the system working.
+    /// </summary>
     private JsonObject? Thing(string section, JsonNode item, string origin, string urlPath)
     {
         var url = origin + urlPath;

@@ -250,3 +250,45 @@ Hai bài viết theo đúng luật cũ: giữ thông số kỹ thuật (mác nh�
 (Coteccons), **bỏ hai con số bảo hành** mà nguồn có — "bảo hành bề mặt sơn 10 năm" và "độ bền bề
 mặt nhôm 20 năm" — theo quyết định bỏ hết thời hạn bảo hành khỏi bản tiếng Anh.
 
+## 12. Ô sửa SEO, và một luật áp cho cả hai loại trang — 25/09/2026
+
+Anh hỏi "có phần để người dùng edit SEO chưa?" — chưa. `PageHead` đã đọc `seoTitle` /
+`seoDescription` trên từng mục từ trước, nhưng không có ô nào để ghi vào, và không mục nào trong
+dữ liệu có sẵn hai khoá đó — mà `ContentEditor` có luật "một trường không tồn tại thì không được
+tạo ra". Còn tám trang danh sách thì tiêu đề và mô tả nằm trong `build/reskin.py`, tức là trong
+mã nguồn Python.
+
+**Quyết định 1 — ngoại lệ có tên.** `seoTitle` và `seoDescription` được phép tạo ra, và chỉ hai
+tên đó, và chỉ khi đối tượng chứa chúng đã có sẵn. Ghi `""` vào ~300 mục để trình soạn có chỗ
+địa chỉ là 300 dòng không nói gì. Luật gốc vẫn đứng cho mọi thứ nó **không** gọi tên.
+
+**Quyết định 2 — bỏ trống nghĩa là xoá khoá, không phải ghi `""`.** Cùng lý lẽ với `visible`: một
+ô chưa ai ghi và một ô vừa bị xoá trắng phải để lại cùng một trạng thái trong tệp.
+
+**Quyết định 3, và đây là cái đáng ghi nhất — cái người ta GÕ VÀO là cả câu.** Không ghép gì vào
+sau, không cắt gì đi. Trước đó `ForItem` luôn ghép `" | <tên site>"` vào tiêu đề; giờ chỉ giá trị
+**tự sinh** mới được ghép, còn giá trị gõ tay thì giữ nguyên văn. Mô tả cũng vậy: `Trim(…, 160)`
+chỉ cắt cái tự sinh (nguồn của nó là cả một đoạn văn, phải cắt mới vừa), còn mô tả gõ tay thì
+không đụng đến — mô tả trang chủ hiện dài 165 ký tự, cắt nó đi là tự ý sửa nội dung.
+
+Lý do phải thống nhất: trang danh sách giữ **cả tiêu đề** trong `site.json` (trang chủ có dạng
+riêng "Boss Group - Vietnam's Leading Aluminum Exporter", không theo khuôn `X | AluminumBoss`
+được). Nếu trang mục lại ghép đuôi còn trang danh sách thì không, thì hai loại trang có hai luật
+cho cùng một ô, và đó là chỗ người dùng sẽ vấp.
+
+Hệ quả: **ô đếm ký tự không phải là ngưỡng phần mềm này áp.** Nó ghi "khoảng 60" / "khoảng 160"
+và nói rõ đó là chỗ Google cắt. Một ô ghi "160 / 160" là hứa một sự cưỡng chế không có thật.
+
+**Một phép đo sai đã bị bỏ.** Kế hoạch ban đầu định chứng minh việc chép `TITLE`/`BLURB` sang
+`site.json` là trung thành bằng cách chạy lại `reskin.py` và đòi `git diff site/` rỗng. Đo xong
+mới biết phép đo đó **luôn thất bại**: `reskin.py` là bước giữa, sau nó còn `add-addresses.js`
+mới đóng các `data-ab-*` lên trang. Chạy một mình `reskin.py` trên cây sạch — trước khi tôi động
+vào gì — đã làm đổi 152 trang. Phép đo đúng là chạy **bản cũ** và **bản mới** trên cùng một cây
+sạch rồi so hai kết quả: **giống hệt trên cả 152 trang.**
+
+Và giá trị chép sang `site.json` lấy **từ trang đã dựng**, không lấy từ `TITLE`/`BLURB`: một số
+tiêu đề hiện nay đến từ thẻ `<title>` có sẵn chứ không từ bảng đó (`about-us` không hề có mục
+trong `TITLE`), nên chép từ mã nguồn Python sẽ đổi tiêu đề bảy trang mà không ai yêu cầu.
+
+**Vẫn chưa đóng:** trang tĩnh trên GitHub Pages mang đầu trang của khuôn mẫu cho mọi mục. Việc
+này cần một quyết định riêng (deploy `export/` hay thêm bước nướng lại trước khi push).

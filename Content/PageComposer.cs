@@ -159,8 +159,9 @@ public sealed class PageComposer
                     urlPath, missing.Count, string.Join(", ", missing.Take(5)));
                 return html;
             }
-            filled = Describe(filled, urlPath, root, detail.Success ? detail.Groups["name"].Value : null, id);
-            return edit ? WithBridge(filled, root) : filled;
+            var section = detail.Success ? detail.Groups["name"].Value : null;
+            filled = Describe(filled, urlPath, root, section, id);
+            return edit ? WithBridge(filled, root, SeoFields(urlPath, root, section, id)) : filled;
         });
     }
 
@@ -184,7 +185,9 @@ public sealed class PageComposer
                        + _store.Get("site")?["wordmark"]?["tail"]?.ToString();
 
         var item = section is null ? null : _sections.ItemFor(section, itemId);
-        html = PageHead.ForItem(html, item, section ?? "", siteName ?? "", origin + urlPath, rootPrefix);
+        html = item is null
+            ? PageHead.ForPage(html, _store.Get("site")?["seo"]?[SeoKey(urlPath)], rootPrefix)
+            : PageHead.ForItem(html, item, section ?? "", siteName ?? "", origin + urlPath, rootPrefix);
         return PageHead.WithJsonLd(html, _schema.For(urlPath, origin, section, item));
     }
 
@@ -204,12 +207,90 @@ public sealed class PageComposer
     /// frame, so the worst a stranger can do with <c>?edit=1</c> is rewrite text in their own
     /// browser, which they can already do with the developer tools.
     /// </summary>
-    private static string WithBridge(string html, string rootPrefix)
+    private static string WithBridge(string html, string rootPrefix, string extra = "")
     {
-        var tag = $"<script src=\"{rootPrefix}admin/edit-bridge.js\" defer></script>";
+        var tag = extra + $"<script src=\"{rootPrefix}admin/edit-bridge.js\" defer></script>";
         var close = html.LastIndexOf("</body>", StringComparison.OrdinalIgnoreCase);
         return close < 0 ? html + tag : html[..close] + tag + "\n" + html[close..];
     }
+
+    /// <summary>
+    /// Which entry of site.json's <c>seo</c> block belongs to a listing page.
+    ///
+    /// The first path segment, and the home page is "home" rather than "". An empty segment
+    /// cannot be written as an address - ContentPath drops empty pieces, so "site.seo..title"
+    /// would resolve to "site.seo.title" and edit something else entirely - so the home page
+    /// could never have been reached from the editor under its own natural key.
+    /// </summary>
+    private static string SeoKey(string urlPath)
+    {
+        var trimmed = urlPath.Trim('/');
+        if (trimmed.Length == 0) return "home";
+        var cut = trimmed.IndexOf('/');
+        return cut < 0 ? trimmed : trimmed[..cut];
+    }
+
+    /// <summary>
+    /// The editor's SEO boxes: two fields that exist nowhere on the page.
+    ///
+    /// Every other field the editor offers was found by walking the markup for a data-ab-*
+    /// attribute, which works because every other field is something the page shows. A search
+    /// title is not: it lives in the head, the head is not addressable, and a client looking for
+    /// somewhere to type it would find nothing to click. So the page is given a hidden block
+    /// carrying the same kind of address, and the editor - which builds its column from whatever
+    /// the page reports - picks it up with no special case beyond the label.
+    ///
+    /// It goes in through WithBridge for the reason stated there: the static copy must never
+    /// carry anything the editor put here. And it is built AFTER the substitution passes have
+    /// run, so the values are written straight in rather than addressed.
+    ///
+    /// data-ab-hint is what the page would say with these boxes empty. The editor shows it as
+    /// placeholder text, which is the whole reason a client can leave them empty and still know
+    /// what their page is telling a search engine.
+    /// </summary>
+    private string SeoFields(string urlPath, string rootPrefix, string? section, string? itemId)
+    {
+        var item = section is null ? null : _sections.ItemFor(section, itemId);
+
+        if (item is not null)
+        {
+            if (_sections.AddressOf(section!, item) is not { } at) return "";
+            var siteName = _store.Get("site")?["wordmark"]?["lead"]?.ToString()
+                           + _store.Get("site")?["wordmark"]?["tail"]?.ToString();
+            var (title, description) = PageHead.Automatic(item, siteName ?? "");
+
+            // No picture box on an item page. An item's share picture IS the item's picture, and
+            // that already has a field of its own further up the same column; a second box
+            // holding the same value is a second place to wonder which one is real.
+            return Box(at + ".seoTitle", "title", Str(item, "seoTitle"), title)
+                 + Box(at + ".seoDescription", "description", Str(item, "seoDescription"), description);
+        }
+
+        var key = SeoKey(urlPath);
+        if (_store.Get("site")?["seo"]?[key] is not JsonObject seo) return "";
+
+        return Box("site.seo." + key + ".title", "title", Str(seo, "title"), "")
+             + Box("site.seo." + key + ".description", "description", Str(seo, "description"), "")
+             + Picture("site.seo." + key + ".image", Str(seo, "image"), rootPrefix);
+    }
+
+    private static string Box(string address, string role, string value, string hint)
+        => $"<span hidden data-ab-t=\"{Esc(address)}\" data-ab-seo=\"{role}\""
+         + (hint.Length > 0 ? $" data-ab-hint=\"{Esc(hint)}\"" : "")
+         + $">{Esc(value)}</span>";
+
+    private static string Picture(string address, string value, string rootPrefix)
+        => $"<img hidden alt=\"\" data-ab-img=\"{Esc(address)}\" data-ab-seo=\"image\""
+         + (value.Length > 0 ? $" src=\"{Esc(rootPrefix + "_media/" + value)}\"" : "")
+         + ">";
+
+    private static string Str(JsonNode? node, string key)
+        => node is JsonObject o && o.TryGetPropertyValue(key, out var v)
+            ? v?.ToString() ?? string.Empty
+            : string.Empty;
+
+    private static string Esc(string s) => s
+        .Replace("&", "&amp;").Replace("\"", "&quot;").Replace("<", "&lt;").Replace(">", "&gt;");
 
     /// <summary>
     /// The name of the detail section a page carries, or null when it carries none.

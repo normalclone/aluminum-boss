@@ -307,6 +307,32 @@
   // somebody opened this screen.
   var CHROME = 'Site';
 
+  // What a search engine shows, which is the one part of a page that is not ON the page. Three
+  // boxes the composer hands over in a hidden block; see SeoFields in PageComposer.cs.
+  //
+  // Its own group rather than sitting among the page's words, because the address would put it
+  // there under the wrong name: an article's search title addresses news.json, so it would file
+  // itself under "News" between the headline and the body, and read as one more thing the page
+  // displays. It does not display anywhere. The group goes after the page's own words and before
+  // the chrome, and it starts OPEN: the last feature this editor grew was already built and
+  // nobody could find it, which is its own kind of not working.
+  var SEO = 'Search result';
+
+  var SEO_WORDS = { title: 'Search title', description: 'Search description',
+                    image: 'Share picture' };
+
+  var SEO_HELP = {
+    title: 'The whole title, exactly as the browser tab shows it. Nothing is added after it.',
+    description: 'The sentence under the title in a search result.',
+    image: 'Shown when somebody shares this page in a message or a post.',
+  };
+
+  // Where a search result usually cuts, which is GOOGLE'S habit and not a limit this software
+  // applies: type 300 characters and all 300 are saved and served. Said as advice on the screen
+  // for the same reason - a counter that reads "160 / 160" claims an enforcement that does not
+  // exist, and the first client to lose a sentence to it would be right to be angry.
+  var SEO_CUT = { title: 60, description: 160 };
+
   function group(address) {
     var name = address.split('.')[0];
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -618,13 +644,12 @@
     fields.forEach(function (f) {
       if (done[f.address]) return;
       done[f.address] = true;
-      var g = group(f.address);
+      var g = f.seo ? SEO : group(f.address);
       if (!seen[g]) { seen[g] = []; ordered.push(g); }
       seen[g].push(f);
     });
-    ordered.sort(function (a, b) {
-      return (a === CHROME ? 1 : 0) - (b === CHROME ? 1 : 0);
-    });
+    function rank(n) { return n === CHROME ? 2 : n === SEO ? 1 : 0; }
+    ordered.sort(function (a, b) { return rank(a) - rank(b); });
 
     // The site chrome starts closed. It is on every page, it is right where it always is, and
     // leaving it open is what pushed the page's own words off the bottom of the column.
@@ -634,7 +659,8 @@
       section.className = 'ed-group';
       section.open = name !== CHROME;
       var head = document.createElement('summary');
-      head.textContent = name + (name === CHROME ? ' — header and footer' : '');
+      head.textContent = name + (name === CHROME ? ' — header and footer'
+                               : name === SEO ? ' — what a search engine shows' : '');
       section.appendChild(head);
       box = document.createElement('div');
       section.appendChild(box);
@@ -649,7 +675,7 @@
 
       var cap = document.createElement('label');
       cap.setAttribute('for', id);
-      cap.textContent = label(f.address, only[f.address]);
+      cap.textContent = f.seo ? SEO_WORDS[f.seo] : label(f.address, only[f.address]);
       cap.title = f.address;
       field.appendChild(cap);
 
@@ -678,6 +704,17 @@
           slot.appendChild(line(fits(f.shape)));
           slot.appendChild(line(upload(f.shape)));
           field.appendChild(slot);
+        }
+
+        // The share picture has no slot on the page to measure - it is never drawn - so what
+        // goes here is the one thing worth knowing instead: what it is for, and the shape the
+        // messaging apps crop to.
+        if (f.seo) {
+          var why = document.createElement('span');
+          why.className = 'ed-slot';
+          why.appendChild(line(SEO_HELP[f.seo]));
+          why.appendChild(line('Cropped to about 1.9:1 — 1200 × 630 is the usual size'));
+          field.appendChild(why);
         }
 
         // The file's name is kept, hidden, as the field's value: the shelf writes to it, the
@@ -727,22 +764,80 @@
 
       // A line break in the value means the address holds several lines; a long value wants room
       // to breathe. Everything else is one line, which is most of them.
-      var many = f.kind === 'lines' || f.value.length > 70;
+      //
+      // A search description gets room whether or not it has any words in it yet: it is two
+      // sentences by the time it is finished, and an empty one-line box invites one short one.
+      var many = f.kind === 'lines' || f.value.length > 70 || f.seo === 'description';
       var input = document.createElement(many ? 'textarea' : 'input');
       if (!many) input.type = 'text';
       input.id = id;
       input.value = f.value;
       input.setAttribute('data-address', f.address);
-      if (many) input.rows = Math.min(6, f.value.split('\n').length + 1);
+      if (many) {
+        var rows = Math.min(6, f.value.split('\n').length + 1);
+        // Three for a search description even when it is empty: the automatic one sits in
+        // grey behind it and runs to three lines, and a two-row box cuts it off - which is
+        // the one thing this box exists to show.
+        input.rows = f.seo === 'description' ? Math.max(3, rows) : rows;
+      }
+
+      // What the page says with this box empty, shown in the box in grey. An empty SEO field is
+      // not an empty page - the composer derives a title from the item's own words - and without
+      // this the client is deciding whether to override something they cannot see.
+      if (f.seo && f.hint) input.placeholder = f.hint;
+
+      var counter = f.seo ? count(f, input) : null;
       input.addEventListener('input', function () {
         send({ type: 'ab:text', address: f.address, value: input.value });
         mark(f.address, input.value);
+        if (counter) counter.tell();
       });
       field.appendChild(input);
+
+      if (counter) {
+        var help = document.createElement('span');
+        help.className = 'ed-slot ed-seo-help';
+        help.appendChild(line(SEO_HELP[f.seo]));
+        help.appendChild(counter.el);
+        field.appendChild(help);
+      }
 
       box.appendChild(field);
       inputs[f.address] = input;
     }
+  }
+
+  /**
+   * How long what is in the box is, and what happens if it stays that way.
+   *
+   * Two states worth telling apart when the box is empty, and they are opposites. An item page
+   * has something to fall back on - the article's own headline - and the grey text in the box is
+   * it. A listing page has nothing: leave it empty and the page goes out with no title at all,
+   * which is worth saying in words rather than leaving as an empty box that looks fine.
+   */
+  function count(f, input) {
+    var out = document.createElement('span');
+    out.className = 'ed-count';
+
+    function tell() {
+      var n = input.value.length;
+      out.classList.remove('is-long');
+
+      if (!n) {
+        out.textContent = f.hint
+          ? 'Empty — the grey words are what this page says now'
+          : 'Empty — this page would go out with no ' + SEO_WORDS[f.seo].toLowerCase();
+        return;
+      }
+
+      var cut = SEO_CUT[f.seo];
+      out.textContent = n + (n === 1 ? ' character' : ' characters')
+        + (n > cut ? ' — a search result usually cuts at about ' + cut : '');
+      if (n > cut) out.classList.add('is-long');
+    }
+
+    tell();
+    return { el: out, tell: tell };
   }
 
   // Mot dia chi chi xuat hien SAU khi trang chay xong.

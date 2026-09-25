@@ -78,6 +78,14 @@
 .ed-field textarea { resize: vertical; line-height: 1.5; }
 .ed-field input:focus, .ed-field textarea:focus { outline: 2px solid #8f8a81; outline-offset: -2px; }
 
+/* The two lines under a search box: what it is for, then how long it is. Same grey block as an
+   image field's slot advice, so the column has one way of saying a quiet thing rather than two.
+   The count goes amber past the length a search result shows - amber, not red, because nothing
+   is wrong: the text is saved and served in full, it is Google that stops reading. */
+.ed-seo-help { margin-top: 6px; }
+.ed-count { display: block; }
+.ed-count.is-long { color: #8a5d00; }
+
 /* Clicking text in the preview scrolls its field into view; without a moment of colour you
    cannot tell which of forty identical boxes just moved under the cursor. */
 .ed-field .is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
@@ -176,10 +184,17 @@
 .ed-shelf-note { margin: 6px 0 0; font-size: 13px; color: var(--ad-mute); }
 .ed-shelf-note:empty { margin: 0; }
 
+/* grid-auto-rows, and it is not a nicety: without it every row of this shelf was 56px tall and
+   every thumbnail was clipped to a strip with its filename cut off below the fold - the whole
+   library unreadable, which is the state it shipped in until 25/09/2026.
+
+   A row sized `auto` takes its height from the items' MIN-content contribution, and a tile is a
+   <button> with overflow:hidden, so the picture inside it contributes nothing: the minimum came
+   out as the caption alone. max-content asks for the height the tile actually wants. */
 .ed-shelf-list {
   margin-top: 16px; flex: 1; overflow-y: auto;
   display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;
-  align-content: start;
+  grid-auto-rows: max-content; align-content: start;
 }
 .ed-tile {
   font: inherit; padding: 0; cursor: pointer; text-align: left;

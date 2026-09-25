@@ -14,10 +14,14 @@
       { type: 'ab:list' }                   send the addresses again (after a reload)
 
     page -> editor
-      { type: 'ab:ready', url, fields: [{ address, kind, value, shape?, options? }] }  on load
+      { type: 'ab:ready', url, fields: [{ address, kind, value, shape?, options?, seo?, hint? }] }
                                           shape = { w, h, from } of an image field's slot,
                                           from = 'attr' (the layout said so) | 'box' (measured)
                                           options = the only values a 'pick' field may hold
+                                          seo = 'title' | 'description' | 'image' - a field in
+                                            the head rather than on the page; the editor gives
+                                            these a group and its own labels
+                                          hint = what the head would say with that field empty
       { type: 'ab:pick', address }                                    someone clicked it
 
   WHAT CAN BE PATCHED LIVE, AND WHAT CANNOT. An address written as data-ab-t, data-ab-lead or
@@ -142,6 +146,13 @@
       // The options travel with the field. The editor has no way to know that "gloss" means one
       // of four words - the page is the only side that has read the file.
       if (kind === 'pick') f.options = (el.getAttribute('data-ab-opts') || '').split('|');
+
+      // The three boxes that are not anywhere on the page. Nothing shows a page its own search
+      // title, so the composer hands one over in a hidden block; from here it is an ordinary
+      // field, and only the two attributes below say otherwise.
+      var seo = el.getAttribute('data-ab-seo');
+      if (seo) { f.seo = seo; f.hint = el.getAttribute('data-ab-hint') || ''; }
+
       out.push(f);
     });
     return out;

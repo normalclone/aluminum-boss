@@ -18,7 +18,8 @@ namespace QlWeb2.Content;
 ///
 ///   A field that does not exist is not created. An address with no field behind it is a typo in
 ///   the markup or a stale editor tab; inventing the field would bury the mistake under a value
-///   nobody can find again.
+///   nobody can find again. Two fields are a named exception - see <see cref="SeoLeaf"/> - and
+///   naming them is the point: the rule holds for everything it does not name.
 ///
 ///   The document is re-read from disk, not taken from the cache. The cached node is what every
 ///   page is being composed from right now; editing it in place would change the live site before
@@ -121,6 +122,16 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // The two names that may be created where none exists, and removed when emptied.
+            // Handled before TrySet because TrySet is the rule they are the exception to.
+            if (SeoLeaf(path) is { } leaf)
+            {
+                if (!Seo(doc, path, leaf, change.Value, out var wrote)) { rejected.Add(change.Address); continue; }
+                applied++;
+                if (wrote) changed.Add(name);
+                continue;
+            }
+
             if (ContentPath.TrySet(doc, path, change.Value))
             {
                 applied++;
@@ -147,6 +158,49 @@ public sealed class ContentEditor
 
     /// <summary>The fields the ten kinds use to name an item, in the order the list screen reads them.</summary>
     private static readonly string[] TitleFields = ["title", "name", "label", "caption"];
+
+    /// <summary>
+    /// The two fields the editor may create, and the only exception to the rule at the top of
+    /// this file.
+    ///
+    /// These are absences with meaning. Almost every item leaves them out, and the composer then
+    /// derives the page's title from the item's own words - which is right, and is why writing
+    /// <c>"seoTitle": ""</c> onto three hundred items so the editor would have something to
+    /// address would be three hundred lines saying nothing. The exception stays narrow on
+    /// purpose: these two names only, and only where the object that would hold them is already
+    /// there, so a typo in an address still cannot invent a field.
+    ///
+    /// Emptied means removed, not <c>""</c>. Same reason <see cref="Op.Show"/> removes
+    /// <c>visible</c> rather than writing true: an override nobody wrote and an override somebody
+    /// cleared have to leave the file in the same state, or the content fills up with empty
+    /// strings recording a moment of indecision.
+    /// </summary>
+    private static string? SeoLeaf(string path)
+    {
+        var leaf = path[(path.LastIndexOf('.') + 1)..];
+        return leaf is "seoTitle" or "seoDescription" && leaf.Length < path.Length ? leaf : null;
+    }
+
+    /// <param name="wrote">
+    /// False when the document already said exactly this. The save is still a success - the
+    /// client asked for a state the file is in - but rewriting the file would put a diff on it
+    /// for nothing, which is the same trap the <c>changed</c> set exists to avoid.
+    /// </param>
+    private static bool Seo(JsonNode doc, string path, string leaf, string value, out bool wrote)
+    {
+        wrote = false;
+        var parent = path[..(path.Length - leaf.Length - 1)];
+        if (Walk(doc, parent.Split('.', StringSplitOptions.RemoveEmptyEntries)) is not JsonObject item)
+            return false;
+
+        var had = item.TryGetPropertyValue(leaf, out var v) ? v?.ToString() ?? "" : "";
+        if (had == value) return true;
+
+        if (value.Length == 0) item.Remove(leaf);
+        else item[leaf] = JsonValue.Create(value);
+        wrote = true;
+        return true;
+    }
 
     /// <summary>
     /// The only values an address may hold, or null when it may hold anything.
@@ -307,8 +361,8 @@ public sealed class ContentEditor
             case Op.Show:
             case Op.Hide:
                 if (list[at] is not JsonObject item) return Refused(address);
-                // The only field the editor is allowed to create - and showing an item removes it
-                // again rather than writing true. Absent already means shown, which is what all
+                // Written by this screen rather than by an address, and showing an item removes
+                // it again rather than writing true. Absent already means shown, which is what all
                 // but a handful of items say by saying nothing; leaving "visible": true behind on
                 // everything anyone ever hid for an afternoon would fill the files with a field
                 // that carries no information.

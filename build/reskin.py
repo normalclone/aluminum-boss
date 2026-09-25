@@ -3,8 +3,9 @@
 #
 # Run after build-pages.py: the generated pages inherit their chrome from the shell, so they get
 # the old header too and are re-skinned here alongside the homepage.
-import io, os, re, sys
+import io, json, os, re, sys
 
+LF = chr(10)
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, '..', 'site'))
 HEADER = io.open(os.path.join(HERE, 'header.html'), encoding='utf-8').read()
@@ -61,27 +62,38 @@ def section_of(path):
 BRAND = 'AluminumBoss'
 SITE = 'Boss Group'
 
-# What each section's page is about, for the description tags. Anything not listed falls back
-# to the page title.
-BLURB = {
-    '': 'Aluminium extrusion, finishing and fabrication in Vietnam. Profile, facade, furniture, '
-        'door and car accessories, and honeycomb panels, shipped to four export regions.',
-    'about-us': 'Who we are: five plants from Yen Bai to Binh Duong, what they can do, and '
-                'what we are certified to.',
-    'products': 'Six product families: profile systems, facade systems, furniture profiles, '
-                'door and car accessories, and honeycomb panels.',
-    'colors': 'Anodised, powder coated, wood grain, PVDF and mechanical finishes, all applied on '
-              'our own lines.',
-    'documents': 'Catalogues, technical data sheets, certificates and installation guides.',
-    'projects': 'Buildings and programmes our aluminium went into, by year of completion.',
-    'news': 'Plant, product and market news from Boss Group.',
-    'contact': 'Request a quotation, order finish samples, ask an engineer, or apply to '
-               'distribute.',
-}
+# What each section's page is called and what it is about.
+#
+# These eight titles and descriptions used to be two dicts right here, which meant that changing
+# the words a search result shows was editing Python. They are content, so they live with the
+# content: site/_data/site.json under "seo", keyed by the first path segment - and the home
+# page's key is "home" rather than "" because an empty segment cannot be written as an address
+# and so could never be reached from the editor.
+#
+# The server reads the same block (Content/PageComposer.Describe), so a page composed at :5199
+# and the same page built into site/ say the same thing. A section with no entry falls back to
+# the chain in fix_head below, which is what a section added tomorrow will land on.
+#
+# DO NOT run this script on its own to bring the two into line. It is the middle of a chain -
+# build-pages.py, then this, then tools/add-addresses.js - and this step REMOVES every data-ab-*
+# attribute from the header and footer it replaces. Run it alone on a clean tree and 152 pages
+# come out stripped, which is what happened on 25/09/2026 while checking this very change.
+def seo_table():
+    path = os.path.join(ROOT, '_data', 'site.json')
+    try:
+        return json.load(io.open(path, encoding='utf-8')).get('seo') or {}
+    except (IOError, ValueError):
+        # The build has to keep working on a tree without the file; every page then falls back
+        # to its own <title>, which is what this script did before the block existed.
+        sys.stderr.write('  (khong doc duoc %s - dau trang roi ve cach cu)' % path + LF)
+        return {}
 
-TITLE = {
-    '': "Boss Group - Vietnam's Leading Aluminum Exporter",
-}
+
+SEO = seo_table()
+
+
+def seo_for(section):
+    return SEO.get(section or 'home') or {}
 
 DEAD_HEAD = re.compile(
     r'<meta[^>]+(?:property|name)\s*=\s*"(?:og:[^"]*|twitter:[^"]*|article:[^"]*|fb:[^"]*'
@@ -102,7 +114,8 @@ def fix_head(s, section):
     canonical URLs pointing back at cosentino.com, and a JSON-LD block naming it as the
     organisation. Share this page anywhere and that is the name and link that would appear.
     """
-    title = TITLE.get(section)
+    said = seo_for(section)
+    title = said.get('title')
     if not title:
         m = re.search(r'<title[^>]*>(.*?)</title>', s, re.S | re.I)
         cur = re.sub(r'\s+', ' ', m.group(1)).strip() if m else ''
@@ -112,7 +125,7 @@ def fix_head(s, section):
         else:
             title = cur
 
-    desc = BLURB.get(section) or title
+    desc = said.get('description') or title
     s = re.sub(r'<title[^>]*>.*?</title>', '<title>%s</title>' % title, s, count=1, flags=re.S | re.I)
     s = DEAD_HEAD.sub('', s)
 
@@ -126,6 +139,14 @@ def fix_head(s, section):
              # every page; the whole set of icon links went with the rest of the head
              '\n<link rel="icon" href="%s_media/favicon.svg" type="image/svg+xml">\n'
              % (desc, SITE, title, desc, PREFIX[0]))
+
+    # og:image, which this head has never carried: share a listing page anywhere and the card
+    # came up with no picture at all. Written only when there IS one - an og:image pointing at a
+    # file that is not there renders a broken box, which is worse than falling back to text.
+    share = said.get('image')
+    if share:
+        block += '<meta property="og:image" content="%s_media/%s">' % (PREFIX[0], share) + LF
+
     return s.replace('</head>', block + '</head>', 1)
 
 
