@@ -90,6 +90,28 @@
    cannot tell which of forty identical boxes just moved under the cursor. */
 .ed-field .is-found { border-color: var(--ad-good); box-shadow: 0 0 0 3px rgba(31, 106, 68, .16); }
 
+/* The buttons of a list inside an item - a paragraph's ↑ ↓ Remove, and "Add a paragraph" after the
+   last one. Small and under the box rather than beside it: the column is 380 wide and the box
+   needs all of it. Remove is red like Delete on the Content screen, because it is the same act. */
+.ed-field input[type=date] {
+  font: inherit; font-size: 14px; padding: 6px 9px;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-ink);
+}
+.ed-listrow { display: flex; gap: 6px; justify-content: flex-end; margin-top: 5px; }
+.ed-mini {
+  font: inherit; font-size: 12px; line-height: 1; padding: 5px 8px; cursor: pointer;
+  border: 1px solid var(--ad-line); border-radius: 3px; background: #fff; color: var(--ad-ink);
+}
+.ed-mini:hover { border-color: var(--ad-ink); }
+.ed-mini-danger { color: var(--ad-bad); }
+.ed-mini-danger:hover { border-color: var(--ad-bad); }
+.ed-add {
+  display: block; width: 100%; margin: 4px 0 14px; padding: 8px 10px; font-size: 13px;
+  border-style: dashed; color: var(--ad-good); text-align: left;
+}
+.ed-add::before { content: "+ "; }
+.ed-add:hover { border-color: var(--ad-good); background: rgba(31, 106, 68, .05); }
+
 /* ---- right: the page ---- */
 .ed-preview { display: flex; flex-direction: column; min-width: 0; background: var(--ad-wash); }
 

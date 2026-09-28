@@ -186,7 +186,9 @@ public sealed class PageComposer
             }
             var section = detail.Success ? detail.Groups["name"].Value : null;
             filled = Describe(filled, real, root, section, id);
-            return edit ? WithBridge(filled, root, SeoFields(real, root, section, id)) : filled;
+            return edit
+                ? WithBridge(filled, root, SeoFields(real, root, section, id) + ListMarkers(section, id))
+                : filled;
         });
     }
 
@@ -297,6 +299,38 @@ public sealed class PageComposer
         return Box("site.seo." + key + ".title", "title", Str(seo, "title"), "")
              + Box("site.seo." + key + ".description", "description", Str(seo, "description"), "")
              + Picture("site.seo." + key + ".image", Str(seo, "image"), rootPrefix);
+    }
+
+    /// <summary>
+    /// A hidden marker for each list inside the item this page shows, that the editor may grow.
+    ///
+    /// Same reason as the SEO boxes, from the other side. Those are fields nothing on the page
+    /// shows; these are lists that may show nothing YET. A new article's body is empty, so the
+    /// page draws no paragraph, so there is no address for the editor to find, so there was no
+    /// box - and no way to write the article. The marker says "this list exists, it lives here,
+    /// and one entry in it is called a Paragraph", whether or not it has entries today.
+    ///
+    /// The count is not written: the editor counts the boxes it was given for this list, so the
+    /// number and the boxes cannot disagree.
+    /// </summary>
+    private string ListMarkers(string? section, string? itemId)
+    {
+        var lists = ItemLists.ForSection(section).ToList();
+        if (lists.Count == 0) return "";
+        if (_sections.ItemFor(section!, itemId) is not { } item) return "";
+        if (_sections.AddressOf(section!, item) is not { } at) return "";
+
+        var sb = new StringBuilder();
+        foreach (var l in lists)
+        {
+            // The table names a document and a list of items; the page's item has to be one of
+            // them, or the marker would send the editor to a list on some other document.
+            if (!at.StartsWith(l.Document + "." + l.Items + ".", StringComparison.Ordinal)) continue;
+            sb.Append("<span hidden data-ab-list=\"").Append(Esc(at + "." + l.Field))
+              .Append("\" data-ab-each=\"").Append(Esc(l.Each)).Append('"')
+              .Append(l.Multiline ? " data-ab-multiline" : "").Append("></span>");
+        }
+        return sb.ToString();
     }
 
     private static string Box(string address, string role, string value, string hint)
@@ -563,7 +597,9 @@ public sealed class PageComposer
                           .Select(m => (At: m.Index, Name: m.Groups[1].Value))
                           .ToList();
 
-        foreach (Match m in Regex.Matches(html, @"data-ab-(?:t|lead|lines|pick)=""([^""]+)"""))
+        // date as well: an article's date is an address like the others, and one that points at
+        // nothing is a box the client will fill in and not be able to save.
+        foreach (Match m in Regex.Matches(html, @"data-ab-(?:t|lead|lines|pick|date)=""([^""]+)"""))
         {
             var address = m.Groups[1].Value;
 

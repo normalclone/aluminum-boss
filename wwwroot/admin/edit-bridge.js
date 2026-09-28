@@ -14,7 +14,14 @@
       { type: 'ab:list' }                   send the addresses again (after a reload)
 
     page -> editor
-      { type: 'ab:ready', url, fields: [{ address, kind, value, shape?, options?, seo?, hint? }] }
+      { type: 'ab:ready', url, fields: [...], lists: [...] }
+        fields: [{ address, kind, value, shape?, options?, seo?, hint? }]
+                                          kind = 't' | 'lead' | 'lines' | 'img' | 'pick' | 'date'
+                                          'date' = an article's date: value is "2026-08-19", what
+                                            the file holds, never the "19 August 2026" on screen
+        lists:  [{ address, each, multiline }]  a list inside the item that the editor may grow:
+                                          address = "news.items.0.body", each = "Paragraph".
+                                          Reported even when EMPTY - that is the whole point
                                           shape = { w, h, from } of an image field's slot,
                                           from = 'attr' (the layout said so) | 'box' (measured)
                                           options = the only values a 'pick' field may hold
@@ -40,7 +47,17 @@
   if (w.parent === w) return;   // Not in a frame: there is nobody to talk to.
 
   var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines'],
-               ['data-ab-img', 'img'], ['data-ab-pick', 'pick']];
+               ['data-ab-img', 'img'], ['data-ab-pick', 'pick'], ['data-ab-date', 'date']];
+
+  // The same words SectionRenderer.LongDate writes, so a date typed in the editor reads on the
+  // page exactly as it will after the save: "19 August 2026", not the browser's own idea.
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'];
+  function longDate(iso) {
+    var p = String(iso).split('-'), m = +p[1];
+    if (p.length !== 3 || !(m >= 1 && m <= 12)) return iso;
+    return (+p[2]) + ' ' + MONTHS[m - 1] + ' ' + p[0];
+  }
 
   // Two kinds of address, and the leading dot says which.
   //
@@ -87,6 +104,8 @@
       return cut < 0 ? '' : src.slice(cut + 7);
     }
     if (kind === 't' || kind === 'pick') return el.textContent;
+    // What the file holds, not what the reader sees.
+    if (kind === 'date') return el.getAttribute('data-ab-value') || '';
     if (kind === 'lead') {
       var first = el.firstChild;
       return first && first.nodeType === 3 ? first.data : '';
@@ -115,6 +134,11 @@
       return;
     }
     if (kind === 't' || kind === 'pick') { el.textContent = value; return; }
+    if (kind === 'date') {
+      el.setAttribute('data-ab-value', value || '');
+      el.textContent = value ? longDate(value) : '';
+      return;
+    }
     if (kind === 'lead') {
       var first = el.firstChild;
       if (first && first.nodeType === 3) first.data = value;
@@ -131,7 +155,7 @@
 
   function each(fn) {
     var all = d.querySelectorAll(
-      '[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img],[data-ab-pick]');
+      '[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img],[data-ab-pick],[data-ab-date]');
     for (var i = 0; i < all.length; i++) {
       var a = attr(all[i]);
       if (a) fn(all[i], a.address, a.kind);
@@ -156,6 +180,25 @@
       out.push(f);
     });
     return out;
+  }
+
+  // The lists inside the item that the editor may grow. The composer writes one hidden marker for
+  // each (PageComposer.ListMarkers), empty or not: an empty body draws no paragraph, so without the
+  // marker the editor would have nothing to hang an "Add a paragraph" button on.
+  function lists() {
+    var out = [], all = d.querySelectorAll('[data-ab-list]');
+    for (var i = 0; i < all.length; i++) {
+      out.push({ address: all[i].getAttribute('data-ab-list'),
+                 each: all[i].getAttribute('data-ab-each') || 'Item',
+                 multiline: all[i].hasAttribute('data-ab-multiline') });
+    }
+    return out;
+  }
+
+  // One place that says hello, so the three moments it happens - load, DOMContentLoaded, and
+  // the editor asking again - cannot drift into reporting different things.
+  function ready() {
+    send({ type: 'ab:ready', url: w.location.pathname, fields: fields(), lists: lists() });
   }
 
   // The size of the hole a picture goes into, so somebody choosing one knows what will be
@@ -189,7 +232,7 @@
     // Only the editor, and only from this same site.
     if (e.origin !== w.location.origin || !e.data) return;
 
-    if (e.data.type === 'ab:list') { send({ type: 'ab:ready', url: w.location.pathname, fields: fields() }); return; }
+    if (e.data.type === 'ab:list') { ready(); return; }
     if (e.data.type !== 'ab:text' && e.data.type !== 'ab:img') return;
 
     var value = e.data.type === 'ab:img' ? e.data.file : e.data.value;
@@ -280,7 +323,8 @@
   var style = d.createElement('style');
   style.textContent =
     '[data-ab-pickable] [data-ab-t]:hover,[data-ab-pickable] [data-ab-lead]:hover,' +
-    '[data-ab-pickable] [data-ab-lines]:hover,[data-ab-pickable] [data-ab-pick]:hover' +
+    '[data-ab-pickable] [data-ab-lines]:hover,[data-ab-pickable] [data-ab-pick]:hover,' +
+    '[data-ab-pickable] [data-ab-date]:hover' +
     '{outline:1px dashed rgba(31,106,68,.55);outline-offset:2px;cursor:text}' +
     // A picture gets a solid outline and a pointer, not a text cursor: you are not going to
     // type into it, you are going to choose one.
@@ -291,8 +335,8 @@
 
   // The editor may be listening before this runs or after; say hello, and answer ab:list too.
   if (d.readyState === 'loading') {
-    d.addEventListener('DOMContentLoaded', function () { send({ type: 'ab:ready', url: w.location.pathname, fields: fields() }); });
+    d.addEventListener('DOMContentLoaded', function () { ready(); });
   } else {
-    send({ type: 'ab:ready', url: w.location.pathname, fields: fields() });
+    ready();
   }
 }(window));

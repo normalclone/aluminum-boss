@@ -72,9 +72,18 @@
     return url;
   }
 
-  function save() {
+  // Resolves to the server's answer, or to null when nothing reached it - never rejects, so a
+  // caller chaining something after the save can ask "did it save?" without a stray unhandled
+  // rejection on the ordinary click path.
+  //
+  // { reload: false } skips reloading the frame. A list button saves the pending edits and THEN
+  // changes the list, and each wanting its own reload is two navigations racing: the second one
+  // can land before the first has finished and the column is rebuilt from a page that was
+  // already out of date. The caller reloads once, at the end.
+  function save(opts) {
+    var reload = !(opts && opts.reload === false);
     var edits = Object.keys(dirty).map(function (a) { return { address: a, value: dirty[a] }; });
-    if (!edits.length) return Promise.resolve();
+    if (!edits.length) return Promise.resolve({ saved: 0 });
 
     saveBtn.disabled = true;
     saveBtn.textContent = 'Saving…';
@@ -90,11 +99,121 @@
       //
       // Sometimes that truth is at a different address: naming a new item for the first time
       // turns new-3f9a2c into a real slug, and the frame is still pointed at the old one.
-      frame.src = moved(frame.src, r.renamed);
+      if (reload) frame.src = moved(frame.src, r.renamed);
+      return r;
     }).catch(function () {
       saveBtn.disabled = false;
       saveBtn.textContent = 'Save changes';
       saveNote.textContent = 'Could not reach the server. Nothing was saved.';
+      return null;
+    });
+  }
+
+  /* ---- the lists inside an item: paragraphs, tags ------------------------------------ */
+
+  var itemLists = [];       // what the page reported: [{ address, each, multiline }]
+  var revealNext = null;    // an address to scroll to and focus once the page comes back
+
+  // The list an entry belongs to, or null: "news.items.0.body.3" -> the body list.
+  function listOf(address) {
+    for (var i = 0; i < itemLists.length; i++) {
+      var l = itemLists[i];
+      if (address.indexOf(l.address + '.') === 0 && /^\d+$/.test(address.slice(l.address.length + 1))) return l;
+    }
+    return null;
+  }
+
+  // How many entries a list has - counted from the boxes this column was given, so the number and
+  // the boxes cannot disagree. The page draws one box per entry, empty ones included.
+  function countOf(list) {
+    var n = 0;
+    Object.keys(inputs).forEach(function (a) { if (listOf(a) === list) n++; });
+    return n;
+  }
+
+  /**
+   * Adds, removes or moves one entry, written straight away.
+   *
+   * The pending edits go first, and only if the person agrees. Rebuilding the column after the
+   * list changes reads every box back from the page; an edit still waiting in `dirty` would come
+   * back showing its old value while the new one sat unseen behind it, and the next Save would
+   * write something the screen was not showing.
+   */
+  function listOp(address, op, reveal) {
+    var pending = Object.keys(dirty).length;
+    if (pending && !confirm('Save your ' + pending + (pending === 1 ? ' change' : ' changes') +
+                            ' first? The list is changed straight away, so they have to be saved before it.')) {
+      return;
+    }
+    (pending ? save({ reload: false }) : Promise.resolve({ saved: 0 })).then(function (r) {
+      if (!r) return;                                   // the save did not reach the server
+      return post('/Admin/Edit/List', { address: address, op: op }).then(function (res) {
+        if (!res || !res.ok) {
+          saveNote.textContent = (res && res.error) || 'That could not be changed.';
+          return;
+        }
+        revealNext = reveal || null;
+        saveNote.textContent = op === 'append' ? 'Added.' : op === 'remove' ? 'Removed.' : 'Moved.';
+        // One reload, whether or not there was a save before it - and at the address the page
+        // has now, if naming a new item for the first time just moved it.
+        var next = moved(frame.src, r.renamed);
+        if (next === frame.src) frame.contentWindow.location.reload();
+        else frame.src = next;
+      });
+    }).catch(function () {
+      saveNote.textContent = 'Could not reach the server. Nothing was changed.';
+    });
+  }
+
+  function tiny(text, title, onClick, cls) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ed-mini' + (cls ? ' ' + cls : '');
+    b.textContent = text;
+    b.title = title;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  // The buttons for every list the page reported: under each entry, and one "Add" after the last
+  // entry - or at the end of the item's group when there are none yet, which is the brand-new
+  // article's case and the reason all of this exists.
+  function drawLists() {
+    itemLists.forEach(function (l) {
+      var entries = Object.keys(inputs).filter(function (a) { return listOf(a) === l; })
+        .sort(function (a, b) { return +a.split('.').pop() - +b.split('.').pop(); });
+      var word = l.each.toLowerCase();
+
+      entries.forEach(function (a, i) {
+        var card = inputs[a].closest('.ed-field');
+        var row = document.createElement('div');
+        row.className = 'ed-listrow';
+        if (i > 0) row.appendChild(tiny('↑', 'Move this ' + word + ' up', function () { listOp(a, 'up', l.address + '.' + (i - 1)); }));
+        if (i < entries.length - 1) row.appendChild(tiny('↓', 'Move this ' + word + ' down', function () { listOp(a, 'down', l.address + '.' + (i + 1)); }));
+        row.appendChild(tiny('Remove', 'Remove this ' + word, function () {
+          var v = inputs[a].value.trim();
+          if (v && !confirm('Remove this ' + word + '?\n\n"' + v.slice(0, 120) + (v.length > 120 ? '…' : '') + '"')) return;
+          listOp(a, 'remove', null);
+        }, 'ed-mini-danger'));
+        card.appendChild(row);
+      });
+
+      var add = tiny('Add a ' + word, 'Add a ' + word + ' at the end', function () {
+        listOp(l.address, 'append', l.address + '.' + countOf(l));
+      }, 'ed-add');
+      add.setAttribute('data-list', l.address);
+
+      if (entries.length) {
+        var last = inputs[entries[entries.length - 1]].closest('.ed-field');
+        last.parentNode.insertBefore(add, last.nextSibling);
+      } else {
+        // No entries: put it in the group the list's document belongs to.
+        var head = group(l.address);
+        var sec = Array.prototype.find.call(list.querySelectorAll('.ed-group'), function (s) {
+          return s.querySelector('summary').textContent === head;
+        });
+        (sec ? sec.querySelector('div') : list).appendChild(add);
+      }
     });
   }
 
@@ -619,10 +738,19 @@
     return parts[parts.length - 1];
   }
 
-  function build(fields) {
+  function build(fields, reported) {
+    // The box the person is in, carried across the rebuild. The frame says hello twice on every
+    // load - once when its DOM is ready and once more when the editor asks after 'load' - and each
+    // hello rebuilds the column from scratch. So a box that had just been focused ("Add a
+    // paragraph" puts the cursor in the new one) was thrown away half a second later by the
+    // second rebuild, and the cursor landed nowhere.
+    var had = document.activeElement && document.activeElement.getAttribute
+      ? document.activeElement.getAttribute('data-address') : null;
     list.innerHTML = '';
     inputs = {};
     shapes = {};
+    // Known before any box is drawn: whether a box is a paragraph decides whether it gets room.
+    itemLists = reported || [];
     closeShelf();
     if (!fields.length) {
       list.appendChild(note('This page has no editable text yet.'));
@@ -667,6 +795,11 @@
       list.appendChild(section);
       seen[name].forEach(draw);
     });
+
+    // After every box exists: the list buttons hang off the boxes, and "Add" goes after the last.
+    drawLists();
+
+    if (had && inputs[had] && inputs[had].type !== 'hidden') inputs[had].focus();
 
     function draw(f) {
       var field = document.createElement('div');
@@ -762,12 +895,42 @@
         return;
       }
 
+      // An article's date: a date picker, whose value is always "2026-08-19" or empty - the only
+      // two shapes the server will take, and the only two the news list can sort. The page shows
+      // the same day as "19 August 2026" and changes as the picker does.
+      if (f.kind === 'date') {
+        var day = document.createElement('input');
+        day.type = 'date';
+        day.id = id;
+        day.value = f.value;
+        day.setAttribute('data-address', f.address);
+        day.addEventListener('change', function () {
+          send({ type: 'ab:text', address: f.address, value: day.value });
+          mark(f.address, day.value);
+        });
+        field.appendChild(day);
+        if (!f.value) {
+          var why = document.createElement('span');
+          why.className = 'ed-slot';
+          why.appendChild(line('Not dated yet. An article with no date goes to the end of the news list.'));
+          field.appendChild(why);
+        }
+        box.appendChild(field);
+        inputs[f.address] = day;
+        return;
+      }
+
       // A line break in the value means the address holds several lines; a long value wants room
       // to breathe. Everything else is one line, which is most of them.
       //
       // A search description gets room whether or not it has any words in it yet: it is two
       // sentences by the time it is finished, and an empty one-line box invites one short one.
-      var many = f.kind === 'lines' || f.value.length > 70 || f.seo === 'description';
+      //
+      // A paragraph gets room whatever it holds: a new one is empty, and an empty one-line box
+      // invites one short sentence where a paragraph was meant.
+      var inList = listOf(f.address);
+      var many = f.kind === 'lines' || f.value.length > 70 || f.seo === 'description'
+              || !!(inList && inList.multiline);
       var input = document.createElement(many ? 'textarea' : 'input');
       if (!many) input.type = 'text';
       input.id = id;
@@ -779,6 +942,12 @@
         // grey behind it and runs to three lines, and a two-row box cuts it off - which is
         // the one thing this box exists to show.
         input.rows = f.seo === 'description' ? Math.max(3, rows) : rows;
+        // A paragraph is one long line with no breaks in it, so counting breaks gives it two
+        // rows however long it is. Size it by length instead - roughly 48 characters a row in
+        // this column - between three rows and eight.
+        if (inList && inList.multiline) {
+          input.rows = Math.min(8, Math.max(3, Math.ceil(f.value.length / 48) + 1));
+        }
       }
 
       // What the page says with this box empty, shown in the box in grey. An empty SEO field is
@@ -879,8 +1048,11 @@
     if (e.origin !== location.origin || !e.data) return;
     if (e.data.type === 'ab:ready') {
       moved_to(e.data.url);
-      build(e.data.fields || []);
+      build(e.data.fields || [], e.data.lists || []);
       if (chotim) reveal(chotim);
+      // A paragraph just added: take the person straight to its box, cursor in it. Without this
+      // the column rebuilds, scrolls back to the top, and the new empty box is somewhere below.
+      if (revealNext) { var at = revealNext; revealNext = null; reveal(at); }
     }
     else if (e.data.type === 'ab:pick') reveal(e.data.address);
   });

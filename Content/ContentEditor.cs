@@ -122,6 +122,14 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // And again for an article's date. The screen offers a date picker, which can only
+            // produce the right shape - but the screen is not the door.
+            if (IsArticleDate(name, path) && !IsDay(change.Value))
+            {
+                rejected.Add(change.Address);
+                continue;
+            }
+
             // The two names that may be created where none exists, and removed when emptied.
             // Handled before TrySet because TrySet is the rule they are the exception to.
             if (SeoLeaf(path) is { } leaf)
@@ -229,6 +237,32 @@ public sealed class ContentEditor
     private static readonly Regex ItemField =
         new(@"^items\.\d+\.(gloss|use|family)$", RegexOptions.Compiled);
 
+    /// <summary>
+    /// An article's date: <c>news.items.N.date</c>, and only that.
+    ///
+    /// Narrow on purpose. contact.json has a field called "date" too - it is the TYPE of a form
+    /// field, "date" as in a date picker - and a rule matched on the key's name alone would start
+    /// refusing to let that be changed to anything but a day.
+    /// </summary>
+    private static bool IsArticleDate(string name, string path)
+        => name.Equals("news", StringComparison.OrdinalIgnoreCase) && ArticleDate.IsMatch(path);
+
+    private static readonly Regex ArticleDate = new(@"^items\.\d+\.date$", RegexOptions.Compiled);
+
+    /// <summary>
+    /// A day that exists, written <c>YYYY-MM-DD</c> - or nothing, meaning "not dated yet".
+    ///
+    /// The news list sorts on this string, as a string. A date in any other shape does not fail:
+    /// "19/08/2026" sorts after every 2026 date there is, and the article sits in the wrong place,
+    /// quietly, for as long as nobody looks. DateOnly rather than DateTime, because DateTime's
+    /// parser is forgiving in exactly the ways that matter here - it reads "2026-8-19", and it
+    /// lets a trailing space through.
+    /// </summary>
+    private static bool IsDay(string value)
+        => value.Length == 0
+           || DateOnly.TryParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture,
+                                     DateTimeStyles.None, out _);
+
     private static List<string>? Filter(JsonNode doc, string id)
         => ((doc["filters"] as JsonArray)?.OfType<JsonNode>()
                 .FirstOrDefault(f => f["id"]?.ToString() == id)?["options"] as JsonArray)
@@ -299,7 +333,15 @@ public sealed class ContentEditor
     }
 
     /// <summary>What a list screen can do to a collection.</summary>
-    public enum Op { Add, Remove, Up, Down, Show, Hide }
+    /// <remarks>
+    /// <see cref="Append"/> is for the lists INSIDE an item - an article's paragraphs, its tags -
+    /// and it is not <see cref="Add"/> with a different position. Add puts the new entry at the
+    /// TOP and builds it from the shape of the first one, which is right for a new article at the
+    /// head of the news and wrong twice over for a paragraph: a new paragraph belongs at the end,
+    /// and an empty body has no first paragraph to copy, so Add would fall back to an object
+    /// with an id and drop it among the strings.
+    /// </remarks>
+    public enum Op { Add, Remove, Up, Down, Show, Hide, Append }
 
     /// <summary>
     /// Adds, removes, reorders or hides an item.
@@ -325,7 +367,8 @@ public sealed class ContentEditor
         catch (JsonException) { return Refused(address); }
 
         var path = address[(cut + 1)..].Split('.');
-        var wantsItem = op != Op.Add;
+        // Add and Append name the list; everything else names one entry in it.
+        var wantsItem = op is not (Op.Add or Op.Append);
 
         // The array, and - for everything but Add - which of its items.
         var arrayPath = wantsItem ? path[..^1] : path;
@@ -342,6 +385,18 @@ public sealed class ContentEditor
                 // written here would be a second description of a document's fields, and the
                 // first thing to go stale when one of them gains a field.
                 list.Insert(0, Blank(list.FirstOrDefault()));
+                break;
+
+            case Op.Append:
+                // Strings only, and EVERY entry checked, not the first. The two checks - this one
+                // and ItemLists' table - look redundant and are not. This one refuses a list of
+                // objects: news.items is the list of articles, and a bare "" among them is a card
+                // that draws nothing on every page that reads it. But an EMPTY list has no entries
+                // to check, so it passes here whatever it holds; what authorises appending to an
+                // empty body is that "news.items.N.body" is in ItemLists, not its contents.
+                if (list.Any(e => e is not JsonValue v || v.GetValueKind() != JsonValueKind.String))
+                    return Refused(address);
+                list.Add(JsonValue.Create(""));
                 break;
 
             case Op.Remove:

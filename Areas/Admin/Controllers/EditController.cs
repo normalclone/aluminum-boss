@@ -137,6 +137,56 @@ public class EditController : Controller
             RecordMove(edit.Address, was, edit.Value);
         }
 
+        await Record(result);
+
+        return Json(new
+        {
+            saved = result.Applied,
+            rejected = result.Rejected,
+            documents = result.Previous.Keys,
+            // A new item that was just given a title also just got its address. The screen is
+            // still looking at the placeholder one, which stopped existing a line ago.
+            renamed = result.Renamed,
+        });
+    }
+
+    public record ListChange(string Address, string Op);
+
+    /// <summary>
+    /// Adds, removes or moves one entry of a list INSIDE an item - a paragraph, a tag.
+    ///
+    /// Written straight away, like the Content screen's buttons, not held until Save: it changes
+    /// how many boxes the page has, and the column has to be rebuilt from the page to show the
+    /// new one. The screen asks to save any pending edits first, so that rebuilding cannot show a
+    /// box its old value while the new one is still waiting to be written.
+    ///
+    /// Only the lists in <see cref="ItemLists"/> get through, and the address arrives whole - the
+    /// list for "append", the entry for the rest - rather than as a list plus a position counted
+    /// on the screen, which is not the position in the file.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> List([FromBody] ListChange? change)
+    {
+        if (change is null || !ItemLists.TryRead(change.Address ?? "", change.Op ?? "", out var target, out var op))
+            return Json(new { ok = false, error = "That list cannot be changed from here." });
+
+        var result = _editor.Structure(target, op);
+        if (result.Rejected.Count > 0)
+            return Json(new { ok = false, error = "That could not be changed. Reload the page and try again." });
+
+        await Record(result);
+        return Json(new { ok = true });
+    }
+
+    /// <summary>
+    /// Keeps what every touched document said before, so History can put it back.
+    ///
+    /// One helper for both doors - Save and the list buttons - because a change that leaves no
+    /// revision is a change nobody can undo, and two copies of this block would drift.
+    /// </summary>
+    private async Task Record(ContentEditor.Result result)
+    {
         foreach (var (name, before) in result.Previous)
         {
             if (before is null) continue;
@@ -153,16 +203,6 @@ public class EditController : Controller
             await _db.SaveChangesAsync();
             await RevisionLog.TrimAsync(_db, result.Previous.Keys);
         }
-
-        return Json(new
-        {
-            saved = result.Applied,
-            rejected = result.Rejected,
-            documents = result.Previous.Keys,
-            // A new item that was just given a title also just got its address. The screen is
-            // still looking at the placeholder one, which stopped existing a line ago.
-            renamed = result.Renamed,
-        });
     }
 
     /// <summary>The value an address holds right now, or null.</summary>

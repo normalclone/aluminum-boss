@@ -792,7 +792,17 @@ public sealed class SectionRenderer
           .Append("</a> &nbsp;/&nbsp; ").Append(string.Join(" &middot; ", tags)).Append("</p>")
           .Append("<h1 class=\"ab-title ab-article-title\"").Append(TextAddress(a, "title"))
           .Append('>').Append(Esc(title)).Append("</h1>")
-          .Append("<p class=\"ab-post-meta\">").Append(LongDate(Str(a, "date")))
+          // The date gets an address of its own KIND, not a text address. The page shows
+          // "19 August 2026" and the file holds "2026-08-19", so an editor reading the text back
+          // would offer the reader's words as the value and save them that way - which is why
+          // this had no address at all until 28/09/2026, and why no article's date could be
+          // changed. data-ab-value carries what the file says; the bridge reads that, and writes
+          // the words back in the same shape LongDate does.
+          //
+          // Drawn even when the date is empty, so a brand-new article has a box for it too.
+          .Append("<p class=\"ab-post-meta\"><span data-ab-date=\".").Append(Esc(Where(a, "date")))
+          .Append("\" data-ab-value=\"").Append(Esc(Str(a, "date"))).Append("\">")
+          .Append(LongDate(Str(a, "date"))).Append("</span>")
           .Append(" &nbsp;|&nbsp; Written by: ")
           .Append("<span").Append(TextAddress(a, "author")).Append('>')
           .Append(Esc(Str(a, "author"))).Append("</span></p>")
