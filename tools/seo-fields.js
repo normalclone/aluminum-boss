@@ -208,7 +208,11 @@ async function chonAnh(p, address, n = 1) {
 
   const cAnh = await p.evaluate(u => fetch(u).then(r => r.text()), BASE + '/colors/');
   const og = /<meta property="og:image" content="([^"]*)"/.exec(cAnh);
-  say('og:image hien ra tren trang', og && og[1], '../_media/' + tep);
+  // Tuyet doi, dung tu `origin` trong site.json. Phep kiem nay tung doi '../_media/' + tep -
+  // tuc la no DOI dung cai loi: Open Graph can dia chi tuyet doi, va mot the tuong doi la mot the
+  // chia se khong co anh. Khi ma nguon duoc sua (28/09/2026) thi chinh phep kiem nay la cai do.
+  const [goc] = trongTep('site', 'origin');
+  say('og:image hien ra tren trang (dia chi tuyet doi)', og && og[1], goc + '/_media/' + tep);
 
   // Tra lai trang: "No picture" la o dau bang chon.
   await p.goto(BASE + '/Admin?page=' + encodeURIComponent('/colors/'), { waitUntil: 'networkidle' });

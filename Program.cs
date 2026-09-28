@@ -25,8 +25,43 @@ builder.Services.AddControllersWithViews(options =>
     // screen and forgetting the check.
     if (adminEnabled) options.Filters.Add<QlWeb2.Areas.Admin.FirstPasswordFilter>();
 });
+// Which database. SQLite on a working machine, MySQL on the server (from 28/09/2026).
+//
+// The choice is configuration, not a build: the server sets Database__Provider=mysql in
+// /etc/qlweb2/db.env, a working copy sets nothing and gets the one-file database it always had.
+// Nothing above the provider knows the difference - two tables, EnsureCreated, no raw SQL - which
+// is what made the switch a configuration change rather than a port.
+//
+// An unknown name THROWS rather than falling back to SQLite, and that is the point of the check.
+// A typo in the server's configuration falling back quietly would start the live site on a brand
+// new empty SQLite file, whose seeder writes admin / changeme - the published default password,
+// on a public address, and nothing on the screen to say anything had gone wrong.
+var provider = (builder.Configuration.GetValue<string>("Database:Provider") ?? "sqlite")
+    .Trim().ToLowerInvariant();
+var connection = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+{
+    switch (provider)
+    {
+        case "sqlite":
+            options.UseSqlite(connection);
+            break;
+
+        // The server version is stated rather than AutoDetect'ed: AutoDetect opens a connection
+        // while the services are being registered, so an app that starts a second before MySQL
+        // does would fail at boot instead of on its first query - and systemd starts them in
+        // parallel. It only steers which SQL dialect Pomelo writes, so the floor of the major
+        // version is enough.
+        case "mysql":
+            options.UseMySql(connection, new MySqlServerVersion(Version.Parse(
+                builder.Configuration.GetValue<string>("Database:ServerVersion") ?? "8.0.0")));
+            break;
+
+        default:
+            throw new InvalidOperationException(
+                $"Database:Provider is '{provider}'. It must be 'sqlite' or 'mysql'.");
+    }
+});
 
 // Where the keys that sign the login cookie and the anti-forgery token are kept.
 //

@@ -97,7 +97,10 @@ for _ in $(seq 1 30); do
   sleep 2
 done
 echo "  trong may : $ma"
-echo "  qua nginx : $(ssh_ "curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://127.0.0.1/ || true")"
+# Tu khi co HTTPS, cong 80 tra 301 sang https - do la dung, khong phai loi, nen noi ro ra.
+qua_nginx=$(ssh_ "curl -s -o /dev/null -w '%{http_code}' --max-time 5 http://127.0.0.1/ || true")
+[ "$qua_nginx" = "301" ] && qua_nginx="301 (chuyen sang https - dung)"
+echo "  qua nginx : $qua_nginx"
 
 if [ "$ma" != "200" ]; then
   noi "KHONG LEN - nhat ky 40 dong cuoi"

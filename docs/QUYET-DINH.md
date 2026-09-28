@@ -292,3 +292,46 @@ trong `TITLE`), nên chép từ mã nguồn Python sẽ đổi tiêu đề bảy
 
 **Vẫn chưa đóng:** trang tĩnh trên GitHub Pages mang đầu trang của khuôn mẫu cho mọi mục. Việc
 này cần một quyết định riêng (deploy `export/` hay thêm bước nướng lại trước khi push).
+
+## 13. Máy chủ dùng MySQL thay cho SQLite — 28/09/2026
+
+Anh yêu cầu cài MySQL trên VPS và dùng nó thay cho SQLite. Đã làm; máy làm việc vẫn là SQLite.
+
+**Cái gì thật sự đổi.** Cơ sở dữ liệu chỉ có hai bảng: tài khoản đăng nhập và lịch sử sửa. Nội dung
+trang **không** nằm trong đó — nó ở các tệp JSON. Nên việc chuyển là một thay đổi cấu hình, không
+phải một lần viết lại: `Database__Provider=mysql` trên máy chủ, không đặt gì ở máy làm việc.
+
+**Tên sai thì không khởi động.** Giá trị lạ của `Database:Provider` ném lỗi chứ không lặng lẽ rơi
+về SQLite. Rơi về lặng lẽ trên máy chủ nghĩa là một tệp SQLite mới tinh, và bộ khởi tạo ghi ngay
+`admin` / `changeme` — mật khẩu có trong mã nguồn công khai, trên một địa chỉ công khai.
+
+**Hai cột phải có độ dài.** `Name` và `Username` nằm trong chỉ mục; chuỗi không giới hạn thành
+`longtext` trên MySQL, và MySQL từ chối đánh chỉ mục `longtext` — `EnsureCreated` sẽ vỡ ngay câu
+`CREATE INDEX` đầu tiên. Trên SQLite thêm độ dài không đổi gì.
+
+**Hai điều được đo chứ không tin:**
+- Lời khuyên nói có 639 bản lịch sử cần chuyển. Con số đó là của **máy làm việc**; trên VPS đếm ra
+  1 tài khoản, 0 lịch sử.
+- Lời khuyên lo `datetime` bị làm tròn về giây. Đo sau khi tạo bảng: cột là `datetime(6)`,
+  micro-giây.
+
+**Thứ tự chuyển có lý do.** Schema được tạo bằng một bản ứng dụng chạy ở `127.0.0.1:5001`, không
+qua nginx: `EnsureCreated` xong là bộ khởi tạo ghi `admin` / `changeme`, và chạy ở cổng thật thì
+trong vài giây đó ai trên internet cũng vào được. Sau đó tài khoản thật thay cho tài khoản vừa
+khởi tạo, đối chiếu **từng trường, từng byte** (không chỉ đếm dòng — chuỗi tiếng Việt hỏng mã
+vẫn là một dòng), rồi mới nối vào bằng drop-in systemd.
+
+**Bằng chứng ứng dụng thật sự đọc MySQL**, vì biến môi trường đúng chưa chứng minh điều đó:
+tiến trình giữ một kết nối TCP tới 3306, MySQL thấy `qlweb2@localhost → qlweb2`, và tiến trình
+**không mở tệp SQLite nào**.
+
+**Cái mất đi khi bỏ SQLite, nói ra để khỏi quên:** sao lưu không còn là chép một tệp. Đã thêm
+`mysqldump` mỗi đêm, giữ 14 bản — và đã **khôi phục thử** một bản vào CSDL tạm, so mã băm, khớp.
+Một bản sao lưu chưa từng khôi phục thì chưa phải là sao lưu. Thêm nữa: một tiến trình ~150 MB
+thường trực trên máy 1,9 GB (đã chỉnh từ mặc định), và một mật khẩu dịch vụ phải giữ — nó nằm
+duy nhất trong `/etc/qlweb2/db.env`, quyền 0600, sinh ngay trên máy.
+
+**Sửa kèm:** cách cứu mật khẩu trong `HANDOVER.md` bảo "xoá tệp `qlweb2.db`" — giờ không còn tác
+dụng, và kể cả trước đó cũng thừa vì nó vứt luôn toàn bộ lịch sử trong khi chỉ cần xoá một dòng.
+Đã thay bằng `DELETE FROM AdminUsers` và chạy thử quy trình trên một bản sao.
+

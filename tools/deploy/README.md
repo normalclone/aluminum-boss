@@ -12,24 +12,35 @@ tung muc cuoi cung cung den duoc nguoi doc that.
 | Dia chi | `202.92.6.174`, SSH cong `24700` |
 | He dieu hanh | Ubuntu 24.04 LTS, 2 nhan, 1,9 GB RAM, 40 GB |
 | Ban chay | `aspnetcore-runtime-8.0` tu kho Ubuntu |
+| CSDL | **MySQL 8.0**, chi nghe `127.0.0.1` (tu 28/09/2026; truoc do la SQLite) |
 | Dang nhap | **bang khoa**, `~/.ssh/qlweb2_vps` |
 
-## Hai lenh
+## Lenh
+
+Moi lan dua ban moi len, tu may lam viec — day la lenh duy nhat dung hang ngay:
 
 ```bash
-# Mot lan, tren may chu: ban chay, nguoi dung, swap, systemd, nginx, tuong lua
-scp -P 24700 -i ~/.ssh/qlweb2_vps tools/deploy/server-setup.sh root@202.92.6.174:/tmp/
-ssh  -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/server-setup.sh'
-
-# Moi lan sau do, tu may lam viec
 bash tools/deploy/push.sh
+```
+
+Dung mot may MOI tu dau, theo dung thu tu nay (moi script tu kiem dieu kien cua no va dung lai
+neu buoc truoc chua xong):
+
+```bash
+K="-P 24700 -i ~/.ssh/qlweb2_vps"
+scp $K tools/deploy/*.sh root@202.92.6.174:/tmp/
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/server-setup.sh'   # may, nginx, tuong lua
+bash tools/deploy/push.sh --kem-noi-dung                                          # ma nguon + noi dung
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/mysql-setup.sh'    # cai MySQL, chua noi
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/mysql-cutover.sh'  # chuyen sang MySQL
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/https-setup.sh aluminumboss.com'
 ```
 
 ## Bo cuc thu muc, va vi sao no nhu vay
 
 ```
 /srv/qlweb2/app/        ma nguon      <- push.sh XOA VA GHI LAI ca thu muc nay
-/srv/qlweb2/App_Data/   CSDL + don hang
+/srv/qlweb2/App_Data/   don hang, khoa dang nhap, tep SQLite cu (CSDL that o MySQL)
 /srv/qlweb2/noi-dung/   _data, _media <- noi dung that, KHONG bao gio bi push.sh cham vao
 ```
 
@@ -42,11 +53,80 @@ biet cho toi khi mo trang ra xem.
 Nen `push.sh` **mac dinh khong day noi dung len**. Muon day that thi `--kem-noi-dung`, va luc do
 no ghi de that.
 
+## MySQL
+
+Tu 28/09/2026 ung dung doc/ghi **MySQL** tren may nay thay cho tep SQLite. Trong CSDL chi co hai
+bang: tai khoan dang nhap (`AdminUsers`) va lich su sua (`ContentRevisions`). **Noi dung trang
+khong nam trong CSDL** — no nam trong cac tep JSON o `/srv/qlweb2/noi-dung/_data/`.
+
+| | |
+|---|---|
+| CSDL / nguoi dung | `qlweb2` / `qlweb2`, chi co quyen tren CSDL cua no |
+| Mat khau ket noi | chi nam trong `/etc/qlweb2/db.env` (quyen `0600`, chu root). Sinh ngay tren may, khong in ra, khong vao git |
+| Noi vao ung dung | drop-in `/etc/systemd/system/qlweb2.service.d/mysql.conf` |
+| Bo nho | ~150 MB — da chinh cho may 1,9 GB (`/etc/mysql/mysql.conf.d/zz-qlweb2.cnf`) |
+| Tu ngoai vao | khong duoc. Chi nghe `127.0.0.1`, va tuong lua khong mo `3306` |
+
+Root cua MySQL dang nhap bang `auth_socket`: dang nhap may chu bang root la vao duoc MySQL,
+khong can mat khau nao:
+
+```bash
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'SELECT Id, Username, LastSignInAt FROM AdminUsers'"
+```
+
+Cach may chu chon CSDL: bien `Database__Provider` (`sqlite` hoac `mysql`). Tren may lam viec
+khong dat gi nen van la SQLite nhu cu. **Ghi sai ten thi ung dung KHONG khoi dong** thay vi le
+lang roi ve SQLite — co chu y: roi ve le lang tren may chu nghia la mot CSDL moi tinh, ma bo khoi
+tao ghi ngay `admin` / `changeme`, tren mot dia chi cong khai.
+
+### Sao luu
+
+Voi SQLite, sao luu la chep mot tep. Voi MySQL thi khong: tep trong `/var/lib/mysql` chep luc may
+dang chay la ban hong. Nen co **`mysqldump` moi dem luc 02:30**, giu 14 ban gan nhat:
+
+```
+/srv/qlweb2/sao-luu/qlweb2-YYYYMMDD-HHMM.sql.gz     (quyen 0600)
+```
+
+Sao luu ngay bay gio: `systemctl start qlweb2-sao-luu.service`
+
+Khoi phuc mot ban (ghi de CSDL dang chay — dung ung dung truoc):
+
+```bash
+systemctl stop qlweb2
+gunzip -c /srv/qlweb2/sao-luu/qlweb2-20260928-1521.sql.gz | mysql qlweb2
+systemctl start qlweb2
+```
+
+Da chay thu ngay 28/09/2026: sao luu, khoi phuc vao mot CSDL tam, so ma bam tai khoan — khop.
+
+### Quay ve SQLite
+
+Tep SQLite cu khong bi xoa (`/srv/qlweb2/App_Data/qlweb2.db`), nen quay ve la hai dong:
+
+```bash
+rm /etc/systemd/system/qlweb2.service.d/mysql.conf
+systemctl daemon-reload && systemctl restart qlweb2
+```
+
+Luu y: moi thu ghi vao MySQL ke tu luc chuyen (doi mat khau, lich su sua) **khong** co trong tep
+SQLite do.
+
 ## Mat khau admin
 
 Khong ai dat ho. Lan dang nhap dau tien dung `admin` / `changeme`, va may chu **bat doi ngay**
 truoc khi cho vao bat cu man hinh nao (`Areas/Admin/FirstPassword.cs`). Mat khau do khong di qua
 tay ai khac.
+
+**Quen mat khau.** Khong co "quen mat khau" tren giao dien. May chu chi tu tao lai `admin` /
+`changeme` khi **khong con tai khoan nao**, nen cach cuu la xoa dong tai khoan roi khoi dong lai:
+
+```bash
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' && systemctl restart qlweb2"
+```
+
+Lich su sua con nguyen — bang lich su khong noi gi voi bang tai khoan. Da thu dung quy trinh nay
+tren mot ban sao: 639 ban lich su truoc, 639 ban sau.
 
 ## HTTPS
 
@@ -67,16 +147,15 @@ No lam ba viec cung luc, va viec thu ba de quen nhat: doi `origin` trong `site.j
 `https://aluminumboss.com`. `origin` di vao canonical, vao `@id` cua JSON-LD va vao sitemap - bat
 HTTPS ma quen no thi ca site chay https trong khi moi trang van khai minh song o http.
 
-## Dieu phai noi ro khi HTTPS chua bat
+## Trang thai HTTPS
 
-May nay dang chay **HTTP tran**, theo quyet dinh ngay 28/09/2026 khi chua co ten mien tro ve
-`202.92.6.174`.
+**Da bat ngay 28/09/2026.** Chung chi Let's Encrypt cho `aluminumboss.com` va `www`, certbot tu
+gia han (`systemctl list-timers | grep certbot`). Vao bang `http://` hoac bang dia chi IP deu
+chuyen ve `https://aluminumboss.com`.
 
-Hau qua cu the, khong phai ly thuyet: **man hinh dang nhap `/Admin` gui mat khau di duoi dang
-chu doc duoc.** Ai dung giua duong truyen — cung mang Wi-Fi, nha mang, may chu trung gian — deu
-doc duoc. Con phan site cong khai thi khong co gi bi mat de lo.
-
-Cach vá o muc **HTTPS** ben tren. Cong 443 da mo san trong tuong lua.
+Neu mot ngay chung chi hong (het han ma khong gia han duoc): man hinh dang nhap `/Admin` se lai
+gui mat khau di duoi dang chu doc duoc. Kiem `certbot renew --dry-run` truoc khi nghi den gi
+khac.
 
 ## Khi hong
 

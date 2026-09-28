@@ -73,6 +73,10 @@ export/
 
 # Yeu cau lien he do khach that gui, va co so du lieu lich su. Khong thuoc ve git.
 App_Data/enquiries.jsonl
+# Khoa Data Protection: ky cookie dang nhap va token chong gia mao. La bi mat - ai co no thi tu
+# lam duoc cookie dang nhap cua admin. Sinh ra tu 28/09/2026 khi khoa chuyen tu RAM xuong dia,
+# va suyt bi commit ngay lan dau vi dong nay chua co.
+App_Data/keys/
 
 # Phim huong dan sinh ra boi tools/guide-video.js. Quay lai duoc bat cu luc nao, va mot tep mp4
 # vai megabyte trong git la thu khong ai diff duoc.

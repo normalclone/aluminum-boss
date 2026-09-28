@@ -176,10 +176,20 @@ thì khu quản trị coi như chưa có khoá. Đổi xong là menu trở lại
 
 Mật khẩu mới phải dài ít nhất mười ký tự — quy tắc ấy đã loại sẵn `changeme`.
 
-Quên mật khẩu thì cần người có quyền vào máy chủ: xoá tệp `App_Data/qlweb2.db` rồi khởi động lại,
-tài khoản `admin` / `changeme` sẽ được tạo lại (và cổng đổi mật khẩu dựng lên lại). Làm vậy cũng
-**xoá luôn toàn bộ History** (nội dung thì không sao — nội dung nằm trong các tệp JSON, không nằm
-trong cơ sở dữ liệu).
+Quên mật khẩu thì cần người có quyền vào máy chủ. Máy chủ chỉ tự tạo lại `admin` / `changeme`
+khi **không còn tài khoản nào**, nên cách cứu là xoá dòng tài khoản rồi khởi động lại:
+
+```bash
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' && systemctl restart qlweb2"
+```
+
+Đăng nhập lại bằng `admin` / `changeme`, cổng đổi mật khẩu sẽ dựng lên như lần đầu. **History
+còn nguyên** — bảng lịch sử không nối gì với bảng tài khoản. Đã chạy thử đúng quy trình này trên
+một bản sao ngày 28/09/2026: 639 bản lịch sử trước, 639 bản sau.
+
+Bản cũ của đoạn này bảo xoá cả tệp `App_Data/qlweb2.db`. Từ khi máy chủ chạy MySQL
+(28/09/2026) việc đó không còn tác dụng gì, và kể cả trước đó nó cũng thừa: xoá cả tệp là vứt
+luôn toàn bộ History trong khi chỉ cần xoá một dòng.
 
 ---
 
