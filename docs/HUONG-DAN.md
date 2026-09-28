@@ -28,7 +28,7 @@ Ghi mật khẩu mới vào chỗ an toàn. Không có nút "quên mật khẩu"
 
 ---
 
-## 2. Nhìn quanh
+## 2. Khu quản trị có những gì
 
 Vào `/Admin` là vào thẳng màn hình sửa trang. Thanh trên cùng có năm mục:
 
