@@ -68,6 +68,14 @@ certbot --nginx --non-interactive --agree-tos --redirect \
   --register-unsafely-without-email \
   -d "$TEN_MIEN" -d "www.$TEN_MIEN" 2>&1 | tail -12
 
+# Certbot ket thuc khoi :80 bang `return 404` cho moi host khong khop ten mien - nen vao bang
+# DIA CHI IP la 404 thay vi ra trang. Doi thanh chuyen huong ve ten mien chinh: mot lien ket cu
+# dung dia chi IP van den dung cho, va ca site chi con MOT dia chi that, dung cai canonical khai.
+noi "vao bang dia chi IP thi chuyen ve ten mien"
+sed -i "s|^    return 404; # managed by Certbot|    return 301 https://$TEN_MIEN\$request_uri;   # thay cho \"return 404\" cua Certbot|"   /etc/nginx/sites-available/$APP
+nginx -t 2>&1 | sed 's/^/  /'
+systemctl reload nginx
+
 noi "origin trong du lieu"
 python3 - "$DU_LIEU" "https://$TEN_MIEN" <<'PY'
 import io, json, sys, collections
