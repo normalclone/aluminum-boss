@@ -33,10 +33,13 @@ Năm màn hình, mỗi cái làm một việc:
 
 > Chưa bấm Save thì chưa có gì được ghi. Đóng tab lúc đang sửa dở, trình duyệt sẽ hỏi lại.
 
-> **Chừng nào trang công khai còn là bản GitHub Pages** (hiện tại là vậy: khu quản trị chưa được
-> dựng lên máy chủ nào), thì Save **chưa** đưa thay đổi ra internet. Nó ghi vào cả hai cây trên
-> máy đang chạy; ra tới khách thì cần một lần `git push`, và GitHub Pages tự dựng lại trong
-> khoảng một phút. Khi bản .NET đã lên VPS thì câu này hết đúng và Save là xong.
+> **Save là xong — từ 28/09/2026.** Bản .NET đã chạy trên VPS tại `202.92.6.174` và chính nó
+> phục vụ trang công khai, nên bấm Save là khách thấy ngay, không cần `git push` và không chờ
+> deploy. GitHub Pages không còn là bản chính. Cách dựng lại và cách đẩy bản mới nằm ở
+> `tools/deploy/README.md`.
+>
+> Điều này cũng đóng khe hở ghi ở `docs/QUYET-DINH.md` mục 12: trang được ghép lúc có người xem,
+> nên tiêu đề và mô tả riêng của từng mục cuối cùng cũng đến được người đọc thật.
 
 **Lần đặt tên đầu tiên cũng đặt luôn địa chỉ.** Một mục vừa thêm mang một cái tên máy sinh
 (`new-3f9a2c`). Ngay khi bạn gõ tiêu đề cho nó và bấm Save, địa chỉ của nó thành tiêu đề ấy:

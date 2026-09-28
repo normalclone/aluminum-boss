@@ -30,6 +30,14 @@
          were riding along into the deployment until the first publish to a real server was
          packaged on 28/09/2026. clone-report.json goes with them: a crawl log naming the site
          this one was built from, which has no business on a public server. -->
+    <!-- Dua lai nhung tep duoi wwwroot co chu "node_modules" trong duong dan.
+         DefaultItemExcludes cua Web SDK bo **/node_modules/** o moi noi. Dung cho mot thu muc
+         phu thuoc that (tools/node_modules), va SAI o day: ban crawl giu nguyen duong dan ma
+         cac trang tro toi, va muoi hai trong so do tinh co co chu "node_modules". Chung vang
+         mat im lang khoi lan trien khai dau tien - hai tep CSS 404 tren moi trang va bon tep
+         script khong tai duoc - crawl.js chay len may chu that moi phat hien ra. -->
+    <Content Include="wwwroot/**/node_modules/**" CopyToPublishDirectory="PreserveNewest" />
+
     <Compile Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
     <Content Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
     <None Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
