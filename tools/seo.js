@@ -36,6 +36,9 @@ const text = async url => (await fetch(BASE + url, { cache: 'no-store' })).text(
   const descriptions = new Map();
   let noSchema = 0;
   let noCanonical = 0;
+  let canonicalSai = 0;   // canonical tro sai trang, hoac hai trang khai cung mot dia chi
+  let ogTuongDoi = 0;     // og:image khong phai dia chi tuyet doi
+  const canonicals = new Map();
 
   for (const p of PAGES) {
     await page.goto(BASE + p, { waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -43,6 +46,10 @@ const text = async url => (await fetch(BASE + url, { cache: 'no-store' })).text(
       title: document.title.trim(),
       description: (document.querySelector('meta[name=description]') || {}).content || '',
       canonical: (document.querySelector('link[rel=canonical]') || {}).href || '',
+      // getAttribute, khong phai .content: .content tra ve dia chi da duoc trinh duyet giai
+      // thanh tuyet doi, tuc la no che dung cai loi dang di tim.
+      ogImage: (document.querySelector('meta[property="og:image"]') || {})
+        .getAttribute?.('content') || '',
       schema: [...document.querySelectorAll('script[type="application/ld+json"]')]
         .map(s => s.textContent),
     }));
@@ -67,6 +74,33 @@ const text = async url => (await fetch(BASE + url, { cache: 'no-store' })).text(
     // toi day, va mot trang tra loi o hai dia chi ma khong noi dia chi nao la that thi bi chia doi.
     const isItem = p.split('/').filter(Boolean).length > 1;
     if (isItem && !head.canonical) { noCanonical++; notes.push('khong co canonical: ' + p); }
+
+    // CANONICAL PHAI TRO VE CHINH TRANG DO.
+    //
+    // Phep kiem o tren chi hoi "co canonical khong", va no dat suot trong khi 40 bai tin cung
+    // khai mot dia chi: /news/detail/, la duong dan cua KHUON chu khong phai cua bai. Bon muoi
+    // bai xin duoc lap chi muc thanh mot bai. Mot phep kiem khong the that bai theo cach no can
+    // bat thi khong phai mot phep kiem - nen cho nay so duong dan, chu khong dem su ton tai.
+    if (head.canonical) {
+      const duong = head.canonical.replace(/^https?:\/\/[^/]+/, '');
+      if (duong !== p) {
+        canonicalSai++;
+        notes.push('canonical tro sai cho: ' + p + ' -> ' + duong);
+      }
+      if (canonicals.has(head.canonical)) {
+        canonicalSai++;
+        notes.push('canonical trung: ' + p + ' = ' + canonicals.get(head.canonical));
+      }
+      canonicals.set(head.canonical, p);
+    }
+
+    // og:image phai la dia chi TUYET DOI. Open Graph doi vay, va khong bo quet nao giai mot
+    // duong dan tuong doi ra tu trang - nen mot the tuong doi la mot the chia se khong co anh,
+    // va cai do khong nhin thay duoc tu chinh site: no chi hien trong cua so chat cua nguoi khac.
+    if (head.ogImage && !/^https?:\/\//.test(head.ogImage)) {
+      ogTuongDoi++;
+      notes.push('og:image tuong doi: ' + p + ' -> ' + head.ogImage);
+    }
   }
 
   check('tieu de rieng cho tung trang', titles.size === PAGES.length,
@@ -76,6 +110,10 @@ const text = async url => (await fetch(BASE + url, { cache: 'no-store' })).text(
   check('JSON-LD tren moi trang', noSchema === 0, (PAGES.length - noSchema) + '/' + PAGES.length);
   check('canonical tren trang muc rieng', noCanonical === 0,
         noCanonical === 0 ? 'du' : noCanonical + ' trang thieu');
+  check('canonical tro dung ve trang cua no', canonicalSai === 0,
+        canonicalSai === 0 ? 'dung het' : canonicalSai + ' cho sai');
+  check('og:image la dia chi tuyet doi', ogTuongDoi === 0,
+        ogTuongDoi === 0 ? 'dung het' : ogTuongDoi + ' the tuong doi');
 
   // sitemap
   const xml = await text('/sitemap.xml');

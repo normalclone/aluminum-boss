@@ -49,8 +49,10 @@ public sealed class PageCompositionMiddleware
             // No template answers this path. It may still be an item: /news/press-line-2500/ is
             // composed from /news/detail/, which sits at the same depth, so the page it produces
             // is the page the old address produced, byte for byte.
+            // The template builds the page; `path` is what the page calls itself. Before these
+            // were told apart, every item under a section shared one canonical URL.
             if (router.Resolve(path) is { } item)
-                html = composer.Compose(item.TemplatePath, item.ItemId, edit);
+                html = composer.Compose(item.TemplatePath, item.ItemId, edit, canonicalPath: path);
         }
         if (html is null)
         {

@@ -125,7 +125,20 @@ public sealed class PageComposer
     /// editor previews are the same bytes plus one script tag - which is the only reason the
     /// preview is worth looking at.
     /// </summary>
-    public string? Compose(string urlPath, string? itemId = null, bool edit = false)
+    /// <param name="canonicalPath">
+    /// The address the visitor actually asked for, when it differs from the template's.
+    ///
+    /// An item page is composed from its section's template - /news/storm-resistance/ is built
+    /// out of /news/detail/ - and until 28/09/2026 the composer was told only the second, so
+    /// every article on the site declared &lt;link rel="canonical"&gt; pointing at
+    /// /news/detail/. Forty articles claiming one address is forty articles asking to be
+    /// indexed as one. The same path went into the JSON-LD, so the structured data named the
+    /// template too.
+    ///
+    /// It went unnoticed because tools/seo.js checked that a canonical EXISTS. It existed.
+    /// </param>
+    public string? Compose(string urlPath, string? itemId = null, bool edit = false,
+                           string? canonicalPath = null)
     {
         var file = TemplateFile(urlPath);
         if (file is null) return null;
@@ -145,7 +158,19 @@ public sealed class PageComposer
         }
 
         var id = itemId;
+
+        // RootPrefix stays on the TEMPLATE's path, deliberately: it is how the markup reaches
+        // _media and _app, and the template is what the markup came from. The two paths sit at
+        // the same depth anyway - that is why an item page can be composed from a detail
+        // template at all - so this is a statement of intent rather than a difference.
         var root = RootPrefix(urlPath);
+        var real = canonicalPath ?? urlPath;
+
+        // The real path joins the cache key. It is one-to-one with (template, item) today, so
+        // this changes no behaviour; leaving it out would mean the first visitor's address was
+        // baked into a page served to everyone, which is the kind of coupling that holds until
+        // the day it does not.
+        key += " @" + real;
         return _cache.GetOrAdd(edit ? key + " +edit" : key, _ =>
         {
             var filled = Fill(html, root, id);
@@ -160,8 +185,8 @@ public sealed class PageComposer
                 return html;
             }
             var section = detail.Success ? detail.Groups["name"].Value : null;
-            filled = Describe(filled, urlPath, root, section, id);
-            return edit ? WithBridge(filled, root, SeoFields(urlPath, root, section, id)) : filled;
+            filled = Describe(filled, real, root, section, id);
+            return edit ? WithBridge(filled, root, SeoFields(real, root, section, id)) : filled;
         });
     }
 
@@ -186,8 +211,8 @@ public sealed class PageComposer
 
         var item = section is null ? null : _sections.ItemFor(section, itemId);
         html = item is null
-            ? PageHead.ForPage(html, _store.Get("site")?["seo"]?[SeoKey(urlPath)], rootPrefix)
-            : PageHead.ForItem(html, item, section ?? "", siteName ?? "", origin + urlPath, rootPrefix);
+            ? PageHead.ForPage(html, _store.Get("site")?["seo"]?[SeoKey(urlPath)], origin)
+            : PageHead.ForItem(html, item, section ?? "", siteName ?? "", origin + urlPath, origin);
         return PageHead.WithJsonLd(html, _schema.For(urlPath, origin, section, item));
     }
 

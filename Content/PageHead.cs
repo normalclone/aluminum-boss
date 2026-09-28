@@ -35,8 +35,17 @@ public static class PageHead
     /// <paramref name="item"/> is null on a listing page, which is not this method's business:
     /// <see cref="ForPage"/> handles those.
     /// </summary>
+    /// <param name="origin">
+    /// The site's own scheme and host, for og:image.
+    ///
+    /// It used to be given the page's RELATIVE root prefix, so a shared article carried
+    /// <c>og:image="../../_media/x.jpg"</c>. Open Graph requires an absolute URL and no scraper
+    /// resolves a relative one against the page, so the share card came up with no picture -
+    /// invisible from the site itself, visible only in somebody else's chat window. The JSON-LD
+    /// beside it had been absolute all along.
+    /// </param>
     public static string ForItem(string html, JsonNode? item, string section, string siteName,
-                                 string canonical, string rootPrefix)
+                                 string canonical, string origin)
     {
         if (item is null) return html;
 
@@ -63,7 +72,7 @@ public static class PageHead
             html = Meta(html, "property", "og:description", description);
         }
         if (image.Length > 0)
-            html = Meta(html, "property", "og:image", rootPrefix + "_media/" + image);
+            html = Meta(html, "property", "og:image", origin + "/_media/" + image);
 
         // An item page is a thing, not a website; and it has one address, which is worth saying
         // out loud now that the old query form still answers and redirects.
@@ -110,7 +119,7 @@ public static class PageHead
     /// pages and writes no canonical at all, and a server that adds one while the published copy
     /// has none is two versions of the same page disagreeing about its own address.
     /// </summary>
-    public static string ForPage(string html, JsonNode? seo, string rootPrefix)
+    public static string ForPage(string html, JsonNode? seo, string origin)
     {
         if (seo is null) return html;
 
@@ -129,7 +138,7 @@ public static class PageHead
             html = Meta(html, "property", "og:description", description);
         }
         if (image.Length > 0)
-            html = Meta(html, "property", "og:image", rootPrefix + "_media/" + image);
+            html = Meta(html, "property", "og:image", origin + "/_media/" + image);
 
         return html;
     }

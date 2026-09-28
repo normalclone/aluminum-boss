@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using QlWeb2.Content;
 using QlWeb2.Data;
@@ -26,6 +27,24 @@ builder.Services.AddControllersWithViews(options =>
 });
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+// Where the keys that sign the login cookie and the anti-forgery token are kept.
+//
+// Said out loud because the default is wrong here and fails quietly. ASP.NET puts these under
+// the user's home directory; on the server the service runs with ProtectSystem=strict and that
+// path is read-only, so the framework falls back to keeping them IN MEMORY and logs a warning
+// nobody reads. The effect is not subtle once you know to look: every restart - which means
+// every deploy - signs everyone out, and any form whose token was minted before the restart is
+// refused on submit with a message that blames the form.
+//
+// App_Data is already the one place this app is allowed to write, and it is already where the
+// database lives, so the keys belong beside it. SetApplicationName pins the purpose string, so
+// a cookie issued yesterday is still readable after the app is redeployed under a new path.
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(
+        Directory.CreateDirectory(
+            Path.Combine(builder.Environment.ContentRootPath, "App_Data", "keys")))
+    .SetApplicationName("QlWeb2");
 
 // The site's content. Files on disk are the single source of truth; the database keeps revision
 // history and the admin account, and nothing else.

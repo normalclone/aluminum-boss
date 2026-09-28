@@ -48,7 +48,26 @@ Khong ai dat ho. Lan dang nhap dau tien dung `admin` / `changeme`, va may chu **
 truoc khi cho vao bat cu man hinh nao (`Areas/Admin/FirstPassword.cs`). Mat khau do khong di qua
 tay ai khac.
 
-## Dieu phai noi ro: HTTPS chua co
+## HTTPS
+
+Ten mien: **aluminumboss.com** (dang ky o portal.inet.vn).
+
+Khi ban ghi A cua `aluminumboss.com` va `www.aluminumboss.com` da tro ve `202.92.6.174`:
+
+```bash
+scp -P 24700 -i ~/.ssh/qlweb2_vps tools/deploy/https-setup.sh root@202.92.6.174:/tmp/
+ssh  -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash /tmp/https-setup.sh aluminumboss.com'
+```
+
+Script tu kiem DNS truoc va **tu choi chay** neu ten mien chua tro dung cho. Khong phai can than
+thua: Let's Encrypt chung minh quyen so huu bang cach goi nguoc ve `http://<ten mien>/.well-known/`,
+va ho dem so lan that bai - 5 lan mot gio la bi khoa mot tieng.
+
+No lam ba viec cung luc, va viec thu ba de quen nhat: doi `origin` trong `site.json` sang
+`https://aluminumboss.com`. `origin` di vao canonical, vao `@id` cua JSON-LD va vao sitemap - bat
+HTTPS ma quen no thi ca site chay https trong khi moi trang van khai minh song o http.
+
+## Dieu phai noi ro khi HTTPS chua bat
 
 May nay dang chay **HTTP tran**, theo quyet dinh ngay 28/09/2026 khi chua co ten mien tro ve
 `202.92.6.174`.
@@ -57,15 +76,7 @@ Hau qua cu the, khong phai ly thuyet: **man hinh dang nhap `/Admin` gui mat khau
 chu doc duoc.** Ai dung giua duong truyen — cung mang Wi-Fi, nha mang, may chu trung gian — deu
 doc duoc. Con phan site cong khai thi khong co gi bi mat de lo.
 
-Co ten mien roi thi vá het trong vai phut, va cong 443 da mo san:
-
-```bash
-ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 \
-  'apt-get install -y certbot python3-certbot-nginx && certbot --nginx -d TEN.MIEN'
-```
-
-Sau do doi `Proxy__TrustedIps__0` van la `127.0.0.1` (khong can sua), va `UseHttpsRedirection`
-trong `Program.cs` se bat dau lam viec that thay vi nam im.
+Cach vá o muc **HTTPS** ben tren. Cong 443 da mo san trong tuong lua.
 
 ## Khi hong
 
