@@ -1,0 +1,639 @@
+<title>Sổ tay quản trị Böss Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Saira:wght@500;600;700&display=swap">
+
+<style>
+/* Bảng màu lấy nguyên từ khu quản trị (wwwroot/admin) để trang này trông như một phần của
+   chính thứ nó hướng dẫn, chứ không phải một tài liệu rời. */
+:root {
+  --ink:   #1d1d1b;
+  --wash:  #f6f4f1;
+  --paper: #fffefc;
+  --line:  #ddd9d3;
+  --mute:  #6f6a62;
+  --good:  #1f6a44;
+  --bad:   #a3302a;
+  --chip:  #efece7;
+
+  --body: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --disp: "Saira", "Be Vietnam Pro", system-ui, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink:   #eae7e2;
+    --wash:  #1a1a18;
+    --paper: #232320;
+    --line:  #3b3a35;
+    --mute:  #9a948b;
+    --good:  #64ad82;
+    --bad:   #d9756c;
+    --chip:  #2e2e2a;
+  }
+}
+:root[data-theme="dark"] {
+  --ink:   #eae7e2;
+  --wash:  #1a1a18;
+  --paper: #232320;
+  --line:  #3b3a35;
+  --mute:  #9a948b;
+  --good:  #64ad82;
+  --bad:   #d9756c;
+  --chip:  #2e2e2a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--wash);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 0 72px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 1000px) {
+  .wrap { grid-template-columns: 210px minmax(0, 1fr); align-items: start; }
+}
+
+/* ---- đầu trang ---- */
+
+.top {
+  grid-column: 1 / -1;
+  padding-block: 44px 34px;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.mark {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: clamp(26px, 5vw, 34px);
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  margin: 0;
+}
+.mark span { font-weight: 500; }
+.top h1 {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 6px 0 0;
+}
+.where {
+  font-size: 14px;
+  color: var(--mute);
+  margin: 0;
+  display: grid;
+  gap: 3px;
+}
+.where a { color: var(--good); text-decoration: none; font-weight: 500; }
+.where a:hover { text-decoration: underline; }
+
+/* ---- mục lục ---- */
+
+nav.toc { display: none; }
+@media (min-width: 1000px) {
+  nav.toc {
+    display: block;
+    position: sticky;
+    top: 28px;
+    font-size: 14px;
+  }
+  nav.toc p {
+    font-family: var(--disp);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 12px;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  nav.toc a {
+    color: var(--mute);
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 6px;
+    line-height: 1.35;
+  }
+  nav.toc a:hover { color: var(--good); }
+  nav.toc b { font-family: var(--disp); font-weight: 600; font-variant-numeric: tabular-nums; }
+}
+
+/* ---- thân ---- */
+
+main { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; padding-top: 38px; }
+
+section { scroll-margin-top: 20px; }
+
+h2 {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: clamp(21px, 3.4vw, 26px);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-wrap: balance;
+  margin: 0 0 18px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+h2 .n {
+  font-size: 0.72em;
+  color: var(--good);
+  font-variant-numeric: tabular-nums;
+}
+h3 {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.01em;
+  margin: 26px 0 10px;
+}
+
+p, li { max-width: 68ch; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 14px; padding-left: 20px; display: grid; gap: 7px; }
+strong { font-weight: 600; }
+
+/* ---- CHIP: nhãn tiếng Anh trên màn hình ----
+   Cả khu quản trị viết bằng tiếng Anh còn người đọc nghĩ bằng tiếng Việt. Mọi thứ bấm được
+   đều in thành một con chip để mắt quét ra ngay đâu là "chữ trên màn hình" và đâu là lời
+   giải thích. Đây là thứ duy nhất trên trang được phép nổi lên. */
+.ui {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 0.9em;
+  letter-spacing: 0.015em;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+/* Nhan nut ngan thi khong duoc gay dong ("Save / changes" doc nhu hai nut). Nhung mot CAU thong
+   bao dai 70 ky tu ma khong duoc xuong dong thi day ca trang ra ngoai man hinh dien thoai. */
+.ui.long { white-space: normal; }
+
+kbd {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 0.86em;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--chip);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* ---- ô thông tin nhanh ---- */
+
+.quick {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 20px 22px;
+  display: grid;
+  gap: 14px;
+  max-width: 68ch;
+}
+.quick dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; }
+.quick dt {
+  font-family: var(--disp);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  align-self: center;
+}
+.quick dd { margin: 0; font-weight: 500; }
+
+/* ---- lời nhắc ---- */
+
+.note {
+  border-left: 3px solid var(--good);
+  background: var(--paper);
+  padding: 14px 18px;
+  margin: 0 0 14px;
+  max-width: 68ch;
+  border-radius: 0 4px 4px 0;
+}
+.note.warn { border-left-color: var(--bad); }
+.note p:last-child { margin-bottom: 0; }
+
+/* ---- bảng ---- */
+
+.scroller { overflow-x: auto; margin: 0 0 14px; max-width: 100%; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 380px;
+  font-size: 15px;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+th {
+  font-family: var(--disp);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute);
+  border-bottom-color: var(--ink);
+}
+td:first-child { padding-right: 20px; }
+
+/* ---- các bước ---- */
+
+ol.steps { list-style: none; padding: 0; counter-reset: s; gap: 11px; }
+/* So thu tu dat tuyet doi, KHONG dung grid tren <li>: trong mot o luoi, moi the con - ke ca tung
+   chip ten nut nam giua cau - thanh mot o rieng, va cau vo vun thanh cot. */
+ol.steps li {
+  counter-increment: s;
+  position: relative;
+  padding-left: 36px;
+}
+ol.steps li::before {
+  content: counter(s);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: inherit;
+  color: var(--good);
+  font-variant-numeric: tabular-nums;
+}
+
+pre {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 13px 16px;
+  overflow-x: auto;
+  margin: 0 0 14px;
+  max-width: 68ch;
+  font-size: 14px;
+}
+pre code { background: none; padding: 0; }
+
+footer {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  font-size: 13px;
+  color: var(--mute);
+}
+footer p { margin: 0 0 5px; max-width: none; }
+
+a:focus-visible, nav.toc a:focus-visible {
+  outline: 2px solid var(--good);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="mark">Aluminum<span>Böss</span></p>
+      <h1>Sổ tay quản trị</h1>
+    </div>
+    <p class="where">
+      <span>Trang web · <a href="https://aluminumboss.com">aluminumboss.com</a></span>
+      <span>Quản trị · <a href="https://aluminumboss.com/Admin">aluminumboss.com/Admin</a></span>
+    </p>
+  </header>
+
+  <nav class="toc" aria-label="Mục lục">
+    <p>Mục lục</p>
+    <ol>
+      <li><a href="#s1"><b>1</b><span>Đăng nhập</span></a></li>
+      <li><a href="#s2"><b>2</b><span>Nhìn quanh</span></a></li>
+      <li><a href="#s3"><b>3</b><span>Sửa chữ trên trang</span></a></li>
+      <li><a href="#s4"><b>4</b><span>Đổi ảnh</span></a></li>
+      <li><a href="#s5"><b>5</b><span>Thêm, ẩn, xoá</span></a></li>
+      <li><a href="#s6"><b>6</b><span>Đăng bài tin mới</span></a></li>
+      <li><a href="#s7"><b>7</b><span>Phần hiện trên Google</span></a></li>
+      <li><a href="#s8"><b>8</b><span>Đơn khách gửi</span></a></li>
+      <li><a href="#s9"><b>9</b><span>Lấy lại bản cũ</span></a></li>
+      <li><a href="#s10"><b>10</b><span>Khi trục trặc</span></a></li>
+      <li><a href="#s11"><b>11</b><span>Phần kỹ thuật</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <p style="margin:0;color:var(--mute)">Khu quản trị viết bằng tiếng Anh. Mọi chữ có trên màn hình được in thành <span class="ui">thế này</span> để bạn dò cho dễ — và đã được đối chiếu với màn hình thật.</p>
+
+    <section id="s1">
+      <h2><span class="n">1</span><span>Đăng nhập</span></h2>
+
+      <div class="quick">
+        <dl>
+          <dt>Địa chỉ</dt>
+          <dd><a href="https://aluminumboss.com/Admin" style="color:var(--good);text-decoration:none">aluminumboss.com/Admin</a></dd>
+          <dt>Lần đầu</dt>
+          <dd><code>admin</code> &nbsp;/&nbsp; <code>changeme</code></dd>
+        </dl>
+      </div>
+
+      <p style="margin-top:16px">Máy chủ sẽ <strong>bắt đổi mật khẩu ngay</strong>, trước khi cho vào bất cứ màn hình nào:</p>
+      <ol class="steps">
+        <li><span class="ui">Current password</span>: gõ <code>changeme</code></li>
+        <li><span class="ui">New password</span> và <span class="ui">New password again</span>: mật khẩu mới, <strong>ít nhất 10 ký tự</strong></li>
+        <li>Bấm <span class="ui">Change password</span></li>
+      </ol>
+
+      <div class="note warn">
+        <p>Ghi mật khẩu mới vào chỗ an toàn. Không có nút "quên mật khẩu" — quên thì nhờ người kỹ thuật (mục 11). Việc đó mất khoảng một phút và <strong>không mất lịch sử sửa</strong>.</p>
+      </div>
+
+      <ul>
+        <li><strong>Đổi mật khẩu về sau:</strong> bấm chữ <span class="ui">admin</span> ở góc trên bên phải</li>
+        <li><strong>Đăng xuất:</strong> <span class="ui">Sign out</span>, cũng ở góc trên bên phải</li>
+      </ul>
+    </section>
+
+    <section id="s2">
+      <h2><span class="n">2</span><span>Nhìn quanh</span></h2>
+      <p>Vào <code>/Admin</code> là vào thẳng màn hình sửa trang. Thanh trên cùng có năm mục:</p>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Nút</th><th>Dùng để</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ui">Edit pages</span></td><td>Sửa chữ và ảnh ngay trên trang — dùng nhiều nhất</td></tr>
+            <tr><td><span class="ui">Content</span></td><td>Thêm, ẩn/hiện, đổi thứ tự, xoá các mục (bài tin, màu, dự án…)</td></tr>
+            <tr><td><span class="ui">Pictures</span></td><td>Kho ảnh: xem, tải lên, xoá</td></tr>
+            <tr><td><span class="ui">Enquiries</span></td><td>Đơn khách gửi qua form liên hệ</td></tr>
+            <tr><td><span class="ui">History</span></td><td>Các bản cũ — lấy lại khi lỡ tay</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Góc phải: <span class="ui">View site</span> mở trang thật ở tab mới; <span class="ui">admin</span> để đổi mật khẩu; <span class="ui">Sign out</span>.</p>
+    </section>
+
+    <section id="s3">
+      <h2><span class="n">3</span><span>Sửa chữ trên một trang</span></h2>
+      <p>Màn hình chia hai cột: <strong>trái là các ô nhập, phải là trang web thật.</strong></p>
+
+      <h3>Chọn trang cần sửa — ba cách</h3>
+      <ul>
+        <li>Chọn ở ô <span class="ui">PAGE</span> trên cùng cột trái</li>
+        <li>Bấm vào menu hoặc liên kết ngay trong khung bên phải — khung đi sang trang đó, cột trái đi theo</li>
+        <li>Từ <span class="ui">Content</span>, bấm <span class="ui">Edit</span> ở dòng của mục cần sửa. Nhanh nhất khi cần sửa <strong>một</strong> bài tin, một màu, một dự án cụ thể.</li>
+      </ul>
+
+      <h3>Chọn chữ cần sửa</h3>
+      <div class="note">
+        <p>Giữ phím <kbd>Ctrl</kbd> rồi bấm vào chữ trong khung bên phải. Máy Mac: giữ <kbd>Cmd</kbd>.</p>
+      </div>
+      <p>Ô tương ứng ở cột trái sẽ sáng lên. <strong>Bấm thường</strong> — không giữ <kbd>Ctrl</kbd> — thì trang chạy như thật: bấm menu là chuyển trang, bấm tab là đổi tab.</p>
+      <p>Mỗi ô có một dòng chữ nhỏ phía trên cho biết nó là gì — ví dụ <span class="ui">Article #1 summary</span> là phần tóm tắt của bài đang mở.</p>
+
+      <h3>Lưu</h3>
+      <ol class="steps">
+        <li>Gõ vào ô — chữ trong khung bên phải đổi ngay khi gõ</li>
+        <li>Bấm <span class="ui">Save changes</span> ở đáy cột trái</li>
+        <li>Dòng nhỏ bên cạnh báo <em>1 change saved</em>. Khách vào trang là thấy luôn, không chờ gì cả.</li>
+      </ol>
+      <div class="note warn">
+        <p><strong>Chưa bấm <span class="ui">Save changes</span> thì chưa lưu gì.</strong> Chuyển trang hoặc đóng tab khi đang sửa dở, máy sẽ hỏi lại.</p>
+      </div>
+
+      <h3>Xem trên điện thoại</h3>
+      <p>Ba nút <span class="ui">Desktop 1440</span> <span class="ui">Tablet 834</span> <span class="ui">Phone 390</span> chỉ đổi cỡ khung xem. Nội dung chỉ có một bản: sửa một lần là đúng cho mọi màn hình. <span class="ui">Open in a tab</span> mở trang đó trong tab riêng.</p>
+    </section>
+
+    <section id="s4">
+      <h2><span class="n">4</span><span>Đổi ảnh</span></h2>
+      <p>Ô ảnh có nút <span class="ui">Choose picture</span>. Bấm vào mở kho ảnh:</p>
+      <ul>
+        <li>Bấm một ảnh có sẵn để chọn</li>
+        <li><span class="ui">Add a picture</span> để tải ảnh mới từ máy lên</li>
+        <li><span class="ui">No picture</span> để bỏ ảnh đi</li>
+      </ul>
+      <p>Thay một ảnh đang có thì khung xem đổi ngay. Ô ảnh đang <strong>trống</strong> thì phải bấm <span class="ui">Save changes</span> mới thấy ảnh hiện ra.</p>
+
+      <div class="note">
+        <p><strong>Cỡ ảnh.</strong> Dưới mỗi ô ảnh có dòng gợi ý, ví dụ <em>Best upload 680 × 600 px</em>. Máy chủ <strong>không tự thu nhỏ ảnh</strong>, nên giữ cạnh dài dưới <strong>2000 px</strong>. Ảnh chụp thẳng từ điện thoại (thường 4000 px, vài MB) nên thu nhỏ trước khi tải lên — không thì trang chậm với mọi người xem.</p>
+      </div>
+      <p>Nhận JPG, PNG, WebP, GIF — tối đa 20 MB.</p>
+
+      <div class="note warn">
+        <p><strong>Xoá ảnh</strong> ở màn hình <span class="ui">Pictures</span>: máy hỏi lại và cảnh báo trang nào còn dùng ảnh đó sẽ bị trống chỗ. <strong>Ảnh đã xoá không lấy lại được ở <span class="ui">History</span>.</strong></p>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2><span class="n">5</span><span>Thêm, ẩn, đổi thứ tự, xoá</span></h2>
+      <p><span class="ui">Content</span> liệt kê mọi loại nội dung kèm số lượng. Bấm vào một loại, mỗi dòng có:</p>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Nút</th><th>Làm gì</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ui">Shown</span> / <span class="ui">Hidden</span></td><td>Bấm để ẩn hoặc hiện. Mục ẩn vẫn còn, chỉ không hiện trên trang.</td></tr>
+            <tr><td><span class="ui">↑</span> <span class="ui">↓</span></td><td>Đổi thứ tự — thứ tự ở đây là thứ tự trên trang</td></tr>
+            <tr><td><span class="ui">Edit</span></td><td>Mở màn hình sửa, đúng trang của mục đó</td></tr>
+            <tr><td><span class="ui">Delete</span></td><td>Xoá. Máy hỏi lại <span class="ui">Yes, delete it</span> hay <span class="ui">Keep it</span>, và cho biết có chỗ nào khác đang trỏ tới mục đó không</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Nút <span class="ui">Add an item</span> ở đầu danh sách thêm một mục trống lên <strong>dòng đầu tiên</strong>.</p>
+
+      <div class="note warn">
+        <p><strong>Mục mới hiện ngay trên trang công khai, dù còn trống.</strong> Thêm xong, bấm <span class="ui">Shown</span> ở dòng đó để thành <span class="ui">Hidden</span>; viết xong mới bấm lại cho hiện.</p>
+      </div>
+      <div class="note warn">
+        <p><strong>Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.</strong> Mục mới có một tên tạm như <code>new-3f9a2c</code>. Lần đầu bạn gõ tiêu đề và lưu, địa chỉ trang của nó thành tiêu đề ấy — <strong>và sau đó không đổi nữa</strong>, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.</p>
+      </div>
+
+      <p><strong>Hai loại không thêm được:</strong> <span class="ui">Export routes</span> và <span class="ui">Factories</span> — thêm cần toạ độ bản đồ, phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được.</p>
+
+      <p><strong>Bốn loại "Home:"</strong> — <span class="ui">Home: New</span> <span class="ui">Home: Products</span> <span class="ui">Home: Colors</span> <span class="ui">Home: Projects</span> — là <strong>kệ trưng bày trên trang chủ</strong>, không phải nơi viết nội dung. Mỗi dòng có một ô chọn bài và nút <span class="ui">Set</span>: chọn bài muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở <span class="ui">News</span>, <span class="ui">Products</span>, <span class="ui">Colors</span>, <span class="ui">Projects</span> — sửa một lần, mọi nơi đổi theo.</p>
+    </section>
+
+    <section id="s6">
+      <h2><span class="n">6</span><span>Đăng một bài tin mới</span></h2>
+      <ol class="steps">
+        <li><span class="ui">Content</span> → <span class="ui">News</span> → <span class="ui">Add an item</span>. Máy báo <span class="ui long">Added. It is at the top of the list.</span></li>
+        <li>Ngay lập tức bấm <span class="ui">Shown</span> ở dòng 1 để thành <span class="ui">Hidden</span> — bài trống đã hiện trên trang</li>
+        <li>Bấm <span class="ui">Edit</span> ở dòng 1</li>
+        <li>Điền <span class="ui">Article #1 title</span> (tiêu đề), <span class="ui">Article #1 summary</span> (tóm tắt), <span class="ui">Article #1 author</span> (tác giả), và ảnh bằng <span class="ui">Choose picture</span>. Muốn thì điền cả nhóm <span class="ui">Search result</span> (mục 7).</li>
+        <li>Bấm <span class="ui">Save changes</span>. Địa chỉ bài lúc này thành tiêu đề — xem lưu ý ở mục 5.</li>
+        <li>Quay về <span class="ui">Content</span> → <span class="ui">News</span>, bấm <span class="ui">Hidden</span> để thành <span class="ui">Shown</span></li>
+      </ol>
+
+      <div class="note warn">
+        <p><strong>Hiện CHƯA làm được từ giao diện:</strong> viết <strong>phần thân bài</strong> (các đoạn văn), đặt <strong>ngày đăng</strong>, và gắn <strong>thẻ</strong>. Bài mới vì thế chỉ có tiêu đề, tóm tắt, tác giả và ảnh — và <strong>nằm cuối</strong> danh sách tin vì chưa có ngày. Cần phần thân bài hoặc ngày thì nhờ người kỹ thuật.</p>
+        <p>Với bài <strong>đã có sẵn</strong>: sửa được các đoạn văn và thẻ đang có, nhưng chưa thêm hay bớt đoạn được. Ngày đăng của bài có sẵn cũng chưa sửa được.</p>
+      </div>
+    </section>
+
+    <section id="s7">
+      <h2><span class="n">7</span><span>Phần hiện trên Google</span></h2>
+      <p>Nhóm <span class="ui">Search result</span>, ở cuối cột trái ngay trước <span class="ui">Site — header and footer</span>:</p>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Ô</th><th>Là gì</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ui">Search title</span></td><td>Tiêu đề trên kết quả tìm kiếm và trên tab trình duyệt</td></tr>
+            <tr><td><span class="ui">Search description</span></td><td>Dòng mô tả dưới tiêu đề trong kết quả tìm kiếm</td></tr>
+            <tr><td><span class="ui">Share picture</span></td><td>Ảnh hiện khi ai đó chia sẻ trang lên Facebook, Zalo… Chỉ có ở các trang danh sách; trang của một bài thì dùng luôn ảnh của bài.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Để trống cũng được.</strong> Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.</p>
+      <p>Dưới ô có đếm ký tự. <em>Khoảng 60</em> và <em>khoảng 160</em> là chỗ Google thường cắt bớt, không phải giới hạn của trang: gõ dài hơn vẫn lưu đủ.</p>
+    </section>
+
+    <section id="s8">
+      <h2><span class="n">8</span><span>Đơn khách gửi</span></h2>
+      <p>Màn hình <span class="ui">Enquiries</span>: đơn mới nhất ở trên cùng. Chưa có đơn nào thì ghi <span class="ui">Nothing yet.</span></p>
+      <div class="note warn">
+        <p>Đơn <strong>không tự gửi về email</strong> — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.</p>
+      </div>
+
+      <h3>Tự thử xem form còn chạy không</h3>
+      <ol class="steps">
+        <li>Mở <a href="https://aluminumboss.com/contact/" style="color:var(--good)">aluminumboss.com/contact</a> ở tab khác, hoặc trên điện thoại</li>
+        <li>Trang có bốn ô. Bấm <span class="ui">START</span> trong ô <span class="ui">Request a quotation</span> — ba ô kia cũng dẫn tới form: <span class="ui">REQUEST SAMPLES</span>, <span class="ui">ASK AN ENGINEER</span>, <span class="ui">APPLY</span></li>
+        <li>Điền các ô có dấu <code>*</code>, và ghi rõ chữ <em>thử</em> trong nội dung để sau khỏi nhầm</li>
+        <li>Bấm nút gửi ở cuối form. Trang báo <span class="ui long">Thank you — we have your request and will reply within one working day.</span></li>
+        <li>Quay lại <span class="ui">Enquiries</span>, tải lại trang: đơn vừa gửi phải nằm trên cùng</li>
+      </ol>
+      <div class="note">
+        <p>Mỗi địa chỉ mạng chỉ gửi được <strong>8 đơn một giờ</strong> — đó là chặn thư rác. Thử nhiều lần liên tiếp sẽ bị chặn: đợi sang giờ sau, hoặc thử từ mạng khác (tắt Wi-Fi, dùng 4G).</p>
+      </div>
+    </section>
+
+    <section id="s9">
+      <h2><span class="n">9</span><span>Lỡ tay thì lấy lại</span></h2>
+      <p>Mỗi lần lưu, bản cũ được giữ lại. Màn hình <span class="ui">History</span> liệt kê lúc lưu (<span class="ui">SAVED</span>), loại nội dung (<span class="ui">CONTENT</span>), ai lưu (<span class="ui">BY</span>), dung lượng (<span class="ui">SIZE</span>).</p>
+      <ul>
+        <li>Các nút tròn phía trên — <span class="ui">Everything</span>, <span class="ui">news</span>, <span class="ui">site</span>… — lọc theo loại nội dung</li>
+        <li><span class="ui">Look at it</span> mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)</li>
+        <li><span class="ui">Restore this version</span> đưa về bản đó</li>
+      </ul>
+
+      <div class="note warn">
+        <p><strong>Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.</strong> Khôi phục <code>news</code> về hôm qua để sửa một lỗi chính tả thì <strong>mọi bài tin</strong> sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một chữ thì gõ lại chữ đó là an toàn hơn.</p>
+        <p>Trước khi khôi phục, máy lưu bản hiện tại thành một dòng <span class="ui">(before restore)</span> — khôi phục nhầm thì khôi phục lại dòng đó là xong.</p>
+      </div>
+
+      <p>Mỗi loại giữ <strong>50 bản gần nhất</strong>. <strong>Ảnh</strong> và <strong>đơn liên hệ</strong> không nằm trong History.</p>
+
+      <p>Tên loại nội dung trong History là tên tệp. Tra nhanh:</p>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Tên</th><th>Chứa gì</th></tr></thead>
+          <tbody>
+            <tr><td><code>news</code></td><td>Tất cả bài tin</td></tr>
+            <tr><td><code>products</code></td><td>Các dòng sản phẩm</td></tr>
+            <tr><td><code>colors</code></td><td>Các màu hoàn thiện</td></tr>
+            <tr><td><code>projects</code></td><td>Các dự án</td></tr>
+            <tr><td><code>documents</code></td><td>Tài liệu tải về</td></tr>
+            <tr><td><code>about</code></td><td>Trang giới thiệu (About us)</td></tr>
+            <tr><td><code>contact</code></td><td>Trang liên hệ và các form</td></tr>
+            <tr><td><code>site</code></td><td>Menu, chân trang, tên thương hiệu, tiêu đề tìm kiếm của các trang danh sách</td></tr>
+            <tr><td><code>home-news</code> <code>home-products</code> <code>home-colors</code> <code>home-projects</code></td><td>Bốn kệ trên trang chủ</td></tr>
+            <tr><td><code>gallery</code> <code>applications</code> <code>feature</code></td><td>Các khối ảnh và tab trên trang chủ</td></tr>
+            <tr><td><code>globe</code> <code>factories</code></td><td>Tuyến xuất khẩu và nhà máy trên trang chủ</td></tr>
+            <tr><td><code>redirects</code></td><td>Chuyển hướng địa chỉ cũ — máy tự ghi, không cần đụng tới</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s10">
+      <h2><span class="n">10</span><span>Khi có trục trặc</span></h2>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Hiện tượng</th><th>Làm gì</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Bấm <span class="ui">Save changes</span>, báo <span class="ui long">Could not reach the server. Nothing was saved.</span></td>
+              <td>Chưa lưu gì, chữ vẫn còn trong ô. Kiểm tra mạng rồi bấm Save lại. Vẫn vậy thì chép chữ vừa sửa ra chỗ khác, tải lại trang (đăng nhập lại nếu được hỏi), dán vào và lưu.</td>
+            </tr>
+            <tr>
+              <td>Báo <em>… could not be written</em></td>
+              <td>Một phần không lưu được. Tải lại trang để xem phần nào đã lưu, rồi sửa lại phần còn thiếu.</td>
+            </tr>
+            <tr>
+              <td>Sửa xong mà trang ngoài chưa đổi</td>
+              <td>Tải lại trang bằng <kbd>F5</kbd>.</td>
+            </tr>
+            <tr>
+              <td>Trình duyệt báo "không bảo mật"</td>
+              <td>Kiểm tra địa chỉ có phải <strong>https://</strong>aluminumboss.com. Gõ <code>http://</code> thì trang tự chuyển sang <code>https://</code>.</td>
+            </tr>
+            <tr><td>Quên mật khẩu</td><td>Nhờ người kỹ thuật làm theo mục 11.</td></tr>
+            <tr><td>Cả trang không vào được</td><td>Nhờ người kỹ thuật — <code>tools/deploy/README.md</code>, mục <em>Khi hong</em>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s11">
+      <h2><span class="n">11</span><span>Phần dành cho người kỹ thuật</span></h2>
+      <p>Chi tiết đầy đủ ở <code>tools/deploy/README.md</code>. Tóm tắt:</p>
+      <p><strong>Máy chủ</strong> <code>202.92.6.174</code>, SSH cổng <code>24700</code>, đăng nhập bằng khoá <code>~/.ssh/qlweb2_vps</code>. Ứng dụng .NET 8 sau nginx, chứng chỉ Let’s Encrypt tự gia hạn, CSDL <strong>MySQL</strong> chỉ nghe <code>127.0.0.1</code>.</p>
+
+      <h3>Đưa bản mã nguồn mới lên</h3>
+      <pre><code>bash tools/deploy/push.sh</code></pre>
+      <div class="note warn">
+        <p>Lệnh này <strong>không</strong> đụng vào nội dung khách đã sửa trên máy chủ — dữ liệu trên máy chủ mới là bản thật. Chỉ thêm <code>--kem-noi-dung</code> khi thật sự muốn đẩy nội dung từ máy làm việc lên, và lúc đó nó ghi đè thật.</p>
+      </div>
+
+      <h3>Quên mật khẩu admin</h3>
+      <p>Xoá dòng tài khoản rồi khởi động lại; máy chủ tự tạo lại <code>admin</code> / <code>changeme</code> và bắt đổi mật khẩu như lần đầu. Lịch sử sửa còn nguyên.</p>
+      <pre><code>ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' &amp;&amp; systemctl restart qlweb2"</code></pre>
+
+      <h3>Sao lưu</h3>
+      <p>Tự chạy mỗi đêm lúc 02:30, giữ 14 bản, trong <code>/srv/qlweb2/sao-luu/</code>: <code>qlweb2-*.sql.gz</code> (CSDL: tài khoản + lịch sử) và <code>noi-dung-*.tar.gz</code> (chữ của trang, ảnh, đơn liên hệ). Cách khôi phục: <code>tools/deploy/README.md</code>, mục <em>Sao luu</em>.</p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Böss Group · aluminumboss.com · đối chiếu với màn hình thật ngày 28/09/2026</p>
+    <p>Bản gốc của tài liệu này nằm trong kho mã nguồn tại <code>docs/HUONG-DAN.md</code>.</p>
+  </footer>
+
+</div>

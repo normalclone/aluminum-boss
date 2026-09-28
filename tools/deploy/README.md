@@ -81,16 +81,33 @@ tao ghi ngay `admin` / `changeme`, tren mot dia chi cong khai.
 
 ### Sao luu
 
-Voi SQLite, sao luu la chep mot tep. Voi MySQL thi khong: tep trong `/var/lib/mysql` chep luc may
-dang chay la ban hong. Nen co **`mysqldump` moi dem luc 02:30**, giu 14 ban gan nhat:
+Moi dem luc 02:30, hai tep, giu 14 ban gan nhat moi loai:
 
 ```
-/srv/qlweb2/sao-luu/qlweb2-YYYYMMDD-HHMM.sql.gz     (quyen 0600)
+/srv/qlweb2/sao-luu/qlweb2-YYYYMMDD-HHMM.sql.gz        CSDL: tai khoan + lich su sua (mysqldump)
+/srv/qlweb2/sao-luu/noi-dung-YYYYMMDD-HHMM.tar.gz      chu cua trang, anh, don lien he
 ```
+
+Tep thu hai moi la phan quy nhat, va ban dau **khong co**: CSDL chi giu mot tai khoan va lich su
+sua, con chu cua trang, anh khach tai len va don lien he deu nam trong tep, ngoai MySQL. Them vao
+ngay 28/09/2026 khi viet huong dan su dung phai ghi ro cai gi duoc sao luu. Da giai nen thu: 18
+tep noi dung + 65 anh, ma bam toan bo khop voi ban dang chay.
+
+(Voi SQLite, sao luu CSDL la chep mot tep. Voi MySQL thi khong: tep trong `/var/lib/mysql` chep
+luc may dang chay la ban hong - nen phai qua `mysqldump`.)
 
 Sao luu ngay bay gio: `systemctl start qlweb2-sao-luu.service`
 
-Khoi phuc mot ban (ghi de CSDL dang chay — dung ung dung truoc):
+Khoi phuc noi dung trang + anh ve mot dem (ghi de ban dang chay):
+
+```bash
+systemctl stop qlweb2
+tar -xzf /srv/qlweb2/sao-luu/noi-dung-20260928-1536.tar.gz -C /srv/qlweb2
+chown -R qlweb2:qlweb2 /srv/qlweb2/noi-dung /srv/qlweb2/App_Data
+systemctl start qlweb2
+```
+
+Khoi phuc CSDL (ghi de CSDL dang chay — dung ung dung truoc):
 
 ```bash
 systemctl stop qlweb2

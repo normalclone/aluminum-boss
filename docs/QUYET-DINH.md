@@ -335,3 +335,44 @@ duy nhất trong `/etc/qlweb2/db.env`, quyền 0600, sinh ngay trên máy.
 dụng, và kể cả trước đó cũng thừa vì nó vứt luôn toàn bộ lịch sử trong khi chỉ cần xoá một dòng.
 Đã thay bằng `DELETE FROM AdminUsers` và chạy thử quy trình trên một bản sao.
 
+## 14. Rà soát hướng dẫn sử dụng — 28/09/2026
+
+Anh yêu cầu rà soát, kiểm tra và viết lại `docs/HUONG-DAN.md`. Kiểm tra làm bằng cách **đi qua
+từng màn hình thật** và **chạy thử từng việc** trên máy chủ ở máy làm việc (cùng mã với máy chủ),
+không chỉ đọc mã. Công cụ để lại: `tools/guide-check.js`.
+
+**Tên nút gần như đúng hết** — bản cũ đã đối chiếu với mã nguồn. Cái sai nằm ở chỗ khác, và đó là
+bài học của lần này: một hướng dẫn có thể đúng từng chữ mà vẫn dẫn người đọc vào ngõ cụt.
+
+Sáu chỗ chặn người mới ngay tại bước làm:
+
+1. **Form liên hệ không nằm ở `/contact/`.** Bản cũ bảo "mở /contact/ rồi điền thử" — trang đó
+   chỉ có bốn ô dẫn tới form (**START**, **REQUEST SAMPLES**…), không có form nào.
+2. **Không nói cách chọn trang cần sửa.** Vào `/Admin` là vào trang chủ; muốn sửa một bài tin thì
+   phải dùng ô **PAGE**, bấm thường trong khung, hoặc nút **Edit** ở màn hình Content. Bản cũ
+   không nhắc cái nào.
+3. **`Restore this version` đưa CẢ loại nội dung về bản cũ.** Khôi phục `news` để sửa một chữ là
+   mọi bài tin sửa từ đó tới nay cũng quay về. Bản cũ ghi "sửa nhầm — vào đây lấy lại".
+4. **Mục vừa `Add an item` hiện ngay trên trang công khai, dù còn trống** — đã thử thật: một thẻ
+   `new-…` trống lên `/news/` ngay lập tức.
+5. **"Sáu mục" và "Site content — trang chính"**: `Site content` là tên khu quản trị ở góc trái,
+   không phải một mục. Menu có năm mục.
+6. **Quên mật khẩu: "cần người kỹ thuật"** mà không nói làm gì. Giờ có lệnh, và đã chạy thử trên
+   một bản sao CSDL.
+
+**Một lỗ hổng tính năng, không phải lỗi tài liệu — đã báo anh, CHƯA làm:** không đăng được một
+bài tin hoàn chỉnh từ giao diện. Bài **mới** chỉ có 6 ô (tiêu đề, tác giả, ảnh, tóm tắt, hai ô
+SEO) — **không có ô cho thân bài, ngày đăng, thẻ**, vì trình soạn chỉ hiện ô cho những gì trang
+đang vẽ và một danh sách rỗng thì không vẽ gì. Bài **đã có** sửa được các đoạn và thẻ đang có
+nhưng không thêm/bớt được, và **ngày đăng không sửa được ở đâu cả**. Bài mới không ngày thì nằm
+cuối danh sách tin. Hướng dẫn mới nói thẳng điều này thay vì dạy một quy trình không đi tới đích.
+
+**Một lỗ hổng sao lưu, đã sửa:** bản sao lưu dựng lúc chuyển MySQL (mục 13) chỉ có `mysqldump` —
+tức là sao lưu phần ít giá trị nhất (một tài khoản, lịch sử sửa) và bỏ qua chính cái site: chữ
+của trang, ảnh, đơn liên hệ đều nằm trong tệp, ngoài MySQL. Lộ ra khi hướng dẫn phải ghi rõ "cái
+gì được sao lưu". Đã thêm `noi-dung-*.tar.gz`, và **giải nén thử** — mã băm khớp với bản đang chạy.
+
+**Hai lỗi hiển thị trong trang hướng dẫn cũ**, cả hai có từ bản đầu: danh sách các bước dùng lưới
+trên từng `<li>` nên mỗi tên nút giữa câu thành một ô riêng và chồng lên chữ; và các câu thông báo
+dài in thành chip không xuống dòng, đẩy trang ra 185 px ở bề ngang điện thoại.
+

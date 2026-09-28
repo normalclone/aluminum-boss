@@ -1128,3 +1128,27 @@ python fanout.py --check    # chỉ báo có lệch không, thoát 1 nếu lệc
 Bản sao là **bản sao từng byte của khuôn**, không phải đầu ra đã ghép: khuôn dựng trang bằng JS và
 `AB.itemId()` đọc đoạn cuối đường dẫn, nên một file giống hệt nhau dựng ra 94 trang khác nhau.
 Nhờ vậy `trees.py` vẫn so được HTML hai cây, và git chỉ lưu một blob cho cả 94 file.
+
+## `guide-check.js` — hướng dẫn sử dụng có còn khớp với màn hình thật không
+
+```bash
+node guide-check.js                      # cần máy chủ .NET đang chạy ở :5199; kiểm docs/huong-dan.html
+node guide-check.js http://localhost:5199 duong/toi/huong-dan.html
+```
+
+Đi qua mọi màn hình quản trị mà hướng dẫn nhắc tới (và hai trang liên hệ công khai), chụp ảnh
+từng màn hình vào `tools/out/huong-dan/`, gom toàn bộ chữ hiện ra — kể cả `title` của nút,
+`placeholder` của ô nhập — rồi lấy **từng** tên nút trong hướng dẫn (`<span class="ui">`, `<kbd>`)
+xem nó có mặt ở đâu.
+
+- `CO` — thấy trên ảnh chụp
+- `NGUON` — chỉ hiện trong một tình huống (hộp xác nhận xoá, thông báo lỗi, màn hình trống), nên
+  tìm trong mã nguồn của đúng những chỗ vẽ ra màn hình
+- `THIEU` — không có ở đâu: hướng dẫn đang chỉ người đọc tới một cái nút không tồn tại
+
+Khu quản trị viết bằng tiếng Anh, hướng dẫn viết bằng tiếng Việt và trích nguyên văn tên nút. Ngày
+ai đó đổi chữ trên một nút, không có gì báo cả — cho tới khi một người không rành kỹ thuật ngồi
+trước màn hình mà không tìm thấy nó. Chạy lại công cụ này sau mỗi lần đổi chữ trong `Areas/Admin/`.
+
+Lần chạy đầu (28/09/2026) trên bản hướng dẫn cũ: tên nút gần như đúng hết — cái sai nằm ở chỗ
+khác, xem `docs/QUYET-DINH.md` mục 14.

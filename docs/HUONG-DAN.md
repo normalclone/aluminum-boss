@@ -1,193 +1,270 @@
 # Hướng dẫn sử dụng trang web Böss Group
 
-Trang web: **https://aluminumboss.com**
-Khu quản trị: **https://aluminumboss.com/Admin**
+- Trang web: **https://aluminumboss.com**
+- Khu quản trị: **https://aluminumboss.com/Admin**
 
-Tài liệu này viết cho người dùng, không cần biết lập trình. Phần kỹ thuật sâu hơn nằm ở
-`docs/HANDOVER.md`, phần máy chủ ở `tools/deploy/README.md`.
+Khu quản trị viết bằng tiếng Anh. Tài liệu này giữ nguyên tên nút tiếng Anh (in đậm) để bạn dò
+trên màn hình cho dễ. Mọi tên nút ở đây đã được đối chiếu với màn hình thật ngày 28/09/2026
+(`tools/guide-check.js` kiểm lại khi cần).
 
 ---
 
 ## 1. Đăng nhập
 
-Mở **https://aluminumboss.com/Admin**
+Mở **https://aluminumboss.com/Admin**.
 
-**Lần đầu tiên:**
+**Lần đầu tiên** dùng tên `admin`, mật khẩu `changeme`. Máy chủ sẽ bắt đổi mật khẩu ngay, trước
+khi cho vào bất cứ màn hình nào:
 
-| | |
-|---|---|
-| Tên đăng nhập | `admin` |
-| Mật khẩu | `changeme` |
+1. **Current password**: gõ `changeme`
+2. **New password** và **New password again**: mật khẩu mới, **ít nhất 10 ký tự**
+3. Bấm **Change password**
 
-Ngay sau khi vào, máy chủ sẽ **bắt bạn đổi mật khẩu** trước khi cho vào bất cứ màn hình nào.
-Đây là cố ý: mật khẩu `changeme` nằm trong mã nguồn nên ai cũng đoán được. Đặt một mật khẩu
-mới, dài ít nhất 10 ký tự, rồi ghi lại chỗ nào an toàn — **không ai lấy lại hộ được**.
+Ghi mật khẩu mới vào chỗ an toàn. Không có nút "quên mật khẩu" — quên thì phải nhờ người kỹ thuật
+(mục 10). Việc đó mất khoảng một phút và **không mất lịch sử sửa**.
 
-Sau đó mỗi lần vào chỉ cần tên đăng nhập và mật khẩu mới.
-
-Đăng xuất: bấm **Sign out** ở góc trên bên phải.
+- **Đổi mật khẩu về sau:** bấm chữ **admin** ở góc trên bên phải.
+- **Đăng xuất:** **Sign out**, cũng ở góc trên bên phải.
 
 ---
 
-## 2. Màn hình quản trị có những gì
+## 2. Nhìn quanh
 
-Thanh trên cùng có sáu mục:
+Vào `/Admin` là vào thẳng màn hình sửa trang. Thanh trên cùng có năm mục:
 
-| Mục | Dùng để làm gì |
+| Nút | Dùng để |
 |---|---|
-| **Site content** | Trang chính, dẫn vào các mục còn lại |
-| **Edit pages** | **Sửa chữ và ảnh ngay trên trang** — dùng nhiều nhất |
-| **Content** | Thêm, bớt, đổi thứ tự, ẩn/hiện các mục (bài viết, màu, dự án…) |
-| **Pictures** | Kho ảnh: xem có những ảnh gì, tải ảnh mới lên |
-| **Enquiries** | Đơn khách gửi từ form liên hệ |
-| **History** | Lịch sử sửa, và lấy lại bản cũ khi lỡ tay |
+| **Edit pages** | Sửa chữ và ảnh ngay trên trang — dùng nhiều nhất |
+| **Content** | Thêm, ẩn/hiện, đổi thứ tự, xoá các mục (bài tin, màu, dự án…) |
+| **Pictures** | Kho ảnh: xem, tải lên, xoá |
+| **Enquiries** | Đơn khách gửi qua form liên hệ |
+| **History** | Các bản cũ — lấy lại khi lỡ tay |
+
+Góc phải: **View site** mở trang thật ở tab mới; **admin** để đổi mật khẩu; **Sign out**.
 
 ---
 
-## 3. Sửa chữ và ảnh trên trang — **Edit pages**
+## 3. Sửa chữ trên một trang
 
-Màn hình chia hai cột: **bên trái là các ô nhập**, **bên phải là trang web thật**.
+Màn hình chia hai cột: **trái là các ô nhập, phải là trang web thật.**
 
-### Cách chọn thứ muốn sửa
+### Chọn trang cần sửa — ba cách
 
-> **Giữ phím `Ctrl` rồi bấm** vào chữ hoặc ảnh trong khung bên phải.
-> (Máy Mac thì giữ `Cmd`.)
+- Chọn ở ô **PAGE** trên cùng cột trái
+- Bấm vào menu hoặc liên kết ngay trong khung bên phải — khung đi sang trang đó, cột trái đi theo
+- Từ **Content**, bấm **Edit** ở dòng của mục cần sửa. Nhanh nhất khi cần sửa **một** bài tin, một
+  màu, một dự án cụ thể.
 
-Ô nhập tương ứng ở cột trái sẽ sáng lên và cuộn tới.
+### Chọn chữ cần sửa
 
-**Bấm thường (không giữ Ctrl) thì trang chạy y như thật** — bấm menu là chuyển trang, bấm tab là
-đổi tab. Nhờ vậy bạn xem được nội dung mình vừa sửa trông thế nào ở các trạng thái khác nhau của
-trang.
+> Giữ phím **Ctrl** rồi bấm vào chữ trong khung bên phải. (Máy Mac: giữ **Cmd**.)
 
-### Sửa và lưu
+Ô tương ứng ở cột trái sẽ sáng lên. **Bấm thường** (không giữ Ctrl) thì trang chạy như thật: bấm
+menu là chuyển trang, bấm tab là đổi tab.
 
-1. Gõ vào ô ở cột trái → khung bên phải đổi theo **ngay lập tức**
-2. Bấm nút **Save changes** ở đáy cột trái
-3. Xong. Khách vào trang là thấy luôn — không cần chờ gì cả
+Mỗi ô có một dòng chữ nhỏ ở trên cho biết nó là gì, ví dụ *Article #1 summary* là phần tóm tắt
+của bài đầu tiên.
 
-> **Chưa bấm Save thì chưa có gì được ghi.** Đóng tab lúc đang sửa dở, trình duyệt sẽ hỏi lại.
+### Lưu
 
-### Đổi ảnh
+1. Gõ vào ô — chữ trong khung bên phải đổi ngay khi gõ
+2. Bấm **Save changes** ở đáy cột trái
+3. Dòng nhỏ bên cạnh báo *1 change saved*. Khách vào trang là thấy luôn, không chờ gì cả.
 
-Ô ảnh có nút **Choose picture**. Bấm vào sẽ mở kho ảnh:
+> **Chưa bấm Save changes thì chưa lưu gì.** Chuyển trang hoặc đóng tab khi đang sửa dở, máy sẽ
+> hỏi lại.
 
-- Chọn một ảnh có sẵn, hoặc bấm **Add a picture** để tải ảnh mới lên
-- Chọn **No picture** nếu muốn bỏ ảnh đi
-- Dưới mỗi ô ảnh có ghi kích cỡ nên tải lên (ví dụ *Best upload 680 × 600 px*)
-- Nhận JPG, PNG, WebP, GIF — tối đa 20 MB
+### Xem trên điện thoại
 
-### Ô "Search result" — phần hiện trên Google
+Ba nút **Desktop 1440**, **Tablet 834**, **Phone 390** chỉ đổi cỡ khung xem. Nội dung chỉ có một
+bản: sửa một lần là đúng cho mọi màn hình. **Open in a tab** mở trang đó trong tab riêng.
 
-Cuối cột trái, trước phần *Site — header and footer*, có nhóm **Search result**:
+---
+
+## 4. Đổi ảnh
+
+Ô ảnh có nút **Choose picture**. Bấm vào mở kho ảnh:
+
+- Bấm một ảnh có sẵn để chọn
+- **Add a picture** để tải ảnh mới từ máy lên
+- **No picture** để bỏ ảnh đi
+
+Thay một ảnh đang có thì khung xem đổi ngay. Ô ảnh đang **trống** thì phải bấm **Save changes** mới
+thấy ảnh hiện ra.
+
+**Cỡ ảnh.** Dưới mỗi ô ảnh có dòng gợi ý, ví dụ *Best upload 680 × 600 px*. Máy chủ **không tự thu
+nhỏ ảnh**, nên hãy giữ cạnh dài dưới **2000 px**. Ảnh chụp thẳng từ điện thoại (thường 4000 px,
+vài MB) nên thu nhỏ trước khi tải lên, nếu không trang sẽ chậm với mọi người xem.
+
+Nhận JPG, PNG, WebP, GIF, tối đa 20 MB.
+
+**Xoá ảnh** ở màn hình **Pictures**: máy hỏi lại và cảnh báo trang nào còn dùng ảnh đó sẽ bị trống
+chỗ. **Ảnh đã xoá không lấy lại được ở History.**
+
+---
+
+## 5. Thêm, ẩn, đổi thứ tự, xoá — màn hình **Content**
+
+**Content** liệt kê mọi loại nội dung kèm số lượng. Bấm vào một loại, mỗi dòng có:
+
+| Nút | Làm gì |
+|---|---|
+| **Shown** / **Hidden** | Bấm để ẩn hoặc hiện. Mục ẩn vẫn còn, chỉ không hiện trên trang. |
+| **↑** **↓** | Đổi thứ tự — thứ tự ở đây là thứ tự trên trang |
+| **Edit** | Mở màn hình sửa, đúng trang của mục đó |
+| **Delete** | Xoá. Máy hỏi lại: **Yes, delete it** hoặc **Keep it**, và cho biết có chỗ nào khác đang trỏ tới mục đó không |
+
+Nút **Add an item** ở đầu danh sách thêm một mục trống lên **dòng đầu tiên**.
+
+> **Mục mới hiện ngay trên trang công khai, dù còn trống.** Thêm xong, bấm **Shown** ở dòng đó để
+> thành **Hidden**, viết xong mới bấm lại cho hiện.
+
+> **Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.** Mục mới có một tên tạm như `new-3f9a2c`. Lần
+> đầu bạn gõ tiêu đề và bấm Save, địa chỉ trang của nó thành tiêu đề ấy — **và sau đó không đổi
+> nữa**, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.
+
+**Hai loại không thêm được:** **Export routes** và **Factories** — thêm cần toạ độ bản đồ, phải
+nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được.
+
+**Bốn loại "Home:"** (Home: New, Home: Products, Home: Colors, Home: Projects) là **kệ trưng bày
+trên trang chủ**, không phải nơi viết nội dung. Mỗi dòng có một ô chọn bài và nút **Set**: chọn bài
+muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở **News**, **Products**, **Colors**,
+**Projects** — sửa một lần, mọi nơi đổi theo.
+
+---
+
+## 6. Đăng một bài tin mới
+
+1. **Content** → **News** → **Add an item**. Máy báo *Added. It is at the top of the list.*
+2. Ngay lập tức bấm **Shown** ở dòng 1 để thành **Hidden** (bài trống đã hiện trên trang).
+3. Bấm **Edit** ở dòng 1.
+4. Điền: *Article #1 title* (tiêu đề), *Article #1 summary* (tóm tắt), *Article #1 author* (tác
+   giả), ảnh bằng **Choose picture**. Nếu muốn, điền cả nhóm **Search result** (mục 7).
+5. Bấm **Save changes**. Địa chỉ bài lúc này thành tiêu đề (xem lưu ý ở mục 5).
+6. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
+
+> **Hiện CHƯA làm được từ giao diện:** viết **phần thân bài** (các đoạn văn), đặt **ngày đăng**,
+> và gắn **thẻ**. Bài mới vì thế chỉ có tiêu đề, tóm tắt, tác giả và ảnh, và **nằm cuối** danh
+> sách tin vì chưa có ngày. Cần phần thân bài hoặc ngày thì nhờ người kỹ thuật.
+>
+> Với bài **đã có sẵn**: sửa được các đoạn văn và thẻ đang có, nhưng chưa thêm hay bớt đoạn được.
+> Ngày đăng của bài có sẵn cũng chưa sửa được.
+
+---
+
+## 7. Phần hiện trên Google — nhóm **Search result**
+
+Ở cuối cột trái, ngay trước **Site — header and footer**:
 
 | Ô | Là gì |
 |---|---|
-| **Search title** | Tiêu đề hiện trên kết quả tìm kiếm và trên tab trình duyệt |
+| **Search title** | Tiêu đề trên kết quả tìm kiếm và trên tab trình duyệt |
 | **Search description** | Dòng mô tả dưới tiêu đề trong kết quả tìm kiếm |
-| **Share picture** | Ảnh hiện khi ai đó chia sẻ trang này lên Facebook, Zalo… |
+| **Share picture** | Ảnh hiện khi ai đó chia sẻ trang lên Facebook, Zalo… (chỉ có ở các trang danh sách; trang của một bài thì dùng luôn ảnh của bài) |
 
-**Để trống cũng không sao.** Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài viết thì
-đó là tiêu đề bài, mô tả là đoạn mở đầu. Chỉ gõ vào khi muốn nói khác đi.
+**Để trống cũng được.** Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là
+tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.
 
-Dưới ô có đếm ký tự. Con số "khoảng 60" và "khoảng 160" là **chỗ Google cắt bớt**, không phải
-giới hạn của trang web — gõ dài hơn vẫn lưu đủ, chỉ là kết quả tìm kiếm không hiện hết.
-
-### Ba chỗ không sửa được ở đây
-
-Sửa ở đây sẽ làm hỏng chỗ khác, nên cố ý khoá:
-
-- Đoạn mô tả dài của một dòng sản phẩm (nó được in thành hai cột)
-- Tên **họ màu** trên một màu (nó là khoá tra bảng thông số)
-- Danh sách sản phẩm trên một công trình (nhiều mục viết trên một dòng)
+Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
+hạn của trang: gõ dài hơn vẫn lưu đủ.
 
 ---
 
-## 4. Thêm, bớt, đổi thứ tự — **Content**
+## 8. Đơn khách gửi — **Enquiries**
 
-Màn hình **Content** liệt kê mọi loại nội dung và số lượng đang có:
+Đơn mới nhất ở trên cùng. Chưa có đơn nào thì màn hình ghi *Nothing yet.*
 
-Products · Colors · News · Projects · Documents · Gallery · Applications ·
-Home: New / Products / Colors / Projects · Export routes · Factories
+**Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
-Bấm vào một loại để:
+### Tự thử xem form còn chạy không
 
-- **Thêm** một mục mới — nút **Add an item**
-- **Ẩn / hiện** một mục — mục ẩn vẫn còn đó, chỉ không hiện trên trang
-- **Đổi thứ tự** bằng hai nút mũi tên — **Move up** / **Move down**
-- **Xoá** một mục — nút **Delete**, có hỏi lại trước khi xoá
+1. Mở **https://aluminumboss.com/contact/** ở một tab khác hoặc trên điện thoại
+2. Trang có bốn ô. Bấm **START** trong ô **Request a quotation** (ba ô kia cũng dẫn tới form:
+   **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
+3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
+4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
+   request and will reply within one working day.*
+5. Quay lại **Enquiries**, tải lại trang: đơn vừa gửi phải nằm trên cùng
 
-> **Lần đặt tên đầu tiên cũng đặt luôn địa chỉ.** Mục mới thêm mang một cái tên máy sinh
-> (`new-3f9a2c`). Ngay khi bạn gõ tiêu đề và bấm Save, địa chỉ của nó thành tiêu đề ấy — và
-> **sau đó không đổi nữa**, vì đổi là làm chết mọi đường dẫn người khác đã lưu.
-
-> **Bốn mục "Home:" là kệ trưng bày, không phải kho.** Chúng chỉ chọn xem trang chủ hiện bài
-> nào, theo thứ tự nào. Nội dung thật nằm ở News / Products / Colors / Projects — sửa chữ thì
-> sửa ở đó, sửa một lần là mọi nơi đổi theo.
-
-> **Hai con số trong tiêu đề trang chủ không tự đếm.** "One origin, four markets" và
-> "Five factories, one coastline" là chữ, không phải phép đếm. Ẩn một tuyến xuất khẩu thì nhớ
-> sửa chữ "four" theo.
+> Mỗi địa chỉ mạng chỉ gửi được **8 đơn một giờ** — đó là chặn thư rác. Thử nhiều lần liên tiếp sẽ
+> bị chặn: đợi sang giờ sau, hoặc thử từ mạng khác (tắt Wi-Fi, dùng 4G).
 
 ---
 
-## 5. Đơn khách gửi — **Enquiries**
+## 9. Lỡ tay thì lấy lại — **History**
 
-Form liên hệ trên trang (`/contact/`) gửi thẳng vào đây. Mở **Enquiries** để xem:
-ai gửi, gửi lúc nào, loại yêu cầu gì, và toàn bộ nội dung họ điền.
+Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt kê: lúc lưu (**SAVED**), loại nội dung
+(**CONTENT**), ai lưu (**BY**), dung lượng (**SIZE**).
 
-Chưa có đơn nào thì màn hình ghi **"Nothing yet."**
+- Các nút tròn phía trên (**Everything**, **news**, **site**…) lọc theo loại nội dung
+- **Look at it** mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)
+- **Restore this version** đưa về bản đó
 
-**Cách tự kiểm tra form còn chạy không:**
+> **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
+> để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một
+> chữ thì gõ lại chữ đó là an toàn hơn.
+>
+> Trước khi khôi phục, máy lưu bản hiện tại thành một dòng *(before restore)* — nên khôi phục
+> nhầm thì khôi phục lại dòng đó là xong.
 
-1. Mở https://aluminumboss.com/contact/ ở một tab khác (hoặc trên điện thoại)
-2. Điền thử một đơn — ghi rõ trong phần nội dung là *"thử"* để sau khỏi nhầm
-3. Quay lại **Enquiries** trong khu quản trị, bấm tải lại trang
-4. Đơn vừa gửi phải hiện ở trên cùng
+Mỗi loại giữ **50 bản gần nhất**. **Ảnh** và **đơn liên hệ** không nằm trong History.
 
-Nếu không thấy, xem mục 7 bên dưới.
+Tên loại nội dung trong History là tên tệp. Tra nhanh:
 
-> **Một địa chỉ chỉ gửi được 8 đơn mỗi giờ.** Đây là chặn spam. Thử form nhiều lần liên tiếp sẽ
-> bị chặn — đợi sang giờ sau, hoặc thử từ mạng khác (ví dụ tắt Wi-Fi, dùng 4G).
-
-> Đơn **không** tự gửi vào email. Phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
-
----
-
-## 6. Lỡ tay thì lấy lại — **History**
-
-Mỗi lần bấm Save đều được ghi lại. Màn hình **History** liệt kê các lần sửa: lúc nào, sửa gì,
-ai sửa, dung lượng.
-
-Bấm **Restore this version** để quay về bản đó.
-
-Sửa nhầm, xoá nhầm, dán nhầm — vào đây lấy lại, không cần gọi ai.
-
----
-
-## 7. Khi có trục trặc
-
-| Hiện tượng | Xử lý |
+| Tên | Chứa gì |
 |---|---|
-| Bấm Save mà báo lỗi | Tải lại trang (F5), đăng nhập lại rồi sửa lại. Token bảo mật có hạn dùng. |
-| Sửa xong mà trang ngoài chưa đổi | Bấm `Ctrl + F5` để trình duyệt tải lại thật, đừng lấy bản đã lưu tạm. |
-| Trình duyệt báo "không bảo mật" | Kiểm tra địa chỉ có đúng **https://**aluminumboss.com không. Nếu vào bằng `http://` thì trang tự chuyển sang `https://`. |
-| Quên mật khẩu | Không lấy lại được qua giao diện. Cần người kỹ thuật can thiệp vào máy chủ. |
-| Cả trang không vào được | Gọi người kỹ thuật — xem `tools/deploy/README.md`, mục *Khi hong*. |
+| news | Tất cả bài tin |
+| products | Các dòng sản phẩm |
+| colors | Các màu hoàn thiện |
+| projects | Các dự án |
+| documents | Tài liệu tải về |
+| about | Trang giới thiệu (About us) |
+| contact | Trang liên hệ và các form |
+| site | Menu, chân trang, tên thương hiệu, tiêu đề tìm kiếm của các trang danh sách |
+| home-news, home-products, home-colors, home-projects | Bốn kệ trên trang chủ |
+| gallery, applications, feature | Các khối ảnh và tab trên trang chủ |
+| globe, factories | Tuyến xuất khẩu và nhà máy trên trang chủ |
+| redirects | Chuyển hướng địa chỉ cũ — máy tự ghi, không cần đụng tới |
 
 ---
 
-## 8. Phần dành cho người kỹ thuật
+## 10. Khi có trục trặc
 
-**Sửa nội dung** thì không cần phần này — bấm Save là xong, trang chạy trực tiếp trên máy chủ.
+| Hiện tượng | Làm gì |
+|---|---|
+| Bấm Save changes, báo *Could not reach the server. Nothing was saved.* | Chưa lưu gì, chữ vẫn còn trong ô. Kiểm tra mạng rồi bấm Save lại. Vẫn vậy thì chép chữ vừa sửa ra chỗ khác, tải lại trang (đăng nhập lại nếu được hỏi), dán vào và Save. |
+| Báo *… could not be written* | Một phần không lưu được. Tải lại trang để xem phần nào đã lưu, rồi sửa lại phần còn thiếu. |
+| Sửa xong mà trang ngoài chưa đổi | Tải lại trang bằng **F5**. |
+| Trình duyệt báo "không bảo mật" | Kiểm tra địa chỉ có phải **https://**aluminumboss.com. Gõ `http://` thì trang tự chuyển sang `https://`. |
+| Quên mật khẩu | Nhờ người kỹ thuật làm theo mục 11. |
+| Cả trang không vào được | Nhờ người kỹ thuật — `tools/deploy/README.md`, mục *Khi hong*. |
 
-**Đưa bản mã nguồn mới lên** (sau khi lập trình viên sửa code):
+---
+
+## 11. Phần dành cho người kỹ thuật
+
+Chi tiết đầy đủ ở `tools/deploy/README.md`. Tóm tắt:
+
+**Máy chủ** `202.92.6.174`, SSH cổng `24700`, đăng nhập bằng khoá `~/.ssh/qlweb2_vps`. Ứng dụng
+.NET 8 sau nginx, chứng chỉ Let's Encrypt tự gia hạn, CSDL **MySQL** (chỉ nghe `127.0.0.1`).
+
+**Đưa bản mã nguồn mới lên:**
 
 ```bash
 bash tools/deploy/push.sh
 ```
 
-Lệnh này **không** đụng vào nội dung khách đã sửa trên máy chủ. Đó là chủ ý: `_data` trên máy chủ
-mới là bản thật. Chỉ khi thật sự muốn đẩy nội dung từ máy làm việc lên thì mới thêm
-`--kem-noi-dung`, và lúc đó nó ghi đè thật.
+Lệnh này **không** đụng vào nội dung khách đã sửa trên máy chủ — dữ liệu trên máy chủ mới là bản
+thật. Chỉ thêm `--kem-noi-dung` khi thật sự muốn đẩy nội dung từ máy làm việc lên, và lúc đó nó
+ghi đè thật.
 
-Chi tiết máy chủ, chứng chỉ HTTPS, cách quay về bản cũ: `tools/deploy/README.md`.
+**Quên mật khẩu admin** — xoá dòng tài khoản rồi khởi động lại; máy chủ tự tạo lại `admin` /
+`changeme` và bắt đổi mật khẩu như lần đầu. Lịch sử sửa còn nguyên:
+
+```bash
+ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' && systemctl restart qlweb2"
+```
+
+**Sao lưu** tự chạy mỗi đêm lúc 02:30, giữ 14 bản, trong `/srv/qlweb2/sao-luu/`:
+`qlweb2-*.sql.gz` (CSDL: tài khoản + lịch sử) và `noi-dung-*.tar.gz` (chữ của trang, ảnh, đơn
+liên hệ). Cách khôi phục: `tools/deploy/README.md`, mục *Sao luu*.
