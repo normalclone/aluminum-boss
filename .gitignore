@@ -106,3 +106,4 @@ import/media/*
 # tam nao bi loai va vi sao. Khong may nao sinh lai duoc.
 !import/media/chon-vong3.json
 !import/media/danh-sach-vong3.txt
+dist/
