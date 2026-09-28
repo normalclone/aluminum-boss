@@ -5,7 +5,8 @@
 
 Khu quản trị viết bằng tiếng Anh. Tài liệu này giữ nguyên tên nút tiếng Anh (in đậm) để bạn dò
 trên màn hình cho dễ. Mọi tên nút ở đây đã được đối chiếu với màn hình thật ngày 28/09/2026
-(`tools/guide-check.js` kiểm lại khi cần).
+(`tools/guide-check.js` kiểm lại khi cần). Ảnh chụp từ màn hình thật, **vòng cam** khoanh chỗ cần
+bấm (`tools/guide-shots.js` chụp lại khi giao diện đổi).
 
 ---
 
@@ -13,12 +14,18 @@ trên màn hình cho dễ. Mọi tên nút ở đây đã được đối chiế
 
 Mở **https://aluminumboss.com/Admin**.
 
+![Trang đăng nhập](huong-dan/01-dang-nhap.png)
+*Hình 1 — Trang đăng nhập. (1) tên, (2) mật khẩu, (3) bấm nút để vào.*
+
 **Lần đầu tiên** dùng tên `admin`, mật khẩu `changeme`. Máy chủ sẽ bắt đổi mật khẩu ngay, trước
 khi cho vào bất cứ màn hình nào:
 
 1. **Current password**: gõ `changeme`
 2. **New password** và **New password again**: mật khẩu mới, **ít nhất 10 ký tự**
 3. Bấm **Change password**
+
+![Trang đổi mật khẩu](huong-dan/02-doi-mat-khau.png)
+*Hình 2 — Trang đổi mật khẩu. (1) mật khẩu đang dùng, (2) mật khẩu mới gõ hai lần giống nhau, (3) bấm Change password.*
 
 Ghi mật khẩu mới vào chỗ an toàn. Không có nút "quên mật khẩu" — quên thì phải nhờ người kỹ thuật
 (mục 10). Việc đó mất khoảng một phút và **không mất lịch sử sửa**.
@@ -40,6 +47,9 @@ Vào `/Admin` là vào thẳng màn hình sửa trang. Thanh trên cùng có nă
 | **Enquiries** | Đơn khách gửi qua form liên hệ |
 | **History** | Các bản cũ — lấy lại khi lỡ tay |
 
+![Thanh trên cùng: năm mục chính ở bên trái; bên phải là View site, tên admin (bấm để đổi mật khẩu) và Sign out](huong-dan/03-thanh-tren.png)
+*Hình 3 — Thanh trên cùng: năm mục chính ở bên trái; bên phải là View site, tên admin (bấm để đổi mật khẩu) và Sign out.*
+
 Góc phải: **View site** mở trang thật ở tab mới; **admin** để đổi mật khẩu; **Sign out**.
 
 ---
@@ -47,6 +57,9 @@ Góc phải: **View site** mở trang thật ở tab mới; **admin** để đ�
 ## 3. Sửa chữ trên một trang
 
 Màn hình chia hai cột: **trái là các ô nhập, phải là trang web thật.**
+
+![Màn hình Edit pages](huong-dan/04-man-hinh-sua.png)
+*Hình 4 — Màn hình Edit pages. (1) chọn trang cần sửa, (2) các ô nhập của trang đó, (3) trang web thật, (4) đổi cỡ khung xem, (5) nút lưu ở đáy cột trái.*
 
 ### Chọn trang cần sửa — ba cách
 
@@ -65,11 +78,17 @@ menu là chuyển trang, bấm tab là đổi tab.
 Mỗi ô có một dòng chữ nhỏ ở trên cho biết nó là gì, ví dụ *Article #1 summary* là phần tóm tắt
 của bài đầu tiên.
 
+![Giữ Ctrl và bấm vào tiêu đề bài tin trong khung bên phải: cột trái tự cuộn tới ô Article #1 title, ô đó sáng xanh và con trỏ nằm sẵn trong ô](huong-dan/05-ctrl-bam.png)
+*Hình 5 — Giữ Ctrl và bấm vào tiêu đề bài tin trong khung bên phải: cột trái tự cuộn tới ô Article #1 title, ô đó sáng xanh và con trỏ nằm sẵn trong ô.*
+
 ### Lưu
 
 1. Gõ vào ô — chữ trong khung bên phải đổi ngay khi gõ
 2. Bấm **Save changes** ở đáy cột trái
 3. Dòng nhỏ bên cạnh báo *1 change saved*. Khách vào trang là thấy luôn, không chờ gì cả.
+
+![Gõ vào ô (1) thì chữ trên trang đổi theo ngay, nhưng chưa lưu](huong-dan/06-luu.png)
+*Hình 6 — Gõ vào ô (1) thì chữ trên trang đổi theo ngay, nhưng chưa lưu. Nút ở đáy chuyển thành Save 1 change (2); bấm nó mới lưu thật.*
 
 > **Chưa bấm Save changes thì chưa lưu gì.** Chuyển trang hoặc đóng tab khi đang sửa dở, máy sẽ
 > hỏi lại.
@@ -89,6 +108,12 @@ bản: sửa một lần là đúng cho mọi màn hình. **Open in a tab** mở
 - **Add a picture** để tải ảnh mới từ máy lên
 - **No picture** để bỏ ảnh đi
 
+![Một ô ảnh: ảnh đang dùng ở bên trái, nút Choose picture, và dòng cho biết cỡ ảnh nên tải lên](huong-dan/07-o-anh.png)
+*Hình 7 — Một ô ảnh: ảnh đang dùng ở bên trái, nút Choose picture, và dòng cho biết cỡ ảnh nên tải lên.*
+
+![Kho ảnh mở ra bên phải](huong-dan/08-kho-anh.png)
+*Hình 8 — Kho ảnh mở ra bên phải. Bấm một ảnh có sẵn để chọn, No picture để bỏ ảnh, Add a picture để tải ảnh mới từ máy lên.*
+
 Thay một ảnh đang có thì khung xem đổi ngay. Ô ảnh đang **trống** thì phải bấm **Save changes** mới
 thấy ảnh hiện ra.
 
@@ -100,6 +125,9 @@ Nhận JPG, PNG, WebP, GIF, tối đa 20 MB.
 
 **Xoá ảnh** ở màn hình **Pictures**: máy hỏi lại và cảnh báo trang nào còn dùng ảnh đó sẽ bị trống
 chỗ. **Ảnh đã xoá không lấy lại được ở History.**
+
+![Màn hình Pictures: khung tải ảnh lên ở trên cùng, bên dưới là mọi ảnh trong kho, mỗi ảnh có nút Delete](huong-dan/17-pictures.png)
+*Hình 9 — Màn hình Pictures: khung tải ảnh lên ở trên cùng, bên dưới là mọi ảnh trong kho, mỗi ảnh có nút Delete.*
 
 ---
 
@@ -113,6 +141,12 @@ chỗ. **Ảnh đã xoá không lấy lại được ở History.**
 | **↑** **↓** | Đổi thứ tự — thứ tự ở đây là thứ tự trên trang |
 | **Edit** | Mở màn hình sửa, đúng trang của mục đó |
 | **Delete** | Xoá. Máy hỏi lại: **Yes, delete it** hoặc **Keep it**, và cho biết có chỗ nào khác đang trỏ tới mục đó không |
+
+![Màn hình Content → News](huong-dan/10-content.png)
+*Hình 10 — Màn hình Content → News. Add an item thêm bài; mỗi dòng có Shown (ẩn/hiện), ↑ ↓ (đổi thứ tự), Edit (sửa) và Delete (xoá).*
+
+![Bấm Delete thì máy hỏi lại trước khi xoá](huong-dan/11-hoi-xoa.png)
+*Hình 11 — Bấm Delete thì máy hỏi lại trước khi xoá. Yes, delete it là xoá thật; Keep it là thôi.*
 
 Nút **Add an item** ở đầu danh sách thêm một mục trống lên **dòng đầu tiên**.
 
@@ -131,24 +165,49 @@ trên trang chủ**, không phải nơi viết nội dung. Mỗi dòng có một
 muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở **News**, **Products**, **Colors**,
 **Projects** — sửa một lần, mọi nơi đổi theo.
 
+![Kệ Home: New trên trang chủ](huong-dan/12-ke-trang-chu.png)
+*Hình 12 — Kệ Home: New trên trang chủ. (1) chọn bài muốn trưng ở ô ARTICLE, (2) bấm Set.*
+
 ---
 
 ## 6. Đăng một bài tin mới
 
 1. **Content** → **News** → **Add an item**. Máy báo *Added. It is at the top of the list.*
 2. Ngay lập tức bấm **Shown** ở dòng 1 để thành **Hidden** (bài trống đã hiện trên trang).
-3. Bấm **Edit** ở dòng 1.
-4. Điền: *Article #1 title* (tiêu đề), *Article #1 summary* (tóm tắt), *Article #1 author* (tác
-   giả), ảnh bằng **Choose picture**. Nếu muốn, điền cả nhóm **Search result** (mục 7).
-5. Bấm **Save changes**. Địa chỉ bài lúc này thành tiêu đề (xem lưu ý ở mục 5).
-6. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
+3. Bấm **Edit** ở dòng 1. Cột trái hiện nhóm **News** với các ô của bài.
+4. Điền **Article #1 title** (tiêu đề), **Article #1 summary** (tóm tắt), **Article #1 author**
+   (tác giả), và ảnh bằng **Choose picture**.
+5. **Ngày đăng** — ô **Article #1 date**: bấm biểu tượng lịch ở cuối ô rồi chọn ngày. Trên trang,
+   ngày hiện thành chữ, ví dụ *28 September 2026*.
+6. **Thân bài** — bấm **Add a paragraph**. Máy hỏi *Save your … changes first?* — bấm **OK**: máy
+   lưu những gì bạn vừa gõ, thêm một ô đoạn văn trống, và đặt sẵn con trỏ trong ô đó. Gõ đoạn văn.
+   Cần đoạn nữa thì bấm **Add a paragraph** lần nữa.
+7. **Thẻ** (chữ ngắn hiện trên bài, ví dụ *Plant*, *Product*) — bấm **Add a tag**, làm y như đoạn văn.
+8. Bấm **Save changes**. Địa chỉ bài lúc này thành tiêu đề (xem lưu ý ở mục 5).
+9. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
 
-> **Hiện CHƯA làm được từ giao diện:** viết **phần thân bài** (các đoạn văn), đặt **ngày đăng**,
-> và gắn **thẻ**. Bài mới vì thế chỉ có tiêu đề, tóm tắt, tác giả và ảnh, và **nằm cuối** danh
-> sách tin vì chưa có ngày. Cần phần thân bài hoặc ngày thì nhờ người kỹ thuật.
->
-> Với bài **đã có sẵn**: sửa được các đoạn văn và thẻ đang có, nhưng chưa thêm hay bớt đoạn được.
-> Ngày đăng của bài có sẵn cũng chưa sửa được.
+![Bài mới vừa thêm: ô tiêu đề và ô ngày đăng](huong-dan/13-bai-moi.png)
+*Hình 13 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
+
+![Các đoạn thân bài](huong-dan/14-doan-van.png)
+*Hình 14 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
+
+**Dưới mỗi đoạn văn và mỗi thẻ** có ba nút nhỏ:
+
+| Nút | Làm gì |
+|---|---|
+| **↑** **↓** | Đưa đoạn đó lên hoặc xuống một bậc. Đoạn đầu không có ↑, đoạn cuối không có ↓. |
+| **Remove** | Xoá đoạn đó. Đoạn đang có chữ thì máy hỏi lại, kèm mấy chữ đầu của đoạn. |
+
+> **Thêm, xoá, đổi thứ tự đoạn được lưu ngay**, không chờ **Save changes** — nên máy mới hỏi lưu
+> phần đang gõ dở trước. Mỗi lần như vậy đều có một bản cũ trong **History**, lỡ tay thì lấy lại
+> được (mục 9).
+
+**Ngày đăng quyết định chỗ đứng của bài**: danh sách tin xếp theo ngày, mới nhất ở trên. Bài
+**chưa có ngày** nằm cuối danh sách — cột trái nhắc *Not dated yet* dưới ô ngày cho tới khi bạn chọn.
+
+**Bài đã có sẵn** sửa y như vậy: **Content** → **News** → **Edit** ở dòng bài đó. Ngày, đoạn văn
+và thẻ của bài cũ đều sửa, thêm, xoá được.
 
 ---
 
@@ -165,6 +224,9 @@ muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở **News*
 **Để trống cũng được.** Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là
 tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.
 
+![Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture](huong-dan/09-search-result.png)
+*Hình 15 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
+
 Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
 hạn của trang: gõ dài hơn vẫn lưu đủ.
 
@@ -176,11 +238,17 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
 
 **Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
+![Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng](huong-dan/15-enquiries.png)
+*Hình 16 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
+
 ### Tự thử xem form còn chạy không
 
 1. Mở **https://aluminumboss.com/contact/** ở một tab khác hoặc trên điện thoại
 2. Trang có bốn ô. Bấm **START** trong ô **Request a quotation** (ba ô kia cũng dẫn tới form:
    **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
+
+![Trang liên hệ có bốn ô](huong-dan/18-lien-he.png)
+*Hình 17 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
 3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
 4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
    request and will reply within one working day.*
@@ -199,6 +267,9 @@ Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt 
 - Các nút tròn phía trên (**Everything**, **news**, **site**…) lọc theo loại nội dung
 - **Look at it** mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)
 - **Restore this version** đưa về bản đó
+
+![Màn hình History](huong-dan/16-history.png)
+*Hình 18 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
 
 > **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
 > để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một

@@ -376,3 +376,32 @@ gì được sao lưu". Đã thêm `noi-dung-*.tar.gz`, và **giải nén thử*
 trên từng `<li>` nên mỗi tên nút giữa câu thành một ô riêng và chồng lên chữ; và các câu thông báo
 dài in thành chip không xuống dòng, đẩy trang ra 185 px ở bề ngang điện thoại.
 
+
+## 15. Bài tin hoàn chỉnh từ giao diện, và ảnh chụp trong hướng dẫn — 28/09/2026
+
+Anh yêu cầu làm nốt lỗ hổng ghi ở mục 14 rồi cập nhật hướng dẫn, kèm ảnh chụp và mô tả. Kế
+hoạch: `docs/KE-HOACH-BAI-TIN.md`.
+
+**Ngày đăng** là một loại ô mới (`data-ab-date`), hiện thành bộ chọn ngày. Máy chủ chỉ nhận
+`yyyy-MM-dd` là một ngày có thật, hoặc để trống — `2026-02-30` bị từ chối ngay ở `Save`, không
+phải ở màn hình. Dòng ngày trên bài luôn được vẽ, kể cả khi trống: một ô không được vẽ thì trình
+soạn không biết có nó, và đó chính là lý do bài mới trước đây không có ô ngày.
+
+**Đoạn văn và thẻ** thêm/xoá/đổi thứ tự qua một điểm cuối riêng, `POST /Admin/Edit/List`, và
+**chỉ** cho các danh sách ghi trong `Content/ItemLists.cs` (hiện là `body` và `tags` của bài tin).
+Địa chỉ gửi lên nguyên vẹn chứ không phải "danh sách + số thứ tự đếm trên màn hình". Ghi ngay,
+không chờ Save, vì nó đổi số ô trên trang; nên màn hình hỏi lưu phần đang gõ dở trước. Mỗi lần
+ghi đều để lại một bản trong History, giống Save.
+
+Để trình soạn biết một danh sách rỗng có tồn tại, trang ở chế độ sửa mang thêm một dấu ẩn
+`data-ab-list` cho mỗi danh sách. Trang công khai không mang dấu này (đã kiểm: 0 lần xuất hiện).
+
+**Hai lỗi lộ ra khi kiểm, đã sửa:** con trỏ không vào được đoạn vừa thêm, vì khung xem báo "đã
+tải xong" hai lần và lần thứ hai dựng lại cả cột trái. Và một biến mới trùng tên với biến của
+dòng "Add, reorder or remove", làm dòng đó thôi đi theo khi khung xem đổi trang. `editor-clicks.js`
+bắt được lỗi thứ hai.
+
+**Ảnh trong hướng dẫn** (18 hình, `docs/huong-dan/`) do `tools/guide-shots.js` chụp từ máy làm
+việc. Vòng khoanh được vẽ lên trang lúc chụp, ở toạ độ lấy từ chính trang, chứ không vẽ đè lên
+ảnh về sau: giao diện đổi thì chạy lại là vòng khoanh đổi theo. Để chụp được một bài tin mới, công
+cụ thêm một bài thật rồi xoá nó đi và so mã băm tệp dữ liệu, giống `article-edit.js`.

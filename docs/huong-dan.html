@@ -325,6 +325,18 @@ a:focus-visible, nav.toc a:focus-visible {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* Ảnh chụp màn hình. Hiện đúng cỡ thật nếu hẹp hơn cột (ảnh một ô nhập không bị phóng to thành
+   mờ), co lại nếu rộng hơn. Vòng cam trong ảnh là của công cụ chụp, không phải của giao diện. */
+figure.shot { margin: 20px 0 26px; }
+figure.shot img {
+  display: block; max-width: 100%; height: auto;
+  border: 1px solid var(--line); border-radius: 6px; background: #fff;
+}
+figure.shot figcaption {
+  margin-top: 9px; font-size: 14px; line-height: 1.55; color: var(--mute); max-width: 68ch;
+}
+figure.shot figcaption b { color: var(--ink); font-weight: 600; }
 </style>
 
 <div class="wrap">
@@ -359,7 +371,7 @@ a:focus-visible, nav.toc a:focus-visible {
 
   <main>
 
-    <p style="margin:0;color:var(--mute)">Khu quản trị viết bằng tiếng Anh. Mọi chữ có trên màn hình được in thành <span class="ui">thế này</span> để bạn dò cho dễ — và đã được đối chiếu với màn hình thật.</p>
+    <p style="margin:0;color:var(--mute)">Khu quản trị viết bằng tiếng Anh. Mọi chữ có trên màn hình được in thành <span class="ui">thế này</span> để bạn dò cho dễ — và đã được đối chiếu với màn hình thật. Ảnh chụp lấy từ màn hình thật; <strong>vòng cam</strong> khoanh chỗ cần bấm.</p>
 
     <section id="s1">
       <h2><span class="n">1</span><span>Đăng nhập</span></h2>
@@ -372,6 +384,7 @@ a:focus-visible, nav.toc a:focus-visible {
           <dd><code>admin</code> &nbsp;/&nbsp; <code>changeme</code></dd>
         </dl>
       </div>
+      <figure class="shot"><img src="huong-dan/01-dang-nhap.png" width="412" height="288" loading="lazy" alt="Trang đăng nhập"><figcaption><b>Hình 1.</b> Trang đăng nhập. (1) tên, (2) mật khẩu, (3) bấm nút để vào.</figcaption></figure>
 
       <p style="margin-top:16px">Máy chủ sẽ <strong>bắt đổi mật khẩu ngay</strong>, trước khi cho vào bất cứ màn hình nào:</p>
       <ol class="steps">
@@ -379,6 +392,7 @@ a:focus-visible, nav.toc a:focus-visible {
         <li><span class="ui">New password</span> và <span class="ui">New password again</span>: mật khẩu mới, <strong>ít nhất 10 ký tự</strong></li>
         <li>Bấm <span class="ui">Change password</span></li>
       </ol>
+      <figure class="shot"><img src="huong-dan/02-doi-mat-khau.png" width="484" height="330" loading="lazy" alt="Trang đổi mật khẩu"><figcaption><b>Hình 2.</b> Trang đổi mật khẩu. (1) mật khẩu đang dùng, (2) mật khẩu mới gõ hai lần giống nhau, (3) bấm Change password.</figcaption></figure>
 
       <div class="note warn">
         <p>Ghi mật khẩu mới vào chỗ an toàn. Không có nút "quên mật khẩu" — quên thì nhờ người kỹ thuật (mục 11). Việc đó mất khoảng một phút và <strong>không mất lịch sử sửa</strong>.</p>
@@ -406,11 +420,13 @@ a:focus-visible, nav.toc a:focus-visible {
         </table>
       </div>
       <p>Góc phải: <span class="ui">View site</span> mở trang thật ở tab mới; <span class="ui">admin</span> để đổi mật khẩu; <span class="ui">Sign out</span>.</p>
+      <figure class="shot"><img src="huong-dan/03-thanh-tren.png" width="1280" height="94" loading="lazy" alt="Thanh trên cùng: năm mục chính ở bên trái; bên phải là View site, tên admin (bấm để đổi mật khẩu) và Sign out"><figcaption><b>Hình 3.</b> Thanh trên cùng: năm mục chính ở bên trái; bên phải là View site, tên admin (bấm để đổi mật khẩu) và Sign out.</figcaption></figure>
     </section>
 
     <section id="s3">
       <h2><span class="n">3</span><span>Sửa chữ trên một trang</span></h2>
       <p>Màn hình chia hai cột: <strong>trái là các ô nhập, phải là trang web thật.</strong></p>
+      <figure class="shot"><img src="huong-dan/04-man-hinh-sua.png" width="1280" height="800" loading="lazy" alt="Màn hình Edit pages"><figcaption><b>Hình 4.</b> Màn hình Edit pages. (1) chọn trang cần sửa, (2) các ô nhập của trang đó, (3) trang web thật, (4) đổi cỡ khung xem, (5) nút lưu ở đáy cột trái.</figcaption></figure>
 
       <h3>Chọn trang cần sửa — ba cách</h3>
       <ul>
@@ -425,6 +441,7 @@ a:focus-visible, nav.toc a:focus-visible {
       </div>
       <p>Ô tương ứng ở cột trái sẽ sáng lên. <strong>Bấm thường</strong> — không giữ <kbd>Ctrl</kbd> — thì trang chạy như thật: bấm menu là chuyển trang, bấm tab là đổi tab.</p>
       <p>Mỗi ô có một dòng chữ nhỏ phía trên cho biết nó là gì — ví dụ <span class="ui">Article #1 summary</span> là phần tóm tắt của bài đang mở.</p>
+      <figure class="shot"><img src="huong-dan/05-ctrl-bam.png" width="1280" height="800" loading="lazy" alt="Giữ Ctrl và bấm vào tiêu đề bài tin trong khung bên phải: cột trái tự cuộn tới ô Article #1 title, ô đó sáng xanh và con trỏ nằm sẵn trong ô"><figcaption><b>Hình 5.</b> Giữ Ctrl và bấm vào tiêu đề bài tin trong khung bên phải: cột trái tự cuộn tới ô Article #1 title, ô đó sáng xanh và con trỏ nằm sẵn trong ô.</figcaption></figure>
 
       <h3>Lưu</h3>
       <ol class="steps">
@@ -432,6 +449,7 @@ a:focus-visible, nav.toc a:focus-visible {
         <li>Bấm <span class="ui">Save changes</span> ở đáy cột trái</li>
         <li>Dòng nhỏ bên cạnh báo <em>1 change saved</em>. Khách vào trang là thấy luôn, không chờ gì cả.</li>
       </ol>
+      <figure class="shot"><img src="huong-dan/06-luu.png" width="1280" height="800" loading="lazy" alt="Gõ vào ô (1) thì chữ trên trang đổi theo ngay, nhưng chưa lưu"><figcaption><b>Hình 6.</b> Gõ vào ô (1) thì chữ trên trang đổi theo ngay, nhưng chưa lưu. Nút ở đáy chuyển thành Save 1 change (2); bấm nó mới lưu thật.</figcaption></figure>
       <div class="note warn">
         <p><strong>Chưa bấm <span class="ui">Save changes</span> thì chưa lưu gì.</strong> Chuyển trang hoặc đóng tab khi đang sửa dở, máy sẽ hỏi lại.</p>
       </div>
@@ -448,6 +466,8 @@ a:focus-visible, nav.toc a:focus-visible {
         <li><span class="ui">Add a picture</span> để tải ảnh mới từ máy lên</li>
         <li><span class="ui">No picture</span> để bỏ ảnh đi</li>
       </ul>
+      <figure class="shot"><img src="huong-dan/07-o-anh.png" width="379" height="193" loading="lazy" alt="Một ô ảnh: ảnh đang dùng ở bên trái, nút Choose picture, và dòng cho biết cỡ ảnh nên tải lên"><figcaption><b>Hình 7.</b> Một ô ảnh: ảnh đang dùng ở bên trái, nút Choose picture, và dòng cho biết cỡ ảnh nên tải lên.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/08-kho-anh.png" width="1280" height="800" loading="lazy" alt="Kho ảnh mở ra bên phải"><figcaption><b>Hình 8.</b> Kho ảnh mở ra bên phải. Bấm một ảnh có sẵn để chọn, No picture để bỏ ảnh, Add a picture để tải ảnh mới từ máy lên.</figcaption></figure>
       <p>Thay một ảnh đang có thì khung xem đổi ngay. Ô ảnh đang <strong>trống</strong> thì phải bấm <span class="ui">Save changes</span> mới thấy ảnh hiện ra.</p>
 
       <div class="note">
@@ -458,6 +478,7 @@ a:focus-visible, nav.toc a:focus-visible {
       <div class="note warn">
         <p><strong>Xoá ảnh</strong> ở màn hình <span class="ui">Pictures</span>: máy hỏi lại và cảnh báo trang nào còn dùng ảnh đó sẽ bị trống chỗ. <strong>Ảnh đã xoá không lấy lại được ở <span class="ui">History</span>.</strong></p>
       </div>
+      <figure class="shot"><img src="huong-dan/17-pictures.png" width="1280" height="800" loading="lazy" alt="Màn hình Pictures: khung tải ảnh lên ở trên cùng, bên dưới là mọi ảnh trong kho, mỗi ảnh có nút Delete"><figcaption><b>Hình 9.</b> Màn hình Pictures: khung tải ảnh lên ở trên cùng, bên dưới là mọi ảnh trong kho, mỗi ảnh có nút Delete.</figcaption></figure>
     </section>
 
     <section id="s5">
@@ -474,6 +495,8 @@ a:focus-visible, nav.toc a:focus-visible {
           </tbody>
         </table>
       </div>
+      <figure class="shot"><img src="huong-dan/10-content.png" width="944" height="443" loading="lazy" alt="Màn hình Content → News"><figcaption><b>Hình 10.</b> Màn hình Content → News. Add an item thêm bài; mỗi dòng có Shown (ẩn/hiện), ↑ ↓ (đổi thứ tự), Edit (sửa) và Delete (xoá).</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/11-hoi-xoa.png" width="952" height="146" loading="lazy" alt="Bấm Delete thì máy hỏi lại trước khi xoá"><figcaption><b>Hình 11.</b> Bấm Delete thì máy hỏi lại trước khi xoá. Yes, delete it là xoá thật; Keep it là thôi.</figcaption></figure>
 
       <p>Nút <span class="ui">Add an item</span> ở đầu danh sách thêm một mục trống lên <strong>dòng đầu tiên</strong>.</p>
 
@@ -487,6 +510,7 @@ a:focus-visible, nav.toc a:focus-visible {
       <p><strong>Hai loại không thêm được:</strong> <span class="ui">Export routes</span> và <span class="ui">Factories</span> — thêm cần toạ độ bản đồ, phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được.</p>
 
       <p><strong>Bốn loại "Home:"</strong> — <span class="ui">Home: New</span> <span class="ui">Home: Products</span> <span class="ui">Home: Colors</span> <span class="ui">Home: Projects</span> — là <strong>kệ trưng bày trên trang chủ</strong>, không phải nơi viết nội dung. Mỗi dòng có một ô chọn bài và nút <span class="ui">Set</span>: chọn bài muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở <span class="ui">News</span>, <span class="ui">Products</span>, <span class="ui">Colors</span>, <span class="ui">Projects</span> — sửa một lần, mọi nơi đổi theo.</p>
+      <figure class="shot"><img src="huong-dan/12-ke-trang-chu.png" width="936" height="480" loading="lazy" alt="Kệ Home: New trên trang chủ"><figcaption><b>Hình 12.</b> Kệ Home: New trên trang chủ. (1) chọn bài muốn trưng ở ô ARTICLE, (2) bấm Set.</figcaption></figure>
     </section>
 
     <section id="s6">
@@ -494,16 +518,35 @@ a:focus-visible, nav.toc a:focus-visible {
       <ol class="steps">
         <li><span class="ui">Content</span> → <span class="ui">News</span> → <span class="ui">Add an item</span>. Máy báo <span class="ui long">Added. It is at the top of the list.</span></li>
         <li>Ngay lập tức bấm <span class="ui">Shown</span> ở dòng 1 để thành <span class="ui">Hidden</span> — bài trống đã hiện trên trang</li>
-        <li>Bấm <span class="ui">Edit</span> ở dòng 1</li>
-        <li>Điền <span class="ui">Article #1 title</span> (tiêu đề), <span class="ui">Article #1 summary</span> (tóm tắt), <span class="ui">Article #1 author</span> (tác giả), và ảnh bằng <span class="ui">Choose picture</span>. Muốn thì điền cả nhóm <span class="ui">Search result</span> (mục 7).</li>
+        <li>Bấm <span class="ui">Edit</span> ở dòng 1. Cột trái hiện nhóm <span class="ui">News</span> với các ô của bài.</li>
+        <li>Điền <span class="ui">Article #1 title</span> (tiêu đề), <span class="ui">Article #1 summary</span> (tóm tắt), <span class="ui">Article #1 author</span> (tác giả), và ảnh bằng <span class="ui">Choose picture</span></li>
+        <li><strong>Ngày đăng</strong> — ô <span class="ui">Article #1 date</span>: bấm biểu tượng lịch ở cuối ô rồi chọn ngày. Trên trang, ngày hiện thành chữ, ví dụ <em>28 September 2026</em>.</li>
+        <li><strong>Thân bài</strong> — bấm <span class="ui">Add a paragraph</span>. Máy hỏi <em>Save your … changes first?</em> — bấm <strong>OK</strong>: máy lưu những gì bạn vừa gõ, thêm một ô đoạn văn trống, và đặt sẵn con trỏ trong ô đó. Gõ đoạn văn. Cần đoạn nữa thì bấm <span class="ui">Add a paragraph</span> lần nữa.</li>
+        <li><strong>Thẻ</strong> (chữ ngắn hiện trên bài, ví dụ <em>Plant</em>, <em>Product</em>) — bấm <span class="ui">Add a tag</span>, làm y như đoạn văn</li>
         <li>Bấm <span class="ui">Save changes</span>. Địa chỉ bài lúc này thành tiêu đề — xem lưu ý ở mục 5.</li>
         <li>Quay về <span class="ui">Content</span> → <span class="ui">News</span>, bấm <span class="ui">Hidden</span> để thành <span class="ui">Shown</span></li>
       </ol>
 
-      <div class="note warn">
-        <p><strong>Hiện CHƯA làm được từ giao diện:</strong> viết <strong>phần thân bài</strong> (các đoạn văn), đặt <strong>ngày đăng</strong>, và gắn <strong>thẻ</strong>. Bài mới vì thế chỉ có tiêu đề, tóm tắt, tác giả và ảnh — và <strong>nằm cuối</strong> danh sách tin vì chưa có ngày. Cần phần thân bài hoặc ngày thì nhờ người kỹ thuật.</p>
-        <p>Với bài <strong>đã có sẵn</strong>: sửa được các đoạn văn và thẻ đang có, nhưng chưa thêm hay bớt đoạn được. Ngày đăng của bài có sẵn cũng chưa sửa được.</p>
+      <figure class="shot"><img src="huong-dan/13-bai-moi.png" width="357" height="178" loading="lazy" alt="Bài mới vừa thêm: ô tiêu đề và ô ngày đăng"><figcaption><b>Hình 13.</b> Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/14-doan-van.png" width="466" height="407" loading="lazy" alt="Các đoạn thân bài"><figcaption><b>Hình 14.</b> Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.</figcaption></figure>
+
+      <p><strong>Dưới mỗi đoạn văn và mỗi thẻ</strong> có các nút nhỏ:</p>
+      <div class="scroller">
+        <table>
+          <thead><tr><th>Nút</th><th>Làm gì</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ui">↑</span> <span class="ui">↓</span></td><td>Đưa đoạn đó lên hoặc xuống một bậc. Đoạn đầu không có ↑, đoạn cuối không có ↓.</td></tr>
+            <tr><td><span class="ui">Remove</span></td><td>Xoá đoạn đó. Đoạn đang có chữ thì máy hỏi lại, kèm mấy chữ đầu của đoạn.</td></tr>
+          </tbody>
+        </table>
       </div>
+
+      <div class="note">
+        <p><strong>Thêm, xoá, đổi thứ tự đoạn được lưu ngay</strong>, không chờ <span class="ui">Save changes</span> — nên máy mới hỏi lưu phần đang gõ dở trước. Mỗi lần như vậy đều có một bản cũ trong <span class="ui">History</span>; lỡ tay thì lấy lại được (mục 9).</p>
+      </div>
+
+      <p><strong>Ngày đăng quyết định chỗ đứng của bài</strong>: danh sách tin xếp theo ngày, mới nhất ở trên. Bài <strong>chưa có ngày</strong> nằm cuối danh sách — cột trái nhắc <em>Not dated yet</em> dưới ô ngày cho tới khi bạn chọn.</p>
+      <p><strong>Bài đã có sẵn</strong> sửa y như vậy: <span class="ui">Content</span> → <span class="ui">News</span> → <span class="ui">Edit</span> ở dòng bài đó. Ngày, đoạn văn và thẻ của bài cũ đều sửa, thêm, xoá được.</p>
     </section>
 
     <section id="s7">
@@ -520,6 +563,7 @@ a:focus-visible, nav.toc a:focus-visible {
         </table>
       </div>
       <p><strong>Để trống cũng được.</strong> Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.</p>
+      <figure class="shot"><img src="huong-dan/09-search-result.png" width="377" height="396" loading="lazy" alt="Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture"><figcaption><b>Hình 15.</b> Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.</figcaption></figure>
       <p>Dưới ô có đếm ký tự. <em>Khoảng 60</em> và <em>khoảng 160</em> là chỗ Google thường cắt bớt, không phải giới hạn của trang: gõ dài hơn vẫn lưu đủ.</p>
     </section>
 
@@ -529,6 +573,7 @@ a:focus-visible, nav.toc a:focus-visible {
       <div class="note warn">
         <p>Đơn <strong>không tự gửi về email</strong> — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.</p>
       </div>
+      <figure class="shot"><img src="huong-dan/15-enquiries.png" width="960" height="329" loading="lazy" alt="Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng"><figcaption><b>Hình 16.</b> Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.</figcaption></figure>
 
       <h3>Tự thử xem form còn chạy không</h3>
       <ol class="steps">
@@ -538,6 +583,7 @@ a:focus-visible, nav.toc a:focus-visible {
         <li>Bấm nút gửi ở cuối form. Trang báo <span class="ui long">Thank you — we have your request and will reply within one working day.</span></li>
         <li>Quay lại <span class="ui">Enquiries</span>, tải lại trang: đơn vừa gửi phải nằm trên cùng</li>
       </ol>
+      <figure class="shot"><img src="huong-dan/18-lien-he.png" width="1280" height="470" loading="lazy" alt="Bước 2: trang liên hệ có bốn ô"><figcaption><b>Hình 17.</b> Bước 2: trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.</figcaption></figure>
       <div class="note">
         <p>Mỗi địa chỉ mạng chỉ gửi được <strong>8 đơn một giờ</strong> — đó là chặn thư rác. Thử nhiều lần liên tiếp sẽ bị chặn: đợi sang giờ sau, hoặc thử từ mạng khác (tắt Wi-Fi, dùng 4G).</p>
       </div>
@@ -551,6 +597,7 @@ a:focus-visible, nav.toc a:focus-visible {
         <li><span class="ui">Look at it</span> mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)</li>
         <li><span class="ui">Restore this version</span> đưa về bản đó</li>
       </ul>
+      <figure class="shot"><img src="huong-dan/16-history.png" width="952" height="488" loading="lazy" alt="Màn hình History"><figcaption><b>Hình 18.</b> Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).</figcaption></figure>
 
       <div class="note warn">
         <p><strong>Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.</strong> Khôi phục <code>news</code> về hôm qua để sửa một lỗi chính tả thì <strong>mọi bài tin</strong> sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một chữ thì gõ lại chữ đó là an toàn hơn.</p>

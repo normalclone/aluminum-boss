@@ -904,17 +904,19 @@
         day.id = id;
         day.value = f.value;
         day.setAttribute('data-address', f.address);
+        // Drawn always and shown only while the box is empty: a hint that stayed up after a date
+        // was picked told the person the pick had not taken.
+        var why = document.createElement('span');
+        why.className = 'ed-slot';
+        why.appendChild(line('Not dated yet. An article with no date goes to the end of the news list.'));
+        why.hidden = !!f.value;
         day.addEventListener('change', function () {
           send({ type: 'ab:text', address: f.address, value: day.value });
           mark(f.address, day.value);
+          why.hidden = !!day.value;
         });
         field.appendChild(day);
-        if (!f.value) {
-          var why = document.createElement('span');
-          why.className = 'ed-slot';
-          why.appendChild(line('Not dated yet. An article with no date goes to the end of the news list.'));
-          field.appendChild(why);
-        }
+        field.appendChild(why);
         box.appendChild(field);
         inputs[f.address] = day;
         return;

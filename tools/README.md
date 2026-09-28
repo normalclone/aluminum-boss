@@ -1152,3 +1152,33 @@ trước màn hình mà không tìm thấy nó. Chạy lại công cụ này sau
 
 Lần chạy đầu (28/09/2026) trên bản hướng dẫn cũ: tên nút gần như đúng hết — cái sai nằm ở chỗ
 khác, xem `docs/QUYET-DINH.md` mục 14.
+
+## `article-edit.js` — đăng được một bài tin hoàn chỉnh từ giao diện không
+
+```bash
+node article-edit.js                     # cần máy chủ .NET đang chạy ở :5199
+```
+
+Đi đúng đường của một người thật: Content → News → Add an item → Edit → gõ tiêu đề, tóm tắt →
+chọn ngày → Add a paragraph (hai lần) → Add a tag → đổi thứ tự → xoá một đoạn. Rồi tải **trang
+công khai** và kiểm từng thứ: ngày, đoạn văn, thẻ, không còn dấu của trình soạn, bài nằm đúng chỗ
+trong danh sách tin theo ngày. Thêm hai phép thử gõ cửa: gửi thẳng tới `/Admin/Edit/List` một địa
+chỉ ngoài bảng `ItemLists`, và gửi `2026-02-30` tới Save. Cả hai phải bị từ chối.
+
+Cuối cùng xoá bài thử và so mã băm hai tệp `news.json`: phải y hệt trước khi chạy, kể cả khi một
+bước ở giữa bị hỏng.
+
+## `guide-shots.js` — ảnh chụp cho sách hướng dẫn
+
+```bash
+node guide-shots.js                      # cần máy chủ .NET ở :5199; ra docs/huong-dan/NN-ten.png
+node guide-shots.js 13 14                # chỉ chụp lại hình 13 và 14
+```
+
+18 ảnh, mỗi ảnh khoanh cam đúng cái nút mà đoạn văn đang nói tới, kèm một nhãn tiếng Việt ngắn.
+Vòng khoanh được vẽ trên **trang chính**, ở toạ độ Playwright đo được. Vẽ bên trong khung xem thì
+nhãn bị thu nhỏ theo khung (lần đầu chỉ còn 7px). Vùng cắt ảnh là hộp bao phần cần chụp cộng với
+mọi vòng khoanh và nhãn, nên nhãn không bao giờ bị cắt.
+
+Chỉ chạy trên máy làm việc. Để chụp bài tin mới, công cụ thêm một bài thật, xoá nó ở cuối và so
+mã băm `news.json`. Chạy lại sau mỗi lần đổi giao diện quản trị, rồi chạy `guide-check.js`.
