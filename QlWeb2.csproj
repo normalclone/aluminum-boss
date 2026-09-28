@@ -24,9 +24,15 @@
     <Content Remove="QlWeb2.Tests/**" />
     <None Remove="QlWeb2.Tests/**" />
 
-    <Compile Remove="site/**;build/**;tools/**;docs/**" />
-    <Content Remove="site/**;build/**;tools/**;docs/**" />
-    <None Remove="site/**;build/**;tools/**;docs/**" />
+    <!-- import/ is the crawled source material this site was built FROM - 3.8 MB of it,
+         including the Vietnamese originals the English edition deliberately does not use - and
+         export/ is a stale partial static export. Neither is part of the running app, and both
+         were riding along into the deployment until the first publish to a real server was
+         packaged on 28/09/2026. clone-report.json goes with them: a crawl log naming the site
+         this one was built from, which has no business on a public server. -->
+    <Compile Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
+    <Content Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
+    <None Remove="site/**;build/**;tools/**;docs/**;import/**;export/**;clone-report.json" />
   </ItemGroup>
 
 </Project>
