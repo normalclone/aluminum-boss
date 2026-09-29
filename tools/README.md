@@ -1182,3 +1182,25 @@ mọi vòng khoanh và nhãn, nên nhãn không bao giờ bị cắt.
 
 Chỉ chạy trên máy làm việc. Để chụp bài tin mới, công cụ thêm một bài thật, xoá nó ở cuối và so
 mã băm `news.json`. Chạy lại sau mỗi lần đổi giao diện quản trị, rồi chạy `guide-check.js`.
+
+## `factory-edit.js` — thêm được nhà máy / kho và đặt lên bản đồ không
+
+```bash
+node factory-edit.js                     # cần máy chủ .NET đang chạy ở :5199
+```
+
+Content → Factories → Add an item → Edit → gõ tên → chọn **location on the map** = Ho Chi Minh
+City → **type** = Warehouse → Save. Rồi kiểm tệp (toạ độ của TP.HCM, là số) và **trang chủ công
+khai**: không lỗi JS, con số cạnh tiêu đề vẫn chỉ đếm nhà máy, dòng chú giải Warehouse hiện, mọi
+thẻ ảnh đều được xếp. Gõ cửa: Save phải từ chối tỉnh ngoài danh sách, sửa thẳng `lat`, loại lạ,
+và ghi đè cả danh sách. Ảnh bản đồ ra `tools/out/factory-map.png`. Xoá điểm thử ở cuối và so mã
+băm `factories.json`.
+
+## `guide-zip.py` — đóng gói sổ tay để gửi khách
+
+```bash
+python guide-zip.py                      # ra dist/HuongDan-BossGroup.zip
+```
+
+Bọc `docs/huong-dan.html` (một mảnh trang, không có `<head>`) thành trang đủ — charset, viewport —
+kèm thư mục ảnh, và dừng lại nếu trang gọi tới ảnh không có. Khách giải nén rồi bấm đúp `index.html`.

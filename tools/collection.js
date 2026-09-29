@@ -16,15 +16,16 @@ const DATA = path.join(__dirname, '..', 'wwwroot', '_data');
 
 // Cung danh sach ma CollectionController giu, viet lai o day de doi chieu chu khong de dung chung:
 // neu hai ben lech nhau thi phep do phai keu len, khong duoc im lang di theo.
-// Cot thu ba: co them muc moi duoc khong. Hai khoi canvas thi khong - cai lam nen mot tuyen la
+// Cot thu ba: co them muc moi duoc khong. Tuyen xuat khau thi khong - cai lam nen mot tuyen la
 // bon muoi cap toa do, ma toa do khong phai chu tren trang nen khong co dia chi nao de dien vao.
+// Nha may thi co, tu 29/09/2026: mot nha may la mot diem, chon bang ten tinh (tools/factory-edit.js).
 const KINDS = [
   ['products', 'products', true], ['colors', 'colors', true], ['news', 'news', true],
   ['projects', 'projects', true], ['documents', 'documents', true], ['gallery', 'gallery', true],
   ['applications', 'applications', true],
   ['home-news', 'home-news', true], ['home-products', 'home-products', true],
   ['home-colors', 'home-colors', true], ['home-projects', 'home-projects', true],
-  ['routes', 'globe', false], ['factories', 'factories', false],
+  ['routes', 'globe', false], ['factories', 'factories', true],
 ];
 
 // Bon cai gia cua trang chu, va cho tren trang chu de nhin xem no co di theo khong.

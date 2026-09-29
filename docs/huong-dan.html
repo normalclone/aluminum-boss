@@ -507,10 +507,26 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <p><strong>Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.</strong> Mục mới có một tên tạm như <code>new-3f9a2c</code>. Lần đầu bạn gõ tiêu đề và lưu, địa chỉ trang của nó thành tiêu đề ấy — <strong>và sau đó không đổi nữa</strong>, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.</p>
       </div>
 
-      <p><strong>Hai loại không thêm được:</strong> <span class="ui">Export routes</span> và <span class="ui">Factories</span> — thêm cần toạ độ bản đồ, phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được.</p>
+      <p><strong>Một loại không thêm được:</strong> <span class="ui">Export routes</span> — một tuyến cần hàng chục toạ độ trên bản đồ, phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được. <span class="ui">Factories</span> thì thêm được — xem ngay dưới đây.</p>
 
       <p><strong>Bốn loại "Home:"</strong> — <span class="ui">Home: New</span> <span class="ui">Home: Products</span> <span class="ui">Home: Colors</span> <span class="ui">Home: Projects</span> — là <strong>kệ trưng bày trên trang chủ</strong>, không phải nơi viết nội dung. Mỗi dòng có một ô chọn bài và nút <span class="ui">Set</span>: chọn bài muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở <span class="ui">News</span>, <span class="ui">Products</span>, <span class="ui">Colors</span>, <span class="ui">Projects</span> — sửa một lần, mọi nơi đổi theo.</p>
       <figure class="shot"><img src="huong-dan/12-ke-trang-chu.png" width="936" height="480" loading="lazy" alt="Kệ Home: New trên trang chủ"><figcaption><b>Hình 12.</b> Kệ Home: New trên trang chủ. (1) chọn bài muốn trưng ở ô ARTICLE, (2) bấm Set.</figcaption></figure>
+
+      <h3>Thêm nhà máy hoặc kho</h3>
+      <p>Bản đồ nhà máy trên trang chủ vẽ mỗi điểm từ ô <span class="ui">location on the map</span>. Chọn tỉnh ở đó thì ghim dời tới tỉnh đó; ô <span class="ui">province as written</span> chỉ là dòng chữ in dưới tên, <strong>không dời ghim</strong>.</p>
+      <ol class="steps">
+        <li><span class="ui">Content</span> → <span class="ui">Factories</span> → <span class="ui">Add an item</span>. Điểm mới lên dòng 1, <strong>chưa có trên bản đồ</strong> cho tới khi bạn chọn tỉnh.</li>
+        <li>Bấm <span class="ui">Edit</span> ở dòng 1. Cột trái mở nhóm <span class="ui">Factories</span>, các ô của điểm mới ở trên cùng.</li>
+        <li><span class="ui">Factory #1 location on the map</span>: chọn tỉnh/thành. Ghim đặt ở tỉnh lỵ.</li>
+        <li><span class="ui">Factory #1 type</span>: <span class="ui">Factory</span> (ghim tròn) hoặc <span class="ui">Warehouse</span> (ghim vuông; bản đồ tự thêm dòng chú giải <em>Warehouse</em>).</li>
+        <li>Điền tên, <span class="ui">province as written</span>, mô tả, công suất, năm hoạt động.</li>
+        <li>Bấm <span class="ui">Save changes</span>.</li>
+      </ol>
+      <figure class="shot"><img src="huong-dan/19-nha-may.png" width="357" height="354" loading="lazy" alt="Các ô của một nhà máy"><figcaption><b>Hình 13.</b> Các ô của một nhà máy. Ô location on the map dời ghim; ô type chọn nhà máy hay kho; ô province as written chỉ là chữ in trên trang.</figcaption></figure>
+      <div class="note">
+        <p><strong>Con số lớn cạnh tiêu đề tự đếm số nhà máy</strong> (không đếm kho). Nhưng dòng tiêu đề như <em>Five factories,</em> là chữ bạn gõ — thêm hay bớt nhà máy thì sửa lại chữ đó cho khớp.</p>
+        <p>Danh sách là <strong>63 tỉnh cũ</strong> (trước sáp nhập 2025): ghim chỉ cần đúng vùng. Muốn ghi tên tỉnh mới thì gõ vào ô <span class="ui">province as written</span>.</p>
+      </div>
     </section>
 
     <section id="s6">
@@ -527,8 +543,8 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <li>Quay về <span class="ui">Content</span> → <span class="ui">News</span>, bấm <span class="ui">Hidden</span> để thành <span class="ui">Shown</span></li>
       </ol>
 
-      <figure class="shot"><img src="huong-dan/13-bai-moi.png" width="357" height="178" loading="lazy" alt="Bài mới vừa thêm: ô tiêu đề và ô ngày đăng"><figcaption><b>Hình 13.</b> Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.</figcaption></figure>
-      <figure class="shot"><img src="huong-dan/14-doan-van.png" width="466" height="407" loading="lazy" alt="Các đoạn thân bài"><figcaption><b>Hình 14.</b> Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/13-bai-moi.png" width="357" height="178" loading="lazy" alt="Bài mới vừa thêm: ô tiêu đề và ô ngày đăng"><figcaption><b>Hình 14.</b> Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/14-doan-van.png" width="466" height="407" loading="lazy" alt="Các đoạn thân bài"><figcaption><b>Hình 15.</b> Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.</figcaption></figure>
 
       <p><strong>Dưới mỗi đoạn văn và mỗi thẻ</strong> có các nút nhỏ:</p>
       <div class="scroller">
@@ -563,7 +579,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         </table>
       </div>
       <p><strong>Để trống cũng được.</strong> Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.</p>
-      <figure class="shot"><img src="huong-dan/09-search-result.png" width="377" height="396" loading="lazy" alt="Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture"><figcaption><b>Hình 15.</b> Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/09-search-result.png" width="377" height="396" loading="lazy" alt="Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture"><figcaption><b>Hình 16.</b> Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.</figcaption></figure>
       <p>Dưới ô có đếm ký tự. <em>Khoảng 60</em> và <em>khoảng 160</em> là chỗ Google thường cắt bớt, không phải giới hạn của trang: gõ dài hơn vẫn lưu đủ.</p>
     </section>
 
@@ -573,7 +589,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
       <div class="note warn">
         <p>Đơn <strong>không tự gửi về email</strong> — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.</p>
       </div>
-      <figure class="shot"><img src="huong-dan/15-enquiries.png" width="960" height="329" loading="lazy" alt="Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng"><figcaption><b>Hình 16.</b> Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/15-enquiries.png" width="960" height="329" loading="lazy" alt="Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng"><figcaption><b>Hình 17.</b> Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.</figcaption></figure>
 
       <h3>Tự thử xem form còn chạy không</h3>
       <ol class="steps">
@@ -583,7 +599,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <li>Bấm nút gửi ở cuối form. Trang báo <span class="ui long">Thank you — we have your request and will reply within one working day.</span></li>
         <li>Quay lại <span class="ui">Enquiries</span>, tải lại trang: đơn vừa gửi phải nằm trên cùng</li>
       </ol>
-      <figure class="shot"><img src="huong-dan/18-lien-he.png" width="1280" height="470" loading="lazy" alt="Bước 2: trang liên hệ có bốn ô"><figcaption><b>Hình 17.</b> Bước 2: trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/18-lien-he.png" width="1280" height="470" loading="lazy" alt="Bước 2: trang liên hệ có bốn ô"><figcaption><b>Hình 18.</b> Bước 2: trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.</figcaption></figure>
       <div class="note">
         <p>Mỗi địa chỉ mạng chỉ gửi được <strong>8 đơn một giờ</strong> — đó là chặn thư rác. Thử nhiều lần liên tiếp sẽ bị chặn: đợi sang giờ sau, hoặc thử từ mạng khác (tắt Wi-Fi, dùng 4G).</p>
       </div>
@@ -597,7 +613,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <li><span class="ui">Look at it</span> mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)</li>
         <li><span class="ui">Restore this version</span> đưa về bản đó</li>
       </ul>
-      <figure class="shot"><img src="huong-dan/16-history.png" width="952" height="488" loading="lazy" alt="Màn hình History"><figcaption><b>Hình 18.</b> Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/16-history.png" width="952" height="488" loading="lazy" alt="Màn hình History"><figcaption><b>Hình 19.</b> Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).</figcaption></figure>
 
       <div class="note warn">
         <p><strong>Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.</strong> Khôi phục <code>news</code> về hôm qua để sửa một lỗi chính tả thì <strong>mọi bài tin</strong> sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một chữ thì gõ lại chữ đó là an toàn hơn.</p>

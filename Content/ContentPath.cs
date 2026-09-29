@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace QlWeb2.Content;
@@ -38,15 +39,42 @@ public static class ContentPath
 
         switch (parent)
         {
-            case JsonObject obj when obj.ContainsKey(last):
-                obj[last] = JsonValue.Create(value);
+            case JsonObject obj when obj.TryGetPropertyValue(last, out var was) && Shaped(was, value) is { } now:
+                obj[last] = now;
                 return true;
-            case JsonArray arr when int.TryParse(last, out var i) && i >= 0 && i < arr.Count:
-                arr[i] = JsonValue.Create(value);
+            case JsonArray arr when int.TryParse(last, out var i) && i >= 0 && i < arr.Count
+                                    && Shaped(arr[i], value) is { } now:
+                arr[i] = now;
                 return true;
             default:
                 return false;
         }
+    }
+
+    /// <summary>
+    /// The new value in the shape of the old one, or null when text cannot take that shape.
+    ///
+    /// Text replaces text. A list of lines - the footer address, the home page claim - takes the
+    /// typed text split at its line breaks, because that is what the editor sends for it and
+    /// what the page draws a line break from. Anything else - a number the map draws from, a
+    /// whole item, a list of items - is not something a word may replace, whatever the request
+    /// says: the editor never sends such an address, so one that arrives was not typed on it.
+    /// </summary>
+    private static JsonNode? Shaped(JsonNode? was, string value)
+    {
+        if (was is JsonValue v && v.GetValueKind() == JsonValueKind.String)
+            return JsonValue.Create(value);
+
+        if (was is JsonArray lines
+            && lines.All(e => e is JsonValue s && s.GetValueKind() == JsonValueKind.String))
+        {
+            var now = new JsonArray();
+            foreach (var line in value.Replace("\r\n", "\n").Split('\n'))
+                now.Add(JsonValue.Create(line));
+            return now;
+        }
+
+        return null;
     }
 
     /// <summary>True when every segment of the address exists.</summary>

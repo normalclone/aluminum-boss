@@ -1221,15 +1221,34 @@ public sealed class SectionRenderer
     }
 
     /// <summary>
-    /// The five plants. Each card's photograph is drawn on a canvas at run time, so the script
-    /// still puts that in; everything a reader or a crawler needs is here.
+    /// The plants and warehouses. Each card's photograph is drawn on a canvas at run time, so the
+    /// script still puts that in; everything a reader or a crawler needs is here.
+    ///
+    /// Two lines here are for the editor only, and hidden: where the pin stands and what kind of
+    /// place it is. Both are chosen from a list, never typed - the place because it carries the
+    /// coordinates the map draws from (see <see cref="Places"/>), the kind because the map draws
+    /// a warehouse differently. A site written before the place existed shows the province its
+    /// pin is standing in, so the client sees the pin's real position rather than an empty box.
     /// </summary>
     private static string FactoriesList(JsonNode doc)
     {
         var sb = new StringBuilder();
         foreach (var s in Arr(doc, "sites"))
         {
+            var place = Str(s, "place");
+            if (place.Length == 0 && Coord(s, "lat") is { } lat && Coord(s, "lon") is { } lon)
+                place = Places.Nearest(lat, lon)?.Name ?? "";
+            var kind = Str(s, "kind");
+            var warehouse = kind == "Warehouse";
+
             sb.Append("<article class=\"vfx-fitem\">")
+              .Append("<p hidden data-ab-pick=\".").Append(Esc(Where(s, "place")))
+              .Append("\" data-ab-opts=\"").Append(Esc(string.Join("|", Places.Names))).Append("\">")
+              .Append(Esc(place)).Append("</p>")
+              .Append("<p hidden data-ab-pick=\".").Append(Esc(Where(s, "kind")))
+              .Append("\" data-ab-opts=\"").Append(Esc(string.Join("|", ContentEditor.FactoryKinds))).Append("\">")
+              .Append(Esc(kind.Length == 0 ? ContentEditor.FactoryKinds[0] : kind)).Append("</p>")
+              .Append(warehouse ? "<p class=\"vfx-fkind\">Warehouse</p>" : "")
               .Append("<p class=\"vfx-fname\"").Append(TextAddress(s, "name")).Append('>')
               .Append(Esc(Str(s, "name"))).Append("</p>")
               .Append("<p class=\"vfx-floc\"").Append(TextAddress(s, "region")).Append('>')
@@ -1244,6 +1263,10 @@ public sealed class SectionRenderer
         }
         return sb.ToString();
     }
+
+    /// <summary>A number field of an item, or null when it is missing or not a number.</summary>
+    private static double? Coord(JsonNode? item, string field)
+        => item is JsonObject o && o[field] is JsonValue v && v.TryGetValue<double>(out var d) ? d : null;
 
     /// <summary>The category list, with the first - "All work" - already chosen.</summary>
     private static string HomeGalleryTags(JsonNode doc)

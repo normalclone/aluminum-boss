@@ -44,11 +44,14 @@ public class CollectionController : Controller
     /// <param name="CanAdd">
     /// Whether a new item of this kind can be filled in once it exists.
     ///
-    /// False for the two canvas blocks. What makes a route a route is its waypoints - forty
-    /// latitude/longitude pairs - and what makes a factory a factory is where it sits on the map.
-    /// None of that is text on the page, so none of it has an address, so a route added here
+    /// False for the export routes. What makes a route a route is its waypoints - forty
+    /// latitude/longitude pairs - and none of that is text on the page, so a route added here
     /// would be a blank line in the legend that nobody can ever complete. Hiding, reordering and
     /// removing still work: those need no new coordinates.
+    ///
+    /// Factories were the same until 29/09/2026: a factory is one point, and the point is now
+    /// chosen as a province from a list (<see cref="QlWeb2.Content.Places"/>), which the server turns
+    /// into coordinates. A factory added here stays off the map until its place is chosen.
     /// </param>
     /// <param name="PickFrom">
     /// The KEY of the kind this one points at, when its items are pointers rather than things.
@@ -95,7 +98,7 @@ public class CollectionController : Controller
         new("home-projects", "Home: Projects", "home-projects", "items", "/", PickFrom: "projects", One: "Card"),
 
         new("routes",       "Export routes", "globe",        "routes",     "/", CanAdd: false, One: "Export route"),
-        new("factories",    "Factories",     "factories",    "sites",      "/", CanAdd: false, One: "Factory"),
+        new("factories",    "Factories",     "factories",    "sites",      "/", One: "Factory"),
     ];
 
     public IActionResult Index()

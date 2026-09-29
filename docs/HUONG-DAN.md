@@ -157,8 +157,9 @@ Nút **Add an item** ở đầu danh sách thêm một mục trống lên **dòn
 > đầu bạn gõ tiêu đề và bấm Save, địa chỉ trang của nó thành tiêu đề ấy — **và sau đó không đổi
 > nữa**, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.
 
-**Hai loại không thêm được:** **Export routes** và **Factories** — thêm cần toạ độ bản đồ, phải
-nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được.
+**Một loại không thêm được:** **Export routes** — một tuyến cần hàng chục toạ độ trên bản đồ,
+phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được. **Factories** thì thêm
+được — xem ngay dưới đây.
 
 **Bốn loại "Home:"** (Home: New, Home: Products, Home: Colors, Home: Projects) là **kệ trưng bày
 trên trang chủ**, không phải nơi viết nội dung. Mỗi dòng có một ô chọn bài và nút **Set**: chọn bài
@@ -167,6 +168,29 @@ muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở **News*
 
 ![Kệ Home: New trên trang chủ](huong-dan/12-ke-trang-chu.png)
 *Hình 12 — Kệ Home: New trên trang chủ. (1) chọn bài muốn trưng ở ô ARTICLE, (2) bấm Set.*
+
+### Thêm nhà máy hoặc kho — **Factories**
+
+Bản đồ nhà máy trên trang chủ vẽ mỗi điểm từ ô **location on the map**. Chọn tỉnh ở đó thì ghim
+dời tới tỉnh đó; ô **province as written** chỉ là dòng chữ in dưới tên, **không dời ghim**.
+
+1. **Content** → **Factories** → **Add an item**. Điểm mới lên dòng 1, **chưa có trên bản đồ**
+   cho tới khi bạn chọn tỉnh.
+2. Bấm **Edit** ở dòng 1. Cột trái mở nhóm **Factories**, các ô của điểm mới ở trên cùng.
+3. **Factory #1 location on the map**: chọn tỉnh/thành. Ghim đặt ở tỉnh lỵ.
+4. **Factory #1 type**: **Factory** (ghim tròn) hoặc **Warehouse** (ghim vuông; bản đồ tự thêm dòng
+   chú giải *Warehouse*).
+5. Điền tên, **province as written**, mô tả, công suất (**capacity**), năm hoạt động.
+6. Bấm **Save changes**.
+
+![Các ô của một nhà máy](huong-dan/19-nha-may.png)
+*Hình 13 — Các ô của một nhà máy. Ô location on the map dời ghim; ô type chọn nhà máy hay kho; ô province as written chỉ là chữ in trên trang.*
+
+> **Con số lớn cạnh tiêu đề tự đếm số nhà máy** (không đếm kho). Nhưng dòng tiêu đề như *Five
+> factories,* là chữ bạn gõ — thêm hay bớt nhà máy thì sửa lại chữ đó cho khớp.
+>
+> Danh sách là **63 tỉnh cũ** (trước sáp nhập 2025): ghim chỉ cần đúng vùng. Muốn ghi tên tỉnh
+> mới thì gõ vào ô **province as written**.
 
 ---
 
@@ -187,10 +211,10 @@ muốn trưng rồi bấm Set. Chữ và ảnh của bài thì sửa ở **News*
 9. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
 
 ![Bài mới vừa thêm: ô tiêu đề và ô ngày đăng](huong-dan/13-bai-moi.png)
-*Hình 13 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
+*Hình 14 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
 
 ![Các đoạn thân bài](huong-dan/14-doan-van.png)
-*Hình 14 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
+*Hình 15 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
 
 **Dưới mỗi đoạn văn và mỗi thẻ** có ba nút nhỏ:
 
@@ -225,7 +249,7 @@ và thẻ của bài cũ đều sửa, thêm, xoá được.
 tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.
 
 ![Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture](huong-dan/09-search-result.png)
-*Hình 15 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
+*Hình 16 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
 
 Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
 hạn của trang: gõ dài hơn vẫn lưu đủ.
@@ -239,7 +263,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
 **Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
 ![Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng](huong-dan/15-enquiries.png)
-*Hình 16 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
+*Hình 17 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
 
 ### Tự thử xem form còn chạy không
 
@@ -248,7 +272,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
    **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
 
 ![Trang liên hệ có bốn ô](huong-dan/18-lien-he.png)
-*Hình 17 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
+*Hình 18 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
 3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
 4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
    request and will reply within one working day.*
@@ -269,7 +293,7 @@ Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt 
 - **Restore this version** đưa về bản đó
 
 ![Màn hình History](huong-dan/16-history.png)
-*Hình 18 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
+*Hình 19 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
 
 > **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
 > để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một

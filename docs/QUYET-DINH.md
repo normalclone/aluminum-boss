@@ -405,3 +405,39 @@ bắt được lỗi thứ hai.
 việc. Vòng khoanh được vẽ lên trang lúc chụp, ở toạ độ lấy từ chính trang, chứ không vẽ đè lên
 ảnh về sau: giao diện đổi thì chạy lại là vòng khoanh đổi theo. Để chụp được một bài tin mới, công
 cụ thêm một bài thật rồi xoá nó đi và so mã băm tệp dữ liệu, giống `article-edit.js`.
+
+## 16. Thêm nhà máy / kho, và ghim bản đồ đi theo tỉnh — 29/09/2026
+
+Khách hỏi: đã điền 5 nhà máy, giờ thêm một **kho ở TP.HCM** vào đâu? Không có chỗ nào —
+**Factories** không có nút thêm, vì mỗi điểm cần vĩ độ/kinh độ. Kế hoạch: `docs/KE-HOACH-NHA-MAY.md`.
+
+Xem dữ liệu thật trên máy chủ lộ ra lỗi lớn hơn câu hỏi: **cả 5 ghim vẫn ở chỗ của bản demo**.
+Khách đổi tên và ô tỉnh (`region`) thành "Ha Noi", nhưng `region` chỉ là chữ; ghim vẫn ở Yên
+Bái, Thanh Hoá, Nghệ An, Quy Nhơn, Bình Dương. Trang đang báo sai vị trí nhà máy của khách.
+
+**Cách làm:** mỗi điểm có thêm ô **place**, chọn trong 63 tỉnh (`Content/Places.cs`), và máy chủ
+tự ghi `lat`/`lon` của tỉnh lỵ — không ai gõ toạ độ. Thêm ô **kind** (`Factory` / `Warehouse`):
+kho vẽ ghim vuông, có dòng chú giải riêng, và không được đếm vào con số cạnh tiêu đề
+(`data-ab-count-kind`). Hai ô này được phép **tạo mới** trên điểm cũ chưa có (ngoại lệ thứ hai
+sau hai ô SEO), vì 5 điểm trên máy chủ viết trước khi có chúng và sửa tay tệp của khách thì không
+nên. Điểm cũ chưa có `place` thì trình soạn hiện tỉnh **ghim đang đứng** — để khách thấy ngay
+"Ha Noi" của mình đang được vẽ ở Yên Bái.
+
+**63 tỉnh cũ, không phải 34 tỉnh mới:** ghim chỉ cần đúng vùng, và tên cũ là thứ khách đang
+viết ("Binh Phuoc"). Tên mới vẫn gõ được ở ô chữ `region`.
+
+**Ba lỗi của bản đồ, lộ ra khi có điểm thứ sáu, đã sửa:**
+- Thẻ ảnh hai bên xếp theo **mã cố định** `L:['yb','th','na'], R:['bd','bg']` (`bg` không phải mã
+  nào). Điểm mới có thẻ không được xếp. Giờ chia theo vĩ độ: nửa bắc trái, nửa nam phải.
+- Đường chấm nối các điểm đi theo **thứ tự danh sách**; điểm mới lên đầu danh sách nên đường vạch
+  từ TP.HCM thẳng lên Yên Bái. Giờ nối theo vĩ độ.
+- Điểm vừa thêm có toạ độ 0,0 và màu rỗng — sẽ được vẽ ở vịnh Guinea và kéo cả bản đồ ra theo.
+  Giờ điểm chưa chọn tỉnh không lên bản đồ; chữ của khách vào HTML qua `esc()`.
+
+**Một lỗ hổng cũ ở chính cửa lưu, đã sửa** (`ContentPath.TrySet`): lưu thay **mọi thứ** ở địa chỉ
+bằng một chuỗi. Trình soạn chỉ gửi địa chỉ chữ nên không ai thấy, nhưng: ô nhiều dòng (địa chỉ ở
+chân trang, câu lớn ở trang chủ) lưu dạng danh sách dòng, và lưu nó sẽ biến danh sách thành một
+chuỗi — trang in ra trên một dòng; còn một yêu cầu tự tạo thì ghi đè được một con số, một mục,
+cả một danh sách bằng một chữ. Giờ giữ nguyên hình: chữ thay chữ, danh sách dòng nhận lại từng
+dòng, còn lại từ chối. Kiểm thử bắt được lỗ này khi thử gửi thẳng `factories.sites.0.lat`. Dữ liệu
+trên máy chủ chưa dính (đã kiểm ba ô nhiều dòng: vẫn là danh sách).

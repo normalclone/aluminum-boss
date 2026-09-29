@@ -1385,6 +1385,9 @@ function rafStop(){ rafOn = false; }
   font-size:11px;letter-spacing:.1em;color:var(--stone)}
 .vfx-legend i{font-style:normal;display:inline-flex;align-items:center;gap:8px}
 .vfx-sw{width:9px;height:9px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 1px var(--ink)}
+.vfx-sw-w{border-radius:1px}
+.vfx-legend i[hidden]{display:none}
+.vfx-fkind,.vfx-tip-kind{margin:0 0 3px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 .vfx-hint{position:absolute;right:40px;bottom:26px;font-size:11px;letter-spacing:.1em;color:var(--stone-2)}
 
 /* Two 154px columns plus their 112px insets need 532px before the map gets any width.
@@ -1414,16 +1417,16 @@ function rafStop(){ rafOn = false; }
       <p class="vfx-sub"><span data-ab-t="factories.lede">Five factories take billet to finished profile, spread the length of the country from the northern casting lines to the export packing halls in the south.</span>
         <span class="vfx-onlywide">Drag to turn the view; select a factory to see it.</span></p>
     </div>
-    <div class="vfx-tally"><b id="vfx-tally" data-ab-count="factories.sites">5</b><span>Factories</span></div>
+    <div class="vfx-tally"><b id="vfx-tally" data-ab-count="factories.sites" data-ab-count-kind="Factory">5</b><span>Factories</span></div>
   </header>
 
   <div class="vfx-flist" id="vfx-flist" data-ab-section="factories-list"></div>
 
   <div class="vfx-stage">
-    <canvas id="vfx-c" tabindex="0" aria-label="Perspective map of Vietnam with five factories"></canvas>
+    <canvas id="vfx-c" tabindex="0" aria-label="Perspective map of Vietnam with the group's factories"></canvas>
     <div class="vfx-cards" id="vfx-cards" aria-hidden="true"></div>
     <div class="vfx-tip" id="vfx-tip" role="dialog" aria-live="polite"></div>
-    <div class="vfx-legend"><i><span class="vfx-sw"></span>Factory</i></div>
+    <div class="vfx-legend"><i><span class="vfx-sw"></span>Factory</i><i id="vfx-legend-w" hidden><span class="vfx-sw vfx-sw-w"></span>Warehouse</i></div>
     <div class="vfx-hint">Drag to rotate</div>
   </div>
 </div>
@@ -1479,9 +1482,26 @@ const ARCH = [
   {name:"Truong Sa",lat:10.395,lon:114.729,pts:[[10.730,115.825],[9.687,114.376],[10.828,115.840],[10.181,114.364],[11.112,115.016],[10.372,114.466],[10.372,114.363],[10.393,114.454],[11.045,114.279],[10.016,114.033],[10.238,115.367],[9.768,114.361]]}
 ];
 
-// Five sites placed along the country's industrial spine, north to south.
 // Du lieu tu _data/factories.json, dat vao the JSON ngay tren.
-const SITES = JSON.parse(document.getElementById('vfx-data').textContent).sites;
+//
+// ALL is every site the page lists; SITES is the ones with a place on the map. A site added from
+// the Content screen starts at 0,0 with no colours until its place is chosen - drawn, it would
+// sit in the Gulf of Guinea and drag the fit of the whole map out to meet it. It stays in the
+// phone list, where it is only words.
+//
+// Every text field goes into markup through esc(): these are the client's words now, and a
+// factory called "A & B <North>" must not end an element early.
+const esc = t => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rgb3 = (a, d) => Array.isArray(a) && a.length === 3 && a.every(n => isFinite(n)) ? a : d;
+const ALL = JSON.parse(document.getElementById('vfx-data').textContent).sites.map((s, i) => Object.assign({}, s, {
+  id: s.id || ('site-' + i),
+  tone: rgb3(s.tone, [226, 223, 216]),
+  vein: rgb3(s.vein, [170, 164, 154]),
+  warehouse: s.kind === 'Warehouse',
+}));
+const SITES = ALL.filter(s => typeof s.lat === 'number' && typeof s.lon === 'number'
+                              && isFinite(s.lat) && isFinite(s.lon) && !(s.lat === 0 && s.lon === 0));
+if (SITES.some(s => s.warehouse)) { const w = document.getElementById('vfx-legend-w'); if (w) w.hidden = false; }
 
 // ---- procedural surface swatches -------------------------------------
 // The tooltip needs photographs of metal. Rather than ship binaries, each swatch is drawn:
@@ -1675,7 +1695,7 @@ const cardEls = new Map();
     const f = document.createElement('figure');
     f.className = 'vfx-card';
     f.innerHTML = '<img src="' + plantImage(154,92,i+3,s0.tone) + '" alt="">' +
-      '<figcaption><b>' + s0.name + '</b><span>' + s0.output + '</span></figcaption>';
+      '<figcaption><b>' + esc(s0.name) + '</b><span>' + esc(s0.warehouse ? 'Warehouse' : s0.output) + '</span></figcaption>';
     host.appendChild(f);
     cardEls.set(s0.id, f);
   });
@@ -1705,7 +1725,12 @@ function layoutCards(){
   const cb = cv.getBoundingClientRect();
   let offX = layoutCards.fx || 0, offY = layoutCards.fy || 0;
 
-  const groups = { L:['yb','th','na'], R:['bd','bg'] };
+  // North half on the left, south half on the right - worked out from the sites, not listed.
+  // The list used to be the demo's five ids, one of which ("bg") matched no site at all; a sixth
+  // site's card was never placed and sat stacked in the corner.
+  const byLat = SITES.slice().sort((a, b) => b.lat - a.lat).map(s => s.id);
+  const half = Math.ceil(byLat.length / 2);
+  const groups = { L: byLat.slice(0, half), R: byLat.slice(half) };
   for (const side of ['L','R']){
     const want = groups[side].map(id => {
       const p = screenPos.get(id);
@@ -1820,9 +1845,11 @@ function draw(){
     pendingArch.push({ name: a.name, x: lx, y: ly + 22 });
   }
 
-  // routes along the corridor: a hairline spine linking the sites in order
+  // routes along the corridor: a hairline spine linking the sites north to south. By latitude,
+  // not by list order - a site added from the Content screen goes to the top of the list, and
+  // the spine then ran from Saigon straight back up to the far north.
   ctx.beginPath();
-  SITES.forEach((s,i) => { const p = project(s.lat, s.lon, 0);
+  SITES.slice().sort((a, b) => b.lat - a.lat).forEach((s,i) => { const p = project(s.lat, s.lon, 0);
     i ? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]); });
   ctx.setLineDash([3,5]); ctx.strokeStyle = 'rgba(168,128,26,.42)'; ctx.lineWidth = 1;
   ctx.stroke(); ctx.setLineDash([]);
@@ -1867,7 +1894,9 @@ function draw(){
       ctx.beginPath(); ctx.arc(top[0],top[1], 6+t*10, 0, 7);
       ctx.fillStyle = `rgba(168,128,26,${(0.16*(1-t)).toFixed(3)})`; ctx.fill();
     }
-    ctx.beginPath(); ctx.arc(top[0], top[1], on ? 6.4 : 5, 0, 7);
+    ctx.beginPath();
+    if (s.warehouse){ const r = on ? 5.6 : 4.4; ctx.rect(top[0] - r, top[1] - r, 2 * r, 2 * r); }
+    else ctx.arc(top[0], top[1], on ? 6.4 : 5, 0, 7);
     ctx.fillStyle = on ? '#f8e870' : '#ffffff'; ctx.fill();
     ctx.lineWidth = 1.4; ctx.strokeStyle = '#232323'; ctx.stroke();
 
@@ -1964,7 +1993,7 @@ function frame(){
 (function buildList(){
   const host = document.getElementById('vfx-flist');
   if (!host) return;
-  SITES.forEach((s0, i) => {
+  ALL.forEach((s0, i) => {
     const img = '<img class="vfx-fimg" src="' + plantImage(320, 132, i + 3, s0.tone) + '" alt="">';
     // May chu dat san phan chu; anh duoc ve bang canvas luc chay nen no phai duoc them vao day.
     const have = host.children[i];
@@ -1972,12 +2001,13 @@ function frame(){
     const el = document.createElement('article');
     el.className = 'vfx-fitem';
     el.innerHTML = img +
-      '<p class="vfx-fname">' + s0.name + '</p>' +
-      '<p class="vfx-floc">' + s0.region + '</p>' +
-      '<p class="vfx-fdesc">' + s0.desc + '</p>' +
+      (s0.warehouse ? '<p class="vfx-fkind">Warehouse</p>' : '') +
+      '<p class="vfx-fname">' + esc(s0.name) + '</p>' +
+      '<p class="vfx-floc">' + esc(s0.region) + '</p>' +
+      '<p class="vfx-fdesc">' + esc(s0.desc) + '</p>' +
       '<div class="vfx-fstats">' +
-        '<div>In operation since<b>' + s0.since + '</b></div>' +
-        '<div>Annual capacity<b>' + s0.output + '</b></div>' +
+        '<div>In operation since<b>' + esc(s0.since) + '</b></div>' +
+        '<div>Annual capacity<b>' + esc(s0.output) + '</b></div>' +
       '</div>';
     host.appendChild(el);
   });
@@ -1995,12 +2025,13 @@ function showTip(s){
   tipEl.innerHTML = `
     <div class="vfx-tip-imgs">${imgs}</div>
     <div class="vfx-tip-body">
-      <p class="vfx-tip-name">${s.name}</p>
-      <p class="vfx-tip-loc">${s.region}</p>
-      <p class="vfx-tip-desc">${s.desc}</p>
+      ${s.warehouse ? '<p class="vfx-tip-kind">Warehouse</p>' : ''}
+      <p class="vfx-tip-name">${esc(s.name)}</p>
+      <p class="vfx-tip-loc">${esc(s.region)}</p>
+      <p class="vfx-tip-desc">${esc(s.desc)}</p>
       <div class="vfx-tip-stats">
-        <div>In operation since<b>${s.since}</b></div>
-        <div>Annual capacity<b>${s.output}</b></div>
+        <div>In operation since<b>${esc(s.since)}</b></div>
+        <div>Annual capacity<b>${esc(s.output)}</b></div>
       </div>
     </div>`;
   const p = screenPos.get(s.id);

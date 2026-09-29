@@ -316,6 +316,22 @@ async function shot(p, ten, vung, dem = 16) {
       await mark(bon.locator('.ab-route-cta').first(), 'Bấm để mở form báo giá');
       await shot(p, '18-lien-he', [bon], 24);
     }
+    // ---- 19. Nha may: o chon tinh va o loai
+    if (can(19)) {
+      await p.goto(BASE + '/Admin/Collection/Items/factories', { waitUntil: 'networkidle' });
+      const sua = await p.locator('tbody tr').first().locator('a:has-text("Edit")').getAttribute('href');
+      await p.goto(BASE + sua, { waitUntil: 'networkidle' });
+      await wait(2500);
+      const noi = o('factories.sites.0.place');
+      await noi.evaluate(e => { const d = e.closest('details'); if (d) d.open = true; e.scrollIntoView({ block: 'center' }); });
+      await wait(500);
+      const oNoi = noi.locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+      const oTen = o('factories.sites.0.name');
+      await mark(noi, 'Chọn tỉnh: ghim đi theo', 'tr');
+      await mark(o('factories.sites.0.kind'), 'Nhà máy hay kho', 'tr');
+      await mark(o('factories.sites.0.region'), 'Chỉ là chữ, không dời ghim', 'tr');
+      await shot(p, '19-nha-may', [oNoi, oTen, o('factories.sites.0.region')], 14);
+    }
   } catch (e) {
     console.log('  HONG giua chung: ' + e.message.split(/\r?\n/)[0]);
     process.exitCode = 1;

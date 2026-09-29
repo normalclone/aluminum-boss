@@ -130,6 +130,17 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // A factory's place and type: may be written onto a site that predates them, and the
+            // place carries the site's coordinates with it. Allowed() has already held the value
+            // to its list, so what arrives here is a name the table knows.
+            if (FactoryLeaf(name, path) is { } fleaf)
+            {
+                if (!Factory(doc, path, fleaf, change.Value)) { rejected.Add(change.Address); continue; }
+                applied++;
+                changed.Add(name);
+                continue;
+            }
+
             // The two names that may be created where none exists, and removed when emptied.
             // Handled before TrySet because TrySet is the rule they are the exception to.
             if (SeoLeaf(path) is { } leaf)
@@ -224,6 +235,7 @@ public sealed class ContentEditor
     /// </summary>
     private static List<string>? Allowed(JsonNode doc, string name, string path)
     {
+        if (FactoryLeaf(name, path) is { } leaf) return leaf == "place" ? Places.Names : FactoryKinds;
         if (!name.Equals("colors", StringComparison.OrdinalIgnoreCase)) return null;
         if (!ItemField.IsMatch(path)) return null;
 
@@ -232,6 +244,47 @@ public sealed class ContentEditor
         if (field is "family")
             return (doc["familySpecs"] as JsonObject)?.Select(p => p.Key).ToList();
         return null;
+    }
+
+    /// <summary>What a point on the factory map can be. Empty or absent reads as the first.</summary>
+    public static readonly List<string> FactoryKinds = ["Factory", "Warehouse"];
+
+    /// <summary>
+    /// <c>place</c> or <c>kind</c> when the address is one of those on a factory site, else null.
+    ///
+    /// The second exception to "an address must already exist", after the two SEO fields, and
+    /// for the same kind of reason: the five sites were written before either field did, and
+    /// writing them into the live file by hand would mean editing the client's content on the
+    /// server. Narrow on purpose - these two names, on factories.sites.N only.
+    /// </summary>
+    public static string? FactoryLeaf(string name, string path)
+    {
+        if (!name.Equals("factories", StringComparison.OrdinalIgnoreCase)) return null;
+        var m = FactoryField.Match(path);
+        return m.Success ? m.Groups[1].Value : null;
+    }
+
+    private static readonly Regex FactoryField =
+        new(@"^sites\.\d+\.(place|kind)$", RegexOptions.Compiled);
+
+    /// <summary>
+    /// Writes a site's place or kind. A place also moves the pin: the coordinates are looked up
+    /// here, on the server, so the numbers the canvas draws from are never typed by anybody.
+    /// </summary>
+    private static bool Factory(JsonNode doc, string path, string leaf, string value)
+    {
+        var parent = path[..(path.Length - leaf.Length - 1)];
+        if (Walk(doc, parent.Split('.', StringSplitOptions.RemoveEmptyEntries)) is not JsonObject site)
+            return false;
+
+        if (leaf == "place")
+        {
+            if (Places.Find(value) is not { } at) return false;
+            site["lat"] = JsonValue.Create(at.Lat);
+            site["lon"] = JsonValue.Create(at.Lon);
+        }
+        site[leaf] = JsonValue.Create(value);
+        return true;
     }
 
     private static readonly Regex ItemField =

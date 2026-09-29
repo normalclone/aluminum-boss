@@ -551,6 +551,8 @@
     familySpecs: 'finish family',
     family: 'finish family',
     figures: 'specs table',
+    // A factory's kind - Factory or Warehouse - which the map draws as a round or a square pin.
+    kind: 'type',
     lang: 'language',
     // Not "intro": about.json has an "intro" of its own, and two boxes on one screen with the
     // same label is worse than one box with a word from the file.
@@ -558,7 +560,10 @@
     meta: 'detail',
     n: 'name',
     output: 'capacity',
-    region: 'province',
+    // The one that moves the pin. "province" below is only the words printed under the name,
+    // and a client who changed it to Ha Noi reasonably expected the pin to follow - it did not.
+    place: 'location on the map',
+    region: 'province as written',
     share: 'share of exports',
     since: 'in operation since',
     spec: 'specification',
@@ -881,7 +886,8 @@
         offer.forEach(function (o) {
           var option = document.createElement('option');
           option.value = o;
-          option.textContent = o + (f.options.indexOf(o) < 0 ? ' — not on the list' : '');
+          option.textContent = o === '' ? 'Not chosen yet'
+                             : o + (f.options.indexOf(o) < 0 ? ' — not on the list' : '');
           choose.appendChild(option);
         });
         choose.value = f.value;
@@ -890,6 +896,15 @@
           mark(f.address, choose.value);
         });
         field.appendChild(choose);
+        // The factory map's place: say what choosing it does, because the box beside it that
+        // says "province" does not move anything and looks as if it should.
+        if (/^factories\.sites\.\d+\.place$/.test(f.address)) {
+          var where = document.createElement('span');
+          where.className = 'ed-slot';
+          where.appendChild(line(f.value ? 'The pin stands in the provincial seat. Choose another province to move it.'
+                                         : 'Not on the map yet. Choose a province to put a pin there.'));
+          field.appendChild(where);
+        }
         box.appendChild(field);
         inputs[f.address] = choose;
         return;

@@ -411,7 +411,10 @@ public sealed class PageComposer
 
         html = CountTag.Replace(html, m =>
         {
-            var n = Count(m.Groups["addr"].Value);
+            // data-ab-count-kind="Factory": count only the items of that kind. The tally beside
+            // the factory map says "Factories", and a warehouse on the map is not one.
+            var only = Regex.Match(m.Groups["attrs"].Value, @"\bdata-ab-count-kind=""([^""]+)""");
+            var n = Count(m.Groups["addr"].Value, only.Success ? only.Groups[1].Value : null);
             if (n is null) return m.Value;
             count++;
             return $"<{m.Groups["tag"].Value}{m.Groups["attrs"].Value}>{n}</{m.Groups["tag"].Value}>";
@@ -544,7 +547,7 @@ public sealed class PageComposer
     /// How many items the list at this address is showing - hidden ones not counted, since the
     /// number sits next to a drawing of exactly the ones that are.
     /// </summary>
-    private int? Count(string address)
+    private int? Count(string address, string? kind = null)
     {
         var cut = address.IndexOf('.');
         if (cut <= 0) return null;
@@ -565,9 +568,17 @@ public sealed class PageComposer
         }
 
         if (node is not JsonArray list) return null;
-        return list.Count(item => item is not JsonObject o
-                                  || o["visible"] is not JsonValue v
-                                  || !v.TryGetValue<bool>(out var yes) || yes);
+        return list.Count(item => (item is not JsonObject o
+                                   || o["visible"] is not JsonValue v
+                                   || !v.TryGetValue<bool>(out var yes) || yes)
+                                  && (kind is null || KindOf(item) == kind));
+    }
+
+    /// <summary>An item's kind, where an item with none is the first kind there is.</summary>
+    private static string KindOf(JsonNode? item)
+    {
+        var k = (item as JsonObject)?["kind"]?.ToString();
+        return string.IsNullOrEmpty(k) ? ContentEditor.FactoryKinds[0] : k;
     }
 
     /// <summary>
@@ -613,7 +624,12 @@ public sealed class PageComposer
             var cut = address.IndexOf('.');
             if (cut <= 0) { missing.Add(address); continue; }
             var doc = _store.Get(address[..cut]);
-            if (doc is null || !ContentPath.Exists(doc, address[(cut + 1)..])) missing.Add(address);
+            // A factory's place and type are the exception: an older site has neither yet, and
+            // the first save writes it (ContentEditor.FactoryLeaf - the same rule, one place).
+            var rest = address[(cut + 1)..];
+            if (doc is null || !(ContentPath.Exists(doc, rest)
+                                 || ContentEditor.FactoryLeaf(address[..cut], rest) is not null))
+                missing.Add(address);
         }
         return missing.Count == 0;
     }
