@@ -4,7 +4,7 @@
 #   bash mysql-setup.sh
 #
 # Cai, chinh cho may nho, tao CSDL + nguoi dung rieng, ghi thong tin ket noi ra /etc/qlweb2/db.env
-# va dat lich sao luu hang ngay. KHONG noi ung dung vao MySQL - viec do la cua mysql-cutover.sh,
+# va dat lich sao luu hang ngay (backup-setup.sh). KHONG noi ung dung vao MySQL - viec do la cua mysql-cutover.sh,
 # va tach ra la co chu y: ung dung dang chay van o nguyen tren SQLite cho toi luc chuyen that.
 #
 # MAT KHAU cua nguoi dung MySQL duoc sinh ra NGAY TREN MAY NAY va chi nam trong db.env (quyen
@@ -119,63 +119,10 @@ fi
 unset MK MK_TEP
 
 # SAO LUU. Voi SQLite, sao luu la chep mot tep. Voi MySQL thi khong con dung the - tep trong
-# /var/lib/mysql chep luc may dang chay la ban hong. Nen co mysqldump moi dem, giu 14 ban.
-#
-# VA CA NHUNG THU KHONG NAM TRONG MySQL, vi do moi la phan quy nhat. CSDL chi giu mot tai khoan
-# va lich su sua. Chu cua trang (noi-dung/_data), anh khach tai len (noi-dung/_media) va don lien
-# he (App_Data/enquiries.jsonl) nam trong tep. Ban dau ban sao luu chi co mysqldump - tuc la sao
-# luu phan it gia tri nhat va bo qua chinh cai site - cho toi khi viet huong dan su dung
-# (28/09/2026) va phai ghi ro "cai gi duoc sao luu" thi moi lo ra.
+# /var/lib/mysql chep luc may dang chay la ban hong - nen phai qua mysqldump. Lich sao luu (cron
+# 00:00, giu 3 ban: CSDL + noi dung + ma nguon) nam o mot cho: backup-setup.sh.
 noi "sao luu hang ngay"
-install -d -m 0700 -o root -g root "$SAO_LUU"
-cat > /usr/local/sbin/$APP-sao-luu <<SH
-#!/usr/bin/env bash
-# Moi dem: CSDL $DB (mysqldump) + noi dung trang, anh, don lien he (tar). Giu 14 ban moi loai.
-# Dat boi tools/deploy/mysql-setup.sh.
-set -euo pipefail
-tep=$SAO_LUU/$DB-\$(date +%Y%m%d-%H%M).sql.gz
-mysqldump --protocol=socket -uroot --single-transaction --routines --triggers \\
-  --default-character-set=utf8mb4 $DB | gzip -9 > "\$tep"
-chmod 600 "\$tep"
-ls -1t $SAO_LUU/$DB-*.sql.gz | tail -n +15 | xargs -r rm -f
-
-# noi-dung/ la noi THAT cua _data va _media - trong app/wwwroot chung chi la lien ket.
-# Don lien he chua co thi tep chua ton tai, va khong co no thi van phai sao luu phan con lai.
-tep2=$SAO_LUU/noi-dung-\$(date +%Y%m%d-%H%M).tar.gz
-vao="noi-dung"
-[ -f /srv/$APP/App_Data/enquiries.jsonl ] && vao="\$vao App_Data/enquiries.jsonl"
-tar -czf "\$tep2" -C /srv/$APP \$vao
-chmod 600 "\$tep2"
-ls -1t $SAO_LUU/noi-dung-*.tar.gz | tail -n +15 | xargs -r rm -f
-SH
-chmod 700 /usr/local/sbin/$APP-sao-luu
-
-cat > /etc/systemd/system/$APP-sao-luu.service <<UNIT
-[Unit]
-Description=Sao luu CSDL $DB, noi dung trang, anh va don lien he
-After=mysql.service
-Requires=mysql.service
-
-[Service]
-Type=oneshot
-ExecStart=/usr/local/sbin/$APP-sao-luu
-UNIT
-
-cat > /etc/systemd/system/$APP-sao-luu.timer <<UNIT
-[Unit]
-Description=Sao luu CSDL $DB moi dem
-
-[Timer]
-OnCalendar=*-*-* 02:30:00
-Persistent=true
-RandomizedDelaySec=10m
-
-[Install]
-WantedBy=timers.target
-UNIT
-systemctl daemon-reload
-systemctl enable --now $APP-sao-luu.timer >/dev/null 2>&1
-echo "  $(systemctl list-timers $APP-sao-luu.timer --no-legend | awk '{print $1, $2, $3}') -> $SAO_LUU"
+bash "$(dirname "$0")/backup-setup.sh"
 
 noi "XONG phan MySQL"
 echo "  Ung dung VAN dang chay tren SQLite. Chuyen that: bash mysql-cutover.sh"

@@ -689,7 +689,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
       <pre><code>ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' &amp;&amp; systemctl restart qlweb2"</code></pre>
 
       <h3>Sao lưu</h3>
-      <p>Tự chạy mỗi đêm lúc 02:30, giữ 14 bản, trong <code>/srv/qlweb2/sao-luu/</code>: <code>qlweb2-*.sql.gz</code> (CSDL: tài khoản + lịch sử) và <code>noi-dung-*.tar.gz</code> (chữ của trang, ảnh, đơn liên hệ). Cách khôi phục: <code>tools/deploy/README.md</code>, mục <em>Sao luu</em>.</p>
+      <p>Tự chạy lúc <strong>00:00</strong> mỗi đêm (cron), giữ <strong>3 bản gần nhất</strong>, trong <code>/srv/qlweb2/sao-luu/</code>: <code>qlweb2-*.sql.gz</code> (CSDL: tài khoản + lịch sử), <code>noi-dung-*.tar.gz</code> (chữ của trang, ảnh, đơn liên hệ) và <code>ma-nguon-*.tar.gz</code> (bản ứng dụng đang chạy + cấu hình máy chủ). Cách khôi phục: <code>tools/deploy/README.md</code>, mục <em>Sao luu</em>.</p>
     </section>
 
   </main>

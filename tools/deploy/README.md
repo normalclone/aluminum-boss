@@ -81,22 +81,26 @@ tao ghi ngay `admin` / `changeme`, tren mot dia chi cong khai.
 
 ### Sao luu
 
-Moi dem luc 02:30, hai tep, giu 14 ban gan nhat moi loai:
+Cron luc **00:00** moi dem (gio Viet Nam), ba tep, giu **3 ban gan nhat** moi loai. Dat boi
+`backup-setup.sh` (thay timer 02:30 / 14 ban cu tu 02/10/2026):
 
 ```
 /srv/qlweb2/sao-luu/qlweb2-YYYYMMDD-HHMM.sql.gz        CSDL: tai khoan + lich su sua (mysqldump)
-/srv/qlweb2/sao-luu/noi-dung-YYYYMMDD-HHMM.tar.gz      chu cua trang, anh, don lien he
+/srv/qlweb2/sao-luu/noi-dung-YYYYMMDD-HHMM.tar.gz      chu cua trang, anh, App_Data (don lien he, khoa phien)
+/srv/qlweb2/sao-luu/ma-nguon-YYYYMMDD-HHMM.tar.gz      /srv/qlweb2/app + unit systemd, nginx, /etc/qlweb2
 ```
 
-Tep thu hai moi la phan quy nhat, va ban dau **khong co**: CSDL chi giu mot tai khoan va lich su
-sua, con chu cua trang, anh khach tai len va don lien he deu nam trong tep, ngoai MySQL. Them vao
-ngay 28/09/2026 khi viet huong dan su dung phai ghi ro cai gi duoc sao luu. Da giai nen thu: 18
-tep noi dung + 65 anh, ma bam toan bo khop voi ban dang chay.
+Cai lai / doi lich: `ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 'bash -s' < tools/deploy/backup-setup.sh`
+(chay thu mot lan ngay o cuoi). Nhat ky: `/var/log/qlweb2-sao-luu.log`, moi dem mot dong.
+
+Tep noi dung moi la phan quy nhat: CSDL chi giu mot tai khoan va lich su sua, con chu cua trang,
+anh khach tai len va don lien he deu nam trong tep, ngoai MySQL. Tep ma nguon chua ca
+`/etc/qlweb2/db.env` (mat khau MySQL) - ca thu muc sao luu la 0700 root, moi tep 0600.
 
 (Voi SQLite, sao luu CSDL la chep mot tep. Voi MySQL thi khong: tep trong `/var/lib/mysql` chep
 luc may dang chay la ban hong - nen phai qua `mysqldump`.)
 
-Sao luu ngay bay gio: `systemctl start qlweb2-sao-luu.service`
+Sao luu ngay bay gio: `/usr/local/sbin/qlweb2-sao-luu`
 
 Khoi phuc noi dung trang + anh ve mot dem (ghi de ban dang chay):
 
@@ -116,6 +120,17 @@ systemctl start qlweb2
 ```
 
 Da chay thu ngay 28/09/2026: sao luu, khoi phuc vao mot CSDL tam, so ma bam tai khoan — khop.
+
+Khoi phuc ma nguon + cau hinh (khi app/ hong, hoac dung lai may chu moi):
+
+```bash
+systemctl stop qlweb2
+tar -xzf /srv/qlweb2/sao-luu/ma-nguon-20261002-1108.tar.gz -C /
+systemctl daemon-reload && systemctl start qlweb2 && systemctl reload nginx
+```
+
+Da chay thu ngay 02/10/2026: ca ba tep `gzip -t` dat; CSDL khoi phuc vao `qlweb2_thu` - 8 ban sua,
+1 tai khoan, khop ban dang chay; tep ma nguon co `QlWeb2.dll`, lien ket `_data`, unit, nginx, db.env.
 
 ### Quay ve SQLite
 

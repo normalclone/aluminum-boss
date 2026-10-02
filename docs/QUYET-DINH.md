@@ -441,3 +441,22 @@ chuỗi — trang in ra trên một dòng; còn một yêu cầu tự tạo thì
 cả một danh sách bằng một chữ. Giờ giữ nguyên hình: chữ thay chữ, danh sách dòng nhận lại từng
 dòng, còn lại từ chối. Kiểm thử bắt được lỗ này khi thử gửi thẳng `factories.sites.0.lat`. Dữ liệu
 trên máy chủ chưa dính (đã kiểm ba ô nhiều dòng: vẫn là danh sách).
+
+## 17. Sao lưu: cron 00:00, giữ 3 bản, thêm mã nguồn — 02/10/2026
+
+Anh yêu cầu: cron 12 giờ đêm, sao lưu CSDL và code, giữ 3 bản gần nhất. Thay cho timer systemd
+02:30 / 14 bản (mục 13–14). Dựng bằng `tools/deploy/backup-setup.sh`; `mysql-setup.sh` giờ gọi nó.
+
+- **Gỡ timer cũ**, không để chạy song song: hai lịch cùng dọn một thư mục thì lịch giữ 3 bản xoá
+  mất bản mà lịch kia còn tính.
+- **Thêm tệp thứ ba `ma-nguon-*`**: `/srv/qlweb2/app` cùng unit systemd, nginx và `/etc/qlweb2/db.env`
+  — đủ để dựng lại máy chủ. Liên kết `_data`/`_media` giữ là liên kết, không chép nội dung hai lần.
+- **Tệp nội dung lấy cả `App_Data`**, không chỉ đơn liên hệ: trong đó có khoá Data Protection; mất
+  khoá thì sau khi khôi phục mọi phiên đăng nhập và biểu mẫu đang mở đều hỏng.
+- **Ghi ra `.dang-ghi` rồi mới đổi tên.** Với chỉ 3 bản, một lần sao lưu hỏng giữa chừng mà để
+  lại tệp mang tên đúng sẽ đẩy một bản tốt ra ngoài. Có `flock` để cron và chạy tay không chồng nhau.
+- **Đánh đổi:** 3 bản là 3 ngày. Lỡ tay mà 4 ngày sau mới phát hiện thì sao lưu không còn cứu
+  được — còn **History** trong khu quản trị (50 bản mỗi loại nội dung) và git cho mã nguồn.
+
+Chạy thử 02/10/2026: ba tệp `gzip -t` đạt; CSDL khôi phục vào CSDL tạm khớp bản đang chạy (8 bản
+sửa, 1 tài khoản); số bản cũ dọn từ 14 xuống 3 mỗi loại.

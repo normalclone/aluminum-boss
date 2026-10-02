@@ -360,6 +360,7 @@ ghi đè thật.
 ssh -p 24700 -i ~/.ssh/qlweb2_vps root@202.92.6.174 "mysql qlweb2 -e 'DELETE FROM AdminUsers' && systemctl restart qlweb2"
 ```
 
-**Sao lưu** tự chạy mỗi đêm lúc 02:30, giữ 14 bản, trong `/srv/qlweb2/sao-luu/`:
-`qlweb2-*.sql.gz` (CSDL: tài khoản + lịch sử) và `noi-dung-*.tar.gz` (chữ của trang, ảnh, đơn
-liên hệ). Cách khôi phục: `tools/deploy/README.md`, mục *Sao luu*.
+**Sao lưu** tự chạy lúc **00:00** mỗi đêm (cron), giữ **3 bản gần nhất**, trong
+`/srv/qlweb2/sao-luu/`: `qlweb2-*.sql.gz` (CSDL: tài khoản + lịch sử), `noi-dung-*.tar.gz` (chữ
+của trang, ảnh, đơn liên hệ) và `ma-nguon-*.tar.gz` (bản ứng dụng đang chạy + cấu hình máy chủ).
+Cách khôi phục: `tools/deploy/README.md`, mục *Sao luu*.
