@@ -3,6 +3,11 @@
  * The six words are the six product families, read from products.json rather than written into
  * the page, so adding a family to the catalogue adds it to the hero. Selecting one changes the
  * backdrop and the caption; following it goes to that family.
+ *
+ * The hero also moves on by itself, one family every AUTO ms, as the reference site does (asked
+ * for on 07/10/2026: "a visitor sees every family without doing anything"). It stops while the
+ * pointer or the keyboard is on the words, while the hero is off screen or the tab is hidden, in
+ * the editor, and for anybody who has asked their system for reduced motion.
  */
 (function () {
   'use strict';
@@ -14,6 +19,45 @@
   if (!words || !window.AB) return;
 
   var at = -1, items = [];
+
+  // ---- moving on by itself ----------------------------------------------------------------
+  var AUTO = 6000;
+  var timer = 0;
+  var held = false;      // pointer over the words, or focus inside them
+  var seen = true;       // the hero is on screen
+  // Not in the editor: there the backdrop IS a field (data-ab-img below), and a field that
+  // changes which family it belongs to every six seconds cannot be Ctrl-clicked.
+  var still = /[?&]edit=1\b/.test(location.search) ||
+              (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (!still && hero) hero.classList.add('is-auto');
+  hero && hero.style.setProperty('--abhero-auto', AUTO + 'ms');
+
+  function running() { return !still && !held && seen && !document.hidden && items.length > 1; }
+
+  // One timer, restarted on every change of family - by hand or by itself - so the bar under
+  // the word and the moment it moves on always describe the same six seconds.
+  function arm() {
+    clearTimeout(timer);
+    if (hero) hero.classList.toggle('is-held', !running());
+    if (!running()) return;
+    timer = setTimeout(function () { select((at + 1) % items.length); }, AUTO);
+  }
+
+  // The bar under the selected word is a CSS animation; restarting it means taking the class
+  // off and putting it back after the browser has drawn the word without it.
+  function restartBar(a) {
+    if (!a) return;
+    a.classList.remove('is-on');
+    void a.offsetWidth;
+    a.classList.add('is-on');
+  }
+
+  // The next family's photograph, fetched while this one is showing, so the change is a change
+  // of picture and not a moment of grey while the next one downloads.
+  function warm(i) {
+    var c = items[i];
+    if (c && c.image) { var im = new Image(); im.src = AB.root() + '_media/' + c.image; }
+  }
 
   // Which patch of the photograph the caption sits on top of.
   //
@@ -97,6 +141,8 @@
     cap.innerHTML = '<strong>' + AB.esc(c.name) + '</strong> ' + AB.esc(c.tagline);
     var all = words.querySelectorAll('a');
     for (var k = 0; k < all.length; k++) all[k].className = k === i ? 'is-on' : '';
+    warm((i + 1) % items.length);
+    arm();
   }
 
   AB.load('products').then(function (d) {
@@ -112,6 +158,30 @@
       var a = e.target.closest('a[data-i]');
       if (a) select(+a.getAttribute('data-i'));
     });
+    // Hold while somebody is reading the words; let go when they leave, starting the bar again
+    // for the family they left on.
+    function hold(on) {
+      if (held === on) return;
+      held = on;
+      if (!on) restartBar(words.querySelector('a.is-on'));
+      arm();
+    }
+    words.addEventListener('mouseenter', function () { hold(true); });
+    words.addEventListener('mouseleave', function () { hold(false); });
+    words.addEventListener('focusin', function () { hold(true); });
+    words.addEventListener('focusout', function (e) { if (!words.contains(e.relatedTarget)) hold(false); });
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) restartBar(words.querySelector('a.is-on'));
+      arm();
+    });
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        var on = es[0].isIntersecting;
+        if (on && !seen) restartBar(words.querySelector('a.is-on'));
+        seen = on;
+        arm();
+      }, { threshold: 0.35 }).observe(hero);
+    }
     // keyboard users never fire mouseover, so the backdrop would never follow the focus ring
     words.addEventListener('focusin', function (e) {
       var a = e.target.closest('a[data-i]');

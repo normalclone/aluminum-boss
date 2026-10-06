@@ -473,3 +473,18 @@ Mỗi nhà máy có thêm ba ô ảnh, chọn từ kho ảnh:
 Khung chia đều chiều ngang theo số ảnh: 1, 2 hoặc 3 cột. Nhà máy chưa có ảnh vẫn dùng hình mẫu.
 
 Ba ô này dùng cùng ngoại lệ với `place` và `kind` (mục 16): máy chủ tạo ô trên nhà máy cũ khi khách lưu lần đầu. Chọn "No picture" xoá ô đó. Máy chủ chỉ nhận một tên tệp trong kho ảnh, không nhận đường dẫn.
+
+## 19. Hero trang chủ tự chuyển — 07/10/2026
+
+Khách muốn hero tự chuyển qua các dòng sản phẩm, giống trang tham khảo. Trước đó ảnh nền chỉ đổi khi rê chuột hoặc Tab vào từng chữ.
+
+- Hero chuyển sang dòng kế tiếp sau mỗi 6 giây, rồi quay vòng.
+- Gạch dưới chữ đang sáng là một thanh chạy trong 6 giây đó. CSS và JS dùng cùng một số (`--abhero-auto`).
+- Hero dừng khi chuột hoặc phím Tab ở trên các chữ, khi đã cuộn khỏi hero, và khi tab bị ẩn.
+- Hero không tự chuyển trong trình soạn (`?edit=1`). Ở đó ảnh nền là một ô sửa được, và ô đó phải đứng yên để Ctrl-click.
+- Hero không tự chuyển khi máy bật "giảm chuyển động" (`prefers-reduced-motion`).
+- Ảnh của dòng kế tiếp được tải trước, để lúc chuyển không có khoảng xám.
+
+**Lỗi bộ nhớ đệm, đã sửa.** Máy chủ trả tệp `.js` và `.css` mà không có `Cache-Control`. Khi đó trình duyệt tự đoán: tệp không đổi trong hai tuần thì được dùng lại khoảng một ngày rưỡi sau khi tệp đổi. Giờ máy chủ gửi `Cache-Control: no-cache` cho hai loại tệp này. Trình duyệt hỏi lại bằng ETag và nhận 304 rỗng khi tệp chưa đổi.
+
+Công cụ kiểm: `tools/hero-auto.js` (11 phép kiểm, chạy theo đồng hồ thật).

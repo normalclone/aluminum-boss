@@ -193,7 +193,22 @@ app.UseMiddleware<PageCompositionMiddleware>();
 // site addresses its pages as directories, so the directory's index.html has to be found without
 // naming it, which UseStaticFiles alone will not do.
 app.UseDefaultFiles();
-app.UseStaticFiles();
+// Scripts and stylesheets: the browser must ask before it reuses one. The site names them
+// without a version (_app/home.js), and with no Cache-Control a browser guesses how long a file
+// stays fresh - about a tenth of its age, so a script unchanged for two weeks was reused for a
+// day and a half after it changed. Found 07/10/2026 when the hero began moving on by itself and
+// a visitor's browser would have kept the old one. "no-cache" still lets the browser keep the
+// file: it asks with the ETag and gets an empty 304 when nothing changed.
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        var name = ctx.File.Name;
+        if (name.EndsWith(".js", StringComparison.OrdinalIgnoreCase) ||
+            name.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+            ctx.Context.Response.Headers.CacheControl = "no-cache";
+    },
+});
 
 app.UseRouting();
 

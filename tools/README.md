@@ -1206,3 +1206,12 @@ Bọc `docs/huong-dan.html` (một mảnh trang, không có `<head>`) thành tra
 kèm thư mục ảnh, và dừng lại nếu trang gọi tới ảnh không có. Khách giải nén rồi bấm đúp `index.html`.
 
 `factory-edit.js` kiểm cả ảnh (06/10/2026): chọn một ảnh có sẵn cho ô `photo`, rồi kiểm thẻ và khung trên trang chủ dùng đúng ảnh đó. Khung được mở bằng phím mũi tên trên bản đồ, giống người dùng bàn phím.
+
+## `hero-auto.js` — hero trang chủ có tự chuyển và dừng đúng lúc không
+
+```bash
+node hero-auto.js                        # máy chủ local :5199
+node hero-auto.js https://aluminumboss.com
+```
+
+Mở trang chủ trong trình duyệt thật và đo theo đồng hồ thật. Kiểm hero chuyển sau khoảng 6 giây và ảnh nền đổi theo. Kiểm hero dừng khi rê chuột vào chữ và chạy tiếp khi rê ra. Kiểm hero dừng khi đã cuộn khỏi hero. Kiểm hero không tự chuyển với `?edit=1` và với chế độ giảm chuyển động. Một lần chạy mất khoảng 45 giây.

@@ -196,6 +196,19 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 }
 .abhero-words a:hover { border-bottom-color: rgba(29,29,27,.35); }
 .abhero-words a.is-on { border-bottom-color: #1d1d1b; }
+/* While the hero moves on by itself, the rule under the selected word is a bar that fills over
+   the time the family stays: a pale track, and the dark part growing across it. home.js sets
+   --abhero-auto to the same number it waits, and restarts the bar on every change. Held (pointer
+   on the words, hero off screen) the bar stops where it is. */
+.abhero.is-auto .abhero-words a { position: relative; }
+.abhero.is-auto .abhero-words a.is-on { border-bottom-color: rgba(29,29,27,.22); }
+.abhero.is-auto .abhero-words a.is-on::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -0.09em; height: 0.09em;
+  background: #1d1d1b; transform-origin: left center;
+  animation: abhero-fill var(--abhero-auto, 6000ms) linear forwards;
+}
+.abhero.is-auto.is-held .abhero-words a.is-on::after { animation-play-state: paused; }
+@keyframes abhero-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .abhero-words a:focus-visible { outline: 2px solid #1d1d1b; outline-offset: 3px; }
 
 /* Bottom left, under the words and aligned with them, where the floor is pale. It began on the
