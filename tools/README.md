@@ -1204,3 +1204,5 @@ python guide-zip.py                      # ra dist/HuongDan-BossGroup.zip
 
 Bọc `docs/huong-dan.html` (một mảnh trang, không có `<head>`) thành trang đủ — charset, viewport —
 kèm thư mục ảnh, và dừng lại nếu trang gọi tới ảnh không có. Khách giải nén rồi bấm đúp `index.html`.
+
+`factory-edit.js` kiểm cả ảnh (06/10/2026): chọn một ảnh có sẵn cho ô `photo`, rồi kiểm thẻ và khung trên trang chủ dùng đúng ảnh đó. Khung được mở bằng phím mũi tên trên bản đồ, giống người dùng bàn phím.

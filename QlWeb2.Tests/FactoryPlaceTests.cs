@@ -138,6 +138,50 @@ public class FactoryPlaceTests : IDisposable
     public void Refuses_any_other_kind(string kind)
         => Assert.Equal(["factories.sites.1.kind"], Save("factories.sites.1.kind", kind).Rejected);
 
+    // ---- photos --------------------------------------------------------------------------------
+    //
+    // 06/10/2026: the client's director asked why the factories had no pictures. The map drew a
+    // sample plant on a canvas, and there was no field to put a real photo in.
+
+    [Theory]
+    [InlineData("factories.sites.0.photo")]
+    [InlineData("factories.sites.0.photo2")]
+    [InlineData("factories.sites.0.photo3")]
+    public void Takes_a_photo_from_the_library_on_a_site_that_never_had_one(string address)
+    {
+        Assert.Empty(Save(address, "tan-truong-son.jpg").Rejected);
+        Assert.Equal("tan-truong-son.jpg", Site(0)[address[(address.LastIndexOf('.') + 1)..]]!.GetValue<string>());
+    }
+
+    [Fact]
+    public void No_picture_removes_the_field_so_the_sample_drawing_comes_back()
+    {
+        Save("factories.sites.0.photo", "a.jpg");
+        Assert.Empty(Save("factories.sites.0.photo", "").Rejected);
+        Assert.False(Site(0).ContainsKey("photo"));
+    }
+
+    [Theory]
+    [InlineData("../keys/key.xml")]
+    [InlineData("sub/a.jpg")]
+    [InlineData("..\\a.jpg")]
+    [InlineData(".hidden.jpg")]
+    public void Refuses_a_photo_that_is_not_one_file_in_the_library(string name)
+        => Assert.Equal(["factories.sites.0.photo"], Save("factories.sites.0.photo", name).Rejected);
+
+    [Fact]
+    public void The_editor_gets_three_photo_boxes_and_a_set_photo_is_drawn()
+    {
+        Save("factories.sites.1.photo", "binh-phuoc.jpg");
+        var html = new SectionRenderer(_store).Render("factories-list", "") ?? "";
+
+        Assert.Contains("data-ab-img=\".sites.0.photo\"", html);
+        Assert.Contains("data-ab-img=\".sites.0.photo2\"", html);
+        Assert.Contains("data-ab-img=\".sites.0.photo3\"", html);
+        Assert.Matches(@"<img class=""vfx-fimg"" src=""_media/binh-phuoc\.jpg"" data-ab-img=""\.sites\.1\.photo""", html);
+        Assert.Matches(@"<img class=""vfx-fimg"" data-ab-img=""\.sites\.0\.photo""", html);   // none: no src
+    }
+
     // ---- how narrow the exception is -----------------------------------------------------------
 
     [Theory]

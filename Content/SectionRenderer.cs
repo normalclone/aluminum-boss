@@ -433,7 +433,7 @@ public sealed class SectionRenderer
             "home-app-tabs" => AppTabs(doc),
             "home-app-slides" => AppSlides(doc, rootPrefix),
             "globe-routes" => GlobeRoutes(doc),
-            "factories-list" => FactoriesList(doc),
+            "factories-list" => FactoriesList(doc, rootPrefix),
             _ => null,
         };
     }
@@ -1230,7 +1230,7 @@ public sealed class SectionRenderer
     /// a warehouse differently. A site written before the place existed shows the province its
     /// pin is standing in, so the client sees the pin's real position rather than an empty box.
     /// </summary>
-    private static string FactoriesList(JsonNode doc)
+    private static string FactoriesList(JsonNode doc, string root)
     {
         var sb = new StringBuilder();
         foreach (var s in Arr(doc, "sites"))
@@ -1248,6 +1248,13 @@ public sealed class SectionRenderer
               .Append("<p hidden data-ab-pick=\".").Append(Esc(Where(s, "kind")))
               .Append("\" data-ab-opts=\"").Append(Esc(string.Join("|", ContentEditor.FactoryKinds))).Append("\">")
               .Append(Esc(kind.Length == 0 ? ContentEditor.FactoryKinds[0] : kind)).Append("</p>")
+              // The photos. The first is the card's picture and this list's; the other two only
+              // show in the pop-up on the map, so they are hidden here. An empty one has no src:
+              // the map script draws the sample picture into it, which the editor reads as "no
+              // picture" because it is not a file in _media.
+              .Append(FactoryPhoto(s, "photo", root, "vfx-fimg"))
+              .Append(FactoryPhoto(s, "photo2", root, null))
+              .Append(FactoryPhoto(s, "photo3", root, null))
               .Append(warehouse ? "<p class=\"vfx-fkind\">Warehouse</p>" : "")
               .Append("<p class=\"vfx-fname\"").Append(TextAddress(s, "name")).Append('>')
               .Append(Esc(Str(s, "name"))).Append("</p>")
@@ -1262,6 +1269,14 @@ public sealed class SectionRenderer
               .Append(Esc(Str(s, "output"))).Append("</b></div></div></article>");
         }
         return sb.ToString();
+    }
+
+    private static string FactoryPhoto(JsonNode? s, string field, string root, string? css)
+    {
+        var name = Str(s, field);
+        return "<img" + (css is null ? " hidden" : " class=\"" + css + "\"")
+             + (name.Length > 0 ? " src=\"" + root + "_media/" + Esc(name) + "\"" : "")
+             + ImgAddress(s, field) + " alt=\"" + Esc(Str(s, "name")) + "\" loading=\"lazy\">";
     }
 
     /// <summary>A number field of an item, or null when it is missing or not a number.</summary>

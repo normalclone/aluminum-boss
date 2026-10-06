@@ -560,6 +560,11 @@
     meta: 'detail',
     n: 'name',
     output: 'capacity',
+    // A factory's photos. The first is on its card beside the map; all three show when somebody
+    // clicks its pin. Named for where they appear, since "photo 2" alone says nothing.
+    photo: 'photo (card and pop-up)',
+    photo2: 'photo 2 (pop-up)',
+    photo3: 'photo 3 (pop-up)',
     // The one that moves the pin. "province" below is only the words printed under the name,
     // and a client who changed it to Ha Noi reasonably expected the pin to follow - it did not.
     place: 'location on the map',

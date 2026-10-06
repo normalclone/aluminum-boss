@@ -326,11 +326,26 @@ async function shot(p, ten, vung, dem = 16) {
       await noi.evaluate(e => { const d = e.closest('details'); if (d) d.open = true; e.scrollIntoView({ block: 'center' }); });
       await wait(500);
       const oNoi = noi.locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
-      const oTen = o('factories.sites.0.name');
       await mark(noi, 'Chọn tỉnh: ghim đi theo', 'tr');
       await mark(o('factories.sites.0.kind'), 'Nhà máy hay kho', 'tr');
-      await mark(o('factories.sites.0.region'), 'Chỉ là chữ, không dời ghim', 'tr');
-      await shot(p, '19-nha-may', [oNoi, oTen, o('factories.sites.0.region')], 14);
+      // Tu 06/10/2026 ba o anh nam giua o loai va o ten, nen o "province as written" da ra
+      // khoi khung chup; anh nay chi con hai o chon.
+      const oLoai = o('factories.sites.0.kind').locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+      await shot(p, '19-nha-may', [oNoi, oLoai], 14);
+    }
+    // ---- 20. Nha may: ba o anh
+    if (can(20)) {
+      await p.goto(BASE + '/Admin/Collection/Items/factories', { waitUntil: 'networkidle' });
+      const sua = await p.locator('tbody tr').first().locator('a:has-text("Edit")').getAttribute('href');
+      await p.goto(BASE + sua, { waitUntil: 'networkidle' });
+      await wait(2500);
+      const o1 = o('factories.sites.0.photo').locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+      const o3 = o('factories.sites.0.photo3').locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+      await o1.evaluate(e => { const d = e.closest('details'); if (d) d.open = true; e.scrollIntoView({ block: 'center' }); });
+      await wait(500);
+      await mark(o1.locator('.ed-choose'), 'Ảnh trên thẻ và khung', 'r');
+      await mark(o3.locator('.ed-choose'), 'Ảnh 2, 3: chỉ trong khung', 'r');
+      await shot(p, '20-anh-nha-may', [o1, o3], 14);
     }
   } catch (e) {
     console.log('  HONG giua chung: ' + e.message.split(/\r?\n/)[0]);

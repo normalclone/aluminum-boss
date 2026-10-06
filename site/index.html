@@ -1345,7 +1345,7 @@ function rafStop(){ rafOn = false; }
 .vfx-card{position:absolute;width:154px;background:#fff;border:1px solid var(--hair);
   box-shadow:0 8px 22px rgba(35,35,35,.09);transition:box-shadow .18s ease,transform .18s ease}
 .vfx-card.vfx-hot{box-shadow:0 12px 30px rgba(35,35,35,.18);transform:translateY(-2px);border-color:var(--gold)}
-.vfx-card img{display:block;width:100%;height:92px;background:var(--paper-2)}
+.vfx-card img{display:block;width:100%;height:92px;object-fit:cover;background:var(--paper-2)}
 .vfx-card figcaption{padding:8px 10px 9px;border-top:1px solid var(--hair)}
 .vfx-card b{display:block;font-size:12px;font-weight:400;text-transform:uppercase;letter-spacing:.03em}
 .vfx-card span{display:block;margin-top:2px;font-size:10.5px;letter-spacing:.06em;color:var(--stone)}
@@ -1498,6 +1498,9 @@ const ALL = JSON.parse(document.getElementById('vfx-data').textContent).sites.ma
   tone: rgb3(s.tone, [226, 223, 216]),
   vein: rgb3(s.vein, [170, 164, 154]),
   warehouse: s.kind === 'Warehouse',
+  // Real photos, in order, from the picture library. None: the sample drawing stands in.
+  photos: [s.photo, s.photo2, s.photo3].filter(p => typeof p === 'string' && p.length > 0)
+                                       .map(p => '_media/' + encodeURIComponent(p)),
 }));
 const SITES = ALL.filter(s => typeof s.lat === 'number' && typeof s.lon === 'number'
                               && isFinite(s.lat) && isFinite(s.lon) && !(s.lat === 0 && s.lon === 0));
@@ -1694,7 +1697,7 @@ const cardEls = new Map();
   SITES.forEach((s0,i) => {
     const f = document.createElement('figure');
     f.className = 'vfx-card';
-    f.innerHTML = '<img src="' + plantImage(154,92,i+3,s0.tone) + '" alt="">' +
+    f.innerHTML = '<img src="' + (s0.photos[0] || plantImage(154,92,i+3,s0.tone)) + '" alt="">' +
       '<figcaption><b>' + esc(s0.name) + '</b><span>' + esc(s0.warehouse ? 'Warehouse' : s0.output) + '</span></figcaption>';
     host.appendChild(f);
     cardEls.set(s0.id, f);
@@ -1994,10 +1997,17 @@ function frame(){
   const host = document.getElementById('vfx-flist');
   if (!host) return;
   ALL.forEach((s0, i) => {
-    const img = '<img class="vfx-fimg" src="' + plantImage(320, 132, i + 3, s0.tone) + '" alt="">';
-    // May chu dat san phan chu; anh duoc ve bang canvas luc chay nen no phai duoc them vao day.
+    const drawn = plantImage(320, 132, i + 3, s0.tone);
+    const img = '<img class="vfx-fimg" src="' + (s0.photos[0] || drawn) + '" alt="">';
+    // May chu dat san phan chu va o anh. O anh chua co anh that (khong co src) thi ve anh mau vao
+    // do - trinh soan doc no la "chua co anh" vi duong dan khong nam trong _media.
     const have = host.children[i];
-    if (have) { have.insertAdjacentHTML('afterbegin', img); return; }
+    if (have) {
+      const slot = have.querySelector('img.vfx-fimg');
+      if (slot) { if (!slot.getAttribute('src')) slot.setAttribute('src', drawn); }
+      else have.insertAdjacentHTML('afterbegin', img);
+      return;
+    }
     const el = document.createElement('article');
     el.className = 'vfx-fitem';
     el.innerHTML = img +
@@ -2021,9 +2031,13 @@ function showTip(s){
   if (!cache.has(s.id)){
     cache.set(s.id, [1,2,3].map(i => swatch(150, 110, s.tone, s.vein, i * (s.id.charCodeAt(0)+i))));
   }
-  const imgs = cache.get(s.id).map(src => `<img src="${src}" alt="">`).join('');
+  // Real photos when the site has them: one fills the width, two or three share it.
+  const real = s.photos.length > 0;
+  const srcs = real ? s.photos : cache.get(s.id);
+  const tall = real ? [0, 150, 110, 74][srcs.length] : 74;
+  const imgs = srcs.map(src => `<img src="${src}" alt="" style="height:${tall}px">`).join('');
   tipEl.innerHTML = `
-    <div class="vfx-tip-imgs">${imgs}</div>
+    <div class="vfx-tip-imgs" style="grid-template-columns:repeat(${srcs.length},1fr)">${imgs}</div>
     <div class="vfx-tip-body">
       ${s.warehouse ? '<p class="vfx-tip-kind">Warehouse</p>' : ''}
       <p class="vfx-tip-name">${esc(s.name)}</p>

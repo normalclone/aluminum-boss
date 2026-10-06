@@ -62,6 +62,17 @@ const TEN = 'Kiem thu kho HCM';
     await noi.selectOption('Ho Chi Minh City');
     await o('factories.sites.0.kind').selectOption('Warehouse');
     await wait(300);
+
+    // Anh that (06/10/2026: "sao nha may khong co anh"). Ba o anh; chon anh co san cho o dau.
+    for (const f of ['photo', 'photo2', 'photo3'])
+      say('diem moi: co o anh ' + f, await o('factories.sites.0.' + f).count(), 1);
+    const oAnh = o('factories.sites.0.photo').locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+    await oAnh.locator('.ed-choose').click();
+    await wait(1200);
+    const tile = p.locator('.ed-tile:not(.is-none)').first();
+    const anh = (await tile.innerText()).trim();
+    await tile.click();
+    await wait(500);
     await p.locator('#ed-save').click();
     await p.waitForLoadState('networkidle');
     await wait(2500);
@@ -69,6 +80,7 @@ const TEN = 'Kiem thu kho HCM';
     const du = JSON.parse(fs.readFileSync(path.join(GOC, TEP[0]), 'utf8')).sites[0];
     say('tep: toa do cua TP.HCM', [du.lat, du.lon], [10.776, 106.701]);
     say('tep: place / kind', [du.place, du.kind], ['Ho Chi Minh City', 'Warehouse']);
+    say('tep: anh da chon', du.photo, anh);
 
     // 4. Trang chu cong khai
     const pub = await ctx.newPage();
@@ -84,6 +96,27 @@ const TEN = 'Kiem thu kho HCM';
       t: c.querySelector('b').textContent, x: c.style.left, y: c.style.top })));
     say('trang chu: the anh cua kho co mat', the.some(c => c.t === TEN), true);
     say('trang chu: moi the deu duoc xep', the.every(c => c.x !== '' && c.y !== ''), true);
+    const anhThe = await pub.evaluate(t => {
+      const c = [...document.querySelectorAll('.vfx-card')].find(x => x.querySelector('b').textContent === t);
+      return c ? c.querySelector('img').getAttribute('src') : null;
+    }, TEN);
+    say('trang chu: the cua kho dung anh that', anhThe, '_media/' + encodeURIComponent(anh));
+    // Mo khung cua kho bang ban phim: dua con tro vao ban do, roi mui ten phai buoc qua tung
+    // ghim cho toi khi khung ghi ten kho. Du lieu ban do nam trong pham vi rieng cua script, nen
+    // di duong nguoi dung di chu khong goi thang ham.
+    await pub.locator('#vfx-c').focus();
+    let khung = null;
+    for (let n = 0; n < 12 && !khung; n++) {
+      await pub.keyboard.press('ArrowRight');
+      await wait(150);
+      khung = await pub.evaluate(t => {
+        const tip = document.getElementById('vfx-tip');
+        const ten = tip.querySelector('.vfx-tip-name');
+        return ten && ten.textContent === t
+          ? [...tip.querySelectorAll('.vfx-tip-imgs img')].map(i => i.getAttribute('src')) : null;
+      }, TEN);
+    }
+    say('trang chu: khung khi bam ghim co anh that', khung, ['_media/' + encodeURIComponent(anh)]);
     const html = await pub.content();
     say('trang chu: danh sach dien thoai ghi "Warehouse"', /class="vfx-fkind"[^>]*>Warehouse</.test(html), true);
     await pub.locator('.vfx-stage').screenshot({ path: path.join(GOC, 'tools', 'out', 'factory-map.png') });

@@ -235,7 +235,8 @@ public sealed class ContentEditor
     /// </summary>
     private static List<string>? Allowed(JsonNode doc, string name, string path)
     {
-        if (FactoryLeaf(name, path) is { } leaf) return leaf == "place" ? Places.Names : FactoryKinds;
+        if (FactoryLeaf(name, path) is { } leaf)
+            return leaf switch { "place" => Places.Names, "kind" => FactoryKinds, _ => null };
         if (!name.Equals("colors", StringComparison.OrdinalIgnoreCase)) return null;
         if (!ItemField.IsMatch(path)) return null;
 
@@ -250,12 +251,17 @@ public sealed class ContentEditor
     public static readonly List<string> FactoryKinds = ["Factory", "Warehouse"];
 
     /// <summary>
-    /// <c>place</c> or <c>kind</c> when the address is one of those on a factory site, else null.
+    /// <c>place</c>, <c>kind</c> or one of the three photos when the address is one of those on
+    /// a factory site, else null.
     ///
     /// The second exception to "an address must already exist", after the two SEO fields, and
-    /// for the same kind of reason: the five sites were written before either field did, and
-    /// writing them into the live file by hand would mean editing the client's content on the
-    /// server. Narrow on purpose - these two names, on factories.sites.N only.
+    /// for the same kind of reason: the five sites were written before any of these fields did,
+    /// and writing them into the live file by hand would mean editing the client's content on the
+    /// server. Narrow on purpose - these five names, on factories.sites.N only.
+    ///
+    /// The photos came on 06/10/2026: the client's director asked why the factories had no
+    /// pictures. The cards and the pop-up drew a picture of a generic plant on a canvas - sample
+    /// art from the demo - and there was nowhere to put a real one.
     /// </summary>
     public static string? FactoryLeaf(string name, string path)
     {
@@ -265,7 +271,7 @@ public sealed class ContentEditor
     }
 
     private static readonly Regex FactoryField =
-        new(@"^sites\.\d+\.(place|kind)$", RegexOptions.Compiled);
+        new(@"^sites\.\d+\.(place|kind|photo|photo2|photo3)$", RegexOptions.Compiled);
 
     /// <summary>
     /// Writes a site's place or kind. A place also moves the pin: the coordinates are looked up
@@ -276,6 +282,15 @@ public sealed class ContentEditor
         var parent = path[..(path.Length - leaf.Length - 1)];
         if (Walk(doc, parent.Split('.', StringSplitOptions.RemoveEmptyEntries)) is not JsonObject site)
             return false;
+
+        if (leaf.StartsWith("photo", StringComparison.Ordinal))
+        {
+            // "No picture" removes the field, so the map goes back to drawing one. A name is a
+            // file in the picture library - one name, no folder - never a path somewhere else.
+            if (value.Length == 0) { site.Remove(leaf); return true; }
+            if (Path.GetFileName(value) != value || value.StartsWith('.') || value.Contains('\\'))
+                return false;
+        }
 
         if (leaf == "place")
         {

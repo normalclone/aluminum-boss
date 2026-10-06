@@ -460,3 +460,16 @@ Anh yêu cầu: cron 12 giờ đêm, sao lưu CSDL và code, giữ 3 bản gần
 
 Chạy thử 02/10/2026: ba tệp `gzip -t` đạt; CSDL khôi phục vào CSDL tạm khớp bản đang chạy (8 bản
 sửa, 1 tài khoản); số bản cũ dọn từ 14 xuống 3 mỗi loại.
+
+## 18. Ảnh thật cho nhà máy — 06/10/2026
+
+Giám đốc của khách hỏi vì sao nhà máy không có ảnh. Thẻ cạnh bản đồ và khung khi bấm ghim vẽ một hình nhà máy mẫu bằng canvas. Không có ô nào để đặt ảnh thật.
+
+Mỗi nhà máy có thêm ba ô ảnh, chọn từ kho ảnh:
+
+- `photo`: hiện trên thẻ, trong danh sách trên điện thoại, và đầu tiên trong khung.
+- `photo2`, `photo3`: chỉ hiện trong khung khi bấm ghim.
+
+Khung chia đều chiều ngang theo số ảnh: 1, 2 hoặc 3 cột. Nhà máy chưa có ảnh vẫn dùng hình mẫu.
+
+Ba ô này dùng cùng ngoại lệ với `place` và `kind` (mục 16): máy chủ tạo ô trên nhà máy cũ khi khách lưu lần đầu. Chọn "No picture" xoá ô đó. Máy chủ chỉ nhận một tên tệp trong kho ảnh, không nhận đường dẫn.

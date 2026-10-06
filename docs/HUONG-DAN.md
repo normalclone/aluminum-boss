@@ -180,14 +180,23 @@ dời tới tỉnh đó; ô **province as written** chỉ là dòng chữ in dư
 3. **Factory #1 location on the map**: chọn tỉnh/thành. Ghim đặt ở tỉnh lỵ.
 4. **Factory #1 type**: **Factory** (ghim tròn) hoặc **Warehouse** (ghim vuông; bản đồ tự thêm dòng
    chú giải *Warehouse*).
-5. Điền tên, **province as written**, mô tả, công suất (**capacity**), năm hoạt động.
-6. Bấm **Save changes**.
+5. **Ảnh**: bấm **Choose picture** ở ô **photo (card and pop-up)**. Ảnh này hiện trên thẻ cạnh bản
+   đồ và trong danh sách trên điện thoại. Hai ô **photo 2** và **photo 3** chỉ hiện khi khách bấm
+   vào ghim.
+6. Điền tên, **province as written**, mô tả, công suất (**capacity**), năm hoạt động.
+7. Bấm **Save changes**.
 
 ![Các ô của một nhà máy](huong-dan/19-nha-may.png)
-*Hình 13 — Các ô của một nhà máy. Ô location on the map dời ghim; ô type chọn nhà máy hay kho; ô province as written chỉ là chữ in trên trang.*
+*Hình 13 — Hai ô chọn của một nhà máy. Ô location on the map dời ghim; ô type chọn nhà máy hay kho.*
+
+![Ba ô ảnh của một nhà máy](huong-dan/20-anh-nha-may.png)
+*Hình 14 — Ba ô ảnh của một nhà máy. Ảnh đầu hiện trên thẻ và trong khung khi bấm ghim; ảnh 2 và 3 chỉ hiện trong khung.*
 
 > **Con số lớn cạnh tiêu đề tự đếm số nhà máy** (không đếm kho). Nhưng dòng tiêu đề như *Five
 > factories,* là chữ bạn gõ — thêm hay bớt nhà máy thì sửa lại chữ đó cho khớp.
+>
+> **Ảnh nên chụp ngang**, cỡ khoảng 1200 × 800 px. Thẻ và khung đều cắt ảnh cho vừa khung ngang.
+> Nhà máy chưa có ảnh thì bản đồ vẽ một hình nhà máy mẫu.
 >
 > Danh sách là **63 tỉnh cũ** (trước sáp nhập 2025): ghim chỉ cần đúng vùng. Muốn ghi tên tỉnh
 > mới thì gõ vào ô **province as written**.
@@ -211,10 +220,10 @@ dời tới tỉnh đó; ô **province as written** chỉ là dòng chữ in dư
 9. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
 
 ![Bài mới vừa thêm: ô tiêu đề và ô ngày đăng](huong-dan/13-bai-moi.png)
-*Hình 14 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
+*Hình 15 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
 
 ![Các đoạn thân bài](huong-dan/14-doan-van.png)
-*Hình 15 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
+*Hình 16 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
 
 **Dưới mỗi đoạn văn và mỗi thẻ** có ba nút nhỏ:
 
@@ -249,7 +258,7 @@ và thẻ của bài cũ đều sửa, thêm, xoá được.
 tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.
 
 ![Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture](huong-dan/09-search-result.png)
-*Hình 16 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
+*Hình 17 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
 
 Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
 hạn của trang: gõ dài hơn vẫn lưu đủ.
@@ -263,7 +272,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
 **Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
 ![Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng](huong-dan/15-enquiries.png)
-*Hình 17 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
+*Hình 18 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
 
 ### Tự thử xem form còn chạy không
 
@@ -272,7 +281,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
    **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
 
 ![Trang liên hệ có bốn ô](huong-dan/18-lien-he.png)
-*Hình 18 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
+*Hình 19 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
 3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
 4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
    request and will reply within one working day.*
@@ -293,7 +302,7 @@ Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt 
 - **Restore this version** đưa về bản đó
 
 ![Màn hình History](huong-dan/16-history.png)
-*Hình 19 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
+*Hình 20 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
 
 > **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
 > để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một
