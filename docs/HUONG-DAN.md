@@ -201,6 +201,53 @@ dời tới tỉnh đó; ô **province as written** chỉ là dòng chữ in dư
 > Danh sách là **63 tỉnh cũ** (trước sáp nhập 2025): ghim chỉ cần đúng vùng. Muốn ghi tên tỉnh
 > mới thì gõ vào ô **province as written**.
 
+### Viết một dự án — **Projects**
+
+Mỗi dự án có trang riêng, bố cục như cũ. Từ 08/10/2026 một dự án viết được như một bài tin.
+
+1. **Content** → **Projects** → **Add an item**, rồi bấm **Edit** ở dòng 1.
+2. Điền tiêu đề, năm, địa điểm, khách hàng, phạm vi và ghi chú.
+3. **Thân bài**: bấm **Add a paragraph**. Máy lưu phần đang gõ, rồi thêm một ô đoạn văn.
+4. **Ảnh**: bấm **Add a photo**. Gõ chú thích, rồi bấm **Choose picture** để chọn ảnh.
+5. **Sản phẩm**: bấm **Add a product**. Mỗi sản phẩm một ô.
+6. Bấm **Save changes**.
+
+Dưới mỗi đoạn văn, mỗi ảnh và mỗi sản phẩm có **↑** **↓** để đổi thứ tự và **Remove** để xoá.
+
+![Ảnh của một dự án trong trình soạn](huong-dan/21-du-an.png)
+*Hình 15 — Ảnh cuối cùng của một dự án: ô chọn ảnh, chú thích, hàng nút ↑ ↓ Remove, và nút Add a photo.*
+
+### Thêm tài liệu — **Documents**
+
+1. Bấm **Edit pages**, rồi chọn trang **Documents** ở ô **PAGE**.
+2. Bấm **Add a document** ở cuối nhóm cần thêm (Catalogues, Certificates…).
+3. Điền tiêu đề, mô tả, phiên bản (**edition**), ngôn ngữ (**language**), số trang.
+4. Ô **PDF file**: bấm **Upload a PDF** và chọn tệp. Máy chỉ nhận PDF, tối đa 40 MB.
+5. Bấm **Save changes**. Nút **Download** trên trang trỏ tới tệp vừa tải lên.
+
+Xoá một tài liệu: bấm **Remove** dưới tài liệu đó, trên cùng màn hình này.
+
+![Thêm tài liệu và tải PDF](huong-dan/22-tai-lieu.png)
+*Hình 16 — Ô PDF file của một tài liệu với nút Upload a PDF, và nút Add a document ở cuối nhóm.*
+
+> Tệp PDF quá 40 MB thì máy từ chối. Lưu lại PDF với chất lượng ảnh thấp hơn, rồi tải lên lại.
+
+### Trang Capability — các mục năng lực
+
+Trang **About us → Capability** có 9 mục lấy từ hồ sơ công ty (PDF): từng dây chuyền và các chứng chỉ.
+Mỗi mục gồm tiêu đề, một đoạn chữ và các ảnh. Cuối trang có nút tải hồ sơ công ty (PDF).
+
+1. Bấm **Edit pages**, chọn trang **About Us — one item**, rồi bấm menu **Capability** trong khung bên phải.
+2. Sửa tiêu đề mục (**heading**) và chữ (**text**). Trong ô chữ, mỗi dòng hiện thành một dòng trên trang.
+3. **Add a photo** thêm ảnh vào mục. **Add a section** (cuối danh sách) thêm một mục mới.
+4. Ô **PDF file** của chương: **Upload a PDF** để thay hồ sơ công ty.
+5. Bấm **Save changes**.
+
+![Một mục của trang Capability](huong-dan/23-capability.png)
+*Hình 17 — Một mục của trang Capability: tiêu đề, ô chữ, các ảnh, và nút Add a photo.*
+
+> Mục có chữ "Certificate" trong tiêu đề hiện ảnh nguyên tờ, không cắt. Các mục khác cắt ảnh theo khung 4:3.
+
 ---
 
 ## 6. Đăng một bài tin mới
@@ -220,10 +267,10 @@ dời tới tỉnh đó; ô **province as written** chỉ là dòng chữ in dư
 9. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
 
 ![Bài mới vừa thêm: ô tiêu đề và ô ngày đăng](huong-dan/13-bai-moi.png)
-*Hình 15 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
+*Hình 18 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*
 
 ![Các đoạn thân bài](huong-dan/14-doan-van.png)
-*Hình 16 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
+*Hình 19 — Các đoạn thân bài. Dưới mỗi đoạn có ↑ ↓ để đổi thứ tự và Remove để xoá đoạn; nút Add a paragraph thêm một đoạn mới ở cuối.*
 
 **Dưới mỗi đoạn văn và mỗi thẻ** có ba nút nhỏ:
 
@@ -258,7 +305,7 @@ và thẻ của bài cũ đều sửa, thêm, xoá được.
 tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.
 
 ![Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture](huong-dan/09-search-result.png)
-*Hình 17 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
+*Hình 20 — Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.*
 
 Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
 hạn của trang: gõ dài hơn vẫn lưu đủ.
@@ -272,7 +319,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
 **Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
 ![Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng](huong-dan/15-enquiries.png)
-*Hình 18 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
+*Hình 21 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
 
 ### Tự thử xem form còn chạy không
 
@@ -281,7 +328,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
    **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
 
 ![Trang liên hệ có bốn ô](huong-dan/18-lien-he.png)
-*Hình 19 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
+*Hình 22 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
 3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
 4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
    request and will reply within one working day.*
@@ -302,7 +349,7 @@ Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt 
 - **Restore this version** đưa về bản đó
 
 ![Màn hình History](huong-dan/16-history.png)
-*Hình 20 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
+*Hình 23 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
 
 > **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
 > để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một

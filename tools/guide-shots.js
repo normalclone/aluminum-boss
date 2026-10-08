@@ -347,6 +347,57 @@ async function shot(p, ten, vung, dem = 16) {
       await mark(o3.locator('.ed-choose'), 'Ảnh 2, 3: chỉ trong khung', 'r');
       await shot(p, '20-anh-nha-may', [o1, o3], 14);
     }
+    // ---- 21. Du an: anh cuoi cung (o anh, chu thich, hang nut) va nut Add a photo (08/10/2026)
+    if (can(21)) {
+      await p.goto(BASE + '/Admin/Collection/Items/projects', { waitUntil: 'networkidle' });
+      const sua = await p.locator('tbody tr').first().locator('a:has-text("Edit")').getAttribute('href');
+      await p.goto(BASE + sua, { waitUntil: 'networkidle' });
+      await wait(2500);
+      const anh = cot.locator('button.ed-add:has-text("Add a photo")');
+      await anh.evaluate(e => {
+        const side = e.closest('.ed-side'), bar = document.getElementById('ed-save').closest('.ed-save');
+        side.scrollTop += e.getBoundingClientRect().bottom - (bar.getBoundingClientRect().top - 20);
+      });
+      await wait(400);
+      const oAnh = cot.locator('[data-address^="projects.albums."][data-address*=".photos."][data-address$=".image"]').last()
+        .locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]');
+      const hang = cot.locator('.ed-listrow[data-entry^="projects.albums."]').last();
+      await mark(oAnh.locator('.ed-choose'), 'Chọn ảnh', 'r');
+      await mark(hang, '↑ ↓ Remove', 'tl');
+      await mark(anh, 'Thêm ảnh', 'r');
+      await shot(p, '21-du-an', [oAnh, anh], 16);
+    }
+
+    // ---- 22. Tai lieu: them tai lieu, tai PDF
+    if (can(22)) {
+      await editor('?page=%2Fdocuments%2F');
+      const tep = o('documents.categories.0.items.0.file').locator('xpath=..');
+      const them = cot.locator('button[data-list="documents.categories.0.items"]');
+      await them.evaluate(e => e.scrollIntoView({ block: 'center' }));
+      await wait(400);
+      await mark(them, 'Thêm tài liệu vào nhóm này', 'r');
+      const lastFile = cot.locator('[data-address^="documents.categories.0.items."][data-address$=".file"]').last().locator('xpath=..');
+      await mark(lastFile.locator('.ed-upload'), 'Tải PDF lên', 'r');
+      await shot(p, '22-tai-lieu', [lastFile, them], 16);
+    }
+
+    // ---- 23. Capability: muc, anh trong muc
+    if (can(23)) {
+      await editor('?page=%2Fabout-us%2Fcapability%2F');
+      const muc = cot.locator('[data-address$=".sections.1.heading"]');
+      const themAnh = cot.locator('button[data-list$=".sections.1.photos"]');
+      // Cuon theo nut Add a photo (cuoi muc), de ca tieu de muc lan nut cung trong khung.
+      await themAnh.evaluate(e => {
+        // Thanh Save dinh o day cot che mat phan duoi: dua nut len ngay tren thanh do.
+        const side = e.closest('.ed-side'), bar = document.getElementById('ed-save').closest('.ed-save');
+        side.scrollTop += e.getBoundingClientRect().bottom - (bar.getBoundingClientRect().top - 20);
+      });
+      await wait(400);
+      await mark(muc, 'Tiêu đề mục', 'tr');
+      await mark(cot.locator('[data-address$=".sections.1.text"]'), 'Chữ: mỗi dòng một ý', 'tr');
+      await mark(themAnh, 'Thêm ảnh vào mục', 'r');
+      await shot(p, '23-capability', [muc.locator('xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " ed-field ")][1]'), themAnh], 16);
+    }
   } catch (e) {
     console.log('  HONG giua chung: ' + e.message.split(/\r?\n/)[0]);
     process.exitCode = 1;

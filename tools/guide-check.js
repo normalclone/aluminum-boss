@@ -57,6 +57,11 @@ const doc = page => page.evaluate(() => {
   await go('1-site-content', '/Admin');
   await go('2-edit-trang-chu', '/Admin/Edit?page=' + encodeURIComponent('/'), 2500);
   await go('3-edit-bai-tin', '/Admin/Edit?page=' + encodeURIComponent('/news/press-line-2500/'), 2500);
+  // 08/10/2026: ba man hinh co nut "Add a ..." rieng - trinh soan ghep chu nay luc chay
+  // ('Add a ' + ten danh sach), nen chi thay duoc tren chinh man hinh do.
+  await go('3b-edit-du-an', '/Admin/Edit?page=' + encodeURIComponent('/projects/marina-central-tower/'), 2500);
+  await go('3c-edit-tai-lieu', '/Admin/Edit?page=' + encodeURIComponent('/documents/'), 2500);
+  await go('3d-edit-capability', '/Admin/Edit?page=' + encodeURIComponent('/about-us/capability/'), 2500);
 
   // Bang chon anh chi co mat khi mo ra.
   const chon = p.locator('.ed-field-img .ed-choose').first();

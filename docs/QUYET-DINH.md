@@ -488,3 +488,24 @@ Khách muốn hero tự chuyển qua các dòng sản phẩm, giống trang tham
 **Lỗi bộ nhớ đệm, đã sửa.** Máy chủ trả tệp `.js` và `.css` mà không có `Cache-Control`. Khi đó trình duyệt tự đoán: tệp không đổi trong hai tuần thì được dùng lại khoảng một ngày rưỡi sau khi tệp đổi. Giờ máy chủ gửi `Cache-Control: no-cache` cho hai loại tệp này. Trình duyệt hỏi lại bằng ETag và nhận 304 rỗng khi tệp chưa đổi.
 
 Công cụ kiểm: `tools/hero-auto.js` (11 phép kiểm, chạy theo đồng hồ thật).
+
+## 20. Projects, Documents và Capability khai báo được — 08/10/2026
+
+Anh yêu cầu ba việc trong một buổi. Kế hoạch: `docs/KE-HOACH-PROJECTS-DOCS-CAPABILITY.md`.
+
+**Phần chung — danh sách có nhiều ô.** Trước đây trình soạn chỉ thêm, bớt, đổi thứ tự danh sách chuỗi (đoạn văn, thẻ). Giờ `ItemLists` dùng mẫu địa chỉ có `*` (`about.chapters.*.sections.*.photos`). Mỗi mục trong bảng có thể kèm mẫu cho mục mới, và cờ `Create` để tạo danh sách mà mục cũ chưa có. Trình soạn nhóm các ô theo mục, và đặt nút ↑ ↓ Remove sau ô cuối của mục.
+
+**Projects.** Giữ bố cục trang dự án. Thêm thân bài nhiều đoạn văn, cho thêm và bớt ảnh, và cho mỗi sản phẩm một ô riêng. Trước đây một dự án mới có 0 ảnh mà không có cách thêm.
+
+**Lỗi cũ, đã sửa:** nút **Edit** ở màn hình Content mở trang **Home** cho mọi dòng trừ dòng đầu. Ô chọn trang chỉ có mục đầu tiên của mỗi loại, và trang không có trong ô bị đổi thành Home. `tools/project-edit.js` bắt được lỗi này khi một dự án thử đẩy dự án cũ xuống dòng hai.
+
+**Documents.** Nút "Add a document" ở cuối mỗi nhóm trên trang `/documents/`. Ô **PDF file** tải PDF lên: máy chủ kiểm byte đầu `%PDF-`, tối đa 40 MB, và đặt tên có mã băm. Tài liệu cũ vẫn dùng `_docs/<id>.pdf`. Trên máy chủ, `_docs` chuyển sang `noi-dung/_docs`, nên deploy không xoá PDF khách đã tải. Deploy chép thêm PDF mới bằng `cp -an`. nginx `client_max_body_size` tăng lên 45m.
+
+**Capability.** Hồ sơ công ty (PDF 29 trang, 264 MB) thành 9 mục trên trang Capability: 8 nhóm máy móc theo trang 3 của PDF, và chứng chỉ. Có 27 ảnh, cắt theo vùng từ trang 4–10 và 15–20, ở 220 dpi, tối đa 1600 px. Chữ của khách (tiêu đề, lede, body) giữ nguyên. Nút tải hồ sơ dùng một PDF 6,2 MB, dựng lại từ ảnh từng trang ở 150 dpi. Nén ảnh bên trong PDF gốc bằng PyMuPDF bị treo hơn 25 phút, nên tôi chọn cách dựng lại. Đổi lại, chữ trong PDF tải về là ảnh, không chọn được.
+
+- Trang 16 của PDF ("Test result of aluminum profile") không có nội dung render được, nên không có trong trang web.
+- Một số chú thích ảnh là mô tả theo hình (ví dụ "Profile handling table", "Powder recovery silo"). Khách nên kiểm lại và sửa trong trình soạn.
+- Chữ lấy đúng theo PDF, nên nhắc tới "Hoang Kim JSC" ở vài chỗ.
+- Bản `about.json` trên máy chủ trước khi ghi nằm ở `/root/about.json.truoc-capability-20261008`. Lần ghi này không vào History, vì được ghi thẳng vào tệp chứ không qua Save.
+
+Kiểm: kiểm thử đơn vị 203. Công cụ mới: `tools/project-edit.js` (19), `tools/document-edit.js` (10), `tools/capability-edit.js` (13 trên máy local, 5 trên trang thật).

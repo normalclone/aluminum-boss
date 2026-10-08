@@ -1215,3 +1215,25 @@ node hero-auto.js https://aluminumboss.com
 ```
 
 Mở trang chủ trong trình duyệt thật và đo theo đồng hồ thật. Kiểm hero chuyển sau khoảng 3 giây và ảnh nền đổi theo. Kiểm hero dừng khi rê chuột vào chữ và chạy tiếp khi rê ra. Kiểm hero dừng khi đã cuộn khỏi hero. Kiểm hero không tự chuyển với `?edit=1` và với chế độ giảm chuyển động. Một lần chạy mất khoảng 45 giây.
+
+## `project-edit.js`, `document-edit.js`, `capability-edit.js` — khai báo Projects, Documents, Capability (08/10/2026)
+
+```bash
+node project-edit.js                     # máy chủ local :5199
+node document-edit.js
+node capability-edit.js [goc]            # với https://aluminumboss.com: chỉ kiểm trang công khai
+```
+
+- `project-edit.js`: thêm một dự án. Viết một đoạn văn, thêm hai ảnh, đổi thứ tự ảnh, thêm một sản phẩm. Kiểm trang công khai. Kiểm nút Edit ở dòng hai mở đúng trang dự án.
+- `document-edit.js`: thêm một tài liệu vào nhóm Catalogues. Kiểm máy từ chối tệp không phải PDF và nhận một PDF. Kiểm `/documents/`, trang riêng của tài liệu và tệp tải về. Xoá tài liệu bằng nút Remove, rồi xoá tệp PDF thử.
+- `capability-edit.js`: kiểm 9 mục, 27 ảnh và nút tải hồ sơ. Trên máy local, thêm một mục và một ảnh, rồi xoá.
+
+Mỗi công cụ so mã băm tệp dữ liệu ở cuối. Tệp phải giống hệt trước khi chạy.
+
+## `capability-from-profile.py` — đưa hồ sơ công ty vào trang Capability
+
+```bash
+python capability-from-profile.py <about.json> [--profile <ten-tep.pdf>] [--ghi-de]
+```
+
+Script ghi `sections` (và `file`) vào chương `capability`, và không đụng vào chữ khách đã viết. Chương đã có `sections` thì script dừng, trừ khi có `--ghi-de`. Script giữ bản sao `about.json.truoc-capability`. Ảnh `capability-*.jpg` phải có sẵn trong `_media`.
