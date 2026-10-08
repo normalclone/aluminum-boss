@@ -1670,6 +1670,48 @@ public sealed class SectionRenderer
         foreach (var p in Arr(c, "body"))
             body.Append("<p").Append(TextAt(p)).Append('>').Append(Esc(p.ToString())).Append("</p>");
 
+        // The chapter's sections, after its body: a heading, a text and photographs each. Added
+        // 08/10/2026 for Capability, which carries the company profile - every production line
+        // with its pictures, and the certificates. A chapter without sections draws none, and the
+        // editor still offers "Add a section" from the page's list marker.
+        var sections = new StringBuilder();
+        var list = ((c as JsonObject)?["sections"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        foreach (var s in list)
+        {
+            var heading = Str(s, "heading");
+            // A section of certificates shows each sheet whole: a certificate is a portrait page,
+            // and the 4:3 crop that suits a photograph of a machine cut off most of it.
+            var whole = heading.Contains("certif", StringComparison.OrdinalIgnoreCase);
+            sections.Append(whole ? "<section class=\"ab-capsec is-whole\"><h2" : "<section class=\"ab-capsec\"><h2").Append(TextAddress(s, "heading")).Append('>')
+                    .Append(Esc(heading)).Append("</h2><p class=\"ab-capsec-text\"").Append(TextAddress(s, "text"))
+                    .Append('>').Append(Esc(Str(s, "text"))).Append("</p>");
+            var photos = ((s as JsonObject)?["photos"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+            if (photos.Count > 0)
+            {
+                sections.Append("<div class=\"ab-capgrid\">");
+                foreach (var ph in photos)
+                {
+                    var cap = Str(ph, "c");
+                    sections.Append("<figure class=\"ab-capfig\"><img src=\"")
+                            .Append(Src(ph, root, Placeholder.Uri(800, 600, cap.Length > 0 ? cap : heading))).Append('"')
+                            .Append(ImgAddress(ph)).Append(" width=\"800\" height=\"600\" alt=\"").Append(Esc(cap))
+                            .Append("\" loading=\"lazy\"><figcaption").Append(TextAddress(ph, "c")).Append('>')
+                            .Append(Esc(cap)).Append("</figcaption></figure>");
+                }
+                sections.Append("</div>");
+            }
+            sections.Append("</section>");
+        }
+
+        // The chapter's PDF, when it names one: the full company profile on Capability.
+        var file = Str(c, "file");
+        var download = "<span hidden data-ab-file=\"." + Esc(Where(c, "file")) + "\" data-ab-value=\""
+                       + Esc(file) + "\" data-ab-fallback=\"\"></span>"
+                       + (file.Length > 0
+                           ? "<p class=\"ab-capdl\"><a class=\"ab-submit\" href=\"" + root + "_docs/" + Esc(file)
+                             + "\" download>Download the company profile (PDF)</a></p>"
+                           : "");
+
         return new StringBuilder("<div class=\"ab-wrap\">")
             .Append("<p class=\"ab-crumb\"><a href=\"../\">").Append(Esc(Str(doc, "section")))
             .Append("</a> &nbsp;/&nbsp; ").Append(Esc(name)).Append("</p>")
@@ -1681,6 +1723,8 @@ public sealed class SectionRenderer
             .Append(Src(c, root, Placeholder.Uri(1240, 520, name))).Append('"').Append(ImgAddress(c))
             .Append(" width=\"1240\" height=\"520\" alt=\"").Append(Esc(name)).Append("\"></div>")
             .Append("<div class=\"ab-article\">").Append(body).Append("</div>")
+            .Append(sections.Length > 0 ? "<div class=\"ab-capsecs\">" + sections + "</div>" : "")
+            .Append(download)
             .Append("<nav class=\"ab-steps\">")
             .Append(Step(at > 0 ? chapters[at - 1] : null, "Previous", "is-prev"))
             .Append(Step(at < chapters.Count - 1 ? chapters[at + 1] : null, "Next", "is-next"))

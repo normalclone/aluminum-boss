@@ -574,6 +574,10 @@
     'colors.filters': 'Filter',
     'colors.filters.N.options': 'Option',
     'projects.albums.N.photos': 'Photo',
+    'projects.albums.N.body': 'Paragraph',
+    'projects.albums.N.products': 'Product',
+    'about.chapters.N.sections': 'Section',
+    'about.chapters.N.sections.N.photos': 'Photo',
     'contact.offices': 'Office',
     'contact.offices.N.lines': 'Line',
     'contact.routes': 'Enquiry type',
@@ -890,6 +894,7 @@
         var showFile = function (name) {
           now.innerHTML = '';
           var used = name || f.fallback;
+          if (!used) { now.textContent = 'No file uploaded yet.'; return; }
           var link = document.createElement('a');
           link.href = '/_docs/' + encodeURIComponent(used);
           link.target = '_blank';

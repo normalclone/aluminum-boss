@@ -452,6 +452,22 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-chapcard p { font-size: 14px; line-height: 1.6; color: var(--ab-mute); margin: 0; }
 
 /* ---- previous / next ---- */
+/* An About chapter's sections (Capability: the production lines and the certificates, from the
+   company profile). Wider than the article column, because the photographs carry the section. The
+   text keeps its line breaks, so a list of machines written one per line reads as a list. */
+.ab-capsecs { margin-top: 24px; }
+.ab-capsec { padding: 44px 0 8px; border-top: 1px solid var(--ab-line); }
+.ab-capsec h2 { font-family: var(--ab-font); font-size: 24px; font-weight: 600; margin: 0 0 14px; }
+.ab-capsec-text { max-width: 68ch; font-size: 16px; line-height: 1.7; white-space: pre-line; margin: 0 0 24px; }
+.ab-capsec-text:empty { display: none; }
+.ab-capgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.ab-capfig { margin: 0; }
+.ab-capfig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: var(--ab-wash); }
+.ab-capsec.is-whole .ab-capfig img { object-fit: contain; background: #fff; border: 1px solid var(--ab-line); }
+.ab-capfig figcaption { font-size: 13px; color: var(--ab-mute); margin-top: 8px; }
+.ab-capfig figcaption:empty { display: none; }
+.ab-capdl { margin: 40px 0 0; }
+.ab-capdl .ab-submit { display: inline-block; text-decoration: none; }
 .ab-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 48px 0 88px; border-top: 1px solid var(--ab-line); margin-top: 48px; }
 .ab-step { font-size: 17px; line-height: 1.35; }
 .ab-step span { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ab-mute); margin-bottom: 8px; }

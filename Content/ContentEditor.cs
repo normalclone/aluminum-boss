@@ -258,9 +258,16 @@ public sealed class ContentEditor
         return null;
     }
 
-    /// <summary><c>documents.categories.N.items.M.file</c>, and only that.</summary>
+    /// <summary>
+    /// <c>documents.categories.N.items.M.file</c>, or an About chapter's
+    /// <c>about.chapters.N.file</c> (the company profile on Capability, 08/10/2026) - and only those.
+    /// </summary>
     public static bool IsDocumentFile(string name, string path)
-        => name.Equals("documents", StringComparison.OrdinalIgnoreCase) && DocFileField.IsMatch(path);
+        => (name.Equals("documents", StringComparison.OrdinalIgnoreCase) && DocFileField.IsMatch(path))
+        || (name.Equals("about", StringComparison.OrdinalIgnoreCase) && ChapterFileField.IsMatch(path));
+
+    private static readonly Regex ChapterFileField =
+        new(@"^chapters\.\d+\.file$", RegexOptions.Compiled);
 
     private static readonly Regex DocFileField =
         new(@"^categories\.\d+\.items\.\d+\.file$", RegexOptions.Compiled);

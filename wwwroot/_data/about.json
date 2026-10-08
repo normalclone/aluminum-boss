@@ -93,7 +93,172 @@
         "Extrusion runs on six presses from 800 to 2,500 tonnes, covering circumscribing circles from 20 to 320 millimetres. Dies are cut, nitrided and corrected in the die shop at Thanh Hoa; first samples from a new die take eighteen days, and the correction loop that follows is the difference between a section that holds tolerance across a full billet and one that holds it for the first three metres.",
         "Finishing is where most extruders under-invest. Quy Nhon runs two anodising lines from 10 to 25 microns, the 25-micron process being the marine one, with the sealing tanks beside the port. Binh Duong runs three powder lines, one of them a vertical line, and a PVDF line alongside them. Coating capacity was sized against the presses rather than against last year's order book, so a finished order does not wait behind an unfinished one.",
         "Fabrication at Nghe An covers cutting, CNC machining, punching, thermal break assembly, friction-stir welding and battery tray work. Facade units are glazed and water-tested before they ship, which moves the difficult work off the scaffold and into a building where it can be repeated."
-      ]
+      ],
+      "sections": [
+        {
+          "heading": "Aluminum Extrusion Systems",
+          "text": "A complete range of extrusion machinery and equipment, producing high-quality aluminum profiles for diverse applications.\n• 02 extrusion presses (690 tons)\n• 01 extrusion press (1,100 tons)\n• 01 extrusion press (1,460 tons)\n• 01 extrusion press (2,500 tons)",
+          "photos": [
+            {
+              "c": "Extrusion line",
+              "image": "capability-production-3.jpg"
+            },
+            {
+              "c": "Profile handling table",
+              "image": "capability-production-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Mold and Casting Systems",
+          "text": "• Mold production systems for aluminum profile extrusion.\n• Aluminum alloy casting systems to produce high-grade billet materials.",
+          "photos": [
+            {
+              "c": "Extrusion mold system",
+              "image": "capability-extrusion-mold-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Mechanical Processing Systems",
+          "text": "Advanced machining systems for precision aluminum and metal components:\n• 05 high-performance processing machines imported from Japan.\n• CNC cutting and machining lines.\n• Aluminum welding systems.\n• Mechanical processing and fabrication lines for metal and aluminum products.\n• 02 precision corner-stamping machines for aluminum frame assembly.",
+          "photos": [
+            {
+              "c": "Aluminum door production and machining system (1)",
+              "image": "capability-door-machining-1.jpg"
+            },
+            {
+              "c": "Aluminum door production and machining system (2)",
+              "image": "capability-door-machining-2.jpg"
+            },
+            {
+              "c": "Aluminum door production and machining system (3)",
+              "image": "capability-door-machining-3.jpg"
+            },
+            {
+              "c": "Aluminum door production and machining system (4)",
+              "image": "capability-door-machining-4.jpg"
+            },
+            {
+              "c": "Sheet metal bending and stamping system",
+              "image": "capability-bending-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Heat Treatment and Surface Pre-Treatment Systems",
+          "text": "• Heat treatment (hardening) systems.\n• 15 surface treatment tanks for degreasing and chemical cleaning.\n• 02 drying ovens operating at 70°C–120°C.",
+          "photos": [
+            {
+              "c": "Aluminum aging furnace",
+              "image": "capability-aging-furnace-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Electrostatic Powder Coating Systems",
+          "text": "Vertical and horizontal automatic powder coating lines, imported from Germany and Switzerland, for superior surface finishing and long-term durability.\n• 02 fully automated coating lines from the USA.\n• 60 automatic spray guns and 02 manual spray guns.\n• 04 automated coating robots.\n• 04 furnaces with gas burners.\n• 04 automatic powder recovery silos.\n• 03 automatic painting booths.\n• 02 post-coating drying ovens (temperature range: 200°C – 250°C).",
+          "photos": [
+            {
+              "c": "Horizontal powder coating line",
+              "image": "capability-powder-horizontal-1.jpg"
+            },
+            {
+              "c": "Vertical powder coating line (1)",
+              "image": "capability-powder-vertical-1.jpg"
+            },
+            {
+              "c": "Vertical powder coating line (2)",
+              "image": "capability-powder-vertical-2.jpg"
+            },
+            {
+              "c": "Vertical powder coating line (3)",
+              "image": "capability-powder-vertical-3.jpg"
+            },
+            {
+              "c": "Powder recovery silo",
+              "image": "capability-production-2.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Aluminum Anodizing Systems",
+          "text": "• 02 aluminum anodizing lines that enhance corrosion resistance, hardness, and surface durability.",
+          "photos": [
+            {
+              "c": "Anodizing line (1)",
+              "image": "capability-anodizing-1.jpg"
+            },
+            {
+              "c": "Anodizing line (2)",
+              "image": "capability-anodizing-2.jpg"
+            },
+            {
+              "c": "Anodizing line (3)",
+              "image": "capability-anodizing-3.jpg"
+            },
+            {
+              "c": "Anodizing line (4)",
+              "image": "capability-anodizing-4.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Aluminum Surface Finishing Systems",
+          "text": "• 02 polishing machines for aluminum surface cleaning and finishing, providing smooth and glossy appearances.\n• Surface flattening and cleaning lines to ensure high-quality finishing before coating.",
+          "photos": [
+            {
+              "c": "Surface polishing system",
+              "image": "capability-polishing-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "CNC Laser Cutting and Welding Systems",
+          "text": "• 01 imported CNC laser cutting machine for precision processing of aluminum and metal components.\n• 01 imported aluminum laser welding line for high-strength, seamless structural joints.",
+          "photos": [
+            {
+              "c": "Aluminum laser welding system",
+              "image": "capability-laser-welding-1.jpg"
+            },
+            {
+              "c": "Laser CNC machine",
+              "image": "capability-laser-cnc-1.jpg"
+            }
+          ]
+        },
+        {
+          "heading": "Certificates",
+          "text": "ISO 9001:2015 quality management certificate (BVQA), and approved applicator certificates from the powder coating suppliers.",
+          "photos": [
+            {
+              "c": "ISO 9001:2015 certificate",
+              "image": "capability-iso-9001-1.jpg"
+            },
+            {
+              "c": "PPG approved applicator certificate",
+              "image": "capability-ppg-1.jpg"
+            },
+            {
+              "c": "PPG approved applicator certificate",
+              "image": "capability-ppg-2.jpg"
+            },
+            {
+              "c": "TIGER Drylac certificates of qualification",
+              "image": "capability-tiger-1.jpg"
+            },
+            {
+              "c": "Interpon D approved applicator certificate",
+              "image": "capability-interpon-1.jpg"
+            },
+            {
+              "c": "Powder coating certificates of approval",
+              "image": "capability-approval-1.jpg"
+            }
+          ]
+        }
+      ],
+      "file": "boss-group-company-profile.pdf"
     },
     {
       "id": "history",
