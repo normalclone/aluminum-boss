@@ -1214,4 +1214,4 @@ node hero-auto.js                        # máy chủ local :5199
 node hero-auto.js https://aluminumboss.com
 ```
 
-Mở trang chủ trong trình duyệt thật và đo theo đồng hồ thật. Kiểm hero chuyển sau khoảng 6 giây và ảnh nền đổi theo. Kiểm hero dừng khi rê chuột vào chữ và chạy tiếp khi rê ra. Kiểm hero dừng khi đã cuộn khỏi hero. Kiểm hero không tự chuyển với `?edit=1` và với chế độ giảm chuyển động. Một lần chạy mất khoảng 45 giây.
+Mở trang chủ trong trình duyệt thật và đo theo đồng hồ thật. Kiểm hero chuyển sau khoảng 3 giây và ảnh nền đổi theo. Kiểm hero dừng khi rê chuột vào chữ và chạy tiếp khi rê ra. Kiểm hero dừng khi đã cuộn khỏi hero. Kiểm hero không tự chuyển với `?edit=1` và với chế độ giảm chuyển động. Một lần chạy mất khoảng 45 giây.

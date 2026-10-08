@@ -5,7 +5,7 @@
 // 07/10/2026 khach hoi: hero chua tu chuyen ("de khach vao la tu thay cac hang muc, giong web
 // kia"). Cong cu nay do trong trinh duyet that, theo dong ho that:
 //
-//   - tu chuyen sau ~6 giay, va thanh duoi chu dang sang la mot hoat anh dang chay
+//   - tu chuyen sau ~3 giay (08/10/2026; truoc la 6), va thanh duoi chu dang sang la mot hoat anh dang chay
 //   - dung khi re chuot vao cac chu; chay lai khi re ra
 //   - dung khi da cuon khoi hero
 //   - khong tu chuyen trong trinh soan (?edit=1), va voi may bat "giam chuyen dong"
@@ -37,9 +37,9 @@ const dang = p => p.evaluate(() => {
   say('thanh duoi chu dang sang la hoat anh abhero-fill', await p.evaluate(() =>
     getComputedStyle(document.querySelector('#abhero-words a.is-on'), '::after').animationName), 'abhero-fill');
 
-  await wait(6600);
+  await wait(3600);
   const sau = await dang(p);
-  say('sau ~6 giay: sang ho ke tiep', sau, tat[(tat.indexOf(dau) + 1) % tat.length]);
+  say('sau ~3 giay: sang ho ke tiep', sau, tat[(tat.indexOf(dau) + 1) % tat.length]);
   const anh = await p.evaluate(() => document.getElementById('abhero-bg').style.backgroundImage);
   say('anh nen doi theo', /_media\//.test(anh), true);
 
@@ -50,7 +50,7 @@ const dang = p => p.evaluate(() => {
   say('re chuot vao chu: dung lai o chu do', await dang(p), tat[2]);
 
   await p.mouse.move(1300, 120);
-  await wait(6600);
+  await wait(3600);
   say('re chuot ra: chay tiep', await dang(p), tat[3 % tat.length]);
 
   // cuon khoi hero

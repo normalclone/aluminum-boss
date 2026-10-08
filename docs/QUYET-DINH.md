@@ -478,8 +478,8 @@ Ba ô này dùng cùng ngoại lệ với `place` và `kind` (mục 16): máy ch
 
 Khách muốn hero tự chuyển qua các dòng sản phẩm, giống trang tham khảo. Trước đó ảnh nền chỉ đổi khi rê chuột hoặc Tab vào từng chữ.
 
-- Hero chuyển sang dòng kế tiếp sau mỗi 6 giây, rồi quay vòng.
-- Gạch dưới chữ đang sáng là một thanh chạy trong 6 giây đó. CSS và JS dùng cùng một số (`--abhero-auto`).
+- Hero chuyển sang dòng kế tiếp sau mỗi 3 giây, rồi quay vòng. Lúc đầu là 6 giây; anh yêu cầu nhanh gấp đôi ngày 08/10/2026.
+- Gạch dưới chữ đang sáng là một thanh chạy trong 3 giây đó. CSS và JS dùng cùng một số (`--abhero-auto`).
 - Hero dừng khi chuột hoặc phím Tab ở trên các chữ, khi đã cuộn khỏi hero, và khi tab bị ẩn.
 - Hero không tự chuyển trong trình soạn (`?edit=1`). Ở đó ảnh nền là một ô sửa được, và ô đó phải đứng yên để Ctrl-click.
 - Hero không tự chuyển khi máy bật "giảm chuyển động" (`prefers-reduced-motion`).

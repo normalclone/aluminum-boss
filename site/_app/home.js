@@ -4,7 +4,7 @@
  * the page, so adding a family to the catalogue adds it to the hero. Selecting one changes the
  * backdrop and the caption; following it goes to that family.
  *
- * The hero also moves on by itself, one family every AUTO ms, as the reference site does (asked
+ * The hero also moves on by itself, one family every AUTO ms (3 s since 08/10/2026, was 6 s), as the reference site does (asked
  * for on 07/10/2026: "a visitor sees every family without doing anything"). It stops while the
  * pointer or the keyboard is on the words, while the hero is off screen or the tab is hidden, in
  * the editor, and for anybody who has asked their system for reduced motion.
@@ -21,7 +21,7 @@
   var at = -1, items = [];
 
   // ---- moving on by itself ----------------------------------------------------------------
-  var AUTO = 6000;
+  var AUTO = 3000;
   var timer = 0;
   var held = false;      // pointer over the words, or focus inside them
   var seen = true;       // the hero is on screen
@@ -35,7 +35,7 @@
   function running() { return !still && !held && seen && !document.hidden && items.length > 1; }
 
   // One timer, restarted on every change of family - by hand or by itself - so the bar under
-  // the word and the moment it moves on always describe the same six seconds.
+  // the word and the moment it moves on always describe the same AUTO ms.
   function arm() {
     clearTimeout(timer);
     if (hero) hero.classList.toggle('is-held', !running());
