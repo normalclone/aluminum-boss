@@ -190,7 +190,9 @@
     for (var i = 0; i < all.length; i++) {
       out.push({ address: all[i].getAttribute('data-ab-list'),
                  each: all[i].getAttribute('data-ab-each') || 'Item',
-                 multiline: all[i].hasAttribute('data-ab-multiline') });
+                 multiline: all[i].hasAttribute('data-ab-multiline'),
+                 // A list of objects: which field of a new entry the cursor goes to.
+                 first: all[i].getAttribute('data-ab-first') || null });
     }
     return out;
   }

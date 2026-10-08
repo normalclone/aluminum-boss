@@ -1475,23 +1475,36 @@ public sealed class SectionRenderer
 
         var id = Str(a, "id");
         var photos = Arr(a, "photos");
-        var products = Arr(a, "products").Select(p => p.ToString());
 
-        // Products is a list joined with commas, so it has no address: one box holding
-        // "A, B, C" saves back as one string where the file wants three.
         (string K, string V, string A)[] facts =
         [
             ("Year", Str(a, "year"), TextAddress(a, "year")),
             ("Location", Str(a, "location"), TextAddress(a, "location")),
             ("Client", Str(a, "client"), TextAddress(a, "client")),
             ("Scope", Str(a, "scope"), TextAddress(a, "scope")),
-            ("Products", string.Join(", ", products), string.Empty),
         ];
 
         var dl = new StringBuilder();
         foreach (var (k, v, addr) in facts)
             dl.Append("<div class=\"ab-spec\"><dt>").Append(Esc(k)).Append("</dt><dd")
               .Append(addr).Append('>').Append(Esc(v)).Append("</dd></div>");
+
+        // Products: one span per product, commas between. One box holding "A, B, C" would save
+        // back as one string where the file wants three - so each product is its own address,
+        // and the editor adds and removes them as a list (ItemLists, 08/10/2026).
+        var products = ((a as JsonObject)?["products"] as JsonArray)?.OfType<JsonNode>().ToList() ?? [];
+        dl.Append("<div class=\"ab-spec\"><dt>Products</dt><dd>");
+        for (var i = 0; i < products.Count; i++)
+            dl.Append(i > 0 ? ", " : "").Append("<span").Append(TextAt(products[i])).Append('>')
+              .Append(Esc(products[i].ToString())).Append("</span>");
+        dl.Append("</dd></div>");
+
+        // The body: the project written up like an article, under the facts. One address per
+        // paragraph, as in an article. A project with none draws nothing here; the editor still
+        // offers "Add a paragraph", from the page's list marker.
+        var body = new StringBuilder();
+        foreach (var p in ((a as JsonObject)?["body"] as JsonArray)?.OfType<JsonNode>() ?? [])
+            body.Append("<p").Append(TextAt(p)).Append('>').Append(Esc(p.ToString())).Append("</p>");
 
         // The opening frame runs the full width and the rest sit in an even three-column sheet.
         var tiles = new StringBuilder();
@@ -1538,8 +1551,11 @@ public sealed class SectionRenderer
             .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(a, "note")).Append('>')
             .Append(Esc(Str(a, "note"))).Append("</p>")
             .Append("<dl class=\"ab-specs\">").Append(dl).Append("</dl>")
-            .Append("<p class=\"ab-count\">").Append(photos.Count)
-            .Append(" photographs — select one to open the viewer</p>")
+            .Append(body.Length > 0 ? "<div class=\"ab-article ab-project-body\">" + body + "</div>" : "")
+            .Append(photos.Count > 0
+                ? "<p class=\"ab-count\">" + photos.Count + (photos.Count == 1 ? " photograph" : " photographs")
+                  + " — select one to open the viewer</p>"
+                : "")
             .Append("<div class=\"ab-sheet\">").Append(tiles).Append("</div>")
             .Append("<div class=\"ab-items\"><h2>Other albums</h2><div class=\"ab-grid\">")
             .Append(others).Append("</div></div></div>").ToString();

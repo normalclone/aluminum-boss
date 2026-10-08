@@ -187,7 +187,7 @@ public sealed class PageComposer
             var section = detail.Success ? detail.Groups["name"].Value : null;
             filled = Describe(filled, real, root, section, id);
             return edit
-                ? WithBridge(filled, root, SeoFields(real, root, section, id) + ListMarkers(section, id))
+                ? WithBridge(filled, root, SeoFields(real, root, section, id) + ListMarkers(section, id, filled))
                 : filled;
         });
     }
@@ -313,25 +313,38 @@ public sealed class PageComposer
     /// The count is not written: the editor counts the boxes it was given for this list, so the
     /// number and the boxes cannot disagree.
     /// </summary>
-    private string ListMarkers(string? section, string? itemId)
+    private string ListMarkers(string? section, string? itemId, string html)
     {
-        var lists = ItemLists.ForSection(section).ToList();
-        if (lists.Count == 0) return "";
-        if (_sections.ItemFor(section!, itemId) is not { } item) return "";
-        if (_sections.AddressOf(section!, item) is not { } at) return "";
-
         var sb = new StringBuilder();
-        foreach (var l in lists)
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+
+        // A detail page: the lists of the one item it shows. The table names a pattern; the
+        // page's item has to be inside it, or the marker would send the editor to a list on some
+        // other item.
+        if (section is not null && _sections.ItemFor(section, itemId) is { } item
+            && _sections.AddressOf(section, item) is { } at)
         {
-            // The table names a document and a list of items; the page's item has to be one of
-            // them, or the marker would send the editor to a list on some other document.
-            if (!at.StartsWith(l.Document + "." + l.Items + ".", StringComparison.Ordinal)) continue;
-            sb.Append("<span hidden data-ab-list=\"").Append(Esc(at + "." + l.Field))
-              .Append("\" data-ab-each=\"").Append(Esc(l.Each)).Append('"')
-              .Append(l.Multiline ? " data-ab-multiline" : "").Append("></span>");
+            foreach (var l in ItemLists.ForSection(section))
+                foreach (var list in ItemLists.Expand(l, _store.Get(l.Pattern[..l.Pattern.IndexOf('.')])))
+                    if (list.StartsWith(at + ".", StringComparison.Ordinal) && seen.Add(list))
+                        sb.Append(Marker(list, l));
         }
+
+        // A list section anywhere on the page (the document groups on /documents/): the lists of
+        // every item it draws.
+        foreach (Match m in Regex.Matches(html, @"data-ab-section=""([a-z0-9-]+-list)"""))
+            foreach (var l in ItemLists.ForSection(m.Groups[1].Value))
+                foreach (var list in ItemLists.Expand(l, _store.Get(l.Pattern[..l.Pattern.IndexOf('.')])))
+                    if (seen.Add(list)) sb.Append(Marker(list, l));
+
         return sb.ToString();
     }
+
+    private static string Marker(string list, ItemLists.Entry l)
+        => "<span hidden data-ab-list=\"" + Esc(list) + "\" data-ab-each=\"" + Esc(l.Each) + "\""
+         + (l.Multiline ? " data-ab-multiline" : "")
+         + (l.First is null ? "" : " data-ab-first=\"" + Esc(l.First) + "\"")
+         + "></span>";
 
     private static string Box(string address, string role, string value, string hint)
         => $"<span hidden data-ab-t=\"{Esc(address)}\" data-ab-seo=\"{role}\""

@@ -46,6 +46,13 @@ public class EditController : Controller
     public IActionResult Index(string? page = null)
     {
         var pages = Pages();
+        // An item page that is not the one the picker lists for its kind. The picker carries the
+        // FIRST item of each kind only, and until 08/10/2026 any other page fell through to Home -
+        // which meant "Edit" on the Content screen opened the home page for every row but the
+        // first. Accepted when the slug belongs to an item, and added to the picker so the select
+        // can show it as chosen.
+        if (page is not null && !pages.Any(p => p.Path == page) && ItemPage(page) is { } link)
+            pages.Insert(pages.FindLastIndex(p => link.Path.StartsWith(p.Path, StringComparison.Ordinal)) + 1, link);
         ViewData["Pages"] = pages;
         ViewData["Page"] = pages.Any(p => p.Path == page) ? page : pages[0].Path;
         ViewData["Title"] = "Edit pages";
@@ -93,6 +100,19 @@ public class EditController : Controller
         }
 
         return links;
+    }
+
+    /// <summary>
+    /// <c>/projects/skyliving/</c> as a page the editor may open, or null: the folder has a
+    /// detail template and the slug is an item's. Strict, so a made-up address still opens Home.
+    /// </summary>
+    private PageLink? ItemPage(string path)
+    {
+        var parts = path.Trim('/').Split('/');
+        if (parts.Length != 2 || !path.StartsWith('/') || !path.EndsWith('/')) return null;
+        var section = _composer.DetailSectionFor("/" + parts[0] + "/detail/");
+        if (section is null || _sections.IdForSlug(section, parts[1]) is null) return null;
+        return new PageLink(path, Title(parts[0]) + " — " + parts[1]);
     }
 
     private static string Title(string folder)
@@ -168,10 +188,10 @@ public class EditController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> List([FromBody] ListChange? change)
     {
-        if (change is null || !ItemLists.TryRead(change.Address ?? "", change.Op ?? "", out var target, out var op))
+        if (change is null || !ItemLists.TryRead(change.Address ?? "", change.Op ?? "", out var target, out var op, out var entry))
             return Json(new { ok = false, error = "That list cannot be changed from here." });
 
-        var result = _editor.Structure(target, op);
+        var result = _editor.Structure(target, op, entry.NewEntry(), entry.Create);
         if (result.Rejected.Count > 0)
             return Json(new { ok = false, error = "That could not be changed. Reload the page and try again." });
 

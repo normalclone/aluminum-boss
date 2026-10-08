@@ -111,24 +111,35 @@
 
   /* ---- the lists inside an item: paragraphs, tags ------------------------------------ */
 
-  var itemLists = [];       // what the page reported: [{ address, each, multiline }]
+  var itemLists = [];       // what the page reported: [{ address, each, multiline, first }]
   var revealNext = null;    // an address to scroll to and focus once the page comes back
 
-  // The list an entry belongs to, or null: "news.items.0.body.3" -> the body list.
-  function listOf(address) {
-    for (var i = 0; i < itemLists.length; i++) {
-      var l = itemLists[i];
-      if (address.indexOf(l.address + '.') === 0 && /^\d+$/.test(address.slice(l.address.length + 1))) return l;
-    }
-    return null;
+  // The entry of a list that a box belongs to: "news.items.0.body.3" is entry 3 of the body,
+  // and so are "projects.albums.0.photos.3.c" and ".image" - one photo, two boxes. Entries of a
+  // list inside an entry (a section's photos) belong to the INNER list's entries, and to the
+  // outer entry as well, which is what lets a section's buttons go after its last photo.
+  function entryIn(l, address) {
+    if (address.indexOf(l.address + '.') !== 0) return null;
+    var rest = address.slice(l.address.length + 1);
+    var m = /^(\d+)(\.|$)/.exec(rest);
+    return m ? l.address + '.' + m[1] : null;
   }
 
-  // How many entries a list has - counted from the boxes this column was given, so the number and
-  // the boxes cannot disagree. The page draws one box per entry, empty ones included.
-  function countOf(list) {
-    var n = 0;
-    Object.keys(inputs).forEach(function (a) { if (listOf(a) === list) n++; });
-    return n;
+  // The entries of a list, in order, each with the boxes it owns - counted from the boxes this
+  // column was given, so the number and the boxes cannot disagree.
+  function entriesOf(l) {
+    var by = {};
+    Object.keys(inputs).forEach(function (a) {
+      var e = entryIn(l, a);
+      if (e) (by[e] = by[e] || []).push(a);
+    });
+    return Object.keys(by).sort(function (a, b) { return +a.split('.').pop() - +b.split('.').pop(); })
+      .map(function (e) { return { address: e, boxes: by[e] }; });
+  }
+
+  // The box that speaks for an entry: the one the table names, or the entry itself (a string).
+  function headBox(l, entry) {
+    return l.first && inputs[entry + '.' + l.first] ? entry + '.' + l.first : entry;
   }
 
   /**
@@ -178,36 +189,75 @@
   // The buttons for every list the page reported: under each entry, and one "Add" after the last
   // entry - or at the end of the item's group when there are none yet, which is the brand-new
   // article's case and the reason all of this exists.
-  function drawLists() {
-    itemLists.forEach(function (l) {
-      var entries = Object.keys(inputs).filter(function (a) { return listOf(a) === l; })
-        .sort(function (a, b) { return +a.split('.').pop() - +b.split('.').pop(); });
-      var word = l.each.toLowerCase();
+  // Where an entry's buttons go: after the last of its boxes in the column - after a photo's
+  // caption, after a section's last photo - so they read as belonging to all of it.
+  function lastCard(boxes) {
+    var cards = boxes.map(function (a) { return inputs[a].closest('.ed-field'); }).filter(Boolean);
+    cards.sort(function (x, y) { return x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1; });
+    return cards[cards.length - 1];
+  }
 
-      entries.forEach(function (a, i) {
-        var card = inputs[a].closest('.ed-field');
+  function drawLists() {
+    // Inner lists first, so that an outer entry's row lands after the inner list's "Add" button
+    // rather than between its last photo and that button.
+    itemLists.slice().sort(function (a, b) { return b.address.length - a.address.length; }).forEach(function (l) {
+      var entries = entriesOf(l);
+      var word = l.each.toLowerCase();
+      var reveal = function (n) { var e = l.address + '.' + n; return l.first ? e + '.' + l.first : e; };
+
+      entries.forEach(function (en, i) {
+        var a = en.address;
+        var card = lastCard(en.boxes);
+        if (!card) return;
         var row = document.createElement('div');
         row.className = 'ed-listrow';
-        if (i > 0) row.appendChild(tiny('↑', 'Move this ' + word + ' up', function () { listOp(a, 'up', l.address + '.' + (i - 1)); }));
-        if (i < entries.length - 1) row.appendChild(tiny('↓', 'Move this ' + word + ' down', function () { listOp(a, 'down', l.address + '.' + (i + 1)); }));
+        if (l.first) row.setAttribute('data-entry', a);
+        if (i > 0) row.appendChild(tiny('↑', 'Move this ' + word + ' up', function () { listOp(a, 'up', reveal(i - 1)); }));
+        if (i < entries.length - 1) row.appendChild(tiny('↓', 'Move this ' + word + ' down', function () { listOp(a, 'down', reveal(i + 1)); }));
         row.appendChild(tiny('Remove', 'Remove this ' + word, function () {
-          var v = inputs[a].value.trim();
-          if (v && !confirm('Remove this ' + word + '?\n\n"' + v.slice(0, 120) + (v.length > 120 ? '…' : '') + '"')) return;
+          var head = inputs[headBox(l, a)];
+          var v = head ? String(head.value || '').trim() : '';
+          if (!confirm('Remove this ' + word + '?' + (v ? '\n\n"' + v.slice(0, 120) + (v.length > 120 ? '…' : '') + '"' : ''))) return;
           listOp(a, 'remove', null);
         }, 'ed-mini-danger'));
-        card.appendChild(row);
+        // After the card, or after an inner list's own Add button that already sits there.
+        var after = card;
+        while (after.nextSibling && after.nextSibling.classList &&
+               (after.nextSibling.classList.contains('ed-add') || after.nextSibling.classList.contains('ed-listrow')))
+          after = after.nextSibling;
+        if (l.first) after.parentNode.insertBefore(row, after.nextSibling);
+        else card.appendChild(row);
       });
 
       var add = tiny('Add a ' + word, 'Add a ' + word + ' at the end', function () {
-        listOp(l.address, 'append', l.address + '.' + countOf(l));
+        listOp(l.address, 'append', reveal(entries.length));
       }, 'ed-add');
       add.setAttribute('data-list', l.address);
 
       if (entries.length) {
-        var last = inputs[entries[entries.length - 1]].closest('.ed-field');
-        last.parentNode.insertBefore(add, last.nextSibling);
+        var lastEn = entries[entries.length - 1];
+        var last = lastCard(lastEn.boxes);
+        var after = last;
+        while (after.nextSibling && after.nextSibling.classList &&
+               (after.nextSibling.classList.contains('ed-add') || after.nextSibling.classList.contains('ed-listrow')))
+          after = after.nextSibling;
+        after.parentNode.insertBefore(add, after.nextSibling);
       } else {
-        // No entries: put it in the group the list's document belongs to.
+        // No entries. After the boxes of the item that holds the list, when it has any on the
+        // screen - a section with no photos yet gets "Add a photo" under its own text, not at
+        // the far end of the chapter.
+        var holder = l.address.slice(0, l.address.lastIndexOf('.'));
+        var own = Object.keys(inputs).filter(function (a) { return a.indexOf(holder + '.') === 0; });
+        var at = own.length ? lastCard(own) : null;
+        if (at) {
+          var after2 = at;
+          while (after2.nextSibling && after2.nextSibling.classList &&
+                 (after2.nextSibling.classList.contains('ed-add') || after2.nextSibling.classList.contains('ed-listrow')))
+            after2 = after2.nextSibling;
+          after2.parentNode.insertBefore(add, after2.nextSibling);
+          return;
+        }
+        // Otherwise put it in the group the list's document belongs to.
         var head = group(l.address);
         var sec = Array.prototype.find.call(list.querySelectorAll('.ed-group'), function (s) {
           return s.querySelector('summary').textContent === head;
@@ -950,9 +1000,11 @@
       //
       // A paragraph gets room whatever it holds: a new one is empty, and an empty one-line box
       // invites one short sentence where a paragraph was meant.
-      var inList = listOf(f.address);
+      // A paragraph is an entry of a multiline list; a section's text is a field named "text"
+      // inside one. Both are written as sentences.
+      var inList = itemLists.some(function (l) { return l.multiline && entryIn(l, f.address) === f.address; });
       var many = f.kind === 'lines' || f.value.length > 70 || f.seo === 'description'
-              || !!(inList && inList.multiline);
+              || inList || /\.sections\.\d+\.text$/.test(f.address);
       var input = document.createElement(many ? 'textarea' : 'input');
       if (!many) input.type = 'text';
       input.id = id;

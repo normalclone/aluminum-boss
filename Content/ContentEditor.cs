@@ -421,7 +421,12 @@ public sealed class ContentEditor
     /// <paramref name="address"/> names the collection for <see cref="Op.Add"/>
     /// (<c>news.items</c>) and the item for everything else (<c>news.items.3</c>).
     /// </summary>
-    public Result Structure(string address, Op op)
+    /// <param name="template">For <see cref="Op.Append"/> on a list of objects: the new entry.
+    ///   Null means a list of strings. Comes from <see cref="ItemLists"/>, never from a request.</param>
+    /// <param name="create">For <see cref="Op.Append"/>: create the list when the item has none.
+    ///   An item written before the list existed is the case - a project before projects had a
+    ///   body. Only the list's own name is created, and only on an item that is there.</param>
+    public Result Structure(string address, Op op, JsonObject? template = null, bool create = false)
     {
         var cut = address.IndexOf('.');
         if (cut <= 0) return Refused(address);
@@ -440,6 +445,9 @@ public sealed class ContentEditor
 
         // The array, and - for everything but Add - which of its items.
         var arrayPath = wantsItem ? path[..^1] : path;
+        if (op == Op.Append && create && arrayPath.Length > 1
+            && Walk(doc, arrayPath[..^1]) is JsonObject holder && !holder.ContainsKey(arrayPath[^1]))
+            holder[arrayPath[^1]] = new JsonArray();
         if (Walk(doc, arrayPath) is not JsonArray list) return Refused(address);
 
         var at = -1;
@@ -453,6 +461,16 @@ public sealed class ContentEditor
                 // written here would be a second description of a document's fields, and the
                 // first thing to go stale when one of them gains a field.
                 list.Insert(0, Blank(list.FirstOrDefault()));
+                break;
+
+            case Op.Append when template is not null:
+                // Objects only, every entry checked, for the same reason as strings below: a
+                // photo object dropped into a list of strings, or a string into a list of photos,
+                // is an entry every page that reads the list draws wrongly.
+                if (list.Any(e => e is not JsonObject)) return Refused(address);
+                var made = (JsonObject)template.DeepClone();
+                if (made.ContainsKey("id")) made["id"] = NewId();
+                list.Add(made);
                 break;
 
             case Op.Append:

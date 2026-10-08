@@ -317,12 +317,13 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     }
     if (!a) a = d.albums[0];
     AB.title(a.title + ' — Projects');
+    a.photos = a.photos || [];
     photos = a.photos;
 
     // Mot o thong so de trong thi in ra "Not recorded" chu khong de trong: mot <dd> rong nhin
     // giong mot cho bi loi, con mot dong chu noi ro la khong co so lieu thi la mot cau tra loi.
     var facts = [['Year', a.year], ['Location', a.location], ['Client', a.client],
-                 ['Scope', a.scope], ['Products', a.products.join(', ')]]
+                 ['Scope', a.scope], ['Products', (a.products || []).join(', ')]]
       .map(function (r) {
         return '<div class="ab-spec"><dt>' + AB.esc(r[0]) + '</dt><dd>' +
                AB.esc(r[1] || 'Not recorded') + '</dd></div>';
