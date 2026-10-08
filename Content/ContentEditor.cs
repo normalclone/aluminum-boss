@@ -141,6 +141,17 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // A document's own PDF (08/10/2026): may be written onto a document that never had
+            // one; emptied, the field goes and the document falls back to _docs/<id>.pdf.
+            if (IsDocumentFile(name, path))
+            {
+                if (!DocumentFiles.IsName(change.Value) || !DocumentFile(doc, path, change.Value))
+                { rejected.Add(change.Address); continue; }
+                applied++;
+                changed.Add(name);
+                continue;
+            }
+
             // The two names that may be created where none exists, and removed when emptied.
             // Handled before TrySet because TrySet is the rule they are the exception to.
             if (SeoLeaf(path) is { } leaf)
@@ -245,6 +256,22 @@ public sealed class ContentEditor
         if (field is "family")
             return (doc["familySpecs"] as JsonObject)?.Select(p => p.Key).ToList();
         return null;
+    }
+
+    /// <summary><c>documents.categories.N.items.M.file</c>, and only that.</summary>
+    public static bool IsDocumentFile(string name, string path)
+        => name.Equals("documents", StringComparison.OrdinalIgnoreCase) && DocFileField.IsMatch(path);
+
+    private static readonly Regex DocFileField =
+        new(@"^categories\.\d+\.items\.\d+\.file$", RegexOptions.Compiled);
+
+    private static bool DocumentFile(JsonNode doc, string path, string value)
+    {
+        var parent = path[..path.LastIndexOf('.')];
+        if (Walk(doc, parent.Split('.')) is not JsonObject item) return false;
+        if (value.Length == 0) item.Remove("file");
+        else item["file"] = JsonValue.Create(value);
+        return true;
     }
 
     /// <summary>What a point on the factory map can be. Empty or absent reads as the first.</summary>

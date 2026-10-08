@@ -16,7 +16,7 @@
     page -> editor
       { type: 'ab:ready', url, fields: [...], lists: [...] }
         fields: [{ address, kind, value, shape?, options?, seo?, hint? }]
-                                          kind = 't' | 'lead' | 'lines' | 'img' | 'pick' | 'date'
+                                          kind = 't' | 'lead' | 'lines' | 'img' | 'pick' | 'date' | 'file'
                                           'date' = an article's date: value is "2026-08-19", what
                                             the file holds, never the "19 August 2026" on screen
         lists:  [{ address, each, multiline }]  a list inside the item that the editor may grow:
@@ -47,7 +47,9 @@
   if (w.parent === w) return;   // Not in a frame: there is nobody to talk to.
 
   var KINDS = [['data-ab-t', 't'], ['data-ab-lead', 'lead'], ['data-ab-lines', 'lines'],
-               ['data-ab-img', 'img'], ['data-ab-pick', 'pick'], ['data-ab-date', 'date']];
+               ['data-ab-img', 'img'], ['data-ab-pick', 'pick'], ['data-ab-date', 'date'],
+               // A document's PDF: a hidden handle, the value in data-ab-value (08/10/2026).
+               ['data-ab-file', 'file']];
 
   // The same words SectionRenderer.LongDate writes, so a date typed in the editor reads on the
   // page exactly as it will after the save: "19 August 2026", not the browser's own idea.
@@ -105,7 +107,7 @@
     }
     if (kind === 't' || kind === 'pick') return el.textContent;
     // What the file holds, not what the reader sees.
-    if (kind === 'date') return el.getAttribute('data-ab-value') || '';
+    if (kind === 'date' || kind === 'file') return el.getAttribute('data-ab-value') || '';
     if (kind === 'lead') {
       var first = el.firstChild;
       return first && first.nodeType === 3 ? first.data : '';
@@ -134,6 +136,7 @@
       return;
     }
     if (kind === 't' || kind === 'pick') { el.textContent = value; return; }
+    if (kind === 'file') { el.setAttribute('data-ab-value', value || ''); return; }
     if (kind === 'date') {
       el.setAttribute('data-ab-value', value || '');
       el.textContent = value ? longDate(value) : '';
@@ -155,7 +158,7 @@
 
   function each(fn) {
     var all = d.querySelectorAll(
-      '[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img],[data-ab-pick],[data-ab-date]');
+      '[data-ab-t],[data-ab-lead],[data-ab-lines],[data-ab-img],[data-ab-pick],[data-ab-date],[data-ab-file]');
     for (var i = 0; i < all.length; i++) {
       var a = attr(all[i]);
       if (a) fn(all[i], a.address, a.kind);
@@ -170,6 +173,8 @@
       // The options travel with the field. The editor has no way to know that "gloss" means one
       // of four words - the page is the only side that has read the file.
       if (kind === 'pick') f.options = (el.getAttribute('data-ab-opts') || '').split('|');
+      // What the document uses while it names no file of its own: <id>.pdf.
+      if (kind === 'file') f.fallback = el.getAttribute('data-ab-fallback') || '';
 
       // The three boxes that are not anywhere on the page. Nothing shows a page its own search
       // title, so the composer hands one over in a hidden block; from here it is an ordinary

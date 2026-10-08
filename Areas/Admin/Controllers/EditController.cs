@@ -27,18 +27,20 @@ public class EditController : Controller
     private readonly SectionRenderer _sections;
     private readonly ContentEditor _editor;
     private readonly MediaLibrary _media;
+    private readonly DocumentFiles _files;
     private readonly AppDbContext _db;
     private readonly IWebHostEnvironment _env;
 
     public EditController(ContentStore store, PageComposer composer, SectionRenderer sections,
-                          ContentEditor editor, MediaLibrary media, AppDbContext db,
-                          IWebHostEnvironment env)
+                          ContentEditor editor, MediaLibrary media, DocumentFiles files,
+                          AppDbContext db, IWebHostEnvironment env)
     {
         _store = store;
         _composer = composer;
         _sections = sections;
         _editor = editor;
         _media = media;
+        _files = files;
         _db = db;
         _env = env;
     }
@@ -253,6 +255,27 @@ public class EditController : Controller
 
         paths[kind.Page + was + "/"] = kind.Page + now + "/";
         _editor.SaveDocument("redirects", table);
+    }
+
+    /// <summary>
+    /// Takes a PDF for a document and hands back the name to put in its "file" field.
+    ///
+    /// Like a picture, the file is stored straight away and the field changes only when the
+    /// person saves - so an upload they walk away from changes no page.
+    /// </summary>
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [RequestSizeLimit(DocumentFiles.MaxBytes + 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = DocumentFiles.MaxBytes + 1024 * 1024)]
+    public async Task<IActionResult> UploadDocument(IFormFile? file)
+    {
+        if (file is null) return Json(new { error = "No file was chosen." });
+
+        await using var stream = file.OpenReadStream();
+        var saved = await _files.Accept(stream, file.FileName, file.Length);
+        return saved.Name is null
+            ? Json(new { error = saved.Error })
+            : Json(new { name = saved.Name, url = "/" + DocumentFiles.Folder + "/" + saved.Name });
     }
 
     /// <summary>Every picture in the library, newest first.</summary>

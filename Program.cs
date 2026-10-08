@@ -90,6 +90,7 @@ builder.Services.AddSingleton<PageComposer>();
 builder.Services.AddSingleton<SlugRouter>();
 builder.Services.AddSingleton<ContentEditor>();
 builder.Services.AddSingleton<MediaLibrary>();
+builder.Services.AddSingleton<DocumentFiles>();
 builder.Services.AddSingleton<SiteFiles>();
 builder.Services.AddSingleton<Enquiries>();
 

@@ -112,6 +112,13 @@
 .ed-add::before { content: "+ "; }
 .ed-add:hover { border-color: var(--ad-good); background: rgba(31, 106, 68, .05); }
 
+/* A document's PDF: what is in use, and the upload button under it. */
+.ed-file-now { margin: 0 0 8px; font-size: 13px; overflow-wrap: anywhere; }
+.ed-file-now a { color: var(--ad-ink); }
+.ed-field-file .ed-choose { display: inline-block; position: relative; overflow: hidden; cursor: pointer; }
+.ed-field-file .ed-choose input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ed-field-file .ed-slot { display: block; margin-top: 6px; }
+
 /* ---- right: the page ---- */
 .ed-preview { display: flex; flex-direction: column; min-width: 0; background: var(--ad-wash); }
 

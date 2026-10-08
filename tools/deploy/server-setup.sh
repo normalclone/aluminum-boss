@@ -115,7 +115,7 @@ server {
 
     # Anh tai len toi da 20 MB (cung con so man hinh soan noi voi khach). Mac dinh cua nginx la
     # 1 MB, va vuot qua thi khach nhan 413 tu nginx - ung dung khong he biet co ai vua thu tai.
-    client_max_body_size 20m;
+    client_max_body_size 45m;   # PDF cua Documents toi 40 MB (08/10/2026)
 
     location / {
         proxy_pass         http://127.0.0.1:$CONG_APP;

@@ -728,8 +728,8 @@ public sealed class SectionRenderer
                     .Append("<span").Append(TextAddress(d, "pages")).Append('>')
                     .Append(Esc(Str(d, "pages"))).Append("</span>").Append(" pages</span>")
                     .Append("</span></a>")
-                    .Append("<a class=\"ab-doc-dl\" href=\"").Append(root).Append("_docs/")
-                    .Append(Esc(id)).Append(".pdf\" download>Download</a></div>");
+                    .Append("<a class=\"ab-doc-dl\" href=\"").Append(DocFile(d, root))
+                    .Append("\" download>Download</a>").Append(FileField(d)).Append("</div>");
             }
 
             sb.Append("<section class=\"ab-doccat\"><div class=\"ab-doccat-head\"><h2")
@@ -740,6 +740,24 @@ public sealed class SectionRenderer
         }
         return sb.ToString();
     }
+
+    /// <summary>
+    /// Where a document's PDF is: the file it names, or - for the ones written before documents
+    /// could name a file - <c>_docs/&lt;id&gt;.pdf</c>.
+    /// </summary>
+    private static string DocFile(JsonNode? d, string root)
+    {
+        var named = Str(d, "file");
+        return root + "_docs/" + (named.Length > 0 ? Esc(named) : Esc(Str(d, "id")) + ".pdf");
+    }
+
+    /// <summary>
+    /// The editor's handle on a document's PDF: hidden, because what a reader sees is the
+    /// Download link; the editor draws it as an upload button (data-ab-file).
+    /// </summary>
+    private static string FileField(JsonNode? d)
+        => d is null ? "" : "<span hidden data-ab-file=\"." + Esc(Where(d, "file")) + "\" data-ab-value=\""
+                            + Esc(Str(d, "file")) + "\" data-ab-fallback=\"" + Esc(Str(d, "id")) + ".pdf\"></span>";
 
     /// <summary>The item named by the id, or the first one. Null only when there are none.</summary>
     private static JsonNode? Pick(string section, JsonNode doc, string? id)
@@ -1573,7 +1591,7 @@ public sealed class SectionRenderer
         if (cat is null) return null;
 
         var catName = Str(cat, "name");
-        var file = root + "_docs/" + Esc(id) + ".pdf";
+        var file = DocFile(d, root);
 
         // Reference is the id upper-cased and Type belongs to the category, so neither is
         // edited here; Format is not in the file at all.
@@ -1616,6 +1634,7 @@ public sealed class SectionRenderer
             .Append(Esc(Str(d, "title")))
             .Append("</h1><p class=\"ab-tagline\"").Append(TextAddress(d, "blurb")).Append('>')
             .Append(Esc(Str(d, "blurb"))).Append("</p>")
+            .Append(FileField(d))
             .Append("<div class=\"ab-docactions\"><a class=\"ab-submit\" href=\"").Append(file)
             .Append("\" download>Download PDF</a><a class=\"ab-plain\" href=\"").Append(file)
             .Append("\" target=\"_blank\" rel=\"noopener\">Open in a new tab</a></div>")

@@ -82,6 +82,16 @@ for d in _data _media; do
   ln -sfn "$DICH/noi-dung/$d" "$DICH/app/wwwroot/$d"
 done
 
+# _docs: PDF cua muc Documents. Tu 08/10/2026 khach tai PDF len tu trinh soan, nen _docs la
+# NOI DUNG nhu _data va _media - nam o noi-dung/, khong bi thay moi lan trien khai. Goi van mang
+# cac PDF co san cua ma nguon; `cp -an` chi them tep chua co, khong bao gio ghi de tep khach da tai.
+mkdir -p "$DICH/noi-dung/_docs"
+if [ -d "$DICH/app/wwwroot/_docs" ] && [ ! -L "$DICH/app/wwwroot/_docs" ]; then
+  cp -an "$DICH/app/wwwroot/_docs/." "$DICH/noi-dung/_docs/"
+  rm -rf "$DICH/app/wwwroot/_docs"
+fi
+ln -sfn "$DICH/noi-dung/_docs" "$DICH/app/wwwroot/_docs"
+
 rm -rf "$DICH/app/App_Data"
 ln -sfn "$DICH/App_Data" "$DICH/app/App_Data"
 

@@ -610,6 +610,8 @@
     meta: 'detail',
     n: 'name',
     output: 'capacity',
+    // A document's own PDF, uploaded from the editor (08/10/2026).
+    file: 'PDF file',
     // A factory's photos. The first is on its card beside the map; all three show when somebody
     // clicks its pin. Named for where they appear, since "photo 2" alone says nothing.
     photo: 'photo (card and pop-up)',
@@ -871,6 +873,69 @@
       cap.textContent = f.seo ? SEO_WORDS[f.seo] : label(f.address, only[f.address]);
       cap.title = f.address;
       field.appendChild(cap);
+
+      // A document's PDF (08/10/2026). The name of the file in use, a link to open it, and a
+      // button that uploads a new one. Like a picture, the upload is stored at once and the
+      // field changes only on Save - so an upload somebody walks away from changes no page.
+      if (f.kind === 'file') {
+        field.className = 'ed-field ed-field-file';
+        var keep = document.createElement('input');
+        keep.type = 'hidden';
+        keep.id = id;
+        keep.value = f.value;
+        keep.setAttribute('data-address', f.address);
+        field.appendChild(keep);
+        var now = document.createElement('p');
+        now.className = 'ed-file-now';
+        var showFile = function (name) {
+          now.innerHTML = '';
+          var used = name || f.fallback;
+          var link = document.createElement('a');
+          link.href = '/_docs/' + encodeURIComponent(used);
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.textContent = used;
+          now.appendChild(document.createTextNode(name ? 'File: ' : 'No file uploaded yet. The page links to '));
+          now.appendChild(link);
+        };
+        showFile(f.value);
+        field.appendChild(now);
+        var pick = document.createElement('label');
+        pick.className = 'ed-choose ed-upload';
+        pick.textContent = 'Upload a PDF';
+        var chooser = document.createElement('input');
+        chooser.type = 'file';
+        chooser.accept = '.pdf,application/pdf';
+        pick.appendChild(chooser);
+        field.appendChild(pick);
+        var state = document.createElement('span');
+        state.className = 'ed-slot';
+        state.appendChild(line('PDF only, up to 40 MB. The new file is used after Save.'));
+        field.appendChild(state);
+        chooser.addEventListener('change', function () {
+          var file = chooser.files && chooser.files[0];
+          if (!file) return;
+          state.textContent = 'Uploading ' + file.name + '…';
+          var form = new FormData();
+          form.append('file', file);
+          form.append('__RequestVerificationToken', token);
+          fetch('/Admin/Edit/UploadDocument', { method: 'POST', body: form })
+            .then(function (r) { return r.json(); })
+            .then(function (r) {
+              chooser.value = '';
+              if (r.error) { state.textContent = r.error; return; }
+              keep.value = r.name;
+              showFile(r.name);
+              state.textContent = 'Uploaded. Press Save to use it.';
+              send({ type: 'ab:text', address: f.address, value: r.name });
+              mark(f.address, r.name);
+            })
+            .catch(function () { state.textContent = 'The upload did not finish.'; });
+        });
+        box.appendChild(field);
+        inputs[f.address] = keep;
+        return;
+      }
 
       if (f.kind === 'img') {
         field.className = 'ed-field ed-field-img';
