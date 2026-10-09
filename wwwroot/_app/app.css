@@ -467,7 +467,7 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-capfig figcaption { font-size: 13px; color: var(--ab-mute); margin-top: 8px; }
 .ab-capfig figcaption:empty { display: none; }
 .ab-capdl { margin: 40px 0 0; }
-.ab-capdl .ab-submit { display: inline-block; text-decoration: none; }
+.ab .ab-capdl a.ab-submit { display: inline-block; text-decoration: none; margin: 0; color: #fff; }
 .ab-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 48px 0 88px; border-top: 1px solid var(--ab-line); margin-top: 48px; }
 .ab-step { font-size: 17px; line-height: 1.35; }
 .ab-step span { display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ab-mute); margin-bottom: 8px; }
