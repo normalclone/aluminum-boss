@@ -97,7 +97,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=$DICH/App_Data $DICH/noi-dung/_data $DICH/noi-dung/_media
+ReadWritePaths=$DICH/App_Data $DICH/noi-dung/_data $DICH/noi-dung/_media $DICH/noi-dung/_docs
 
 [Install]
 WantedBy=multi-user.target
