@@ -641,7 +641,8 @@ public sealed class PageComposer
             // the first save writes it (ContentEditor.FactoryLeaf - the same rule, one place).
             var rest = address[(cut + 1)..];
             if (doc is null || !(ContentPath.Exists(doc, rest)
-                                 || ContentEditor.FactoryLeaf(address[..cut], rest) is not null))
+                                 || ContentEditor.FactoryLeaf(address[..cut], rest) is not null
+                                 || ContentEditor.IsAlbumCover(address[..cut], rest)))
                 missing.Add(address);
         }
         return missing.Count == 0;

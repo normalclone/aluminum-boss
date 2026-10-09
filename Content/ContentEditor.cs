@@ -152,6 +152,16 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // A project's cover (09/10/2026): two albums came in from the import without an
+            // "image" field, so the client's picture for them had nowhere to land.
+            if (IsAlbumCover(name, path))
+            {
+                if (!AlbumCover(doc, path, change.Value)) { rejected.Add(change.Address); continue; }
+                applied++;
+                changed.Add(name);
+                continue;
+            }
+
             // The two names that may be created where none exists, and removed when emptied.
             // Handled before TrySet because TrySet is the rule they are the exception to.
             if (SeoLeaf(path) is { } leaf)
@@ -278,6 +288,23 @@ public sealed class ContentEditor
         if (Walk(doc, parent.Split('.')) is not JsonObject item) return false;
         if (value.Length == 0) item.Remove("file");
         else item["file"] = JsonValue.Create(value);
+        return true;
+    }
+
+    /// <summary><c>projects.albums.N.image</c> - an album's cover, which may be written onto an album that never had one.</summary>
+    public static bool IsAlbumCover(string name, string path)
+        => name.Equals("projects", StringComparison.OrdinalIgnoreCase) && AlbumCoverField.IsMatch(path);
+
+    private static readonly Regex AlbumCoverField = new(@"^albums\.\d+\.image$", RegexOptions.Compiled);
+
+    /// <summary>Writes the cover. Empty removes it, so the card goes back to the placeholder. One file name, no folder.</summary>
+    private static bool AlbumCover(JsonNode doc, string path, string value)
+    {
+        var parent = path[..path.LastIndexOf('.')];
+        if (Walk(doc, parent.Split('.')) is not JsonObject album) return false;
+        if (value.Length == 0) { album.Remove("image"); return true; }
+        if (Path.GetFileName(value) != value || value.StartsWith('.') || value.Contains('\\')) return false;
+        album["image"] = JsonValue.Create(value);
         return true;
     }
 
