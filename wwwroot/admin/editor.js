@@ -920,12 +920,25 @@
         chooser.addEventListener('change', function () {
           var file = chooser.files && chooser.files[0];
           if (!file) return;
-          state.textContent = 'Uploading ' + file.name + '…';
+          // Checked here first: a file over the limit is refused by the web server before it
+          // reaches the app, and that refusal is a page of HTML, not a sentence for this box.
+          var mb = (file.size / 1048576).toFixed(1).replace(/\.0$/, '');
+          if (file.size > 40 * 1048576) {
+            chooser.value = '';
+            state.textContent = file.name + ' is ' + mb + ' MB. The limit is 40 MB. '
+              + 'Save a smaller PDF (lower picture quality) and upload it again.';
+            return;
+          }
+          state.textContent = 'Uploading ' + file.name + ' (' + mb + ' MB)…';
           var form = new FormData();
           form.append('file', file);
           form.append('__RequestVerificationToken', token);
           fetch('/Admin/Edit/UploadDocument', { method: 'POST', body: form })
-            .then(function (r) { return r.json(); })
+            .then(function (r) {
+              if (r.status === 413) return { error: 'The file is too large. The limit is 40 MB.' };
+              if (!r.ok) return { error: 'The server could not save the file (error ' + r.status + '). Try again, or tell your web developer.' };
+              return r.json();
+            })
             .then(function (r) {
               chooser.value = '';
               if (r.error) { state.textContent = r.error; return; }
@@ -935,7 +948,7 @@
               send({ type: 'ab:text', address: f.address, value: r.name });
               mark(f.address, r.name);
             })
-            .catch(function () { state.textContent = 'The upload did not finish.'; });
+            .catch(function () { chooser.value = ''; state.textContent = 'The upload did not finish. Check the internet connection and try again.'; });
         });
         box.appendChild(field);
         inputs[f.address] = keep;
