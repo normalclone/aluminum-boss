@@ -41,6 +41,9 @@ public static class ItemLists
     [
         new("news-detail", "news.items.*.body", "Paragraph", Multiline: true),
         new("news-detail", "news.items.*.tags", "Tag"),
+        // More pictures in an article (13/10/2026): the client asked where to put a second one.
+        new("news-detail", "news.items.*.photos", "Photo", First: "c",
+            Template: """{ "c": "", "image": "" }""", Create: true),
 
         // A project is written like an article now (08/10/2026), in the page it always had.
         new("projects-detail", "projects.albums.*.body", "Paragraph", Multiline: true, Create: true),

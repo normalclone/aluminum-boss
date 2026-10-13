@@ -263,8 +263,10 @@ Mỗi mục gồm tiêu đề, một đoạn chữ và các ảnh. Cuối trang 
    lưu những gì bạn vừa gõ, thêm một ô đoạn văn trống, và đặt sẵn con trỏ trong ô đó. Gõ đoạn văn.
    Cần đoạn nữa thì bấm **Add a paragraph** lần nữa.
 7. **Thẻ** (chữ ngắn hiện trên bài, ví dụ *Plant*, *Product*) — bấm **Add a tag**, làm y như đoạn văn.
-8. Bấm **Save changes**. Địa chỉ bài lúc này thành tiêu đề (xem lưu ý ở mục 5).
-9. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
+8. **Thêm ảnh trong bài** — bấm **Add a photo**. Gõ chú thích, rồi bấm **Choose picture** để chọn ảnh.
+   Cần ảnh nữa thì bấm **Add a photo** lần nữa. Các ảnh hiện dưới thân bài, theo thứ tự trong cột.
+9. Bấm **Save changes**. Địa chỉ bài lúc này thành tiêu đề (xem lưu ý ở mục 5).
+10. Quay về **Content** → **News**, bấm **Hidden** để thành **Shown**.
 
 ![Bài mới vừa thêm: ô tiêu đề và ô ngày đăng](huong-dan/13-bai-moi.png)
 *Hình 18 — Bài mới vừa thêm: ô tiêu đề và ô ngày đăng. Bấm biểu tượng lịch ở cuối ô ngày để chọn ngày.*

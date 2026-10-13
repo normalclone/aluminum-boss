@@ -837,6 +837,18 @@ public sealed class SectionRenderer
         foreach (var p in (a["body"] as JsonArray)?.OfType<JsonNode>() ?? [])
             sb.Append("<p").Append(TextAt(p)).Append('>').Append(Esc(p.ToString())).Append("</p>");
 
+        // The article's other pictures, under the text, whole and in the order given. An empty
+        // one is drawn as a placeholder, so the box just added has something to click.
+        foreach (var ph in Arr(a, "photos"))
+        {
+            var cap = Str(ph, "c");
+            sb.Append("<figure class=\"ab-newsfig\"><img src=\"")
+              .Append(Src(ph, root, Placeholder.Uri(1240, 700, cap.Length > 0 ? cap : title))).Append('"')
+              .Append(ImgAddress(ph)).Append(" alt=\"").Append(Esc(cap.Length > 0 ? cap : title))
+              .Append("\" loading=\"lazy\"><figcaption").Append(TextAddress(ph, "c")).Append('>')
+              .Append(Esc(cap)).Append("</figcaption></figure>");
+        }
+
         return sb.Append("</div><div class=\"ab-items\"><h2>More news</h2><div class=\"ab-grid\">")
                  .Append(cards).Append("</div></div></div>").ToString();
     }

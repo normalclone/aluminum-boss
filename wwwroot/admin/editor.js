@@ -238,8 +238,13 @@
         var lastEn = entries[entries.length - 1];
         var last = lastCard(lastEn.boxes);
         var after = last;
-        while (after.nextSibling && after.nextSibling.classList &&
-               (after.nextSibling.classList.contains('ed-add') || after.nextSibling.classList.contains('ed-listrow')))
+        // Past this list's own rows and its inner lists' buttons - not past the "Add" of a
+        // neighbouring list that happens to sit there (an article's empty photo list).
+        var inner = function (n) {
+          return n.classList.contains('ed-listrow') ||
+                 (n.classList.contains('ed-add') && (n.getAttribute('data-list') || '').indexOf(l.address + '.') === 0);
+        };
+        while (after.nextSibling && after.nextSibling.classList && inner(after.nextSibling))
           after = after.nextSibling;
         after.parentNode.insertBefore(add, after.nextSibling);
       } else {
@@ -247,7 +252,11 @@
         // screen - a section with no photos yet gets "Add a photo" under its own text, not at
         // the far end of the chapter.
         var holder = l.address.slice(0, l.address.lastIndexOf('.'));
-        var own = Object.keys(inputs).filter(function (a) { return a.indexOf(holder + '.') === 0; });
+        // Not the search-result boxes: they sit in their own group at the far end of the column,
+        // and an article's "Add a photo" landed under them (13/10/2026).
+        var own = Object.keys(inputs).filter(function (a) {
+          return a.indexOf(holder + '.') === 0 && !/\.seo(Title|Description)$/.test(a);
+        });
         var at = own.length ? lastCard(own) : null;
         if (at) {
           var after2 = at;
@@ -569,6 +578,7 @@
     'applications.tabs.N.items': 'Application',
     'news.items.N.tags': 'Tag',
     'news.items.N.body': 'Paragraph',
+    'news.items.N.photos': 'Photo',
     'gallery.tags': 'Tag',
     'gallery.intro': 'Paragraph',
     'colors.filters': 'Filter',

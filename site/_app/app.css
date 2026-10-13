@@ -466,6 +466,10 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 .ab-capsec.is-whole .ab-capfig img { object-fit: contain; background: #fff; border: 1px solid var(--ab-line); }
 .ab-capfig figcaption { font-size: 13px; color: var(--ab-mute); margin-top: 8px; }
 .ab-capfig figcaption:empty { display: none; }
+.ab-newsfig { margin: 32px 0 0; }
+.ab-newsfig img { display: block; width: 100%; height: auto; background: var(--ab-wash); }
+.ab-newsfig figcaption { font-size: 13px; color: var(--ab-mute); margin-top: 8px; }
+.ab-newsfig figcaption:empty { display: none; }
 .ab-capdl { margin: 40px 0 0; }
 .ab .ab-capdl a.ab-submit { display: inline-block; text-decoration: none; margin: 0; color: #fff; }
 .ab-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 48px 0 88px; border-top: 1px solid var(--ab-line); margin-top: 48px; }
