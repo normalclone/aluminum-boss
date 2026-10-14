@@ -97,6 +97,19 @@ public class ArticleAddressTests : IDisposable
         => Assert.Equal(["news.items.9.slug"], Write("news.items.9.slug", "anything").Rejected);
 
     [Fact]
+    public void A_new_article_does_not_take_an_old_link()
+    {
+        // An article moved away from old-press; its old link is in the table. A new article with
+        // that title would sit behind the redirect, so it gets the next free address.
+        File.WriteAllText(Path.Combine(_root, "_data", "redirects.json"),
+            """{ "paths": { "/usa/": "/", "/news/old-press/": "/news/press-line-2500/" } }""");
+        File.WriteAllText(Path.Combine(_root, "_data", "news.json"),
+            """{ "items": [ { "id": "new-abc123", "title": "" } ] }""");
+        var r = Write("news.items.0.title", "Old press");
+        Assert.Equal("old-press-2", r.Renamed!["new-abc123"]);
+    }
+
+    [Fact]
     public void A_long_title_is_cut_between_words()
     {
         var slug = ContentEditor.Slugify("BOSSGROUP AFFIRMS CAPABILITY WITH AAMA 2603 & AAMA 2604 COATING PROCESS CERTIFICATIONS");

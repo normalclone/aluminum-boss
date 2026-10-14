@@ -188,7 +188,7 @@ public sealed class ContentEditor
             {
                 applied++;
                 changed.Add(name);
-                Named(doc, path, change.Value, renamed);
+                Named(doc, path, change.Value, renamed, OldLinks());
             }
             else rejected.Add(change.Address);
         }
@@ -426,7 +426,8 @@ public sealed class ContentEditor
     /// minted minutes ago on a screen only the owner can reach - and a redirect table filling up
     /// with <c>new-xxxxxx</c> lines would be noise in the one file that has to stay readable.
     /// </summary>
-    private static void Named(JsonNode doc, string path, string value, Dictionary<string, string> renamed)
+    private static void Named(JsonNode doc, string path, string value, Dictionary<string, string> renamed,
+                              HashSet<string> oldLinks)
     {
         var steps = path.Split('.');
         if (steps.Length < 2 || !TitleFields.Contains(steps[^1], StringComparer.OrdinalIgnoreCase)) return;
@@ -440,11 +441,31 @@ public sealed class ContentEditor
         // it costs the item a suffix instead, which is what every publishing tool does.
         var idPath = string.Join('.', steps[..^1]) + ".id";
         var slug = stem;
-        for (var n = 2; n < 100 && !SlugIsFree(doc, idPath, slug); n++) slug = $"{stem}-{n}";
-        if (!SlugIsFree(doc, idPath, slug)) return;
+        bool Free(string s) => SlugIsFree(doc, idPath, s) && !oldLinks.Contains(s);
+        for (var n = 2; n < 100 && !Free(slug); n++) slug = $"{stem}-{n}";
+        if (!Free(slug)) return;
 
         item["id"] = slug;
         renamed[was] = slug;
+    }
+
+    /// <summary>
+    /// The last segment of every old link in the redirect table (14/10/2026).
+    ///
+    /// Since articles can be moved, "/news/press-line-2500/" may be an old link. The table answers
+    /// before any article, so a new article named into that address could never be opened. Read
+    /// by segment, not by folder: a slug that is an old link anywhere costs a "-2" at worst.
+    /// </summary>
+    private HashSet<string> OldLinks()
+    {
+        var set = new HashSet<string>(StringComparer.Ordinal);
+        if (_store.Get("redirects")?["paths"] is not JsonObject paths) return set;
+        foreach (var (key, _) in paths)
+        {
+            var parts = key.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length > 1) set.Add(parts[^1]);
+        }
+        return set;
     }
 
     /// <summary>
