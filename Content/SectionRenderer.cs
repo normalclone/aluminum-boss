@@ -78,6 +78,18 @@ public sealed class SectionRenderer
         => (node?[key] as JsonArray)?.OfType<JsonNode>().Where(Shown).ToList() ?? [];
 
     /// <summary>
+    /// The addresses every OTHER article holds, hidden ones included - a hidden article still
+    /// owns its address, and gets it back the day it is shown again. For the editor's address
+    /// box, which warns while the client types instead of after Save.
+    /// </summary>
+    public List<string> NewsSlugsBesides(JsonNode item)
+    {
+        var mine = Slug(item);
+        return (DocFor("news-detail")?["items"] as JsonArray)?.OfType<JsonNode>()
+               .Select(Slug).Where(s => s.Length > 0 && s != mine).ToList() ?? [];
+    }
+
+    /// <summary>
     /// Whether an item is published. Absent means yes.
     ///
     /// Hiding is not deleting, and the difference matters to somebody running a site: a product
@@ -123,7 +135,7 @@ public sealed class SectionRenderer
     /// ninety-four fields repeating a value that is already there. The day a client renames one,
     /// the editor writes a <c>slug</c> on that one item and a line in <c>redirects.json</c>.
     /// </summary>
-    private static string Slug(JsonNode? item)
+    public static string Slug(JsonNode? item)
     {
         var written = Str(item, "slug");
         return written.Length > 0 ? written : Str(item, "id");

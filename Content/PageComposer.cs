@@ -289,7 +289,9 @@ public sealed class PageComposer
             // No picture box on an item page. An item's share picture IS the item's picture, and
             // that already has a field of its own further up the same column; a second box
             // holding the same value is a second place to wonder which one is real.
-            return Box(at + ".seoTitle", "title", Str(item, "seoTitle"), title)
+            // The address first: it is the one box here the client came looking for.
+            return (section == "news-detail" ? Address(at + ".slug", urlPath, item) : "")
+                 + Box(at + ".seoTitle", "title", Str(item, "seoTitle"), title)
                  + Box(at + ".seoDescription", "description", Str(item, "seoDescription"), description);
         }
 
@@ -345,6 +347,25 @@ public sealed class PageComposer
          + (l.Multiline ? " data-ab-multiline" : "")
          + (l.First is null ? "" : " data-ab-first=\"" + Esc(l.First) + "\"")
          + "></span>";
+
+    /// <summary>
+    /// An article's address box (14/10/2026): the last part of its link.
+    ///
+    /// The client wrote a new article over an old one, and it went out at the old one's link,
+    /// /news/press-line-2500/, with nothing on the screen to change it. The hint is the address
+    /// the title would make; data-ab-taken lists the other articles' addresses, so the screen can
+    /// say "already used" while the client types instead of after Save.
+    /// </summary>
+    private string Address(string address, string urlPath, JsonNode item)
+    {
+        var trimmed = urlPath.TrimEnd('/');
+        var folder = trimmed[..(trimmed.LastIndexOf('/') + 1)];
+        var title = Str(item, "title");
+        return $"<span hidden data-ab-t=\"{Esc(address)}\" data-ab-seo=\"slug\""
+             + $" data-ab-hint=\"{Esc(ContentEditor.Slugify(title))}\" data-ab-folder=\"{Esc(folder)}\""
+             + $" data-ab-taken=\"{Esc(string.Join(' ', _sections.NewsSlugsBesides(item)))}\""
+             + $">{Esc(SectionRenderer.Slug(item))}</span>";
+    }
 
     private static string Box(string address, string role, string value, string hint)
         => $"<span hidden data-ab-t=\"{Esc(address)}\" data-ab-seo=\"{role}\""

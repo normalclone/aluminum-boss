@@ -234,3 +234,7 @@
 .ed-tile span { display: block; padding: 8px 10px; font-size: 12px; word-break: break-all; }
 .ed-tile.is-none { display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3.55; border-style: dashed; }
 .ed-tile.is-none span { color: var(--ad-mute); }
+
+/* An article's address box (14/10/2026): the button under the box, the whole link in the help. */
+.ed-slug-make { margin-top: 6px; }
+.ed-slug-link { display: block; word-break: break-all; font-family: ui-monospace, Consolas, monospace; font-size: 12px; }

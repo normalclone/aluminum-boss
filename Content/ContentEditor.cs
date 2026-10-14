@@ -114,6 +114,18 @@ public sealed class ContentEditor
                 continue;
             }
 
+            // An article's address (14/10/2026). The client wrote a new article over an old one
+            // and it kept the old one's URL, /news/press-line-2500/, with no box anywhere to
+            // change it. Most articles have no "slug" field - their id is their address - so the
+            // field is created on the first change and removed when it goes back to the id.
+            if (IsItemSlug(name, path))
+            {
+                if (!ItemSlug(doc, path, change.Value, renamed, out var moved)) { rejected.Add(change.Address); continue; }
+                applied++;
+                if (moved) changed.Add(name);
+                continue;
+            }
+
             // Same reason, and the same door. The editor draws these as a list to choose from,
             // but the list is drawn by a script on a screen, and a screen is not a control.
             if (Allowed(doc, name, path) is { } only && !only.Contains(change.Value, StringComparer.Ordinal))
@@ -457,8 +469,12 @@ public sealed class ContentEditor
 
         // A path segment, not a sentence. Sixty characters is longer than every slug the site
         // already has and short enough to read in a browser's address bar.
+        // Cut between words, not inside one: "...-2604-coatin" reads as a typo in a link.
         var slug = sb.ToString().Trim('-');
-        return slug.Length > 60 ? slug[..60].Trim('-') : slug;
+        if (slug.Length <= 60) return slug;
+        var cut = slug[..60];
+        var dash = cut.LastIndexOf('-');
+        return (slug[60] != '-' && dash > 20 ? cut[..dash] : cut).Trim('-');
     }
 
     /// <summary>What a list screen can do to a collection.</summary>
@@ -642,16 +658,26 @@ public sealed class ContentEditor
     /// item's page away - the flattened Documents list is where that is easiest to do by accident,
     /// since two files in different categories never look like neighbours.
     /// </summary>
-    private static bool SlugIsFree(JsonNode doc, string path, string slug)
+    private static bool SlugIsFree(JsonNode doc, string path, string slug) => SlugProblem(doc, path, slug) is null;
+
+    /// <summary>
+    /// Why this slug may not be written, in words for the person who typed it, or null when it may.
+    ///
+    /// The editor shows the answer next to the box. "1 could not be written" told the client
+    /// nothing about what to type instead.
+    /// </summary>
+    public static string? SlugProblem(JsonNode doc, string path, string slug)
     {
-        if (!System.Text.RegularExpressions.Regex.IsMatch(slug, "^[a-z0-9]+(-[a-z0-9]+)*$")) return false;
-        if (slug == "detail") return false;
+        if (slug.Length == 0) return "The page needs an address.";
+        if (!System.Text.RegularExpressions.Regex.IsMatch(slug, "^[a-z0-9]+(-[a-z0-9]+)*$"))
+            return "Use only small letters a-z, digits and single hyphens. Example: aama-coating-certification";
+        if (slug == "detail") return "\"detail\" is kept by the site. Choose another address.";
 
         var steps = path.Split('.');
-        if (steps.Length < 2) return false;
+        if (steps.Length < 2) return "That address cannot be written.";
 
         var arrayPath = steps[..^2];
-        if (Walk(doc, arrayPath) is not JsonArray siblings) return true;
+        if (Walk(doc, arrayPath) is not JsonArray siblings) return null;
         var mine = int.TryParse(steps[^2], out var i) ? i : -1;
 
         foreach (var (list, skip) in Flattened(doc, arrayPath, siblings, mine))
@@ -659,8 +685,45 @@ public sealed class ContentEditor
             {
                 if (n == skip || list[n] is not JsonObject o) continue;
                 var theirs = o["slug"]?.ToString() ?? o["id"]?.ToString();
-                if (theirs == slug) return false;
+                if (theirs != slug) continue;
+                var name = TitleFields.Select(f => o[f]?.ToString()).FirstOrDefault(t => !string.IsNullOrWhiteSpace(t));
+                return name is null
+                    ? "Another item already uses this address. Choose another one."
+                    : $"\"{name}\" already uses this address. Choose another one.";
             }
+        return null;
+    }
+
+    /// <summary>
+    /// An article's own address: <c>news.items.N.slug</c>. The one kind the editor offers a box
+    /// for (PageComposer.SeoFields), so the one kind whose slug may be created here.
+    /// </summary>
+    public static bool IsItemSlug(string name, string path)
+        => name.Equals("news", StringComparison.OrdinalIgnoreCase) && ItemSlugField.IsMatch(path);
+
+    private static readonly Regex ItemSlugField = new(@"^items\.\d+\.slug$", RegexOptions.Compiled);
+
+    /// <summary>
+    /// Writes an article's address, and records the move so the screen can follow the page.
+    ///
+    /// Back to the id means the field goes, the same as an emptied SEO field: an address nobody
+    /// overrode and one that was overridden and put back leave the file in the same state.
+    /// The check that it is free has already run, above, through the same door as every slug.
+    /// </summary>
+    private static bool ItemSlug(JsonNode doc, string path, string value, Dictionary<string, string> renamed,
+                                 out bool moved)
+    {
+        moved = false;
+        if (Walk(doc, path.Split('.')[..^1]) is not JsonObject item) return false;
+        if (item["id"]?.ToString() is not { Length: > 0 } id) return false;
+
+        var was = item["slug"]?.ToString() ?? id;
+        if (was == value) return true;
+
+        if (value == id) item.Remove("slug");
+        else item["slug"] = JsonValue.Create(value);
+        renamed[was] = value;
+        moved = true;
         return true;
     }
 

@@ -181,6 +181,11 @@
       // field, and only the two attributes below say otherwise.
       var seo = el.getAttribute('data-ab-seo');
       if (seo) { f.seo = seo; f.hint = el.getAttribute('data-ab-hint') || ''; }
+      // An article's address box: the folder it sits in, and the addresses the others hold.
+      if (seo === 'slug') {
+        f.folder = el.getAttribute('data-ab-folder') || '/';
+        f.taken = (el.getAttribute('data-ab-taken') || '').split(' ').filter(Boolean);
+      }
 
       out.push(f);
     });

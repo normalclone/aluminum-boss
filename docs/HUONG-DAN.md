@@ -154,8 +154,8 @@ Nút **Add an item** ở đầu danh sách thêm một mục trống lên **dòn
 > thành **Hidden**, viết xong mới bấm lại cho hiện.
 
 > **Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.** Mục mới có một tên tạm như `new-3f9a2c`. Lần
-> đầu bạn gõ tiêu đề và bấm Save, địa chỉ trang của nó thành tiêu đề ấy — **và sau đó không đổi
-> nữa**, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.
+> đầu bạn gõ tiêu đề và bấm Save, địa chỉ trang của nó thành tiêu đề ấy. **Sau đó, sửa tiêu đề
+> không đổi địa chỉ.** Với bài tin, đổi địa chỉ ở ô **Page address** (mục 7). Link cũ vẫn mở được.
 
 **Một loại không thêm được:** **Export routes** — một tuyến cần hàng chục toạ độ trên bản đồ,
 phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được. **Factories** thì thêm
@@ -299,6 +299,7 @@ và thẻ của bài cũ đều sửa, thêm, xoá được.
 
 | Ô | Là gì |
 |---|---|
+| **Page address** | Phần cuối của link bài, ví dụ `aluminumboss.com/news/`**`aama-coating-certification`**`/`. Chỉ có ở trang một bài tin. |
 | **Search title** | Tiêu đề trên kết quả tìm kiếm và trên tab trình duyệt |
 | **Search description** | Dòng mô tả dưới tiêu đề trong kết quả tìm kiếm |
 | **Share picture** | Ảnh hiện khi ai đó chia sẻ trang lên Facebook, Zalo… (chỉ có ở các trang danh sách; trang của một bài thì dùng luôn ảnh của bài) |
@@ -312,6 +313,22 @@ tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói kh�
 Dưới ô có đếm ký tự. *Khoảng 60* và *khoảng 160* là chỗ Google thường cắt bớt, không phải giới
 hạn của trang: gõ dài hơn vẫn lưu đủ.
 
+### Đổi địa chỉ một bài tin
+
+Viết bài mới đè lên bài cũ thì bài vẫn giữ link của bài cũ. Đổi link như sau:
+
+1. Mở bài trong **Edit pages**.
+2. Trong nhóm **Search result**, tìm ô **Page address**.
+3. Bấm **Make from the title**. Ô nhận địa chỉ làm từ tiêu đề bài.
+4. Xem link đầy đủ hiện ngay dưới ô.
+5. Bấm **Save changes**. Khung xem chuyển sang địa chỉ mới.
+
+Địa chỉ chỉ gồm chữ thường không dấu, số và dấu gạch ngang. Ô báo ngay khi địa chỉ sai dạng, hoặc
+khi một bài khác đã dùng địa chỉ đó. Link cũ vẫn mở được và tự chuyển sang địa chỉ mới.
+
+![Ô Page address báo địa chỉ đã có bài khác dùng](huong-dan/24-page-address.png)
+*Hình 21 — Ô Page address ở đầu nhóm Search result. Dòng dưới cùng báo một bài khác đã dùng địa chỉ này.*
+
 ---
 
 ## 8. Đơn khách gửi — **Enquiries**
@@ -321,7 +338,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
 **Đơn KHÔNG tự gửi về email** — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.
 
 ![Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng](huong-dan/15-enquiries.png)
-*Hình 21 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
+*Hình 22 — Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.*
 
 ### Tự thử xem form còn chạy không
 
@@ -330,7 +347,7 @@ hạn của trang: gõ dài hơn vẫn lưu đủ.
    **REQUEST SAMPLES**, **ASK AN ENGINEER**, **APPLY**)
 
 ![Trang liên hệ có bốn ô](huong-dan/18-lien-he.png)
-*Hình 22 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
+*Hình 23 — Trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.*
 3. Điền các ô có dấu `*`, và ghi rõ chữ *thử* trong nội dung để sau khỏi nhầm
 4. Bấm nút gửi ở cuối form (form báo giá ghi **Start**). Trang báo *Thank you — we have your
    request and will reply within one working day.*
@@ -351,7 +368,7 @@ Mỗi lần Save, bản cũ được giữ lại. Màn hình **History** liệt 
 - **Restore this version** đưa về bản đó
 
 ![Màn hình History](huong-dan/16-history.png)
-*Hình 23 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
+*Hình 24 — Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).*
 
 > **Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.** Khôi phục **news** về hôm qua
 > để sửa một lỗi chính tả thì **mọi bài tin** sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một

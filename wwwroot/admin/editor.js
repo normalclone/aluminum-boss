@@ -64,10 +64,17 @@
   // The same URL with a placeholder id swapped for the slug it became. The placeholders are
   // minted by the server and cannot occur in anything else on the page, so a plain replace is
   // safe; a page with no id in it comes back untouched.
+  //
+  // An article's address can move too (14/10/2026), and a real address is an ordinary word that
+  // may also sit elsewhere in the URL - so it is swapped only as a whole path segment, written
+  // either plainly or encoded the way the page picker writes it.
   function moved(url, renamed) {
     if (!renamed) return url;
     Object.keys(renamed).forEach(function (was) {
-      url = url.split(was).join(renamed[was]);
+      var now = renamed[was];
+      if (/^new-[0-9a-f]{6}$/.test(was)) { url = url.split(was).join(now); return; }
+      url = url.split('/' + was + '/').join('/' + now + '/')
+               .split('%2F' + was + '%2F').join('%2F' + now + '%2F');
     });
     return url;
   }
@@ -92,6 +99,12 @@
       saveNote.textContent = r.saved + (r.saved === 1 ? ' change saved' : ' changes saved');
       if (r.rejected && r.rejected.length) {
         saveNote.textContent += ' · ' + r.rejected.length + ' could not be written';
+        // A refused address says why, so the client knows what to type instead.
+        var why = r.reasons && r.reasons[r.rejected.filter(function (a) { return r.reasons[a]; })[0]];
+        if (why) saveNote.textContent += ': ' + why;
+      }
+      if (r.renamed && reload) {
+        try { history.replaceState(null, '', moved(location.href, r.renamed)); } catch (e) { /* the frame still moves */ }
       }
       // Reload rather than trust the patched copy. A picture that replaced a coloured square, or
       // a word that also appears in a heading built by the server, only comes out right when the
@@ -253,9 +266,10 @@
         // the far end of the chapter.
         var holder = l.address.slice(0, l.address.lastIndexOf('.'));
         // Not the search-result boxes: they sit in their own group at the far end of the column,
-        // and an article's "Add a photo" landed under them (13/10/2026).
+        // and an article's "Add a photo" landed under them (13/10/2026). The page address sits
+        // there too, since 14/10/2026.
         var own = Object.keys(inputs).filter(function (a) {
-          return a.indexOf(holder + '.') === 0 && !/\.seo(Title|Description)$/.test(a);
+          return a.indexOf(holder + '.') === 0 && !/\.(seoTitle|seoDescription|slug)$/.test(a);
         });
         var at = own.length ? lastCard(own) : null;
         if (at) {
@@ -497,12 +511,13 @@
   var SEO = 'Search result';
 
   var SEO_WORDS = { title: 'Search title', description: 'Search description',
-                    image: 'Share picture' };
+                    image: 'Share picture', slug: 'Page address' };
 
   var SEO_HELP = {
     title: 'The whole title, exactly as the browser tab shows it. Nothing is added after it.',
     description: 'The sentence under the title in a search result.',
     image: 'Shown when somebody shares this page in a message or a post.',
+    slug: 'The last part of the link. After Save, the old link still works and opens the new one.',
   };
 
   // Where a search result usually cuts, which is GOOGLE'S habit and not a limit this software
@@ -1095,6 +1110,8 @@
       // invites one short sentence where a paragraph was meant.
       // A paragraph is an entry of a multiline list; a section's text is a field named "text"
       // inside one. Both are written as sentences.
+      if (f.seo === 'slug') { drawSlug(f, field, id, box); return; }
+
       var inList = itemLists.some(function (l) { return l.multiline && entryIn(l, f.address) === f.address; });
       var many = f.kind === 'lines' || f.value.length > 70 || f.seo === 'description'
               || inList || /\.sections\.\d+\.text$/.test(f.address);
@@ -1141,6 +1158,85 @@
       box.appendChild(field);
       inputs[f.address] = input;
     }
+  }
+
+  /**
+   * An article's address box (14/10/2026).
+   *
+   * The client wrote a new article over an old one and it went out at the old one's link, with
+   * nowhere to change it. The box shows the whole link as it will be, says at once when the
+   * address is already another article's or is not written the way a link has to be, and has a
+   * button that makes the address from the title. The server checks the same things again on
+   * Save: this screen is a help, not the door.
+   */
+  function drawSlug(f, field, id, box) {
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.id = id;
+    input.value = f.value;
+    input.spellcheck = false;
+    input.setAttribute('autocapitalize', 'off');
+    input.setAttribute('data-address', f.address);
+
+    var make = document.createElement('button');
+    make.type = 'button';
+    make.className = 'ed-choose ed-slug-make';
+    make.textContent = 'Make from the title';
+
+    var help = document.createElement('span');
+    help.className = 'ed-slot ed-seo-help';
+    var link = document.createElement('span');
+    link.className = 'ed-slug-link';
+    var note = document.createElement('span');
+    note.className = 'ed-count';
+    help.appendChild(line(SEO_HELP.slug));
+    help.appendChild(link);
+    help.appendChild(note);
+
+    function tell() {
+      var v = input.value;
+      link.textContent = location.origin + f.folder + (v || '…') + '/';
+      var why = slugProblem(v, f.taken || []);
+      note.textContent = why || (v === f.value ? '' : 'Free. Press Save to move the page to this address.');
+      note.classList.toggle('is-long', !!why);
+    }
+
+    input.addEventListener('input', function () { mark(f.address, input.value); tell(); });
+    make.addEventListener('click', function () {
+      // The title as it is in its box now, saved or not: the client often fixes both at once.
+      var title = inputs[f.address.replace(/\.slug$/, '.title')];
+      var made = slugify(title ? title.value : '') || f.hint;
+      if (!made) return;
+      input.value = made;
+      mark(f.address, made);
+      tell();
+      input.focus();
+    });
+
+    field.appendChild(input);
+    field.appendChild(make);
+    field.appendChild(help);
+    tell();
+    box.appendChild(field);
+    inputs[f.address] = input;
+  }
+
+  // The same words as ContentEditor.SlugProblem, so the screen and the server never disagree.
+  function slugProblem(v, taken) {
+    if (!v) return 'The page needs an address.';
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(v)) return 'Use only small letters a-z, digits and single hyphens. Example: aama-coating-certification';
+    if (v === 'detail') return '"detail" is kept by the site. Choose another address.';
+    if (taken.indexOf(v) >= 0) return 'Another article already uses this address. Choose another one.';
+    return '';
+  }
+
+  // ContentEditor.Slugify, in the browser: marks off, đ by hand, anything else a hyphen.
+  function slugify(text) {
+    var flat = text.replace(/Đ/g, 'D').replace(/đ/g, 'd').normalize('NFD').replace(/\p{M}/gu, '');
+    var slug = flat.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    if (slug.length <= 60) return slug;
+    var cut = slug.slice(0, 60), dash = cut.lastIndexOf('-');
+    return (slug.charAt(60) !== '-' && dash > 20 ? cut.slice(0, dash) : cut).replace(/^-+|-+$/g, '');
   }
 
   /**

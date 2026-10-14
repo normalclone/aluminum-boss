@@ -504,7 +504,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <p><strong>Mục mới hiện ngay trên trang công khai, dù còn trống.</strong> Thêm xong, bấm <span class="ui">Shown</span> ở dòng đó để thành <span class="ui">Hidden</span>; viết xong mới bấm lại cho hiện.</p>
       </div>
       <div class="note warn">
-        <p><strong>Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.</strong> Mục mới có một tên tạm như <code>new-3f9a2c</code>. Lần đầu bạn gõ tiêu đề và lưu, địa chỉ trang của nó thành tiêu đề ấy — <strong>và sau đó không đổi nữa</strong>, vì đổi là làm hỏng mọi đường dẫn người khác đã lưu. Gõ tiêu đề cho chuẩn ngay lần đầu.</p>
+        <p><strong>Lần lưu tên đầu tiên cũng đặt luôn địa chỉ.</strong> Mục mới có một tên tạm như <code>new-3f9a2c</code>. Lần đầu bạn gõ tiêu đề và lưu, địa chỉ trang của nó thành tiêu đề ấy. <strong>Sau đó, sửa tiêu đề không đổi địa chỉ.</strong> Với bài tin, đổi địa chỉ ở ô <span class="ui">Page address</span> (mục 7). Link cũ vẫn mở được.</p>
       </div>
 
       <p><strong>Một loại không thêm được:</strong> <span class="ui">Export routes</span> — một tuyến cần hàng chục toạ độ trên bản đồ, phải nhờ người kỹ thuật. Ẩn, đổi thứ tự, xoá và sửa chữ thì vẫn làm được. <span class="ui">Factories</span> thì thêm được — xem ngay dưới đây.</p>
@@ -617,6 +617,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <table>
           <thead><tr><th>Ô</th><th>Là gì</th></tr></thead>
           <tbody>
+            <tr><td><span class="ui">Page address</span></td><td>Phần cuối của link bài, ví dụ <code>aluminumboss.com/news/<b>aama-coating-certification</b>/</code>. Chỉ có ở trang một bài tin.</td></tr>
             <tr><td><span class="ui">Search title</span></td><td>Tiêu đề trên kết quả tìm kiếm và trên tab trình duyệt</td></tr>
             <tr><td><span class="ui">Search description</span></td><td>Dòng mô tả dưới tiêu đề trong kết quả tìm kiếm</td></tr>
             <tr><td><span class="ui">Share picture</span></td><td>Ảnh hiện khi ai đó chia sẻ trang lên Facebook, Zalo… Chỉ có ở các trang danh sách; trang của một bài thì dùng luôn ảnh của bài.</td></tr>
@@ -626,6 +627,18 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
       <p><strong>Để trống cũng được.</strong> Chữ xám mờ trong ô là thứ trang đang tự dùng — với một bài tin thì đó là tiêu đề và phần tóm tắt của bài. Chỉ gõ vào khi muốn nói khác đi.</p>
       <figure class="shot"><img src="huong-dan/09-search-result.png" width="377" height="396" loading="lazy" alt="Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture"><figcaption><b>Hình 20.</b> Nhóm Search result ở cuối cột trái, gồm Search title, Search description và Share picture. Chữ xám mờ trong ô là thứ trang đang tự dùng.</figcaption></figure>
       <p>Dưới ô có đếm ký tự. <em>Khoảng 60</em> và <em>khoảng 160</em> là chỗ Google thường cắt bớt, không phải giới hạn của trang: gõ dài hơn vẫn lưu đủ.</p>
+
+      <h3>Đổi địa chỉ một bài tin</h3>
+      <p>Viết bài mới đè lên bài cũ thì bài vẫn giữ link của bài cũ. Đổi link như sau:</p>
+      <ol class="steps">
+        <li>Mở bài trong <span class="ui">Edit pages</span>.</li>
+        <li>Trong nhóm <span class="ui">Search result</span>, tìm ô <span class="ui">Page address</span>.</li>
+        <li>Bấm <span class="ui">Make from the title</span>. Ô nhận địa chỉ làm từ tiêu đề bài.</li>
+        <li>Xem link đầy đủ hiện ngay dưới ô.</li>
+        <li>Bấm <span class="ui">Save changes</span>. Khung xem chuyển sang địa chỉ mới.</li>
+      </ol>
+      <p>Địa chỉ chỉ gồm chữ thường không dấu, số và dấu gạch ngang. Ô báo ngay khi địa chỉ sai dạng, hoặc khi một bài khác đã dùng địa chỉ đó. Link cũ vẫn mở được và tự chuyển sang địa chỉ mới.</p>
+      <figure class="shot"><img src="huong-dan/24-page-address.png" width="313" height="167" loading="lazy" alt="Ô Page address báo địa chỉ đã có bài khác dùng"><figcaption><b>Hình 21.</b> Ô Page address ở đầu nhóm Search result. Dòng dưới cùng báo một bài khác đã dùng địa chỉ này.</figcaption></figure>
     </section>
 
     <section id="s8">
@@ -634,7 +647,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
       <div class="note warn">
         <p>Đơn <strong>không tự gửi về email</strong> — phải vào màn hình này xem. Muốn có email báo thì cần làm thêm.</p>
       </div>
-      <figure class="shot"><img src="huong-dan/15-enquiries.png" width="960" height="329" loading="lazy" alt="Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng"><figcaption><b>Hình 21.</b> Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/15-enquiries.png" width="960" height="329" loading="lazy" alt="Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng"><figcaption><b>Hình 22.</b> Màn hình Enquiries: mỗi đơn là một khung, đơn mới nhất ở trên cùng.</figcaption></figure>
 
       <h3>Tự thử xem form còn chạy không</h3>
       <ol class="steps">
@@ -644,7 +657,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <li>Bấm nút gửi ở cuối form. Trang báo <span class="ui long">Thank you — we have your request and will reply within one working day.</span></li>
         <li>Quay lại <span class="ui">Enquiries</span>, tải lại trang: đơn vừa gửi phải nằm trên cùng</li>
       </ol>
-      <figure class="shot"><img src="huong-dan/18-lien-he.png" width="1280" height="470" loading="lazy" alt="Bước 2: trang liên hệ có bốn ô"><figcaption><b>Hình 22.</b> Bước 2: trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/18-lien-he.png" width="1280" height="470" loading="lazy" alt="Bước 2: trang liên hệ có bốn ô"><figcaption><b>Hình 23.</b> Bước 2: trang liên hệ có bốn ô. Bấm START ở ô Request a quotation để mở form báo giá.</figcaption></figure>
       <div class="note">
         <p>Mỗi địa chỉ mạng chỉ gửi được <strong>8 đơn một giờ</strong> — đó là chặn thư rác. Thử nhiều lần liên tiếp sẽ bị chặn: đợi sang giờ sau, hoặc thử từ mạng khác (tắt Wi-Fi, dùng 4G).</p>
       </div>
@@ -658,7 +671,7 @@ figure.shot figcaption b { color: var(--ink); font-weight: 600; }
         <li><span class="ui">Look at it</span> mở bản đó ra xem (dạng kỹ thuật — chủ yếu để xem đúng lúc nào)</li>
         <li><span class="ui">Restore this version</span> đưa về bản đó</li>
       </ul>
-      <figure class="shot"><img src="huong-dan/16-history.png" width="952" height="488" loading="lazy" alt="Màn hình History"><figcaption><b>Hình 23.</b> Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).</figcaption></figure>
+      <figure class="shot"><img src="huong-dan/16-history.png" width="952" height="488" loading="lazy" alt="Màn hình History"><figcaption><b>Hình 24.</b> Màn hình History. Các nút tròn ở trên lọc theo loại nội dung; mỗi dòng có Look at it (xem) và Restore this version (lấy lại bản đó).</figcaption></figure>
 
       <div class="note warn">
         <p><strong>Restore đưa CẢ loại nội dung đó về bản cũ, không phải một ô.</strong> Khôi phục <code>news</code> về hôm qua để sửa một lỗi chính tả thì <strong>mọi bài tin</strong> sửa từ hôm qua tới nay cũng quay về. Sửa nhầm một chữ thì gõ lại chữ đó là an toàn hơn.</p>

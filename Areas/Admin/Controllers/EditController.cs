@@ -147,9 +147,21 @@ public class EditController : Controller
         // while we still know where it came from.
         var slugs = edits
             .Where(e => e.Address.EndsWith(".slug", StringComparison.Ordinal))
-            .ToDictionary(e => e.Address, e => Current(e.Address));
+            .ToDictionary(e => e.Address, e => CurrentSlug(e.Address));
 
-        var result = _editor.Apply(edits.Select(e => new ContentEditor.Change(e.Address, e.Value)));
+        // Why a slug was refused, in words the screen can show next to the box. Checked here
+        // first for the one reason the editor cannot see from the document: the address is an
+        // old link of another page, and the redirect table answers before any article does.
+        var reasons = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var e in edits.Where(e => slugs.ContainsKey(e.Address)))
+            if (OldLinkOfAnother(e.Address, slugs[e.Address], e.Value) is { } why) reasons[e.Address] = why;
+
+        var result = _editor.Apply(edits
+            .Where(e => !reasons.ContainsKey(e.Address))
+            .Select(e => new ContentEditor.Change(e.Address, e.Value)));
+        foreach (var address in reasons.Keys) result.Rejected.Add(address);
+        foreach (var address in result.Rejected.Where(a => slugs.ContainsKey(a) && !reasons.ContainsKey(a)))
+            if (SlugProblem(address, edits.Last(e => e.Address == address).Value) is { } why) reasons[address] = why;
 
         foreach (var edit in edits)
         {
@@ -165,6 +177,7 @@ public class EditController : Controller
         {
             saved = result.Applied,
             rejected = result.Rejected,
+            reasons,
             documents = result.Previous.Keys,
             // A new item that was just given a title also just got its address. The screen is
             // still looking at the placeholder one, which stopped existing a line ago.
@@ -237,6 +250,46 @@ public class EditController : Controller
     }
 
     /// <summary>
+    /// The address an item sits at now. Most articles write no "slug" - the id is the address -
+    /// and reading only the field would say "nothing", so no redirect would be written and every
+    /// old link to the article would become a 404.
+    /// </summary>
+    private string? CurrentSlug(string slugAddress)
+        => Current(slugAddress) ?? Current(slugAddress[..^".slug".Length] + ".id");
+
+    private string? SlugProblem(string address, string value)
+    {
+        var cut = address.IndexOf('.');
+        var doc = _store.Get(address[..cut]);
+        return doc is null ? null : ContentEditor.SlugProblem(doc, address[(cut + 1)..], value);
+    }
+
+    /// <summary>
+    /// Refuses an address that is an old link sending people to some other page.
+    ///
+    /// The redirect table is read before any article, so an article given that address would
+    /// never be shown: its own link would send the visitor to the other page. An old link of
+    /// THIS article is fine - it is the article taking its old address back, and
+    /// <see cref="RecordMove"/> takes the line out of the table.
+    /// </summary>
+    private string? OldLinkOfAnother(string address, string? was, string now)
+    {
+        if (Folder(address) is not { } page || was is null) return null;
+        if (_store.Get("redirects")?["paths"] is not JsonObject paths) return null;
+        var target = paths[page + now + "/"]?.ToString();
+        return target is null || target == page + was + "/"
+            ? null
+            : $"This address is an old link that now opens {target}. Choose another one.";
+    }
+
+    /// <summary>The folder a document's items live in ("/news/"), or null when they have no pages.</summary>
+    private static string? Folder(string address)
+    {
+        var document = address[..address.IndexOf('.')];
+        return CollectionController.Kinds.FirstOrDefault(k => k.Document == document && k.HasOwnPage)?.Page;
+    }
+
+    /// <summary>
     /// Writes "the page that was here is now there" into redirects.json.
     ///
     /// Which URL an item sits at is a fact about the folder the section lives in, and the list of
@@ -245,15 +298,26 @@ public class EditController : Controller
     /// </summary>
     private void RecordMove(string address, string was, string now)
     {
-        var document = address[..address.IndexOf('.')];
-        var kind = CollectionController.Kinds.FirstOrDefault(
-            k => k.Document == document && k.HasOwnPage);
-        if (kind is null) return;
+        if (Folder(address) is not { } page) return;
 
-        var table = _store.Get("redirects") as JsonObject;
-        if (table?["paths"] is not JsonObject paths) return;
+        // A copy: the cached node is what every page is composed from right now.
+        if (_store.Get("redirects")?.DeepClone() is not JsonObject table) return;
+        if (table["paths"] is not JsonObject paths) return;
 
-        paths[kind.Page + was + "/"] = kind.Page + now + "/";
+        var from = page + was + "/";
+        var to = page + now + "/";
+
+        // The page is at "to" now, so a line sending "to" somewhere else would hide it - and
+        // when the article takes an old address back, that line points at "from", which is
+        // about to point at "to": a loop.
+        paths.Remove(to);
+
+        // Older links to the old address go straight to the new one, so a page renamed twice
+        // costs a visitor one redirect, not two.
+        foreach (var key in paths.Where(p => p.Value?.ToString() == from).Select(p => p.Key).ToList())
+            paths[key] = to;
+
+        paths[from] = to;
         _editor.SaveDocument("redirects", table);
     }
 

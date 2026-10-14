@@ -35,6 +35,11 @@ public sealed class PageCompositionMiddleware
         var moved = router.RedirectFor(path, itemId);
         if (moved is not null)
         {
+            // Permanent for a search engine, but asked again by a browser every time (14/10/2026).
+            // A 301 with no Cache-Control is kept for good, and the editor can now move an article
+            // and move it back: a browser still holding "old -> new" then loops between the two.
+            // Asking again costs one small request on an old link; a loop costs the page.
+            context.Response.Headers.CacheControl = "no-cache";
             context.Response.Redirect(moved, permanent: true);
             return;
         }
