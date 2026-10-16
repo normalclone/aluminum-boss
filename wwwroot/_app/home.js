@@ -187,6 +187,27 @@
       var a = e.target.closest('a[data-i]');
       if (a) select(+a.getAttribute('data-i'));
     });
+    // Re chuot vao nut cuon roi lan banh xe: moi lan lan doi mot anh (16/10/2026, khach yeu
+    // cau). Lan xuong la ho ke tiep, lan len la ho truoc. Trang khong cuon theo.
+    // Mot lan lan = mot lan doi: ban di chuot cam ung va banh xe tron ban ra hang chuc su kien
+    // cho mot lan vuot. Doi o su kien dau tien, roi bo qua cho toi khi banh xe nghi QUIET ms.
+    var scroll = hero && hero.querySelector('.abhero-scroll');
+    if (scroll) {
+      var QUIET = 200, rest = 0, spent = false;
+      scroll.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        clearTimeout(rest);
+        rest = setTimeout(function () { spent = false; }, QUIET);
+        if (spent || !e.deltaY || items.length < 2) return;
+        spent = true;
+        var n = items.length;
+        select((at + (e.deltaY > 0 ? 1 : n - 1)) % n);
+        restartBar(words.querySelector('a.is-on'));
+      }, { passive: false });
+      // Dang dieu khien bang tay thi khong tu chuyen, giong khi re chuot vao cac chu.
+      scroll.addEventListener('mouseenter', function () { hold(true); });
+      scroll.addEventListener('mouseleave', function () { hold(false); });
+    }
     select(0);
   }).catch(function (e) {
     if (window.console) console.error(e);

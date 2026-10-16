@@ -245,14 +245,20 @@ html:not([data-ab-hero]) body { padding-top: var(--abh-h); }
 }
 .abhero-caption strong { font-stretch: 125%; font-weight: 700; }
 
-.abhero-scroll { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); }
+/* Mau dao (16/10/2026, khach yeu cau): net trang tron "difference" voi anh phia sau, nen tren anh
+   sang no thanh toi va tren anh toi no thanh sang - khach doi anh hero thi khong phai chinh mau.
+   Vung bat chuot rong hon hinh con chuot: re vao day roi lan banh xe la doi anh (home.js). */
+.abhero-scroll {
+  position: absolute; left: 50%; bottom: calc(3% - 14px); transform: translateX(-50%);
+  padding: 14px 22px; mix-blend-mode: difference; cursor: ns-resize;
+}
 .abhero-scroll span {
-  display: block; width: 20px; height: 32px; border: 1.5px solid rgba(29,29,27,.55);
+  display: block; width: 20px; height: 32px; border: 2px solid #fff;
   border-radius: 11px; position: relative;
 }
 .abhero-scroll span::after {
   content: ''; position: absolute; left: 50%; top: 7px; width: 2px; height: 6px; margin-left: -1px;
-  background: rgba(29,29,27,.7); animation: abhero-wheel 1.6s ease-in-out infinite;
+  background: #fff; animation: abhero-wheel 1.6s ease-in-out infinite;
 }
 @keyframes abhero-wheel { 0%,100% { transform: translateY(0); opacity: 1 } 60% { transform: translateY(9px); opacity: 0 } }
 @media (prefers-reduced-motion: reduce) { .abhero-scroll span::after { animation: none } }
