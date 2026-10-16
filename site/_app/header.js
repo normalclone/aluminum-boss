@@ -44,8 +44,12 @@
     (getComputedStyle(hero).position === 'static' ? (hero.style.position = 'relative') : 0);
     hero.appendChild(mark);
 
+    // 16/10/2026 khach yeu cau: chu hero KHONG mo di khi cuon. Thay vao do thanh dau trang lay
+    // nen trang ngay khi chu sap cham vao no, de chu truot xuong duoi thanh chu khong de len menu.
+    var heroOver = true, textPast = false;
     var apply = function (over) {
-      bar.classList.toggle('is-over', over);
+      heroOver = over;
+      bar.classList.toggle('is-over', over && !textPast);
     };
 
     // The words fade out just before they would reach the bar. Distances are measured once
@@ -69,11 +73,11 @@
       var paint = function () {
         pending = false;
         var y = window.pageYOffset;
-        var v = y <= fadeFrom ? 1 : y >= fadeTo ? 0 : 1 - (y - fadeFrom) / (fadeTo - fadeFrom);
-        v = Math.round(v * 100) / 100;
-        if (v === shown) return;          // most scroll frames change nothing
-        shown = v;
-        hero.style.setProperty('--abhero-fade', v);
+        var past = y >= fadeTo;
+        if (past === shown) return;       // most scroll frames change nothing
+        shown = past;
+        textPast = past;
+        apply(heroOver);
       };
 
       var onScroll = function () {
