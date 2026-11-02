@@ -70,6 +70,7 @@ public sealed class Enquiries
             try
             {
                 File.AppendAllText(_file, JsonSerializer.Serialize(enquiry, Line) + "\n");
+                saved = enquiry;
             }
             catch (Exception e)
             {

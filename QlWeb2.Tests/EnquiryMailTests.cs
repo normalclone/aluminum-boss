@@ -36,6 +36,33 @@ public class EnquiryMailTests
     public void A_broken_address_is_not_used_for_reply()
         => Assert.Null(EnquiryMail.Build(Quote("not an address"), "a@b.c", "d@e.f", "S")["replyTo"]);
 
+    private sealed class Env(string root) : Microsoft.AspNetCore.Hosting.IWebHostEnvironment
+    {
+        public string ContentRootPath { get; set; } = root;
+        public string WebRootPath { get; set; } = root;
+        public string EnvironmentName { get; set; } = "Test";
+        public string ApplicationName { get; set; } = "QlWeb2";
+        public Microsoft.Extensions.FileProviders.IFileProvider WebRootFileProvider { get; set; } = null!;
+        public Microsoft.Extensions.FileProviders.IFileProvider ContentRootFileProvider { get; set; } = null!;
+    }
+
+    // 02/11/2026: Take() luu yeu cau nhung khong tra no ra, nen khong thu nao duoc gui.
+    [Fact]
+    public void A_saved_enquiry_is_handed_to_the_mail_and_a_trapped_one_is_not()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "abmail-" + Guid.NewGuid().ToString("N")[..8]);
+        try
+        {
+            var store = new Enquiries(new Env(root));
+            store.Take("quote", new Dictionary<string, string> { ["f-email"] = "k@example.com" }, "1.2.3.4", out var saved);
+            Assert.Equal("k@example.com", saved?.Fields["f-email"]);
+
+            store.Take("quote", new Dictionary<string, string> { ["f-email"] = "x@y.z", ["website"] = "spam" }, "1.2.3.5", out var trapped);
+            Assert.Null(trapped);
+        }
+        finally { try { Directory.Delete(root, true); } catch { /* temp */ } }
+    }
+
     [Fact]
     public void The_body_names_fields_as_the_form_does()
     {
