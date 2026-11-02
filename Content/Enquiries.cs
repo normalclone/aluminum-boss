@@ -47,7 +47,12 @@ public sealed class Enquiries
     public enum Outcome { Saved, TooMany, Empty }
 
     public Outcome Take(string route, IDictionary<string, string> fields, string who)
+        => Take(route, fields, who, out _);
+
+    /// <summary>Nhu tren, va tra ra yeu cau vua luu (null khi khong luu gi - ke ca bay robot).</summary>
+    public Outcome Take(string route, IDictionary<string, string> fields, string who, out Enquiry? saved)
     {
+        saved = null;
         // A field no human sees and no human fills. A robot filling in everything it finds is the
         // commonest kind there is, and this costs one hidden input to turn away.
         if (fields.TryGetValue("website", out var trap) && trap.Length > 0) return Outcome.Saved;

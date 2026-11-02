@@ -12,7 +12,7 @@ public sealed class EnquiryMiddleware
     private readonly RequestDelegate _next;
     public EnquiryMiddleware(RequestDelegate next) => _next = next;
 
-    public async Task Invoke(HttpContext context, Enquiries enquiries)
+    public async Task Invoke(HttpContext context, Enquiries enquiries, EnquiryMail mail)
     {
         if (!HttpMethods.IsPost(context.Request.Method)
             || !context.Request.Path.Equals("/contact/send", StringComparison.OrdinalIgnoreCase))
@@ -33,7 +33,9 @@ public sealed class EnquiryMiddleware
 
         var route = form["route"].ToString();
         var who = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-        var outcome = enquiries.Take(route, fields, who);
+        var outcome = enquiries.Take(route, fields, who, out var saved);
+        // Chi yeu cau da nam tren dia moi duoc gui thu; robot dinh bay thi khong.
+        if (saved is not null) mail.SendLater(saved);
 
         context.Response.ContentType = "application/json; charset=utf-8";
         await context.Response.WriteAsync(outcome switch

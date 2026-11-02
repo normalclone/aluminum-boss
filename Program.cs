@@ -93,6 +93,8 @@ builder.Services.AddSingleton<MediaLibrary>();
 builder.Services.AddSingleton<DocumentFiles>();
 builder.Services.AddSingleton<SiteFiles>();
 builder.Services.AddSingleton<Enquiries>();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<EnquiryMail>();
 
 if (adminEnabled)
 {
